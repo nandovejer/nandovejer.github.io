@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Abecedario · Cascada — a type-size waterfall (10 → 48 pt), the classic
+   specimen page. Lines zoom in one after another as they appear; opening a
+   line zooms its name up and unfolds the chapter, glyph inspector first.
+   Built on <details>: works without JS, one open at a time.
+   ========================================================================== */
+
+.ed--cascada .recto__title { margin-bottom: 1.5rem; }
+
+.ed--cascada .cascade { border-bottom: 1px solid var(--hair); }
+.ed--cascada .cascade:first-of-type { border-top: 1px solid var(--rule); }
+.ed--cascada .cascade:last-of-type { border-bottom-color: var(--rule); }
+
+.ed--cascada .cascade__row {
+  --px: calc(var(--pt) * 1.333px);
+  --fs: min(var(--px), calc(var(--pt) * .12vw + 8px)); /* true point size, scaled down on narrow screens */
+  display: grid;
+  grid-template-columns: 2.6rem auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: .8rem;
+  padding: .55rem .25rem;
+  cursor: pointer;
+  list-style: none;
+  transform-origin: left center;
+  transition: transform .7s cubic-bezier(.2, .7, .2, 1), opacity .6s ease, background-color .25s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.ed--cascada .cascade__row::-webkit-details-marker { display: none; }
+.ed--cascada .cascade__row:hover { background: color-mix(in srgb, var(--rubric) 5%, transparent); }
+.ed--cascada .cascade__row:focus-visible { outline-offset: -2px; }
+
+.ed--cascada .cascade__pt { font-size: .7rem; letter-spacing: .12em; color: var(--ink-soft); white-space: nowrap; }
+.ed--cascada .cascade__glyph { font: 400 var(--fs)/1 var(--serif); color: var(--rubric); }
+.ed--cascada .cascade__name {
+  font: 400 var(--fs)/1.05 var(--serif);
+  text-transform: uppercase; letter-spacing: .1em;
+  overflow-wrap: break-word;
+  transition: font-size .7s cubic-bezier(.2, .7, .2, 1), color .4s ease, letter-spacing .7s ease;
+}
+.ed--cascada .cascade__roman { font-size: .75rem; letter-spacing: .15em; color: var(--rubric); }
+
+/* open: the line zooms up to display size */
+.ed--cascada .cascade[open] > .cascade__row { background: none; }
+.ed--cascada .cascade[open] .cascade__name {
+  font-size: clamp(2.2rem, 1.2rem + 5vw, 4.4rem);
+  letter-spacing: .14em;
+  color: var(--rubric);
+}
+.ed--cascada .cascade[open] .cascade__glyph { color: var(--ink); }
+
+/* the chapter inside: the summary already names it */
+.ed--cascada .cascade .chapter { padding: 1rem 0 2.5rem; }
+.ed--cascada .cascade .chapter__title {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.ed--cascada .cascade .chapter > .glyph { width: min(100%, 20rem); }
+.ed--cascada .cascade[open] .chapter > .glyph { animation: unfold-glyph .9s cubic-bezier(.2, .7, .2, 1) both; }
+.ed--cascada .cascade[open] .chapter > :not(.glyph) { animation: unfold .8s .15s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes unfold-glyph {
+  from { transform: scale(.12); transform-origin: 8% 0; opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+@keyframes unfold {
+  from { transform: translateY(1rem) scale(.97); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* entrance: the waterfall pours in, line by line */
+.js .ed--cascada .cascade:not(.is-inview) > .cascade__row { transform: scale(.55); opacity: 0; }

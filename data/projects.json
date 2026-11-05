@@ -1,0 +1,164 @@
+[
+  {
+    "id": "luz",
+    "name": "LUZ",
+    "year": 2024,
+    "language": "JavaScript",
+    "demo": "https://nandovejer.github.io/luz/",
+    "repo": "https://github.com/nandovejer/luz",
+    "plate": "lamp",
+    "es": {
+      "kicker": "Sistema de diseño",
+      "body": "Un sistema de diseño ligero, usable y sin dependencias. Tokens de CSS por capas, componentes y JavaScript vanilla que mejoran el HTML nativo en lugar de sustituirlo. Todo funciona sin JavaScript, y es la base sobre la que están construidos casi todos los proyectos que vienen después.",
+      "quote": "Mejorar el HTML nativo en lugar de sustituirlo.",
+      "caption": "La lámpara"
+    },
+    "en": {
+      "kicker": "Design system",
+      "body": "A light, usable and zero-dependency design system. Layered CSS tokens, components and vanilla JavaScript that enhance native HTML instead of replacing it. Everything works without JavaScript, and it is the foundation almost every project that follows is built on.",
+      "quote": "Enhance native HTML instead of replacing it.",
+      "caption": "The lamp"
+    }
+  },
+  {
+    "id": "ikay",
+    "name": "IKAY",
+    "year": 2026,
+    "language": "JavaScript",
+    "demo": "https://nandovejer.github.io/ikay-vanilla/",
+    "repo": "https://github.com/nandovejer/ikay-vanilla",
+    "plate": "fingerprint",
+    "es": {
+      "kicker": "Huella digital del navegador",
+      "body": "Una herramienta para ver, identificar y gestionar la huella digital de tu navegador. Muestra un panel con 33 datos que entregas a cualquier web sin que te pida un solo permiso, y explica en lenguaje llano qué significa cada uno para ti. Contraste AA, AAA en alto contraste, y tres idiomas: español, inglés y árabe.",
+      "quote": "Treinta y tres datos, cero permisos.",
+      "caption": "La huella"
+    },
+    "en": {
+      "kicker": "Browser fingerprint",
+      "body": "A tool to see, identify and manage your browser fingerprint. It shows a dashboard of 33 data points you hand over to any website without being asked for a single permission, and explains in plain language what each one means for you. AA contrast, AAA in high contrast, and three languages: Spanish, English and Arabic.",
+      "quote": "Thirty-three data points, zero permissions.",
+      "caption": "The fingerprint"
+    }
+  },
+  {
+    "id": "chrome-local-ai",
+    "name": "Chrome Local AI",
+    "year": 2025,
+    "language": "TypeScript",
+    "demo": "https://nandovejer.github.io/apiChrome/",
+    "repo": "https://github.com/nandovejer/apiChrome",
+    "ornament": "asterism",
+    "es": {
+      "kicker": "IA en el navegador",
+      "body": "Demos de las APIs de inteligencia artificial integradas en Chrome con Gemini Nano: resumir, traducir, corregir, conversar o generar datos que siguen un JSON Schema. Todo ocurre en tu dispositivo: no hay servidor y, una vez descargado el modelo, tampoco hace falta conexión. Bilingüe, hecho con Astro, TypeScript y LUZ.",
+      "quote": "Inteligencia artificial que no sale de tu ordenador."
+    },
+    "en": {
+      "kicker": "AI in the browser",
+      "body": "Demos of the artificial intelligence APIs built into Chrome with Gemini Nano: summarise, translate, proofread, chat or generate data that follows a JSON Schema. Everything happens on your device: there is no server and, once the model is downloaded, no connection is needed either. Bilingual, built with Astro, TypeScript and LUZ.",
+      "quote": "Artificial intelligence that never leaves your computer."
+    }
+  },
+  {
+    "id": "quien-canta-hoy",
+    "name": "¿Quién canta hoy?",
+    "year": 2023,
+    "language": "TypeScript",
+    "demo": "https://nandovejer.github.io/coac-quien-canta-hoy/",
+    "repo": "https://github.com/nandovejer/coac-quien-canta-hoy",
+    "plate": "mask",
+    "es": {
+      "kicker": "Carnaval de Cádiz",
+      "body": "El horario del Concurso Oficial de Agrupaciones Carnavalescas del Gran Teatro Falla, sesión a sesión: qué agrupaciones cantan hoy y en qué orden. Sin backend, hecho con LUZ y pensado para consultarlo en el móvil de camino al teatro.",
+      "quote": "Qué agrupaciones cantan hoy, y en qué orden.",
+      "caption": "El antifaz"
+    },
+    "en": {
+      "kicker": "Cádiz Carnival",
+      "body": "The schedule of the Official Carnival Groups Contest at the Gran Teatro Falla, session by session: which groups sing today and in what order. No backend, built with LUZ and designed to be checked on your phone on the way to the theatre.",
+      "quote": "Which groups sing today, and in what order.",
+      "caption": "The mask"
+    }
+  },
+  {
+    "id": "ares-api",
+    "name": "Ares API",
+    "year": 2026,
+    "language": "JavaScript",
+    "demo": "https://nandovejer.github.io/api-coac/",
+    "repo": "https://github.com/nandovejer/api-coac",
+    "plate": "guitar",
+    "es": {
+      "kicker": "Archivo musical",
+      "body": "Una API estática y sin dependencias con la discografía y la obra completa de Antonio Martínez Ares. Solo ficheros JSON servidos desde GitHub Pages: sin base de datos, sin servidor y sin paso de compilación, con CORS abierto para que cualquiera pueda consultarla.",
+      "quote": "Una obra entera en ficheros JSON.",
+      "caption": "La guitarra"
+    },
+    "en": {
+      "kicker": "Music archive",
+      "body": "A static, zero-dependency API for the complete discography and works of Antonio Martínez Ares. Nothing but JSON files served from GitHub Pages: no database, no server and no build step, with open CORS so anyone can query it.",
+      "quote": "A whole body of work in JSON files.",
+      "caption": "The guitar"
+    }
+  },
+  {
+    "id": "toolbar-aem",
+    "name": "Toolbar AEM",
+    "year": 2025,
+    "language": "JavaScript",
+    "demo": null,
+    "repo": "https://github.com/nandovejer/toolbar-aem",
+    "ornament": "vine",
+    "es": {
+      "kicker": "Extensión de Chrome",
+      "body": "Una barra flotante para las páginas de Adobe Experience Manager que permite saltar entre el Editor, Sites, CRXDE y los distintos entornos sin reescribir URLs. Marcadores, favicon de color por entorno e importación de ajustes para todo el equipo. JavaScript plano, Manifest V3, sin compilación ni dependencias.",
+      "quote": "Saltar entre consolas sin reescribir URLs."
+    },
+    "en": {
+      "kicker": "Chrome extension",
+      "body": "A floating toolbar for Adobe Experience Manager pages that lets you jump between the Editor, Sites, CRXDE and every environment without retyping URLs. Bookmarks, a coloured favicon per environment and settings you can share with your team. Plain JavaScript, Manifest V3, no build step and no dependencies.",
+      "quote": "Jump between consoles without retyping URLs."
+    }
+  },
+  {
+    "id": "accesibilidad",
+    "name": "Acme Studio",
+    "year": 2026,
+    "language": "HTML",
+    "demo": "https://nandovejer.github.io/accessibility/",
+    "repo": "https://github.com/nandovejer/accessibility",
+    "plate": "keyhole",
+    "es": {
+      "kicker": "Accesibilidad",
+      "body": "Una web que parece limpia pero está rota a propósito: foco invisible, imágenes sin texto alternativo, enlaces que no lo parecen. Un banco de pruebas para practicar auditorías de accesibilidad encontrando los errores uno a uno.",
+      "quote": "Rota a propósito, para aprender a arreglarla.",
+      "caption": "La cerradura"
+    },
+    "en": {
+      "kicker": "Accessibility",
+      "body": "A website that looks clean but is broken on purpose: invisible focus, images without alternative text, links that do not look like links. A test bench for practising accessibility audits by finding the errors one by one.",
+      "quote": "Broken on purpose, so you can learn to fix it.",
+      "caption": "The keyhole"
+    }
+  },
+  {
+    "id": "libros-del-mundo",
+    "name": "Libros del mundo",
+    "year": 2024,
+    "language": "Markdown",
+    "demo": null,
+    "repo": "https://github.com/nandovejer/libros-del-mundo",
+    "ornament": "hedera",
+    "es": {
+      "kicker": "Biblioteca",
+      "body": "Un viaje literario por los continentes: un libro por país, con una sola regla, que se haya publicado de 2010 en adelante. Una ventana al alma cultural de cada lugar, contada por autores que viven y sienten su propia tierra, con enlace a las bibliotecas del mundo que lo tienen.",
+      "quote": "Un libro por país, publicado desde 2010."
+    },
+    "en": {
+      "kicker": "Library",
+      "body": "A literary journey across the continents: one book per country, with a single rule, that it was published in 2010 or later. A window onto the cultural soul of each place, told by authors who live and feel their own land, with links to the world's libraries that hold it.",
+      "quote": "One book per country, published since 2010."
+    }
+  }
+]

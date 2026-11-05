@@ -1,0 +1,196 @@
+{
+  "name": "Fernando Muñoz",
+  "nick": "Nando",
+  "monogram": "N",
+  "baseUrl": "https://nandovejer.github.io",
+  "socials": [
+    {
+      "id": "github",
+      "label": "GitHub",
+      "handle": "nandovejer",
+      "url": "https://github.com/nandovejer"
+    },
+    {
+      "id": "x",
+      "label": "X",
+      "handle": "@nandovejer",
+      "url": "https://x.com/nandovejer"
+    },
+    {
+      "id": "blog",
+      "label": "Blog",
+      "handle": "soynando.com",
+      "url": "https://soynando.com"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "handle": "in/nandovejer",
+      "url": "https://www.linkedin.com/in/nandovejer"
+    }
+  ],
+  "i18n": {
+    "es": {
+      "langName": "Español",
+      "otherEdition": "English edition",
+      "skip": "Saltar al contenido",
+      "metaDescription": "Fernando Muñoz, Tech Lead Frontend en Madrid. Portafolio de proyectos web: estándares, accesibilidad y herramientas sin dependencias.",
+      "runningHead": "Portafolio",
+      "volume": "Volumen",
+      "kicker": "Tech Lead Frontend · Madrid",
+      "deck": "Memorias de un programador que escribe",
+      "bio": [
+        "[[Soy]] Fernando Muñoz, aunque casi todo el mundo me llama [[Nando]]. Trabajo como Tech Lead Frontend en Madrid y paso los días entre Adobe Experience Manager y Salesforce Commerce Cloud, dos gigantes en los que me toca [[poner orden]].",
+        "Creo en el HTML que [[funciona]] sin JavaScript, en el CSS que se lee [[como un libro]] y en las herramientas sin dependencias que [[siguen en pie]] dentro de diez años. Por eso construyo sistemas de diseño ligeros, demos que respetan tu privacidad y algún que otro homenaje al Carnaval de Cádiz.",
+        "[[Programo y escribo.]] A veces cuesta distinguir una cosa de la otra."
+      ],
+      "readFull": "Leer el texto entero",
+      "readErased": "Ver el poema borrado",
+      "worksTitle": "Obras",
+      "tocTitle": "Índice",
+      "chapter": "Capítulo",
+      "plate": "Lám.",
+      "year": "Año",
+      "language": "Lengua",
+      "demo": "Edición en línea",
+      "repo": "Código fuente",
+      "socialsTitle": "Correspondencia",
+      "colophonTitle": "Colofón",
+      "colophon": "Este libro se compuso en Libre Baskerville y Playfair Display, se imprimió en HTML y CSS sin dependencias y se encuadernó en GitHub Pages. Se acabó de imprimir en Madrid en el año MMXXVI.",
+      "prevPage": "Página anterior",
+      "nextPage": "Página siguiente",
+      "pageOf": "de",
+      "established": "Est. MMXXVI",
+      "interview": [
+        "¿En qué cree?",
+        "¿Y entonces?"
+      ],
+      "specimenTitle": "Espécimen",
+      "specimenLabel": "Compón tu propio texto",
+      "specimenPlaceholder": "Escribe aquí…",
+      "variants": {
+        "abecedario": {
+          "name": "Abecedario",
+          "summary": "El abecedario en una columna: una tira de tipos, y cada letra se abre en el inspector con sus líneas de métrica."
+        },
+        "cuentahilos": {
+          "name": "Cuentahílos",
+          "summary": "El alfabeto en una tira vertical de tipos. Cada letra viaja con zoom hasta el inspector, y un cuentahílos de imprenta amplía lo que pases por debajo."
+        },
+        "contraforma": {
+          "name": "Contraforma",
+          "summary": "Cada letra es una puerta: al hacer scroll crece hasta que te metes por su hueco, y al otro lado está el capítulo."
+        },
+        "cascada": {
+          "name": "Cascada",
+          "summary": "Una cascada de cuerpos, de 10 a 48 puntos, como en los especímenes. Cada línea se abre con zoom y despliega su capítulo."
+        },
+        "micrografia": {
+          "name": "Micrografía",
+          "summary": "Cada letra está compuesta con el texto de su capítulo en letra diminuta. Aumenta el zoom hasta poder leerla."
+        }
+      },
+      "glyphsTitle": "Tabla de glifos",
+      "metrics": [
+        "Ascendente",
+        "Altura de mayúsculas",
+        "Altura de x",
+        "Línea base",
+        "Descendente"
+      ],
+      "volvelleHint": "Arrastra el disco o usa las flechas",
+      "turnLeft": "Girar a la izquierda",
+      "turnRight": "Girar a la derecha",
+      "sheetSlug": "Pliego 1 · Fernando Muñoz · Espécimen · En octavo · MMXXVI",
+      "openPage": "Abrir página",
+      "backToSheet": "Volver al pliego",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar",
+      "zoomLabel": "Aumento",
+      "loupeOn": "Cuentahílos",
+      "loupeOff": "Guardar el cuentahílos",
+      "microHint": "Doble clic sobre la letra para acercarte · arrastra para recorrerla"
+    },
+    "en": {
+      "langName": "English",
+      "otherEdition": "Edición en español",
+      "skip": "Skip to content",
+      "metaDescription": "Fernando Muñoz, Frontend Tech Lead in Madrid. Portfolio of web projects: standards, accessibility and zero-dependency tools.",
+      "runningHead": "Portfolio",
+      "volume": "Volume",
+      "kicker": "Frontend Tech Lead · Madrid",
+      "deck": "Memoirs of a coder who writes",
+      "bio": [
+        "[[I am]] Fernando Muñoz, though almost everyone calls me [[Nando]]. I work as a Frontend Tech Lead in Madrid and spend my days between Adobe Experience Manager and Salesforce Commerce Cloud, two giants I am paid to [[bring order]] to.",
+        "I believe in HTML that [[works]] without JavaScript, in CSS that reads [[like a book]] and in zero-dependency tools that will [[still stand]] ten years from now. So I build lightweight design systems, demos that respect your privacy and the odd tribute to the Cádiz Carnival.",
+        "[[I code and I write.]] Sometimes it is hard to tell one from the other."
+      ],
+      "readFull": "Read the full text",
+      "readErased": "See the erased poem",
+      "worksTitle": "Works",
+      "tocTitle": "Contents",
+      "chapter": "Chapter",
+      "plate": "Pl.",
+      "year": "Year",
+      "language": "Language",
+      "demo": "Online edition",
+      "repo": "Source code",
+      "socialsTitle": "Correspondence",
+      "colophonTitle": "Colophon",
+      "colophon": "This book was set in Libre Baskerville and Playfair Display, printed in zero-dependency HTML and CSS and bound on GitHub Pages. Printing was completed in Madrid in the year MMXXVI.",
+      "prevPage": "Previous page",
+      "nextPage": "Next page",
+      "pageOf": "of",
+      "established": "Est. MMXXVI",
+      "interview": [
+        "What does he believe in?",
+        "And so?"
+      ],
+      "specimenTitle": "Specimen",
+      "specimenLabel": "Set your own text",
+      "specimenPlaceholder": "Type here…",
+      "variants": {
+        "abecedario": {
+          "name": "Alphabet",
+          "summary": "The alphabet in one column: a strip of type, and each letter opens in the inspector with its metric lines."
+        },
+        "cuentahilos": {
+          "name": "Linen tester",
+          "summary": "The alphabet as a vertical strip of type. Each letter zooms into the inspector, and a printer’s linen tester magnifies whatever you pass it over."
+        },
+        "contraforma": {
+          "name": "Counterform",
+          "summary": "Each letter is a doorway: scroll and it grows until you slip through its counter, into the chapter beyond."
+        },
+        "cascada": {
+          "name": "Waterfall",
+          "summary": "A waterfall of sizes, from 10 to 48 points, as in type specimens. Each line zooms open into its chapter."
+        },
+        "micrografia": {
+          "name": "Micrography",
+          "summary": "Each letter is drawn with its chapter’s own text in tiny type. Zoom in until you can read it."
+        }
+      },
+      "glyphsTitle": "Glyph table",
+      "metrics": [
+        "Ascender",
+        "Cap height",
+        "x-height",
+        "Baseline",
+        "Descender"
+      ],
+      "volvelleHint": "Drag the disc or use the arrows",
+      "turnLeft": "Turn left",
+      "turnRight": "Turn right",
+      "sheetSlug": "Sheet 1 · Fernando Muñoz · Specimen · Octavo · MMXXVI",
+      "openPage": "Open page",
+      "backToSheet": "Back to the sheet",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "zoomLabel": "Magnification",
+      "loupeOn": "Linen tester",
+      "loupeOff": "Put the linen tester away",
+      "microHint": "Double-click the letter to zoom in · drag to travel through it"
+    }
+  }
+}

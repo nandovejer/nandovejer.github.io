@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Abecedario · Micrografía — each letter is drawn with its chapter's own
+   text in tiny type, like micrographic manuscripts (and the sea of script
+   under the ship). Zoom in — slider, buttons, double-click, pinch — and drag
+   to travel inside the letter until the words become legible.
+   ========================================================================== */
+
+.ed--micrografia .chapter { padding-top: 3.5rem; }
+
+.ed--micrografia .micro { width: 100%; margin: 0 0 1.5rem; }
+.ed--micrografia .micro__viewport {
+  position: relative;
+  width: min(100%, 30rem);
+  margin-inline: auto;
+  aspect-ratio: 1200 / 1420;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background:
+    linear-gradient(var(--hair), var(--hair)) 0 76% / 100% 1px no-repeat,   /* baseline */
+    var(--paper);
+  touch-action: pan-y;
+  transition: transform .9s cubic-bezier(.2, .7, .2, 1), opacity .8s ease;
+}
+.ed--micrografia .micro.is-zoomed .micro__viewport { cursor: grab; touch-action: none; }
+.ed--micrografia .micro.is-panning .micro__viewport { cursor: grabbing; }
+.ed--micrografia .micro__canvas {
+  transform-origin: 0 0;
+  transform: translate(var(--x, 0px), var(--y, 0px)) scale(var(--z, 1));
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+.ed--micrografia .micro.is-panning .micro__canvas { transition: none; }
+.ed--micrografia .micro__svg { display: block; width: 100%; height: auto; }
+
+/* a heavy Didone, so the strokes are wide enough to be filled with text */
+.ed--micrografia .micro__clip,
+.ed--micrografia .micro__outline { font: 900 1240px var(--display); }
+.ed--micrografia .micro__outline { fill: none; stroke: var(--rubric); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.ed--micrografia .micro__hint {
+  margin-top: .5rem; text-align: center;
+  font-size: var(--step--1); font-style: italic; color: var(--ink-soft);
+}
+.ed--micrografia .micro__hint[hidden] { display: none; }
+.ed--micrografia .micro__text {
+  width: 1200px;
+  font: 400 20px/1.06 var(--serif);
+  color: var(--ink);
+  text-align: justify;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  margin: 0; padding: 0;
+}
+
+/* controls */
+.ed--micrografia .micro__controls {
+  display: flex; align-items: center; justify-content: center; gap: .75rem;
+  margin-top: .75rem;
+}
+.ed--micrografia .micro__controls[hidden] { display: none; }
+.ed--micrografia .micro__btn {
+  width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  border: 1px solid var(--rubric); background: none; color: var(--rubric);
+  font-size: 1.2rem; line-height: 1; cursor: pointer;
+}
+.ed--micrografia .micro__btn:hover { background: var(--rubric); color: var(--paper); }
+.ed--micrografia .micro__range { width: min(14rem, 50%); accent-color: var(--rubric); }
+.ed--micrografia .micro__value { min-width: 3ch; font-style: italic; color: var(--ink-soft); }
+
+/* a slight zoom as each letter comes into view */
+.js .ed--micrografia .chapter:not(.is-inview) .micro__viewport { transform: scale(.88); opacity: 0; }

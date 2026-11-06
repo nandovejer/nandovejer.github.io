@@ -144,7 +144,7 @@
 .dq--asomado .entry.is-out::after { inset: 11% 11% auto; }
 
 /* the reading lands just under the top of the window */
-.screen { scroll-margin-top: 1rem; }
+.screen { scroll-margin-top: 3rem; }
 .drive { scroll-margin: 2rem; }
 /* exactly 3 cells tall (+1px that the shared line takes back) */
 .dq--asomado .entry { aspect-ratio: auto; height: calc(var(--cell) * var(--box) + 1px); }

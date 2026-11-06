@@ -319,7 +319,7 @@ ${station(u)}
         <p class="entry__use">${esc(o.use)} · ${o.year}</p>
         <p class="entry__quote">“${esc(o.quote)}”</p>
         <p>${esc(o.body)}</p>
-        ${cells([[u.material, o.material], [u.status, o.status], [u.document, o.doc]], 'cells--3')}
+        ${cells([[u.material, o.material], [u.status, o.status], [u.date, o.year]], 'cells--3')}
         ${links(o, t)}`);
     }).join('')}
   </ol>

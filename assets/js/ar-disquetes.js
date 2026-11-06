@@ -206,14 +206,15 @@ const fullyVisible = (el) => { const r = el.getBoundingClientRect(); return r.to
 const topVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.top <= innerHeight * .4; };
 const SCROLL_MS = 800; // the flight is 1500 ms and lines up over the slot at ~990 ms
 
-// How far the page must scroll to bring the drive to the middle of the screen
+// How far the page must scroll to bring the drive a little below the middle of
+// the screen, so the cover standing behind it shows too
 // (0 when it is already fully in view), clamped to what the page can scroll.
 function driveScroll() {
   const bezel = drive.querySelector('.drive__bezel');
   if (fullyVisible(bezel)) return 0;
   const r = drive.getBoundingClientRect();
   const max = document.documentElement.scrollHeight - innerHeight;
-  const to = Math.max(0, Math.min(max, scrollY + r.top + r.height / 2 - innerHeight / 2));
+  const to = Math.max(0, Math.min(max, scrollY + r.top + r.height / 2 - innerHeight * .62));
   return Math.round(to - scrollY);
 }
 

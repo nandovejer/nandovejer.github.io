@@ -47,12 +47,18 @@ function ghostFrom(entry, rect) {
 // The disk goes in through the slot, as wide as the drive, cut at the slot's
 // top line as it slides in. (The cover stands behind the drive; the disk
 // itself goes into the slot.) On the shelf it keeps its own size.
-// `dy` is how far the page is about to scroll: the drive is dealt with where
-// it will be when the flight lands, not where it is as it takes off.
+// `dy` is how far the page is about to scroll: the drive is measured where it
+// will be when the flight lands, not where it is as it takes off. The deck is
+// sticky on wide screens, so it does not move by dy: the page jumps to the
+// end of the scroll, the slot is measured there, and the page jumps back, all
+// before the next paint, so nothing is seen.
 function dock(width, dy = 0) {
+  const y0 = scrollY;
+  if (dy) scrollTo({ top: y0 + dy, behavior: 'instant' });
   const face = drive.querySelector('.drive__bezel').getBoundingClientRect();
   const slot = drive.querySelector('.drive__slot').getBoundingClientRect();
-  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 - dy };
+  if (dy) scrollTo({ top: y0, behavior: 'instant' });
+  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 };
 }
 
 const swallow = (delay) => setTimeout(() => {

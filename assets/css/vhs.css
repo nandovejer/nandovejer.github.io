@@ -1,10 +1,22 @@
 /* ==========================================================================
-   VHS version — the same portfolio in a room with a yellow TV/video combo
-   on a shelf (img: vhs.jpg). Slate-blue wall, cream shelves, tapes spine out.
-   The projects are tapes; one goes into the video recorder and the TV
-   plays it, page by page. Without JS: every tape is followed by its text.
+   VHS version — the same portfolio in a room with a 90s yellow TV/video
+   combo on a shelf (img: TELE90+VHS.jpg). Slate-blue wall, white shelves,
+   tapes spine out in their plastic sleeves. The projects are tapes; one goes
+   into the video recorder and the TV plays it, page by page.
+   Without JS: every tape is followed by its text.
    Built on archivo.css (type, cells, buttons, masthead, colophon).
    ========================================================================== */
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/playfair-display-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 900; font-display: swap;
+}
+@font-face {
+  font-family: "Pinyon Script";
+  src: url("../fonts/pinyon-script-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-display: swap;
+}
 
 html:root {
   color-scheme: dark;
@@ -14,22 +26,29 @@ html:root {
   --ink: #f1e6cc;         /* cream: 8.6:1 on the wall */
   --ink-soft: #c3ccd1;
   --ghost: #5d6a75;
-  --accent: #e9cf4f;      /* the TV's yellow, a fill with dark text */
+  --accent: #e9cf4f;      /* a yellow fill with dark text */
   --on-accent: #1b1b1b;
   --text-accent: #f0c94a;
   --rule: color-mix(in srgb, var(--ink) 50%, transparent);
   --hair: color-mix(in srgb, var(--ink) 22%, transparent);
 
-  --tv: #e3d05a;
-  --tv-hi: #f3e584;
-  --tv-lo: #c4b03f;
-  --tv-ink: #3b3412;
-  --plank: #d9d3c4;
-  --plank-hi: #f1ece0;
-  --plank-lo: #a9a191;
+  /* the TV: a muted, slightly green yellow plastic, as in the photo */
+  --tv: #d2c767;
+  --tv-hi: #e6dd96;
+  --tv-lo: #b1a64e;
+  --tv-edge: #8c8336;
+  --tv-ink: #4b4519;
+  /* white-painted shelves */
+  --plank: #dcd8cd;
+  --plank-hi: #f3f1ea;
+  --plank-lo: #a8a397;
   --plank-h: 1.5rem;
   --spine-w: 2.75rem;
   --spine-h: 14rem;
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* long thin scuffs on the plastic sleeves */
+  --scuffs: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='300'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .015' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.1 -.72'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
 }
 @media (min-width: 37.5em) { html:root { --spine-w: 3.1rem; --spine-h: 16.5rem; } }
 @media (min-width: 64em)   { html:root { --spine-w: 3.4rem; --spine-h: 19rem; --plank-h: 1.75rem; } }
@@ -47,13 +66,6 @@ body.vhs::before {
 }
 .vhs .masthead { background: var(--panel); }
 
-/* ---------- the shelf planks ---------- */
-
-.plank, .room__row::after {
-  background: linear-gradient(var(--plank-hi), var(--plank) 30%, var(--plank) 70%, var(--plank-lo));
-  box-shadow: 0 1.1rem 1.4rem -.5rem rgb(0 0 0 / .55);
-}
-
 /* ---------- the room: TV on the top shelf, the socials beside it ---------- */
 
 .room { padding: 2rem var(--pad) 0; }
@@ -64,10 +76,14 @@ body.vhs::before {
   grid-template-areas: "tv tv" "l r";
   padding-bottom: var(--plank-h);
 }
-.room__row::after {
-  content: ""; position: absolute; z-index: 0;
-  left: calc(-1 * var(--pad)); right: calc(-1 * var(--pad)); bottom: 0; height: var(--plank-h);
+/* the plank: its top face catches the light, its edge is in shade */
+.room__row::after, .tapes--shelf::after {
+  content: ""; position: absolute; z-index: 0; height: var(--plank-h);
+  background:
+    linear-gradient(var(--plank-hi) 0 22%, #c9c5ba 24%, var(--plank) 34%, var(--plank) 78%, var(--plank-lo));
+  box-shadow: 0 1.1rem 1.4rem -.5rem rgb(0 0 0 / .55);
 }
+.room__row::after { left: calc(-1 * var(--pad)); right: calc(-1 * var(--pad)); bottom: 0; }
 .tv { grid-area: tv; justify-self: center; }
 .tapes--l { grid-area: l; justify-self: end; }
 .tapes--r { grid-area: r; justify-self: start; }
@@ -82,96 +98,133 @@ body.vhs::before {
 .room__arrow { display: inline-block; color: var(--text-accent); animation: nudge 1.4s ease-in-out infinite; }
 @keyframes nudge { 50% { transform: translateY(.3rem); } }
 
-/* ---------- tapes, spine out ---------- */
+/* ---------- tapes, spine out, packed tight ---------- */
 
-.tapes { display: flex; align-items: flex-end; gap: 4px; position: relative; z-index: 1; }
-.tape { position: relative; width: var(--spine-w); height: var(--spine-h); flex: none; }
+.tapes { display: flex; align-items: flex-end; gap: 1px; position: relative; z-index: 1; }
+/* each case a touch wider or taller than its neighbours (--w, --h) */
+.tape {
+  position: relative; flex: none; display: flex; align-items: flex-end;
+  width: calc(var(--spine-w) * var(--w, 1)); height: var(--spine-h);
+}
+.tape--side { height: calc(var(--spine-h) * .92); }
 .tape__spine {
-  all: unset; display: block; width: 100%; height: 100%; cursor: pointer;
-  border-radius: 3px;
+  all: unset; display: block; width: 100%; height: calc(100% * var(--h, 1)); cursor: pointer;
+  border-radius: 2px;
 }
 .tape__spine:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.tape__spine .spine { transition: transform .3s cubic-bezier(.3, .7, .2, 1); }
-.tape__spine:hover .spine, .tape__spine:focus-visible .spine { transform: translateY(-.7rem); }
-.tape--side { height: calc(var(--spine-h) * .9); }
+.tape__spine .spine { transition: transform .3s cubic-bezier(.3, .7, .2, 1), box-shadow .3s; }
+.tape__spine:hover .spine, .tape__spine:focus-visible .spine {
+  transform: translateY(-.8rem);
+  box-shadow: var(--spine-shadow), 0 .8rem 1rem -.2rem rgb(0 0 0 / .45);
+}
 
 /* the gap a tape leaves on the shelf */
 .tape.is-out .tape__spine { visibility: hidden; }
 .tape.is-out::before {
-  content: ""; position: absolute; inset: 6% 2px 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / .55), rgb(0 0 0 / .25) 60%, rgb(0 0 0 / .45));
-  border-radius: 2px 2px 0 0;
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: calc(100% * var(--h, 1));
+  background: linear-gradient(90deg, rgb(0 0 0 / .6), rgb(0 0 0 / .3) 60%, rgb(0 0 0 / .5));
 }
 
-/* the projects' shelves: rows of tapes, a plank between rows (drawn by the
-   list's background, clipped to its rows) and one under the last row */
+/* the projects' shelves: rows of tapes, a plank between rows (the list's
+   background, one band per row) and one under the last row */
 .shelf { padding-bottom: 2rem; }
 .tapes--shelf {
   position: relative;
-  display: grid; justify-content: center; align-items: end;
-  grid-template-columns: repeat(auto-fit, var(--spine-w));
-  grid-auto-rows: var(--spine-h);
-  column-gap: 4px; row-gap: var(--plank-h);
+  flex-wrap: wrap; justify-content: center; align-content: flex-start;
+  row-gap: var(--plank-h);
   padding: 0 var(--pad); margin: 2rem 0 var(--plank-h);
   background:
     repeating-linear-gradient(transparent 0 var(--spine-h),
-      var(--plank-hi) var(--spine-h) calc(var(--spine-h) + 3px),
-      var(--plank) 0 calc(var(--spine-h) + var(--plank-h) - 4px),
+      var(--plank-hi) var(--spine-h) calc(var(--spine-h) + var(--plank-h) * .22),
+      #c9c5ba 0 calc(var(--spine-h) + var(--plank-h) * .24),
+      var(--plank) 0 calc(var(--spine-h) + var(--plank-h) * .78),
       var(--plank-lo) 0 calc(var(--spine-h) + var(--plank-h)))
     0 0 / 100% calc(var(--spine-h) + var(--plank-h)) repeat-y;
 }
-.tapes--shelf::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 100%; height: var(--plank-h);
-  background: linear-gradient(var(--plank-hi), var(--plank) 30%, var(--plank) 70%, var(--plank-lo));
-  box-shadow: 0 1.1rem 1.4rem -.5rem rgb(0 0 0 / .55);
-}
+.tapes--shelf::after { left: 0; right: 0; top: 100%; }
+/* the shelf above throws a shade on the top of each case */
+.tapes--shelf .spine { --shade: linear-gradient(rgb(0 0 0 / .32), transparent 16%); }
+
 .js .tape__content { display: none; }
 .no-js .tapes--shelf { display: block; background: none; padding: 2rem var(--pad); }
 .no-js .tapes--shelf::after { display: none; }
 .no-js .tapes--shelf .tape { display: grid; grid-template-columns: var(--spine-w) 1fr; gap: 1.5rem; width: auto; height: auto; margin-bottom: 2.5rem; }
 .no-js .tapes--shelf .tape__spine { height: var(--spine-h); }
 
-/* ---------- the spine ---------- */
+/* ---------- the spine of a case ---------- */
 
 .spine {
-  /* (cq units here would measure the page: the spine is its own container) */
-  position: relative; display: flex; flex-direction: column; align-items: center; gap: .3rem;
-  width: 100%; height: 100%; padding: .4rem 0 .55rem;
+  /* (cq units on the spine itself would measure the page: it is its own container) */
+  --spine-shadow: inset 0 0 0 1px rgb(0 0 0 / .6), inset 2px 0 0 rgb(255 255 255 / .1), inset -3px 0 0 rgb(0 0 0 / .35);
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: .28rem;
+  width: 100%; height: 100%; padding: .45rem 0 .4rem;
   container-type: size;
-  border-radius: 3px 3px 2px 2px; overflow: hidden;
-  background: var(--sp-bg); color: var(--sp-ink);
-  box-shadow: inset 3px 0 0 rgb(255 255 255 / .12), inset -4px 0 0 rgb(0 0 0 / .35), inset 0 0 0 1px rgb(0 0 0 / .55);
+  border-radius: 2px; overflow: hidden;
+  background: var(--shade, none), var(--sp-bg);
+  color: var(--sp-ink);
+  box-shadow: var(--spine-shadow);
 }
-/* the plastic sleeve's sheen and a little wear */
+/* the clear sleeve: a lip along the top, a shine down the left, the round
+   of the case darker to the right, scuffs */
+.spine::before {
+  content: ""; position: absolute; z-index: 2; left: 0; right: 0; top: 0; height: 4px; pointer-events: none;
+  background: linear-gradient(rgb(255 255 255 / .38), rgb(255 255 255 / .06));
+}
 .spine::after, .sleeve::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
+  content: ""; position: absolute; z-index: 2; inset: 0; pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 18%, rgb(255 255 255 / .16) 30%, transparent 44%),
-    linear-gradient(transparent 92%, rgb(0 0 0 / .25));
+    linear-gradient(90deg, rgb(255 255 255 / .2) 0 1.5px, transparent 3px 12%, rgb(255 255 255 / .17) 21%, rgb(255 255 255 / .05) 32%, transparent 44% 76%, rgb(0 0 0 / .3)),
+    linear-gradient(transparent 82%, rgb(0 0 0 / .28)),
+    var(--scuffs) 0 0 / 100% 100%;
+  opacity: .75;
 }
 .spine__logo {
-  flex: none; width: 64cqw; aspect-ratio: 1 / 1.12; display: grid; place-items: center;
+  flex: none; width: 60cqw; aspect-ratio: 1 / 1.12; display: grid; place-items: center;
   clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
-  background: var(--sp-logo); color: var(--sp-logo-ink, #141414);
-  font: 800 22cqw/1 var(--sans); padding-bottom: 14%;
+  background: linear-gradient(135deg, rgb(255 255 255 / .25), transparent 50%), var(--sp-logo);
+  color: var(--sp-logo-ink, #141414);
+  font: 800 21cqw/1 var(--sans); padding-bottom: 14%;
+}
+/* the title runs down the spine; the line over it, beside it */
+.spine__body {
+  flex: 1; min-height: 0; width: 100%;
+  writing-mode: vertical-rl; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4cqw;
+  overflow: hidden;
 }
 .spine__title {
-  flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center;
-  writing-mode: vertical-rl; white-space: nowrap; overflow: hidden;
-  font: 800 min(62cqw, calc(128cqh / var(--chars, 6)))/1 var(--sans); font-stretch: 62%;
-  text-transform: uppercase; letter-spacing: .02em; color: var(--sp-title);
+  white-space: nowrap; color: var(--sp-title); line-height: 1;
+  font-size: min(var(--max, 54cqw), calc(var(--k, 88) * 1cqh / var(--chars, 6)));
 }
-.spine__note {
-  flex: none; writing-mode: vertical-rl; font: 600 14cqw/1 var(--tech); letter-spacing: .04em; opacity: .85;
-  max-height: 34cqh; overflow: hidden;
+.spine__kicker {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 100%;
+  font: 600 9cqw/1 var(--tech); letter-spacing: .1em; text-transform: uppercase; opacity: .85;
 }
+.spine__pic {
+  flex: none; width: 76cqw; aspect-ratio: 1 / 1.12; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(circle at 38% 32%, var(--sp-pic1), var(--sp-pic2) 75%);
+  color: var(--sp-title); --paper: var(--sp-pic2);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .4), inset 0 0 4cqw rgb(0 0 0 / .45);
+}
+.spine__pic svg { width: 86%; height: 86%; }
+.spine__pic b { font: 800 46cqw/1 "Playfair Display", serif; }
 .spine__rate {
-  flex: none; width: 56cqw; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+  flex: none; width: 46cqw; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
   background: var(--rate, #d0202a); color: var(--rate-ink, #fff);
-  font: 800 25cqw/1 var(--sans);
-  box-shadow: 0 0 0 4cqw rgb(255 255 255 / .9);
+  font: 800 22cqw/1 var(--sans);
+  box-shadow: 0 0 0 3.5cqw rgb(255 255 255 / .92);
 }
-.spine__vhs { flex: none; font: 800 16cqw/1 var(--sans); letter-spacing: .04em; padding: 2cqw 4cqw; border: max(1px, 3cqw) solid currentColor; }
+.spine__vhs { flex: none; font: 900 14cqw/1 var(--sans); letter-spacing: .04em; padding: 1.5cqw 3.5cqw; border: max(1px, 2.5cqw) solid currentColor; }
+.spine__cat { flex: none; font: 600 8.5cqw/1 var(--tech); letter-spacing: .04em; white-space: nowrap; opacity: .8; }
+/* thin cases lose the small print */
+@container (max-width: 2.9rem) { .spine__kicker, .spine__cat { display: none; } }
+@container (max-height: 15rem) { .spine__pic { width: 64cqw; } }
+
+/* lettering */
+.ty--cond   .spine__title { --k: 86; font-family: var(--sans); font-weight: 800; font-stretch: 62%; text-transform: uppercase; letter-spacing: .02em; }
+.ty--serif  .spine__title { --k: 58; font-family: "Playfair Display", Georgia, serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.ty--script .spine__title { --k: 112; --max: 62cqw; font-family: "Pinyon Script", "Playfair Display", serif; font-weight: 400; line-height: 1.15; }
+.ty--wide   .spine__title { --k: 54; font-family: var(--sans); font-weight: 900; font-stretch: 112%; text-transform: uppercase; }
+.ty--mono   .spine__title { --k: 66; font-family: var(--tech); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
 
 /* the age circles carry the year (23, 24, 25, 26) */
 .rate--23 { --rate: #2e9b4a; }
@@ -179,15 +232,15 @@ body.vhs::before {
 .rate--25 { --rate: #d63a78; }
 .rate--26 { --rate: #c8172a; }
 
-/* spine colours (after the photo) */
-.sp--a { --sp-bg: #151515; --sp-ink: #ebe3cf; --sp-title: #e5392c; --sp-logo: #c9a640; }
-.sp--b { --sp-bg: #a51f2a; --sp-ink: #f3e9d2; --sp-title: #f3e9d2; --sp-logo: #151515; --sp-logo-ink: #f3e9d2; }
-.sp--c { --sp-bg: #ece3cb; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #a51f2a; --sp-logo-ink: #f3e9d2; }
-.sp--d { --sp-bg: #e3c142; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #151515; --sp-logo-ink: #e3c142; }
-.sp--e { --sp-bg: #1d2a45; --sp-ink: #ebe3cf; --sp-title: #f08a3c; --sp-logo: #c9a640; }
-.sp--f { --sp-bg: #f5f1e6; --sp-ink: #151515; --sp-title: #c8172a; --sp-logo: #1d2a45; --sp-logo-ink: #f5f1e6; }
-.sp--g { --sp-bg: #d3602a; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #151515; --sp-logo-ink: #d3602a; }
-.sp--h { --sp-bg: #2a676e; --sp-ink: #f3e9d2; --sp-title: #f3e9d2; --sp-logo: #e3c142; }
+/* spine colours (after the photo) and the tones of their little picture */
+.sp--a { --sp-bg: #151515; --sp-ink: #ebe3cf; --sp-title: #e5392c; --sp-logo: #c9a640; --sp-pic1: #5a3a2a; --sp-pic2: #1d1512; }
+.sp--b { --sp-bg: #a51f2a; --sp-ink: #f3e9d2; --sp-title: #f3e9d2; --sp-logo: #151515; --sp-logo-ink: #f3e9d2; --sp-pic1: #e7a457; --sp-pic2: #5a1218; }
+.sp--c { --sp-bg: #ece3cb; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #a51f2a; --sp-logo-ink: #f3e9d2; --sp-pic1: #9fb8c4; --sp-pic2: #2d3d4c; }
+.sp--d { --sp-bg: #e3c142; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #151515; --sp-logo-ink: #e3c142; --sp-pic1: #f4e2a0; --sp-pic2: #7a5a1c; }
+.sp--e { --sp-bg: #1d2a45; --sp-ink: #ebe3cf; --sp-title: #f08a3c; --sp-logo: #c9a640; --sp-pic1: #5d8fb8; --sp-pic2: #101a2e; }
+.sp--f { --sp-bg: #f5f1e6; --sp-ink: #151515; --sp-title: #c8172a; --sp-logo: #1d2a45; --sp-logo-ink: #f5f1e6; --sp-pic1: #f2c3a0; --sp-pic2: #6b2a24; }
+.sp--g { --sp-bg: #d3602a; --sp-ink: #151515; --sp-title: #151515; --sp-logo: #151515; --sp-logo-ink: #d3602a; --sp-pic1: #ffd08a; --sp-pic2: #6e2a10; }
+.sp--h { --sp-bg: #2a676e; --sp-ink: #f3e9d2; --sp-title: #f3e9d2; --sp-logo: #e3c142; --sp-pic1: #a9d4c9; --sp-pic2: #123236; }
 
 /* the tape in flight (a copy of its spine) */
 .spine.spine-ghost {
@@ -195,29 +248,49 @@ body.vhs::before {
   transform-origin: 50% 50%; will-change: transform;
 }
 
-/* ---------- the TV ---------- */
+/* ---------- the TV/video combo ---------- */
 
-.tv { position: relative; width: min(100%, 44rem); container-type: inline-size; }
+.tv { position: relative; width: min(100%, 44rem); container-type: inline-size; padding-bottom: 1.2cqi; }
 .tv__body {
   position: relative; z-index: 1;
-  padding: 5cqi 5.5cqi 3.5cqi;
-  border-radius: 7cqi 7cqi 3.5cqi 3.5cqi;
-  background: linear-gradient(168deg, var(--tv-hi), var(--tv) 38%, var(--tv-lo));
+  padding: 4.2cqi 4.6cqi 0;
+  border-radius: 4.6cqi 4.6cqi 2.6cqi 2.6cqi;
+  background:
+    var(--grain) 0 0 / 160px 160px,
+    radial-gradient(ellipse 90% 55% at 28% 0%, rgb(255 255 235 / .35), transparent 65%),
+    linear-gradient(176deg, var(--tv-hi), var(--tv) 26%, var(--tv) 74%, var(--tv-lo));
   box-shadow:
-    inset 0 .5cqi 0 rgb(255 255 255 / .55), inset .6cqi 0 0 rgb(255 255 255 / .2),
-    inset 0 -1.2cqi 0 rgb(0 0 0 / .14), 0 2.5rem 2.5rem -1.5rem rgb(0 0 0 / .7);
+    inset 0 .35cqi 0 rgb(255 255 255 / .55),
+    inset .45cqi 0 0 rgb(255 255 255 / .2),
+    inset -.6cqi 0 1cqi rgb(0 0 0 / .1),
+    inset 0 -.7cqi 0 rgb(0 0 0 / .12),
+    0 1cqi 0 var(--tv-edge),
+    0 1.3cqi .4cqi rgb(0 0 0 / .35),
+    0 2.6rem 2.6rem -1.4rem rgb(0 0 0 / .75);
 }
+/* two feet under the cabinet */
+.tv::before, .tv::after {
+  content: ""; position: absolute; bottom: 0; width: 12%; height: 2cqi; border-radius: 0 0 .8cqi .8cqi;
+  background: linear-gradient(#3b3a2c, #1e1d16);
+}
+.tv::before { left: 9%; }
+.tv::after { right: 9%; }
+
+/* the frame round the tube, chamfered: in shade at the top, lit below */
 .tv__bezel {
-  padding: 2.4cqi; border-radius: 5cqi;
-  background: linear-gradient(#cfbd47, #ead96d);
-  box-shadow: inset 0 .7cqi 1.2cqi rgb(0 0 0 / .28), 0 .3cqi 0 rgb(255 255 255 / .45);
+  padding: 1.8cqi; border-radius: 3.6cqi;
+  background:
+    var(--grain) 0 0 / 160px 160px,
+    linear-gradient(var(--tv-lo), var(--tv) 30%, var(--tv-hi));
+  box-shadow: inset 0 .9cqi 1.4cqi rgb(0 0 0 / .32), inset 0 -.3cqi .3cqi rgb(255 255 255 / .45), 0 .25cqi 0 rgb(255 255 255 / .35);
 }
+/* the tube: a black gasket, curved glass */
 .tv__screen {
   position: relative; aspect-ratio: 4 / 3; overflow: hidden;
   container-type: size;
-  border-radius: 4cqi / 5cqi;
-  background: radial-gradient(ellipse 80% 70% at 50% 45%, #1d3a70, #0c1a3c 65%, #050b1c);
-  box-shadow: inset 0 0 0 .5cqi #0b0b0b, inset 0 0 5cqi rgb(0 0 0 / .85);
+  border-radius: 3cqi / 3.8cqi;
+  background: radial-gradient(ellipse 85% 75% at 50% 45%, #22427c, #0f1f45 60%, #050b1d);
+  box-shadow: 0 0 0 .9cqi #23231a, 0 0 0 1.25cqi rgb(0 0 0 / .3), inset 0 0 6cqi rgb(0 0 0 / .85), inset 0 0 1.2cqi #000;
 }
 @media (max-width: 37.49em) { .tv__screen { aspect-ratio: 1 / 1.25; } }
 /* scanlines and the glass */
@@ -225,8 +298,10 @@ body.vhs::before {
 .tv__screen::before { z-index: 3; background: repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / .2) 2px 3px); animation: roll 6s linear infinite; }
 .tv__screen::after {
   z-index: 4; border-radius: inherit;
-  background: radial-gradient(ellipse 60% 40% at 28% 18%, rgb(255 255 255 / .14), transparent 70%),
-              radial-gradient(ellipse at 50% 50%, transparent 60%, rgb(0 0 0 / .45));
+  background:
+    radial-gradient(ellipse 70% 55% at 30% 20%, rgb(255 255 255 / .15), transparent 62%),
+    linear-gradient(158deg, rgb(255 255 255 / .06) 0 34%, transparent 34.4%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 52%, rgb(0 0 0 / .55));
 }
 @keyframes roll { to { background-position: 0 3px; } }
 
@@ -303,63 +378,109 @@ body.vhs::before {
 .sleeve__vhs { font: 800 9cqi/1 var(--sans); padding: 1cqi 2cqi; border: .8cqi solid currentColor; }
 .tape__content .sleeve { max-width: 12rem; }
 
-/* the panel under the screen */
+/* ---------- the panel under the screen ---------- */
+
 .tv__panel {
-  display: grid; align-items: center; gap: 1.6cqi 3cqi; padding-top: 2.6cqi;
-  grid-template-columns: 1fr 3.2fr 1.2fr;
-  grid-template-areas: ". brand ." "badge vcr speaker" "knobs keys speaker";
+  display: grid; align-items: center; gap: 1.3cqi 2.6cqi; padding-top: 1.6cqi;
+  grid-template-columns: 1.1fr 3fr 1.3fr;
+  grid-template-areas: "badge brand speaker" "badge vcr speaker" "power keys speaker" "foot foot foot";
   color: var(--tv-ink);
 }
-.tv__brand { grid-area: brand; justify-self: center; font: 800 max(.7rem, 2.7cqi)/1 var(--sans); letter-spacing: .4em; }
-.tv__badge { grid-area: badge; font: 700 max(.55rem, 1.8cqi)/1.1 var(--tech); letter-spacing: .08em; }
+.tv__brand { grid-area: brand; justify-self: center; font: 800 max(.65rem, 2.2cqi)/1 var(--sans); letter-spacing: .32em; text-shadow: 0 .12cqi 0 rgb(255 255 255 / .45); }
+.tv__badge { grid-area: badge; align-self: start; display: grid; gap: .5cqi; padding-top: 1cqi; text-shadow: 0 .12cqi 0 rgb(255 255 255 / .45); }
+.tv__badge b { font: 900 italic max(.7rem, 2.4cqi)/1 var(--sans); letter-spacing: -.02em; }
+.tv__badge span { font: 700 max(.55rem, 1.6cqi)/1 var(--sans); letter-spacing: .1em; }
+
+/* the cassette door: a long recess, its flap printed with the label */
 .vcr {
-  grid-area: vcr; position: relative; height: max(2.6rem, 9cqi); border-radius: 1cqi;
-  background: linear-gradient(#d3c14d, #e2d062);
-  box-shadow: inset 0 .5cqi .9cqi rgb(0 0 0 / .3), 0 .25cqi 0 rgb(255 255 255 / .45);
+  grid-area: vcr; height: max(2.6rem, 8.6cqi); padding: .7cqi; border-radius: .9cqi;
+  background: linear-gradient(var(--tv-lo), var(--tv) 70%);
+  box-shadow: inset 0 .6cqi 1cqi rgb(0 0 0 / .32), 0 .25cqi 0 rgb(255 255 255 / .45);
 }
-.vcr__label { position: absolute; top: 10%; left: 0; right: 0; text-align: center; font: 700 max(.5rem, 1.5cqi)/1 var(--sans); letter-spacing: .22em; }
 .vcr__slot {
-  position: absolute; left: 7%; right: 7%; top: 44%; height: 30%;
-  border-radius: .6cqi; background: #16130a; overflow: hidden; perspective: 30cqi;
-  box-shadow: inset 0 .5cqi .7cqi #000, 0 .2cqi 0 rgb(255 255 255 / .4);
+  position: relative; display: block; height: 100%;
+  border-radius: .5cqi; background: #14120a; overflow: hidden; perspective: 40cqi;
+  box-shadow: inset 0 .6cqi .8cqi #000;
 }
 .vcr__flap {
   position: absolute; inset: 0; transform-origin: 50% 0;
-  background: linear-gradient(#bba93a, #a2912b);
-  transition: transform .3s cubic-bezier(.3, .7, .2, 1);
+  display: grid; place-content: center; justify-items: center; gap: .5cqi;
+  background: var(--grain) 0 0 / 160px 160px, linear-gradient(#e8df99, #d3c973 55%, #c2b863);
+  box-shadow: inset 0 .2cqi 0 rgb(255 255 255 / .55), inset 0 -.35cqi 0 rgb(0 0 0 / .14);
+  transition: transform .3s cubic-bezier(.3, .7, .2, 1), filter .3s;
 }
-.vcr.is-open .vcr__flap { transform: rotateX(78deg); }
+.vcr.is-open .vcr__flap { transform: rotateX(80deg); filter: brightness(.65); }
+.vcr__label {
+  padding: .5cqi 2.4cqi; border: max(1px, .16cqi) solid rgb(75 69 25 / .55);
+  font: 700 max(.55rem, 1.5cqi)/1 var(--sans); letter-spacing: .26em;
+}
+.vcr__small { font: 600 max(.42rem, .95cqi)/1 var(--tech); letter-spacing: .14em; opacity: .75; }
+
+/* the speaker: rows of vertical slots */
 .tv__speaker {
-  grid-area: speaker; align-self: stretch; min-height: 12cqi; border-radius: 1.2cqi;
-  background:
-    radial-gradient(circle, rgb(70 62 20 / .75) 32%, transparent 36%) 0 0 / 1.7cqi 1.7cqi,
-    linear-gradient(#d8c650, #c6b240);
-  box-shadow: inset 0 .4cqi .7cqi rgb(0 0 0 / .25);
+  grid-area: speaker; align-self: stretch; position: relative; min-height: 14cqi; border-radius: 1.2cqi;
+  background: linear-gradient(var(--tv), var(--tv-lo));
+  box-shadow: inset 0 .4cqi .7cqi rgb(0 0 0 / .22), 0 .2cqi 0 rgb(255 255 255 / .35);
 }
-.tv__knobs { grid-area: knobs; display: flex; align-items: center; gap: 2cqi; }
-.tv__led { width: 1.6cqi; height: 1.6cqi; min-width: 6px; min-height: 6px; border-radius: 50%; background: #5b1b12; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .4); }
+.tv__speaker::before {
+  content: ""; position: absolute; inset: 14% 12%;
+  background: repeating-linear-gradient(90deg, rgb(35 32 12 / .8) 0 .5cqi, transparent .5cqi 1.45cqi);
+  -webkit-mask: repeating-linear-gradient(#000 0 2.3cqi, transparent 2.3cqi 3cqi);
+          mask: repeating-linear-gradient(#000 0 2.3cqi, transparent 2.3cqi 3cqi);
+}
+
+/* power, the standby light and the jacks */
+.tv__power { grid-area: power; display: flex; align-items: center; gap: 1.6cqi; }
+.tv__button {
+  width: 4.2cqi; height: 4.2cqi; min-width: 14px; min-height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #f1e9ad, #b8ad57);
+  box-shadow: 0 0 0 .55cqi var(--tv-lo), 0 .35cqi .2cqi .55cqi rgb(0 0 0 / .18);
+}
+.tv__led { width: 1.3cqi; height: 1.3cqi; min-width: 5px; min-height: 5px; border-radius: 50%; background: #5b1b12; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .4); }
 .tv.is-playing .tv__led { background: #ff4b2b; box-shadow: 0 0 1cqi #ff4b2b; }
-.tv__knob { width: 4cqi; height: 4cqi; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f3e58a, #b9a63a); box-shadow: 0 .3cqi 0 #9b8a2a; }
-.tv__keys { grid-area: keys; display: flex; justify-content: center; gap: 1.6cqi; }
+.tv__jack {
+  width: 2.4cqi; height: 2.4cqi; min-width: 8px; min-height: 8px; border-radius: 50%;
+  background: radial-gradient(circle, #0d0d0a 28%, #8d8a76 31% 46%, #bdb35d 50%);
+  box-shadow: 0 .15cqi 0 rgb(255 255 255 / .35);
+}
+
+/* the transport keys, in a recessed strip */
+.tv__keys {
+  grid-area: keys; justify-self: center; display: flex; gap: .7cqi;
+  padding: .8cqi 1cqi; border-radius: .8cqi;
+  background: rgb(60 55 20 / .16);
+  box-shadow: inset 0 .4cqi .6cqi rgb(0 0 0 / .25), 0 .2cqi 0 rgb(255 255 255 / .4);
+}
 .tv__key {
   all: unset; box-sizing: border-box; cursor: pointer;
   display: inline-grid; place-items: center;
-  min-width: max(2.75rem, 8cqi); min-height: max(2.25rem, 5cqi); padding: 0 1.4cqi;
-  border-radius: .9cqi;
-  background: linear-gradient(#f2e68f, #d2bf4a);
-  box-shadow: 0 .6cqi 0 #9b8a2a, inset 0 .25cqi 0 rgb(255 255 255 / .6);
-  font: 700 max(.75rem, 2.2cqi)/1 var(--tech); color: var(--tv-ink);
+  min-width: max(2.75rem, 7.4cqi); min-height: max(2rem, 4.2cqi); padding: 0 1cqi;
+  border-radius: .5cqi;
+  background: linear-gradient(#efe7ac, #cdc27a);
+  box-shadow: 0 .45cqi 0 #958b3f, 0 .6cqi .3cqi rgb(0 0 0 / .2), inset 0 .15cqi 0 rgb(255 255 255 / .7);
+  font: 700 max(.7rem, 1.8cqi)/1 var(--tech); color: var(--tv-ink);
   transition: transform .08s ease, box-shadow .08s ease;
 }
-.tv__key:active, .tv__key.is-pressed { transform: translateY(.5cqi); box-shadow: 0 .1cqi 0 #9b8a2a, inset 0 .25cqi 0 rgb(255 255 255 / .4); }
-.tv__key[aria-disabled="true"] { opacity: .45; cursor: default; }
+.tv__key:active, .tv__key.is-pressed { transform: translateY(.4cqi); box-shadow: 0 .05cqi 0 #958b3f, inset 0 .15cqi 0 rgb(255 255 255 / .4); }
+.tv__key[aria-disabled="true"] { opacity: .5; cursor: default; }
 .tv__key:focus-visible { outline: 3px solid #151515; outline-offset: 2px; }
-@media (max-width: 37.49em) {
-  .tv__panel { grid-template-columns: 2fr 1fr; grid-template-areas: "brand brand" "vcr speaker" "keys keys"; }
-  .tv__badge, .tv__knobs { display: none; }
+
+/* the lip along the bottom of the cabinet */
+.tv__foot {
+  grid-area: foot; height: 2.2cqi; margin: .6cqi -4.6cqi 0;
+  border-radius: 0 0 2.6cqi 2.6cqi;
+  background: linear-gradient(rgb(0 0 0 / .1), rgb(0 0 0 / .02) 40%, rgb(0 0 0 / .14));
+  border-top: max(1px, .2cqi) solid rgb(0 0 0 / .12);
 }
 
-/* ---------- footer: the other version ---------- */
+@media (max-width: 37.49em) {
+  .tv__panel { grid-template-columns: 2fr 1fr; grid-template-areas: "brand brand" "vcr speaker" "keys keys" "foot foot"; }
+  .tv__badge, .tv__power, .vcr__small { display: none; }
+  .tv__keys { gap: .4rem; }
+  .tv__key { min-width: 2.6rem; }
+}
+
+/* ---------- footer ---------- */
 .vhs .colophon { background: var(--panel); }
 
 @media (prefers-reduced-motion: reduce) {

@@ -381,15 +381,36 @@ const SPINE = {
   'string-transformer': 'c', 'coac-analisis': 'b', 'illo-loader': 'e', 'js-subtype': 'f',
   github: 'a', x: 'f', blog: 'd', linkedin: 'e'
 };
+// The lettering of each spine, as varied as on a real shelf: condensed sans,
+// serif capitals, script, wide sans, monospaced.
+const TYPE = {
+  luz: 'serif', ikay: 'wide', 'chrome-local-ai': 'cond', 'quien-canta-hoy': 'script',
+  'ares-api': 'serif', 'toolbar-aem': 'mono', accesibilidad: 'wide', 'libros-del-mundo': 'script',
+  'string-transformer': 'cond', 'coac-analisis': 'serif', 'illo-loader': 'script', 'js-subtype': 'mono',
+  github: 'mono', x: 'wide', blog: 'script', linkedin: 'cond'
+};
+// Real cases are not all alike: a little taller or shorter, wider or thinner.
+const hash = (s) => [...String(s)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const shape = (id) => {
+  const h = hash(id);
+  return `--h:${(.94 + (h % 7) / 100).toFixed(2)};--w:${(.9 + ((h >> 3) % 21) / 100).toFixed(2)}`;
+};
 const longest = (s) => Math.max(...String(s).split(/\s+/).map((w) => w.length));
 const yy = (y) => String(y).slice(-2);
 
-// The spine: studio shield, vertical title, rating circle (the year), VHS.
-const spine = (o) => `<span class="spine sp--${SPINE[o.id] ?? 'a'}" style="--chars:${[...String(o.name)].length}" aria-hidden="true">
+// The spine of the case: studio badge, a line over the title, the title
+// along the spine, a small picture, the age circle (the year), VHS and the
+// catalogue number. All decorative: the button or link carries the name.
+const spine = (o) => `<span class="spine sp--${SPINE[o.id] ?? 'a'} ty--${TYPE[o.id] ?? 'cond'}" style="--chars:${[...String(o.name)].length}" aria-hidden="true">
           <span class="spine__logo">NM</span>
-          <span class="spine__title">${esc(o.name)}</span>
-          ${o.rate ? `<span class="spine__rate rate--${o.rate}">${o.rate}</span>` : `<span class="spine__note">${esc(o.note ?? '')}</span>`}
+          <span class="spine__body">
+            <span class="spine__title">${esc(o.name)}</span>
+            <span class="spine__kicker">${esc(o.use ?? '')}</span>
+          </span>
+          <span class="spine__pic">${o.art ?? `<b>${esc(String(o.name).replace(/[^\p{L}\p{N}]/gu, '').slice(0, 1))}</b>`}</span>
+          ${o.rate ? `<span class="spine__rate rate--${o.rate}">${o.rate}</span>` : ''}
           <span class="spine__vhs">VHS</span>
+          <span class="spine__cat">${o.code ?? 'NM'}</span>
         </span>`;
 
 // The sleeve, shown on the TV as the picture of the tape.
@@ -431,9 +452,9 @@ const vhsPage = (lang) => {
     facts: `${rest.slice(1).join('')}${socials()}`
   });
   const socialTape = (s) => `
-      <li class="tape tape--social">
+      <li class="tape tape--social" style="${shape(s.id)}">
         <a class="tape__spine" href="${s.url}" rel="me noopener" aria-label="${s.label}: ${esc(s.handle)}">
-        ${spine({ id: s.id, name: s.label, note: s.handle })}
+        ${spine({ id: s.id, name: s.label, use: s.handle, code: s.id.toUpperCase() })}
         </a>
       </li>`;
   const half = Math.ceil(site.socials.length / 2);
@@ -484,19 +505,23 @@ const vhsPage = (lang) => {
           </div>
         </div>
         <div class="tv__panel">
-          <span class="tv__badge" aria-hidden="true">VHS<br>HQ</span>
           <span class="tv__brand" aria-hidden="true">NANDO</span>
+          <span class="tv__badge" aria-hidden="true"><b>VHS</b><span>HQ</span></span>
           <span class="vcr" aria-hidden="true">
-            <span class="vcr__label">${v.recorder}</span>
-            <span class="vcr__slot"><span class="vcr__flap"></span></span>
+            <span class="vcr__slot"><span class="vcr__flap">
+              <span class="vcr__label">${v.recorder}</span>
+              <span class="vcr__small">ON SCREEN DISPLAY · HQ · TWIN SPEED</span>
+            </span></span>
           </span>
           <span class="tv__speaker" aria-hidden="true"></span>
-          <span class="tv__knobs" aria-hidden="true"><span class="tv__led"></span><span class="tv__knob"></span><span class="tv__knob"></span></span>
+          <span class="tv__power" aria-hidden="true"><span class="tv__button"></span><span class="tv__led"></span><span class="tv__jack"></span><span class="tv__jack"></span></span>
           <span class="tv__keys">
-            <button type="button" class="tv__key" data-tv="rew" aria-label="${v.rew}" title="${v.rew}">◀◀</button>
-            <button type="button" class="tv__key" data-tv="ff" aria-label="${v.ff}" title="${v.ff}">▶▶</button>
-            <button type="button" class="tv__key tv__key--eject" data-tv="eject" aria-label="${v.eject}" title="${v.eject}">⏏</button>
+            <button type="button" class="tv__key" data-tv="rew" aria-label="${v.rew}" title="${v.rew}"><span aria-hidden="true">◀◀</span></button>
+            <button type="button" class="tv__key" data-tv="play" aria-label="${v.play}" title="${v.play}"><span aria-hidden="true">▶</span></button>
+            <button type="button" class="tv__key" data-tv="ff" aria-label="${v.ff}" title="${v.ff}"><span aria-hidden="true">▶▶</span></button>
+            <button type="button" class="tv__key tv__key--eject" data-tv="eject" aria-label="${v.eject}" title="${v.eject}"><span aria-hidden="true">⏏</span></button>
           </span>
+          <span class="tv__foot" aria-hidden="true"></span>
         </div>
       </div>
       <p class="tv__state visually-hidden" aria-live="polite"></p>
@@ -519,7 +544,7 @@ const vhsPage = (lang) => {
       const art = p.plate && p.plate !== 'fingerprint' ? p.plate : p.ornament;
       o.art = art ? plates[art] : null;
       return `
-    <li class="tape tape--project" id="${o.id}" data-code="${o.code}">
+    <li class="tape tape--project" id="${o.id}" data-code="${o.code}" style="${shape(o.id)}">
       <button type="button" class="tape__spine" aria-label="${v.insert}: ${esc(o.name)}">
         ${spine(o)}
       </button>

@@ -14,29 +14,7 @@
     "eject": "Expulsar",
     "shelf": "Estantería",
     "reading": "Leyendo",
-    "ctaShelf": "Inserta un disquete de la estantería",
-    "versions": {
-      "asomado": {
-        "name": "Asomado",
-        "summary": "La versión de referencia: pantalla con la bio, disquetera con la portada del disco que está dentro y estantería debajo."
-      },
-      "workbook": {
-        "name": "Workbook",
-        "summary": "Fiel a la portada del cuaderno: rejilla de líneas sobre fondo oscuro, una sola tinta albaricoque y el contenido en celdas fusionadas."
-      },
-      "cuaderno": {
-        "name": "Cuaderno",
-        "summary": "La misma rejilla en papel cuadriculado crema con tinta marino: más luz, la franja retro arriba y las celdas que se marcan al pasar."
-      },
-      "defrag": {
-        "name": "Desfragmentador",
-        "summary": "Las celdas vacías son sectores del disco: al leer un disquete se desfragmentan en su color, como el viejo defrag de Windows."
-      },
-      "escalera": {
-        "name": "Escalera",
-        "summary": "La franja del arcoíris baja en diagonal por las celdas vacías, en escalera de píxeles. Cada disco que lees la hace avanzar."
-      }
-    }
+    "ctaShelf": "Inserta un disquete de la estantería"
   },
   "en": {
     "archive": "Archive",
@@ -53,28 +31,6 @@
     "eject": "Eject",
     "shelf": "Shelf",
     "reading": "Reading",
-    "ctaShelf": "Insert a disk from the shelf",
-    "versions": {
-      "asomado": {
-        "name": "Half-in",
-        "summary": "The reference: the screen with the bio, the drive showing the cover of the disk inside, and the shelf below."
-      },
-      "workbook": {
-        "name": "Workbook",
-        "summary": "True to the workbook cover: a grid of lines on a dark ground, a single apricot ink and the content in merged cells."
-      },
-      "cuaderno": {
-        "name": "Graph paper",
-        "summary": "The same grid on cream graph paper with navy ink: lighter, with the retro stripe on top and cells that mark as you pass."
-      },
-      "defrag": {
-        "name": "Defrag",
-        "summary": "The empty cells are disk sectors: reading a disk defragments them in its colour, like the old Windows defrag."
-      },
-      "escalera": {
-        "name": "Staircase",
-        "summary": "The rainbow stripe runs diagonally through the empty cells as a pixel staircase. Every disk you read moves it on."
-      }
-    }
+    "ctaShelf": "Insert a disk from the shelf"
   }
 }

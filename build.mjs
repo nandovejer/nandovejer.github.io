@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Archive portfolio · Disquetes — zero-dependency static build.
+// Portfolio · Disquetes — zero-dependency static build.
 // Content: data/site.json and data/projects.json. Interface labels: data/archivo.json.
-//   archivo/disquetes/asomado/{es,en}/index.html   the portfolio
-//   index.html, archivo/, archivo/disquetes/       send visitors to their language
-// Usage: node build-archivo.mjs
+//   es/index.html, en/index.html   the portfolio
+//   index.html                     sends visitors to their language
+// Usage: node build.mjs
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -16,7 +16,6 @@ const site = read('data/site.json');
 const projects = read('data/projects.json');
 const ui = read('data/archivo.json');
 const LANGS = ['es', 'en'];
-const PATH = 'archivo/disquetes';
 
 const esc = (s) => String(s)
   .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -180,9 +179,6 @@ const entry = (o, u, content) => `
 
 /* ---------- the drive and its screen ---------- */
 
-// One variant kept: the cover of the disk inside sticks out of the drive.
-const VARIANTS = ['asomado'];
-
 // The front of the drive; the eject key is a real button.
 const ejectIcon = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5 4 15h16z"/><rect x="4" y="17" width="16" height="3" rx=".6"/></svg>`;
 const driveFront = (u) => `
@@ -203,7 +199,7 @@ const screen = (u) => `
 
 // the reading on the screen; beside it, the drive with the cover of the disk
 // that is inside sticking out of the slot (the bio's, by default)
-const station = (v, u) => `
+const station = (u) => `
 <section class="station" aria-label="${u.drive}">
   ${screen(u)}
   <div class="deck">
@@ -217,11 +213,11 @@ const station = (v, u) => `
 
 /* ---------- the page ---------- */
 
-const page = (v, lang) => {
+const page = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const other = lang === 'es' ? 'en' : 'es';
-  const url = `${site.baseUrl}/${PATH}/${v}/${lang}/`;
+  const url = `${site.baseUrl}/${lang}/`;
   const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
   return `<!doctype html>
 <html lang="${lang}" class="no-js">
@@ -232,27 +228,27 @@ const page = (v, lang) => {
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="${url}">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/${v}/${l}/">`).join('\n  ')}
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead}">
   <meta property="og:description" content="${esc(t.metaDescription)}">
   <meta property="og:url" content="${url}">
-  <link rel="preload" href="../../../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="../../../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../../../../assets/css/archivo.css">
-  <link rel="stylesheet" href="../../../../assets/css/ar-disquetes.css">
-  <link rel="stylesheet" href="../../../../assets/css/ar-disks.css">
-  <link rel="stylesheet" href="../../../../assets/css/ar-dq-${v}.css">
+  <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/archivo.css">
+  <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
+  <link rel="stylesheet" href="../assets/css/ar-disks.css">
+  <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
-  <script type="module" src="../../../../assets/js/ar-disquetes.js"></script>
+  <script type="module" src="../assets/js/ar-disquetes.js"></script>
 </head>
-<body class="ar ar--disquetes dq--${v}">
+<body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
   <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
   <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
 </header>
 <main id="main">
-${station(v, u)}
+${station(u)}
 <section class="shelf" aria-labelledby="shelf-title">
   <header class="section-head">
     <h2 id="shelf-title">${u.shelf}</h2>
@@ -289,151 +285,6 @@ ${station(v, u)}
 `;
 };
 
-/* ---------- the grid versions (layout of a workbook cover: a grid of
-   square cells; content sits in merged cells, the rest stay empty) ---------- */
-
-const GRID = ['workbook', 'cuaderno', 'defrag', 'escalera'];
-
-const bioOf = (t) => ({ id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick });
-
-const shelfEntries = (t, u) => [
-  entry(bioOf(t), u, `<h3 class="entry__title">${site.name}</h3>
-        <p class="entry__use">${t.kicker}</p>
-        <p class="entry__quote">${t.deck}</p>
-        ${t.bio.map((p) => `<p>${esc(plain(p))}</p>`).join('\n        ')}
-        ${socials()}`),
-  ...projects.map((p, i) => {
-    const o = objectOf(p, i, t, u);
-    return entry(o, u, `<h3 class="entry__title">${esc(o.name)}</h3>
-        <p class="entry__use">${esc(o.use)} · ${o.year}</p>
-        <p class="entry__quote">“${esc(o.quote)}”</p>
-        <p>${esc(o.body)}</p>
-        ${cells([[u.material, o.material], [u.status, o.status], [u.document, o.doc]], 'cells--3')}
-        ${links(o, t)}`);
-  })
-].join('');
-
-const gridPage = (v, lang) => {
-  const t = { ...site.i18n[lang], lang };
-  const u = ui[lang];
-  const other = lang === 'es' ? 'en' : 'es';
-  const url = `${site.baseUrl}/${PATH}/${v}/${lang}/`;
-  const R = '../../../../';
-  const extraJs = { defrag: 'ar-gv-defrag', escalera: 'ar-gv-escalera' }[v];
-  const [first, ...rest] = site.name.split(' ');
-  return `<!doctype html>
-<html lang="${lang}" class="no-js">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · ${t.runningHead}</title>
-  <meta name="description" content="${esc(t.metaDescription)}">
-  <meta name="color-scheme" content="light dark">
-  <link rel="canonical" href="${url}">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/${v}/${l}/">`).join('\n  ')}
-  <link rel="preload" href="${R}assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${R}assets/css/archivo.css">
-  <link rel="stylesheet" href="${R}assets/css/ar-disquetes.css">
-  <link rel="stylesheet" href="${R}assets/css/ar-disks.css">
-  <link rel="stylesheet" href="${R}assets/css/ar-dq-asomado.css">
-  <link rel="stylesheet" href="${R}assets/css/ar-grid.css">
-  <link rel="stylesheet" href="${R}assets/css/ar-gv-${v}.css">
-  <script>document.documentElement.classList.replace('no-js','js')</script>
-  <script type="module" src="${R}assets/js/ar-disquetes.js"></script>
-  <script type="module" src="${R}assets/js/ar-grid.js"></script>
-  ${extraJs ? `<script type="module" src="${R}assets/js/${extraJs}.js"></script>` : ''}
-</head>
-<body class="ar ar--disquetes dq--asomado gv gv--${v}">
-<a class="skip" href="#main">${t.skip}</a>
-<main id="main" class="g-wrap">
-<div class="g">
-  <p class="blk b-lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
-  <p class="blk b-logo"><a href="./" rel="home">${site.nick}<sup>®</sup></a></p>
-
-  <div class="blk b-title fit"><div class="blk__in">
-    <h1><a href="./" rel="home">${first}<br>${rest.join(' ')}</a></h1>
-  </div></div>
-
-  <div class="blk b-deck fit"><div class="blk__in">
-    <p class="b-deck__lead">${t.deck}</p>
-    <p class="b-deck__kicker">${t.kicker}</p>
-  </div></div>
-
-  <span class="gap" aria-hidden="true"></span>
-
-  <section class="blk b-screen fit" aria-label="${u.drive}"><div class="blk__in">
-    ${screen(u)}
-  </div></section>
-
-  <div class="blk b-drive fit"><div class="blk__in">
-    <div class="deck">
-      <div class="drive">
-        <span class="now-well" aria-hidden="true"><span class="now"></span></span>
-        <span class="drive__face">${driveFront(u)}</span>
-      </div>
-      <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaShelf}</b></p>
-    </div>
-  </div></div>
-
-  <span class="gap" aria-hidden="true"></span>
-
-  <section class="b-shelf shelf" aria-labelledby="shelf-title">
-    <h2 class="blk b-shelf__title" id="shelf-title">${u.shelf}</h2>
-    <p class="blk b-shelf__count">${num(projects.length)} ${u.objects}</p>
-    <ol class="shelf__list">${shelfEntries(t, u)}</ol>
-  </section>
-
-  <span class="gap" aria-hidden="true"></span>
-
-  <footer class="blk b-colophon fit"><div class="blk__in">
-    <p class="b-colophon__lead">${t.colophonTitle}</p>
-    <p class="b-colophon__text">${t.colophon}</p>
-    <p class="b-colophon__doc">${u.document} NM.000.MMXXVI</p>
-  </div></footer>
-  <p class="blk b-num" aria-hidden="true">${String(projects.length).padStart(2, '0')}</p>
-</div>
-</main>
-</body>
-</html>
-`;
-};
-
-// Index of the versions, itself a small grid page.
-const chooser = () => {
-  const all = ['asomado', ...GRID];
-  return `<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · Disquetes</title>
-  <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="../../assets/css/archivo.css">
-  <link rel="stylesheet" href="../../assets/css/ar-grid.css">
-  <link rel="stylesheet" href="../../assets/css/ar-gv-cuaderno.css">
-  <script>document.documentElement.classList.replace('no-js','js')</script>
-  <script type="module" src="../../assets/js/ar-grid.js"></script>
-</head>
-<body class="ar gv gv--cuaderno gv--index">
-<main id="main" class="g-wrap">
-<div class="g">
-  <p class="blk b-logo"><span>${site.nick}<sup>®</sup></span></p>
-  <div class="blk b-title fit"><div class="blk__in"><h1>Disquetes</h1></div></div>
-  <span class="gap" aria-hidden="true"></span>
-  ${all.map((v, i) => `<div class="blk b-ver fit"><div class="blk__in">
-    <p class="b-ver__num">${String(i).padStart(2, '0')}</p>
-    <h2>${ui.es.versions[v].name} <span lang="en">/ ${ui.en.versions[v].name}</span></h2>
-    <p>${ui.es.versions[v].summary}</p>
-    <p lang="en" class="b-ver__en">${ui.en.versions[v].summary}</p>
-    <p class="b-ver__links"><a href="${v}/es/">Español</a> <a href="${v}/en/" hreflang="en" lang="en">English</a></p>
-  </div></div>`).join('\n  ')}
-</div>
-</main>
-</body>
-</html>
-`;
-};
-
 // Sends visitors to their language; without JS, offers both.
 const toLanguage = (prefix) => `<!doctype html>
 <html lang="es">
@@ -442,7 +293,8 @@ const toLanguage = (prefix) => `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${site.name}</title>
   <meta name="color-scheme" content="light dark">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/asomado/${l}/">`).join('\n  ')}
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
+  <link rel="alternate" hreflang="x-default" href="${site.baseUrl}/">
   <script>
     (function () {
       var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
@@ -465,10 +317,9 @@ const write = (path, html) => {
   console.log('✓', path);
 };
 
-rmSync(join(root, 'archivo'), { recursive: true, force: true });
-for (const v of VARIANTS) for (const lang of LANGS) write(`${PATH}/${v}/${lang}/index.html`, page(v, lang));
-for (const v of GRID) for (const lang of LANGS) write(`${PATH}/${v}/${lang}/index.html`, gridPage(v, lang));
-write(`${PATH}/index.html`, chooser());
-const goTo = (href) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${site.name}</title><meta http-equiv="refresh" content="0; url=${href}"></head><body><p><a href="${href}">${site.name}</a></p></body></html>\n`;
-write('archivo/index.html', goTo('disquetes/'));
-write('index.html', goTo(`${PATH}/`));
+rmSync(join(root, 'archivo'), { recursive: true, force: true }); // old prototype paths
+for (const lang of LANGS) {
+  rmSync(join(root, lang), { recursive: true, force: true });
+  write(`${lang}/index.html`, page(lang));
+}
+write('index.html', toLanguage(''));

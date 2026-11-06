@@ -68,8 +68,8 @@
    12 columns mobile · 16 tablet · 16 desktop (finer on small screens).
    ========================================================================== */
 
-.dq--asomado:not(.gv) { container-type: inline-size; }
-.dq--asomado:not(.gv) > * {
+.dq--asomado { container-type: inline-size; }
+.dq--asomado > * {
   --cols: 12;
   --cell: calc(100cqi / var(--cols));
   --pad: var(--cell);
@@ -80,10 +80,10 @@
   --g-line: color-mix(in srgb, var(--ink) 22%, transparent);
   --g-line-strong: color-mix(in srgb, var(--ink) 70%, transparent);
 }
-@media (min-width: 37.5em) { .dq--asomado:not(.gv) > * { --cols: 16; --deck: 10; --m: 7; --box: 4; --hr: 2; } }
-@media (min-width: 64em)   { .dq--asomado:not(.gv) > * { --cols: 16; --deck: 5; --m: 3; --box: 3; --hr: 1; } }
+@media (min-width: 37.5em) { .dq--asomado > * { --cols: 16; --deck: 10; --m: 7; --box: 4; --hr: 2; } }
+@media (min-width: 64em)   { .dq--asomado > * { --cols: 16; --deck: 5; --m: 3; --box: 3; --hr: 1; } }
 
-.dq--asomado:not(.gv) main {
+.dq--asomado main {
   background-image:
     linear-gradient(90deg, var(--g-line) 1px, transparent 1px),
     linear-gradient(var(--g-line) 1px, transparent 1px);
@@ -92,23 +92,23 @@
 
 /* ---------- station: screen | gap | deck, in cells ---------- */
 
-.dq--asomado:not(.gv) .station {
+.dq--asomado .station {
   padding: var(--cell);
   gap: var(--cell);
   align-items: start;
   background: transparent;
   border-bottom: 0;
 }
-.dq--asomado:not(.gv) .deck { position: static; width: calc(var(--cell) * var(--deck)); justify-self: center; gap: 0; align-content: start; }
+.dq--asomado .deck { position: static; width: calc(var(--cell) * var(--deck)); justify-self: center; gap: 0; align-content: start; }
 @media (min-width: 64em) {
-  .dq--asomado:not(.gv) .station { grid-template-columns: calc(var(--cell) * 8) calc(var(--cell) * 5); }
-  .dq--asomado:not(.gv) .deck { justify-self: start; }
+  .dq--asomado .station { grid-template-columns: calc(var(--cell) * 8) calc(var(--cell) * 5); }
+  .dq--asomado .deck { justify-self: start; }
 }
-.dq--asomado:not(.gv) .cta { margin-top: calc(var(--cell) * .35); justify-content: flex-start; }
+.dq--asomado .cta { margin-top: calc(var(--cell) * .35); justify-content: flex-start; }
 
 /* the cover's top on a grid line, its foot behind the drive */
-.dq--asomado:not(.gv) .drive { margin-top: calc(var(--cell) * var(--m)); }
-.dq--asomado:not(.gv) .now-well {
+.dq--asomado .drive { margin-top: calc(var(--cell) * var(--m)); }
+.dq--asomado .now-well {
   top: calc(var(--cell) * var(--m) * -1); bottom: auto;
   aspect-ratio: 1 / .7034;
   display: block;
@@ -116,7 +116,7 @@
 
 /* ---------- shelf ---------- */
 
-.dq--asomado:not(.gv) .section-head {
+.dq--asomado .section-head {
   height: calc(var(--cell) * var(--hr));
   padding-block: 0;
   align-items: center;
@@ -124,14 +124,14 @@
   background: var(--bg);
   box-shadow: inset 0 1px 0 var(--g-line-strong), inset 0 -1px 0 var(--g-line-strong);
 }
-.dq--asomado:not(.gv) .section-head h2 { font-size: min(3.6rem, calc(var(--cell) * var(--hr) * .62)); }
+.dq--asomado .section-head h2 { font-size: min(3.6rem, calc(var(--cell) * var(--hr) * .62)); }
 
-.dq--asomado:not(.gv) .shelf__list {
+.dq--asomado .shelf__list {
   gap: 0;
   padding: var(--cell);
   grid-template-columns: repeat(auto-fill, calc(var(--cell) * var(--box)));
 }
-.dq--asomado:not(.gv) .entry {
+.dq--asomado .entry {
   aspect-ratio: 1;
   display: grid; place-items: center;
   padding: 11%;
@@ -139,13 +139,13 @@
   box-shadow: inset 0 0 0 1px var(--g-line-strong);
   margin: 0 -1px -1px 0;   /* neighbouring boxes share one line */
 }
-.dq--asomado:not(.gv) .entry[hidden] { display: none; }
-.dq--asomado:not(.gv) .entry .entry__disk { width: 100%; }
-.dq--asomado:not(.gv) .entry.is-out::after { inset: 11% 11% auto; }
+.dq--asomado .entry[hidden] { display: none; }
+.dq--asomado .entry .entry__disk { width: 100%; }
+.dq--asomado .entry.is-out::after { inset: 11% 11% auto; }
 
 /* the reading lands just under the top of the window */
 .screen { scroll-margin-top: 1rem; }
 .drive { scroll-margin: 2rem; }
 /* exactly 3 cells tall (+1px that the shared line takes back) */
-.dq--asomado:not(.gv) .entry { aspect-ratio: auto; height: calc(var(--cell) * var(--box) + 1px); }
-.dq--asomado:not(.gv) .entry .entry__disk { width: 96%; }
+.dq--asomado .entry { aspect-ratio: auto; height: calc(var(--cell) * var(--box) + 1px); }
+.dq--asomado .entry .entry__disk { width: 96%; }

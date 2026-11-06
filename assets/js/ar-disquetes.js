@@ -305,7 +305,7 @@ showDefault({ animate: false });
 // The screen and the drive deck are rounded up to a whole number of cells,
 // so their bottom edges land on grid lines (widths are set in CSS).
 const main = document.querySelector('main');
-if (!document.body.classList.contains('gv') && main) {
+if (main) {
   const boxes = [screen, document.querySelector('.deck')].filter(Boolean);
   const snap = () => {
     const cols = parseFloat(getComputedStyle(main).getPropertyValue('--cols')) || 16;

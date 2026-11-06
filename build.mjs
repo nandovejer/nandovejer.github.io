@@ -137,12 +137,11 @@ const linkSocials = (text) => esc(text).replace(/\{(\w+)\}/g, (m, id) => {
   return s ? `<a href="${s.url}" rel="me noopener">${esc(id === 'blog' ? s.handle : s.label)}</a>` : m;
 });
 
-// The link to the other version is a barcode that reads its name (Code 128,
-// a scanner gets the text back), with the text printed under the bars.
+// The link to the other version is only a barcode that reads its name
+// (Code 128: a scanner gets the text back); the link is named for screen
+// readers with aria-label.
 const versionCode = (href, code, label) => `<p class="colophon__version"><a href="${href}" aria-label="${label}">
-    ${code128(code)}
-    <span class="colophon__human" aria-hidden="true">${code}</span>
-  </a></p>`;
+${code128(code)}</a></p>`;
 
 /* ---------- the disks ---------- */
 

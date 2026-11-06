@@ -213,14 +213,13 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* ---------- the other version, bottom right of the footer ---------- */
 
-/* a scannable barcode of its name, the text printed under the bars */
+/* only a scannable barcode of its name */
 .colophon__version { justify-self: end; align-self: end; margin: 0; }
 .colophon__version a {
-  display: inline-grid; justify-items: center; gap: .35rem; padding: .5rem;
+  display: block; padding: .5rem;
   color: var(--ink); text-decoration: none;
   transition: transform .2s ease;
 }
 .colophon__version .barcode { width: 13rem; height: 3.2rem; }
-.colophon__human { font: 600 .72rem/1 var(--tech); letter-spacing: .32em; text-transform: uppercase; }
 .colophon__version a:hover { transform: translateY(-2px); text-decoration: none; }
-.colophon__version a:hover .colophon__human { color: var(--text-accent); }
+

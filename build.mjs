@@ -277,6 +277,7 @@ const page = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const other = lang === 'es' ? 'en' : 'es';
+  const shelfId = lang === 'es' ? 'proyectos' : 'projects';
   const url = `${site.baseUrl}/${lang}/`;
   const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
   return `<!doctype html>
@@ -305,11 +306,15 @@ const page = (lang) => {
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
   <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
+  <nav class="masthead__nav" aria-label="${u.nav}">
+    <a href="#bio" data-go="bio">${u.navBio}</a>
+    <a href="#${shelfId}" data-go="projects">${u.shelf}</a>
+  </nav>
   <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
 </header>
 <main id="main">
 ${station(u)}
-<section class="shelf" aria-labelledby="shelf-title">
+<section class="shelf" id="${shelfId}" aria-labelledby="shelf-title">
   <header class="section-head">
     <h2 id="shelf-title">${u.shelf}</h2>
     <p class="section-head__count">${num(projects.length)} ${u.objects}</p>

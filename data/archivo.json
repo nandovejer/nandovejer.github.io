@@ -12,9 +12,11 @@
     "driveEmpty": "Inserta un disco para leerlo",
     "insert": "Insertar",
     "eject": "Expulsar",
-    "shelf": "Estantería",
+    "shelf": "Proyectos",
+    "nav": "Secciones",
+    "navBio": "Bio",
     "reading": "Leyendo",
-    "ctaShelf": "Inserta un disquete de la estantería",
+    "ctaShelf": "Inserta el disquete de un proyecto",
     "today": "Hoy"
   },
   "en": {
@@ -30,9 +32,11 @@
     "driveEmpty": "Insert a disk to read it",
     "insert": "Insert",
     "eject": "Eject",
-    "shelf": "Shelf",
+    "shelf": "Projects",
+    "nav": "Sections",
+    "navBio": "Bio",
     "reading": "Reading",
-    "ctaShelf": "Insert a disk from the shelf",
+    "ctaShelf": "Insert a project's disk",
     "today": "Today"
   }
 }

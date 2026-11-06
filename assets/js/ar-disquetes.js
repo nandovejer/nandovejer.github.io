@@ -260,6 +260,23 @@ async function eject({ silent = false, quiet = false } = {}) {
 
 ejectBtn.addEventListener('click', () => { if (!busy) eject(); });
 
+/* ---------- header links ---------- */
+// Bio: the page goes to the screen and, if a project is in, ejects it so the
+// screen reads the bio. Projects: the page glides to the shelf.
+// (Without JS they are plain anchors: the bio's text and the shelf.)
+document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
+  a.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (a.dataset.go === 'projects') {
+      glideTo(document.querySelector('.shelf'), 'start');
+      return;
+    }
+    if (!topVisible(screen)) await glideTo(screen, 'start');
+    if (loaded && !busy) await eject({ silent: true });
+    out.querySelector('.entry__title')?.focus({ preventScroll: true });
+  });
+});
+
 // The drive's own eject key: it always gives under the finger, and ejects
 // the disk if a project is in (the bio stays: it is the default).
 const driveKey = drive.querySelector('.drive__btn');

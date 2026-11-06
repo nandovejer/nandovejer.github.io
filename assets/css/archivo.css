@@ -187,3 +187,13 @@ a:hover { text-decoration-thickness: 2px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- header links ---------- */
+
+.masthead__nav { display: flex; gap: 1.5rem; }
+.masthead__lang { margin-left: auto; }
+@media (min-width: 64em) {
+  .masthead__nav { margin-left: auto; }
+  .masthead__lang { margin-left: 0; }
+}
+.masthead__nav a { color: var(--ink); }

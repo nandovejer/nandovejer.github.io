@@ -8,6 +8,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { plates } from './src/plates.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const read = (f) => JSON.parse(readFileSync(join(root, f), 'utf8'));
@@ -51,11 +52,13 @@ const objectOf = (p, i, t, u) => {
   const c = p[t.lang];
   const n = i + 1;
   return {
-    id: p.id, code: `NM-${pad(n)}`, doc: `NM.${pad(n)}.${p.year}`,
+    id: p.id, n, code: `NM-${pad(n)}`, doc: `NM.${pad(n)}.${p.year}`,
     name: p.name, use: c.kicker, body: c.body, quote: c.quote,
     year: p.year, material: p.language,
     status: p.demo ? u.statusOnline : u.statusRepo,
-    demo: p.demo, repo: p.repo
+    demo: p.demo, repo: p.repo,
+    // silhouettes without internal ids (they are drawn twice per page)
+    art: p.plate && p.plate !== 'fingerprint' ? plates[p.plate] : null
   };
 };
 
@@ -67,37 +70,177 @@ const links = (o, t) => `<ul class="links">
 const socials = () => `<ul class="socials">${site.socials.map((s) =>
   `<li><a href="${s.url}" rel="me noopener"><span class="socials__label">${s.label}</span> <span class="socials__handle">${esc(s.handle)}</span></a></li>`).join('')}</ul>`;
 
-// A labelled 3.5" floppy disk (decorative; the text is in the entry).
-const disk = (o, u) => `
-      <div class="disk" aria-hidden="true">
-        <span class="disk__shutter"><span></span></span>
-        <span class="disk__notch"></span>
+/* ---------- the disks ---------- */
+
+// Translucent plastic colour of each disk (img: diquete-color-transaprent)
+// and the cover design pasted on it (img: disquete-cover mockups).
+const LOOK = {
+  bio:                 { color: 'sand',    cover: 'r284' },
+  luz:                 { color: 'apricot', cover: 'orion' },
+  ikay:                { color: 'steel',   cover: 'psichic' },
+  'chrome-local-ai':   { color: 'teal',    cover: 'mixtape' },
+  'quien-canta-hoy':   { color: 'red',     cover: 'shake' },
+  'ares-api':          { color: 'orange',  cover: 'tracklist' },
+  'toolbar-aem':       { color: 'blue',    cover: 'radical' },
+  accesibilidad:       { color: 'crimson', cover: 'bonestorm' },
+  'libros-del-mundo':  { color: 'mist',    cover: 'atlas' }
+};
+const pad2 = (n) => String(n).padStart(2, '0');
+const miniBars = (str) => barcode(str).replace('class="barcode"', 'class="cv-bars"');
+
+// One cover per design. Every text comes from the shared content.
+const covers = {
+  // big code on cream, "since" line, vertical name, colour stripes (R-284)
+  r284: (o) => `
+          <span class="cv-title">${o.code}</span>
+          <span class="cv-sub">${esc(o.use)}<br>${o.since}</span>
+          <span class="cv-vert">${esc(o.name)}</span>
+          ${miniBars(o.code)}
+          <span class="cv-stripes"></span>`,
+  // meta row, black band with the title, gradient stripes, footer (ORION)
+  orion: (o) => `
+          <span class="cv-meta"><span>${o.code}</span><span>${o.year}</span><span>${o.material}</span></span>
+          <span class="cv-band"><span class="cv-title">${esc(o.name)}</span></span>
+          <span class="cv-stripes"></span>
+          <span class="cv-foot"><span class="cv-num">${pad2(o.n)}</span><span class="cv-small">${esc(o.use)}</span>${miniBars(o.code)}</span>`,
+  // holographic foil, heavy title, side texts, pill (PSICHIC)
+  psichic: (o) => `
+          <span class="cv-side cv-side--l">${o.code}</span>
+          <span class="cv-side cv-side--r">${o.year}</span>
+          <span class="cv-small cv-top">${o.material} · ${pad2(o.n)}</span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-small">${esc(o.use)}</span>
+          <span class="cv-pill">NOW</span>`,
+  // halftone image block, title, vertical tag (MIXTAPE)
+  mixtape: (o) => `
+          <span class="cv-art"></span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-vert">${o.material}</span>
+          <span class="cv-small">${esc(o.use)} · ${o.year}</span>`,
+  // repeated lines around a loud title, corner tags (SHAKE)
+  shake: (o) => `
+          <span class="cv-corner">OUT</span><span class="cv-corner cv-corner--r">NOW</span>
+          <span class="cv-rep">${esc(o.use)} · ${esc(o.use)}</span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-rep">${o.year} · ${o.code} · ${o.year}</span>`,
+  // gradient picture with a silhouette, number box, lines (TRACKLIST)
+  tracklist: (o) => `
+          <span class="cv-art">${o.art ?? ''}</span>
+          <span class="cv-num">${pad2(o.n)}</span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-lines">${esc(o.quote)}</span>`,
+  // diagonal split, title, number (RADICAL)
+  radical: (o) => `
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-tag">${o.material}</span>
+          <span class="cv-num">#${pad2(o.n)}</span>
+          <span class="cv-small">${esc(o.use)}</span>`,
+  // slanted heavy title on cream, coloured footer (BONESTORM)
+  bonestorm: (o) => `
+          <span class="cv-small cv-top">${esc(o.use)}</span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-sub">&amp; ${o.year}</span>
+          <span class="cv-foot">${o.code}</span>`,
+  // globe lines behind a two-line title (variation)
+  atlas: (o) => `
+          <span class="cv-globe"></span>
+          <span class="cv-title">${esc(o.name)}</span>
+          <span class="cv-small">${esc(o.use)} · ${o.year}</span>
+          <span class="cv-num">${pad2(o.n)}</span>`
+};
+
+// A 3.5" floppy disk in translucent coloured plastic (decorative; the text is
+// in the entry): the magnetic disc shows through, a metal shutter carries a
+// small sticker, and a printed cover is pasted on the lower half.
+const disk = (o) => {
+  const look = LOOK[o.id] ?? { color: 'smoke', cover: 'orion' };
+  return `
+      <div class="disk disk--${look.color}" aria-hidden="true">
+        <span class="disk__media"></span>
+        <span class="disk__arrow"></span>
         <span class="disk__hd">HD</span>
-        <span class="disk__label">
-          <span class="disk__small">${esc(o.name)}<br>${o.year} · ${o.material}</span>
-          <span class="disk__cat">${u.catalog}</span>
-          <span class="disk__code">${o.code}</span>
-          <span class="disk__row"><span>${esc(o.use)}</span><span class="square"></span></span>
+        <span class="disk__shutter">
+          <span class="disk__window"></span>
+          <span class="disk__sticker"><b>NM</b><span>MF2-HD<br>Floppy Disk</span></span>
         </span>
+        <span class="disk__hole disk__hole--l"></span>
+        <span class="disk__hole disk__hole--r"></span>
+        <span class="cover cover--${look.cover}">${covers[look.cover](o)}</span>
       </div>`;
+};
 
 const entry = (o, u, content) => `
     <li class="entry${o.id === 'bio' ? ' entry--bio' : ''}" id="${o.id}" data-code="${o.code}">
-      <button type="button" class="entry__disk" hidden aria-label="${u.insert}: ${esc(o.name)}">${disk(o, u)}</button>
-      <div class="entry__static">${disk(o, u)}</div>
+      <button type="button" class="entry__disk" hidden aria-label="${u.insert}: ${esc(o.name)}">${disk(o)}</button>
+      <div class="entry__static">${disk(o)}</div>
       <div class="entry__content">
         ${content}
       </div>
     </li>`;
 
+/* ---------- the drive and its screen, per variant ---------- */
+
+const VARIANTS = ['bandeja', 'asomado', 'terminal'];
+
+const driveFront = `
+    <span class="drive__bezel">
+      <span class="drive__slot"><span class="drive__flap"></span></span>
+      <span class="drive__door"></span>
+      <span class="drive__led"></span>
+      <span class="drive__brand">1.44 MB</span>
+      <span class="drive__btn"></span>
+    </span>`;
+
+const screen = (u, cta) => `
+  <div class="screen">
+    <p class="screen__status" aria-live="polite"><span class="label">${u.drive}</span> <span class="screen__state">${u.driveEmpty}</span></p>
+    <div class="screen__out"></div>
+    ${cta ? `<p class="screen__cta" hidden>${cta}</p>` : ''}
+    <button type="button" class="screen__eject" hidden>${u.eject} ⏏</button>
+  </div>`;
+
+const station = (v, u) => ({
+  // the drive waits; a ghost disk shows the way into the slot
+  bandeja: `
+<section class="station" aria-label="${u.drive}">
+  <div class="deck">
+    <div class="drive" aria-hidden="true">${driveFront}
+      <span class="ghost-disk"><span></span></span>
+    </div>
+    <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↑</span> <b>${u.cta}</b> <span>${u.ctaHint}</span></p>
+  </div>
+  ${screen(u)}
+</section>`,
+  // a disk sticks half out of the drive: push it in
+  asomado: `
+<section class="station" aria-label="${u.drive}">
+  ${screen(u)}
+  <div class="deck">
+    <div class="drive">
+      <span class="peek-well"><button type="button" class="peek" hidden></button></span>
+      <span class="drive__face" aria-hidden="true">${driveFront}</span>
+    </div>
+    <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaPush}</b></p>
+  </div>
+</section>`,
+  // a nineties computer: monitor on top of the drive
+  terminal: `
+<section class="station" aria-label="${u.drive}">
+  <div class="pc">
+    <div class="monitor">${screen(u, u.ctaDos)}</div>
+    <div class="drive" aria-hidden="true">${driveFront}</div>
+  </div>
+</section>`
+})[v];
+
 /* ---------- the page ---------- */
 
-const page = (lang) => {
+const page = (v, lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const other = lang === 'es' ? 'en' : 'es';
-  const url = `${site.baseUrl}/${PATH}/${lang}/`;
-  const bio = { id: 'bio', code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim() };
+  const url = `${site.baseUrl}/${PATH}/${v}/${lang}/`;
+  const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established };
   return `<!doctype html>
 <html lang="${lang}" class="no-js">
 <head>
@@ -107,44 +250,32 @@ const page = (lang) => {
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="${url}">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/${l}/">`).join('\n  ')}
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/${v}/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead}">
   <meta property="og:description" content="${esc(t.metaDescription)}">
   <meta property="og:url" content="${url}">
-  <link rel="preload" href="../../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="../../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../../../assets/css/archivo.css">
-  <link rel="stylesheet" href="../../../assets/css/ar-disquetes.css">
+  <link rel="preload" href="../../../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../../../assets/css/ar-disquetes.css">
+  <link rel="stylesheet" href="../../../../assets/css/ar-disks.css">
+  <link rel="stylesheet" href="../../../../assets/css/ar-dq-${v}.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
-  <script type="module" src="../../../assets/js/ar-disquetes.js"></script>
+  <script type="module" src="../../../../assets/js/ar-disquetes.js"></script>
 </head>
-<body class="ar ar--disquetes">
+<body class="ar ar--disquetes dq--${v}">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
   <h1 class="masthead__title">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</h1>
+  <p class="masthead__version"><a href="../../">${u.versions[v].name}</a></p>
   <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
 </header>
 <main id="main">
-<section class="station" aria-label="${u.drive}">
-  <div class="drive" aria-hidden="true">
-    <span class="drive__bezel">
-      <span class="drive__slot"><span class="drive__flap"></span></span>
-      <span class="drive__door"></span>
-      <span class="drive__led"></span>
-      <span class="drive__brand">1.44 MB</span>
-      <span class="drive__btn"></span>
-    </span>
-  </div>
-  <div class="screen">
-    <p class="screen__status" aria-live="polite"><span class="label">${u.drive}</span> <span class="screen__state">${u.driveEmpty}</span></p>
-    <div class="screen__out"></div>
-    <button type="button" class="screen__eject" hidden>${u.eject} ⏏</button>
-  </div>
-</section>
+${station(v, u)}
 <section class="shelf" aria-labelledby="shelf-title">
   <header class="section-head">
     <h2 id="shelf-title">${u.shelf}</h2>
-    <p class="section-head__count">${num(projects.length + 1)} ${u.objects}</p>
+    <p class="section-head__count">${num(projects.length)} ${u.objects}</p>
   </header>
   <ol class="shelf__list">
     ${entry(bio, u, `<h3 class="entry__title">${site.name}</h3>
@@ -177,26 +308,37 @@ const page = (lang) => {
 `;
 };
 
-// Sends visitors to their language; without JS, offers both.
-const redirect = (prefix) => `<!doctype html>
+// The three variants, side by side (provisional, until one is chosen).
+const chooser = () => `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name}</title>
+  <title>${site.name} · Disquetes</title>
   <meta name="color-scheme" content="light dark">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/${l}/">`).join('\n  ')}
-  <script>
-    (function () {
-      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
-      location.replace('${prefix}' + (/^es\\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
-    })();
-  </script>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
 </head>
-<body>
-  <p><a href="${prefix}es/">Edición en español</a> · <a href="${prefix}en/" hreflang="en" lang="en">English edition</a></p>
+<body class="ar ar--index">
+<main id="main" class="variants">
+  <h1 class="variants__title">Disquetes</h1>
+  <ol class="variants__list">
+    ${VARIANTS.map((v, i) => `<li>
+      <p class="variants__num">${num(i + 1)}</p>
+      <h2>${ui.es.versions[v].name} <span lang="en">/ ${ui.en.versions[v].name}</span></h2>
+      <p>${ui.es.versions[v].summary}</p>
+      <p lang="en" class="variants__en">${ui.en.versions[v].summary}</p>
+      <p class="variants__links"><a href="${v}/es/">Español</a> <a href="${v}/en/" hreflang="en" lang="en">English</a></p>
+    </li>`).join('\n    ')}
+  </ol>
+</main>
 </body>
 </html>
+`;
+
+const goTo = (href) => `<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>${site.name}</title>
+<meta http-equiv="refresh" content="0; url=${href}"></head>
+<body><p><a href="${href}">${site.name}</a></p></body></html>
 `;
 
 /* ---------- write ---------- */
@@ -209,6 +351,7 @@ const write = (path, html) => {
 };
 
 rmSync(join(root, 'archivo'), { recursive: true, force: true });
-for (const lang of LANGS) write(`${PATH}/${lang}/index.html`, page(lang));
-write('archivo/index.html', redirect('disquetes/'));
-write('index.html', redirect(`${PATH}/`));
+for (const v of VARIANTS) for (const lang of LANGS) write(`${PATH}/${v}/${lang}/index.html`, page(v, lang));
+write(`${PATH}/index.html`, chooser());
+write('archivo/index.html', goTo('disquetes/'));
+write('index.html', goTo(`${PATH}/`));

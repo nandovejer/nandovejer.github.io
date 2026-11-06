@@ -8,8 +8,8 @@
 
 /* physical objects keep their own colours in light and dark */
 .ar--disquetes {
-  --device: #2b3125;
-  --device-2: #353c2e;
+  --device: #0d3249;
+  --device-2: #163f5c;
   --disk: #1c2017;
   --disk-2: #262b20;
   --tag: #e3e4d4;
@@ -52,22 +52,22 @@
 /* the slot runs almost the whole width: a black gap under a faint lip */
 .drive__slot {
   position: absolute; left: 4%; right: 4%; top: 27%; height: 9%;
-  background: #0d0f0b;
+  background: #06141e;
   border-radius: 1cqi;
   box-shadow: inset 0 2px 3px rgb(0 0 0 / .8), 0 1px 0 rgb(255 255 255 / .08), 0 -1px 0 rgb(0 0 0 / .4);
 }
 .drive__flap { /* the inner shutter seen through the slot */
   position: absolute; left: 30%; right: 30%; top: 25%; bottom: 0;
-  background: #3a4132;
+  background: #1a4561;
   transition: transform .35s ease, background-color .35s ease;
   transform-origin: top;
 }
-.drive.is-loaded .drive__flap { transform: scaleY(.15); background: #6b7160; }
+.drive.is-loaded .drive__flap { transform: scaleY(.15); background: #3c7898; }
 
 /* the door under the slot: a recessed panel with bevelled sides */
 .drive__door {
   position: absolute; left: 31%; right: 31%; top: 36%; bottom: 14%;
-  background: linear-gradient(180deg, #23281d, #303729 70%);
+  background: linear-gradient(180deg, #0a2638, #123a54 70%);
   clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
   box-shadow: inset 0 3px 4px rgb(0 0 0 / .4);
   transition: transform .35s ease, filter .35s ease;
@@ -78,27 +78,27 @@
 /* activity LED: a tiny dark window that lights terracotta */
 .drive__led {
   position: absolute; left: 8%; top: 63%; width: 2.6%; height: 4.5%;
-  background: #4a4f42; border-radius: .4cqi;
+  background: #29435a; border-radius: .4cqi;
   box-shadow: inset 0 1px 1px rgb(0 0 0 / .6);
 }
 .drive.is-loaded .drive__led { background: var(--accent); box-shadow: 0 0 1.4cqi var(--accent); }
 .drive.is-reading .drive__led { animation: led .18s steps(2) infinite; }
-@keyframes led { 50% { background: #4a4f42; box-shadow: inset 0 1px 1px rgb(0 0 0 / .6); } }
+@keyframes led { 50% { background: #29435a; box-shadow: inset 0 1px 1px rgb(0 0 0 / .6); } }
 
 .drive__brand {
   position: absolute; left: 12.5%; top: 61%;
-  font: 600 2.1cqi/1 var(--tech); letter-spacing: .14em; color: #a9ad98;
+  font: 600 2.1cqi/1 var(--tech); letter-spacing: .14em; color: #93bcc0;
 }
 
 /* eject key: raised and rounded, on the right */
 .drive__btn {
   position: absolute; right: 9%; top: 55%; width: 10%; height: 21%;
-  background: linear-gradient(180deg, #59614d, #444b3a);
+  background: linear-gradient(180deg, #2b5a7c, #1d4563);
   border-radius: 1.2cqi;
-  box-shadow: 0 .5cqi 0 #1f241a, 0 .8cqi 1cqi rgb(0 0 0 / .35), inset 0 1px 0 rgb(255 255 255 / .12);
+  box-shadow: 0 .5cqi 0 #081e2d, 0 .8cqi 1cqi rgb(0 0 0 / .35), inset 0 1px 0 rgb(255 255 255 / .12);
   transition: transform .12s ease, box-shadow .12s ease;
 }
-.drive.is-ejecting .drive__btn { transform: translateY(.4cqi); box-shadow: 0 .1cqi 0 #1f241a, inset 0 1px 2px rgb(0 0 0 / .4); }
+.drive.is-ejecting .drive__btn { transform: translateY(.4cqi); box-shadow: 0 .1cqi 0 #081e2d, inset 0 1px 2px rgb(0 0 0 / .4); }
 
 .screen {
   display: flex; flex-direction: column; gap: 1rem;
@@ -136,8 +136,8 @@
   padding: var(--gap) var(--pad) calc(var(--pad) * 1.5);
 }
 @media (min-width: 37.5em) { .shelf__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 64em)   { .shelf__list { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media (min-width: 90em)   { .shelf__list { grid-template-columns: repeat(9, minmax(0, 1fr)); } }
+@media (min-width: 64em)   { .shelf__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 90em)   { .shelf__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .entry { position: relative; }
 .entry__content { margin-top: 1rem; display: grid; gap: .6rem; }
@@ -161,38 +161,7 @@
   border: 2px dashed var(--rule); border-radius: .3rem;
 }
 
-/* ---------- the disk itself ---------- */
-
-.disk {
-  position: relative; display: block;
-  aspect-ratio: 1 / 1.03;
-  container-type: inline-size;
-  background: linear-gradient(160deg, var(--disk-2), var(--disk));
-  border-radius: 3%;
-  clip-path: polygon(0 0, 92% 0, 100% 7%, 100% 100%, 0 100%);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .05);
-  filter: drop-shadow(0 .6rem .7rem rgb(0 0 0 / .35));
-}
-.disk__shutter {
-  position: absolute; top: 0; left: 23%; width: 52%; height: 32%;
-  background: var(--metal); border-radius: 0 0 2% 2%;
-}
-.disk__shutter span { position: absolute; top: 12%; left: 62%; width: 17%; height: 72%; background: #1a1d15; border-radius: 1px; }
-.disk__notch { position: absolute; left: 6%; top: 8%; width: 5%; height: 9%; border: 1px solid #3a4132; }
-.disk__hd { position: absolute; right: 6%; top: 12%; font: 700 7cqi/1 var(--sans); color: #3a4132; }
-.disk__label {
-  position: absolute; left: 9%; right: 9%; bottom: 4%; height: 54%;
-  display: grid; grid-template-rows: auto auto 1fr auto; align-content: start;
-  padding: 5cqi 5cqi 4cqi;
-  background: var(--tag); color: var(--tag-ink);
-  border-radius: 1.5% 1.5% 0 0;
-  text-align: left;
-}
-.disk__small { font: 600 4.6cqi/1.15 var(--sans); text-transform: uppercase; padding-bottom: 2.5cqi; border-bottom: 1px solid #20251b55; }
-.disk__cat { margin-top: 2.5cqi; font: 700 3.8cqi/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: #9a3b22; }
-.disk__code { font: 600 11cqi/1 var(--tech); letter-spacing: -.01em; }
-.disk__row { display: flex; justify-content: space-between; align-items: center; gap: 2cqi; font: 600 3.6cqi/1.1 var(--sans); text-transform: uppercase; }
-.disk__row .square { width: 7cqi; height: 7cqi; }
+/* the disk itself and its covers: ar-disks.css */
 
 /* the disk in flight */
 .disk-ghost {

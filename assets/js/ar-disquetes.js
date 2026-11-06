@@ -1,8 +1,14 @@
 // Archive · Disquetes — press or drag a disk into the drive to read it.
+// With no disk inserted the screen shows the bio, and each variant invites
+// the reader to insert one in its own way:
+//   dq--bandeja   a ghost disk keeps sliding into the slot
+//   dq--asomado   a real disk sticks half out of the drive: push it in
+//   dq--terminal  "insert disk in drive A: and press any key"
 import { reduceMotion } from './ar-common.js';
 
 const es = document.documentElement.lang === 'es';
-const T = { reading: es ? 'Leyendo' : 'Reading' };
+const T = { reading: es ? 'Leyendo' : 'Reading', push: es ? 'Empujar dentro' : 'Push in' };
+const variant = [...document.body.classList].find((c) => c.startsWith('dq--'))?.slice(4);
 
 const station = document.querySelector('.station');
 const drive = document.querySelector('.drive');
@@ -11,8 +17,10 @@ const screen = document.querySelector('.screen');
 const state = screen.querySelector('.screen__state');
 const out = screen.querySelector('.screen__out');
 const ejectBtn = screen.querySelector('.screen__eject');
-const empty = state.textContent;
-const entries = [...document.querySelectorAll('.entry')];
+const screenCta = screen.querySelector('.screen__cta');
+const deckCta = document.querySelector('.deck .cta');
+const bioEntry = document.querySelector('.entry--bio');
+const entries = [...document.querySelectorAll('.entry:not(.entry--bio)')];
 
 let loaded = null;
 let busy = false;
@@ -31,7 +39,7 @@ function ghostFrom(entry, rect) {
 
 function slotTarget(rect) {
   const s = slot.getBoundingClientRect();
-  const k = (s.width * .82) / rect.width;
+  const k = (s.width * .5) / rect.width;
   const x = s.left + s.width / 2 - (rect.width * k) / 2;
   return { k, x, above: s.top - rect.height * k - 8, into: s.top + s.height / 2 };
 }
@@ -75,10 +83,26 @@ function render(entry) {
   return title;
 }
 
+// Nothing inserted: the bio, and the invitation to insert a disk.
+function showDefault() {
+  const title = bioEntry ? render(bioEntry) : null;
+  state.textContent = `${bioEntry?.dataset.code ?? ''} · ${title?.textContent ?? ''}`;
+  document.body.classList.add('is-empty');
+  screen.classList.add('is-default');
+  ejectBtn.hidden = true;
+  if (screenCta) screenCta.hidden = false;
+  if (deckCta) deckCta.hidden = false;
+  showPeek();
+}
+
 async function insert(entry, { ghost, rect } = {}) {
   if (busy || entry === loaded) return;
   busy = true;
-  if (loaded) await eject({ silent: true });
+  if (loaded) await eject({ silent: true, quiet: true });
+  hidePeek();
+  document.body.classList.remove('is-empty');
+  if (screenCta) screenCta.hidden = true;
+  if (deckCta) deckCta.hidden = true;
 
   // bring the drive into view; the disk is lifted from where it was
   const btn = entry.querySelector('.entry__disk');
@@ -89,6 +113,7 @@ async function insert(entry, { ghost, rect } = {}) {
   entry.classList.add('is-out');
 
   await flyIn(ghost, rect);
+  screen.classList.remove('is-default');
   drive.classList.add('is-loaded', 'is-reading');
   state.textContent = `${T.reading} ${entry.dataset.code}…`;
   out.replaceChildren();
@@ -102,7 +127,7 @@ async function insert(entry, { ghost, rect } = {}) {
   busy = false;
 }
 
-async function eject({ silent = false } = {}) {
+async function eject({ silent = false, quiet = false } = {}) {
   if (!loaded) return;
   const entry = loaded;
   loaded = null;
@@ -110,19 +135,58 @@ async function eject({ silent = false } = {}) {
   drive.classList.add('is-ejecting');
   setTimeout(() => drive.classList.remove('is-ejecting'), 220);
   drive.classList.remove('is-loaded', 'is-reading');
-  out.replaceChildren();
-  ejectBtn.hidden = true;
-  state.textContent = empty;
   const back = flyOut(entry);
-  // the disk lands back in its place
   entry.classList.remove('is-out');
   entry.querySelector('.entry__disk').style.visibility = 'hidden';
   await back;
   entry.querySelector('.entry__disk').style.visibility = '';
+  if (!quiet) showDefault();
   if (!silent) entry.querySelector('.entry__disk').focus({ preventScroll: true });
 }
 
 ejectBtn.addEventListener('click', () => { if (!busy) eject(); });
+
+/* ---------- variant: a disk sticking half out of the drive ---------- */
+
+const peek = document.querySelector('.peek');
+let peekIndex = 0;
+function showPeek() {
+  if (!peek) return;
+  const entry = entries[peekIndex % entries.length];
+  peek.replaceChildren(entry.querySelector('.entry__disk .disk').cloneNode(true));
+  peek.dataset.target = entry.id;
+  peek.setAttribute('aria-label', `${T.push}: ${entry.querySelector('.entry__title')?.textContent ?? ''}`);
+  peek.hidden = false;
+  entry.classList.add('is-peeking');
+}
+function hidePeek() {
+  if (!peek) return;
+  peek.hidden = true;
+  entries.forEach((e) => e.classList.remove('is-peeking'));
+}
+peek?.addEventListener('click', () => {
+  const entry = document.getElementById(peek.dataset.target);
+  if (!entry || busy) return;
+  const rect = peek.querySelector('.disk').getBoundingClientRect();
+  const ghost = ghostFrom(entry, rect);
+  hidePeek();
+  peekIndex++;
+  insert(entry, { ghost, rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } });
+});
+
+/* ---------- variant: "press any key" ---------- */
+
+if (variant === 'terminal') {
+  let next = 0;
+  addEventListener('keydown', (e) => {
+    if (loaded || busy || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (['Tab', 'Shift', 'Escape', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) return;
+    const el = e.target instanceof Element ? e.target : null;
+    if (el?.closest('a, button, input, textarea, select')) return;
+    e.preventDefault();
+    insert(entries[next++ % entries.length]);
+  });
+}
 
 /* ---------- press, or drag onto the drive ---------- */
 
@@ -131,9 +195,10 @@ const overDrive = (x, y) => [drive, screen].some((el) => {
   return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
 });
 
-entries.forEach((entry) => {
+entries.forEach((entry, i) => {
   const btn = entry.querySelector('.entry__disk');
   btn.hidden = false;
+  btn.style.setProperty('--i', i);
   let drag = null;
   let suppressClick = false;
 
@@ -172,7 +237,6 @@ entries.forEach((entry) => {
     if (overDrive(e.clientX, e.clientY)) {
       insert(entry, { ghost, rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } });
     } else {
-      // back to the shelf
       const home = btn.getBoundingClientRect();
       if (!reduceMotion.matches) {
         await ghost.animate([{ transform: ghost.style.transform }, { transform: `translate(${home.left}px, ${home.top}px)` }],
@@ -187,3 +251,7 @@ entries.forEach((entry) => {
 });
 
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && loaded && !busy) eject(); });
+
+// The bio is the default reading, not a disk on the shelf.
+if (bioEntry) bioEntry.hidden = true;
+showDefault();

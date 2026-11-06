@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Disquetes · Asomado — a real disk sticks half out of the drive, bobbing,
+   with "push it in" above it. Press it and it goes in and reads. Meanwhile
+   the bio fills the wide screen on the left. On the shelf, the disk that is
+   peeking out leaves its place empty.
+   ========================================================================== */
+
+@media (min-width: 64em) {
+  .dq--asomado .station { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .dq--asomado .deck { position: sticky; top: 1rem; align-self: start; }
+}
+/* on small screens the drive (and its invitation) comes first */
+.dq--asomado .deck { order: -1; display: grid; gap: 1rem; }
+@media (min-width: 64em) { .dq--asomado .deck { order: 0; } }
+
+.dq--asomado .drive { margin-top: 37%; }  /* room for the disk sticking out (% of the column width) */
+.dq--asomado .drive__face { display: block; position: relative; z-index: 1; }
+
+/* the well above the slot: what is below its bottom edge is "inside" */
+.peek-well {
+  position: absolute; z-index: 2;
+  left: 27%; width: 46%;
+  bottom: 73%;                 /* the slot's top line */
+  aspect-ratio: 1 / .8;
+  overflow: hidden;
+}
+.peek {
+  all: unset; display: block; width: 100%;
+  cursor: pointer;
+  animation: peek-bob 1.8s ease-in-out infinite;
+  transition: transform .25s ease;
+}
+.peek[hidden] { display: none; }
+.peek .disk { filter: none; }
+.peek:hover { animation: none; transform: translateY(8%); }
+.peek:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+@keyframes peek-bob { 0%, 100% { transform: translateY(2%); } 50% { transform: translateY(-4%); } }
+
+/* "push it in" */
+.dq--asomado .cta { order: -1; display: flex; align-items: center; justify-content: center; gap: .75rem; margin-bottom: -.25rem; }
+.dq--asomado .cta[hidden] { display: none; }
+.dq--asomado .cta b { font: 800 clamp(1.5rem, 1rem + 1.6vw, 2.3rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.dq--asomado .cta__arrow {
+  display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); font: 800 1.4rem/1 var(--sans);
+  animation: nudge-down 1.2s ease-in-out infinite;
+}
+@keyframes nudge-down { 50% { transform: translateY(.35rem); } }
+
+/* the shelf keeps an empty place for the disk that is peeking out */
+.dq--asomado .entry.is-peeking .entry__disk { visibility: hidden; }
+.dq--asomado .entry.is-peeking::after {
+  content: ""; position: absolute; inset: 0 0 auto; aspect-ratio: 1 / 1.03;
+  border: 2px dashed var(--rule); border-radius: .3rem;
+}

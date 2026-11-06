@@ -13,8 +13,8 @@
     "insert": "Insertar",
     "eject": "Expulsar",
     "shelf": "Estantería",
-    "ctaPush": "Empújalo para leerlo",
-    "reading": "Leyendo"
+    "reading": "Leyendo",
+    "ctaShelf": "Inserta un disquete de la estantería"
   },
   "en": {
     "archive": "Archive",
@@ -30,7 +30,7 @@
     "insert": "Insert",
     "eject": "Eject",
     "shelf": "Shelf",
-    "ctaPush": "Push it in to read it",
-    "reading": "Reading"
+    "reading": "Reading",
+    "ctaShelf": "Insert a disk from the shelf"
   }
 }

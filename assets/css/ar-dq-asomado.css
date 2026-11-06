@@ -1,8 +1,9 @@
 /* ==========================================================================
-   Disquetes · Asomado — a real disk sticks half out of the drive, bobbing,
-   with "push it in" above it. Press it and it goes in and reads. Meanwhile
-   the bio fills the wide screen on the left. On the shelf, the disk that is
-   peeking out leaves its place empty.
+   Disquetes · Asomado — the screen reads the disk that is in the drive (the
+   bio, by default). The drive shows that disk's cover sticking out of the
+   slot, still, like its label; when another disk goes in, the cover sinks
+   into the slot and the new one rises. Under the drive: "insert a disk from
+   the shelf ↓".
    ========================================================================== */
 
 @media (min-width: 64em) {
@@ -10,36 +11,37 @@
   .dq--asomado .deck { position: sticky; top: 1rem; align-self: start; }
 }
 /* on small screens the drive (and its invitation) comes first */
-.dq--asomado .deck { order: -1; display: grid; gap: 1rem; }
+.dq--asomado .deck { order: -1; display: grid; gap: 1.25rem; }
 @media (min-width: 64em) { .dq--asomado .deck { order: 0; } }
 
-.dq--asomado .drive { margin-top: 37%; }  /* room for the disk sticking out (% of the column width) */
+.dq--asomado .drive { margin-top: 34%; }  /* room for the cover sticking out (% of the column width) */
 .dq--asomado .drive__face { display: block; position: relative; z-index: 1; }
 
 /* the well above the slot: what is below its bottom edge is "inside" */
-.peek-well {
+.now-well {
   position: absolute; z-index: 2;
-  left: 27%; width: 46%;
+  left: 24%; width: 52%;
   bottom: 73%;                 /* the slot's top line */
-  aspect-ratio: 1 / .8;
+  aspect-ratio: 1 / .62;
   overflow: hidden;
 }
-.peek {
-  all: unset; display: block; width: 100%;
-  cursor: pointer;
-  animation: peek-bob 1.8s ease-in-out infinite;
-  transition: transform .25s ease;
-}
-.peek[hidden] { display: none; }
-.peek .disk { filter: none; }
-.peek:hover { animation: none; transform: translateY(8%); }
-.peek:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
-@keyframes peek-bob { 0%, 100% { transform: translateY(2%); } 50% { transform: translateY(-4%); } }
 
-/* "push it in" */
-.dq--asomado .cta { order: -1; display: flex; align-items: center; justify-content: center; gap: .75rem; margin-bottom: -.25rem; }
+/* the cover of the disk inside: a copy of the disk with only its cover shown,
+   cropped to the cover (it spans 82% × 56% of the disk) */
+.now { display: block; position: relative; aspect-ratio: 1 / .7034; overflow: hidden; }
+.now .disk {
+  width: 121.95%;
+  margin: -51.5% 0 0 -10.98%;
+  background: none; box-shadow: none; filter: none; clip-path: none;
+}
+.now .disk > :not(.cover) { display: none; }
+/* a navy rule around it, so a cream cover still reads as a label on cream paper */
+.now .cover { box-shadow: inset 0 0 0 .5cqi var(--c-navy); }
+
+/* the invitation, pointing down at the shelf */
+.dq--asomado .cta { display: flex; align-items: center; justify-content: center; gap: .75rem; }
 .dq--asomado .cta[hidden] { display: none; }
-.dq--asomado .cta b { font: 800 clamp(1.5rem, 1rem + 1.6vw, 2.3rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.dq--asomado .cta b { font: 800 clamp(1.4rem, 1rem + 1.4vw, 2.1rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
 .dq--asomado .cta__arrow {
   display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
   background: var(--accent); color: var(--on-accent); font: 800 1.4rem/1 var(--sans);
@@ -47,9 +49,4 @@
 }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
-/* the shelf keeps an empty place for the disk that is peeking out */
-.dq--asomado .entry.is-peeking .entry__disk { visibility: hidden; }
-.dq--asomado .entry.is-peeking::after {
-  content: ""; position: absolute; inset: 0 0 auto; aspect-ratio: 1 / 1.03;
-  border: 2px dashed var(--rule); border-radius: .3rem;
-}
+.masthead__title a:hover { text-decoration: underline; }

@@ -90,15 +90,45 @@
   font: 600 2.1cqi/1 var(--tech); letter-spacing: .14em; color: #93bcc0;
 }
 
-/* eject key: raised and rounded, on the right */
+/* eject key: a raised, rounded button on the right with the eject symbol
+   moulded in relief. Pressing it sinks it into the bezel and lets it spring
+   back out; it ejects the disk that is in the drive. */
 .drive__btn {
-  position: absolute; right: 9%; top: 55%; width: 10%; height: 21%;
-  background: linear-gradient(180deg, #2b5a7c, #1d4563);
+  all: unset; box-sizing: border-box;
+  position: absolute; right: 9%; top: 53%; width: 11%; height: 25%;
+  min-width: 2.25rem; min-height: 1.5rem;
+  display: grid; place-items: center;
+  background: linear-gradient(180deg, #2f6187, #1d4563);
   border-radius: 1.2cqi;
-  box-shadow: 0 .5cqi 0 #081e2d, 0 .8cqi 1cqi rgb(0 0 0 / .35), inset 0 1px 0 rgb(255 255 255 / .12);
-  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow:
+    0 .6cqi 0 #081e2d,                    /* the key's side: it stands out of the bezel */
+    0 1cqi 1.2cqi rgb(0 0 0 / .35),
+    inset 0 1px 0 rgb(255 255 255 / .16),
+    inset 0 -1px 0 rgb(0 0 0 / .25);
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease, filter .2s ease;
 }
-.drive.is-ejecting .drive__btn { transform: translateY(.4cqi); box-shadow: 0 .1cqi 0 #081e2d, inset 0 1px 2px rgb(0 0 0 / .4); }
+.drive__btn svg {
+  width: 46%; height: auto;
+  /* moulded symbol: a lighter top face with a dark edge below and a highlight above */
+  fill: #4f86ab;
+  filter: drop-shadow(0 .25cqi 0 #0c2a40) drop-shadow(0 -.12cqi 0 rgb(255 255 255 / .22));
+}
+.drive__btn:hover { filter: brightness(1.12); }
+.drive__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* pressed in… */
+.drive__btn:active {
+  transform: translateY(.5cqi);
+  box-shadow: 0 .1cqi 0 #081e2d, inset 0 .3cqi .6cqi rgb(0 0 0 / .45);
+}
+/* …and back out: plays on every press, also when the screen's eject is used */
+.drive.is-ejecting .drive__btn { animation: key-press .32s cubic-bezier(.3, .7, .3, 1); }
+@keyframes key-press {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(.5cqi); box-shadow: 0 .1cqi 0 #081e2d, inset 0 .3cqi .6cqi rgb(0 0 0 / .45); }
+  70%  { transform: translateY(-.15cqi); }
+  100% { transform: translateY(0); }
+}
 
 .screen {
   display: flex; flex-direction: column; gap: 1rem;

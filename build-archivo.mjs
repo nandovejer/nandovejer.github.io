@@ -94,7 +94,7 @@ const covers = {
   r284: (o) => `
           <span class="cv-title">${o.code}</span>
           <span class="cv-sub">${esc(o.use)}<br>${o.since}</span>
-          <span class="cv-vert">${esc(o.name)}</span>
+          <span class="cv-vert">${esc(o.short ?? o.name)}</span>
           ${miniBars(o.code)}
           <span class="cv-stripes"></span>`,
   // meta row, black band with the title, gradient stripes, footer (ORION)
@@ -180,16 +180,18 @@ const entry = (o, u, content) => `
 
 /* ---------- the drive and its screen ---------- */
 
-// One variant kept: a disk sticks half out of the drive, push it in.
+// One variant kept: the cover of the disk inside sticks out of the drive.
 const VARIANTS = ['asomado'];
 
-const driveFront = `
+// The front of the drive; the eject key is a real button.
+const ejectIcon = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5 4 15h16z"/><rect x="4" y="17" width="16" height="3" rx=".6"/></svg>`;
+const driveFront = (u) => `
     <span class="drive__bezel">
-      <span class="drive__slot"><span class="drive__flap"></span></span>
-      <span class="drive__door"></span>
-      <span class="drive__led"></span>
-      <span class="drive__brand">1.44 MB</span>
-      <span class="drive__btn"></span>
+      <span class="drive__slot" aria-hidden="true"><span class="drive__flap"></span></span>
+      <span class="drive__door" aria-hidden="true"></span>
+      <span class="drive__led" aria-hidden="true"></span>
+      <span class="drive__brand" aria-hidden="true">1.44 MB</span>
+      <button type="button" class="drive__btn" aria-label="${u.eject}" title="${u.eject}">${ejectIcon}</button>
     </span>`;
 
 const screen = (u) => `
@@ -199,16 +201,17 @@ const screen = (u) => `
     <button type="button" class="screen__eject" hidden>${u.eject} ⏏</button>
   </div>`;
 
-// the bio on the screen; beside it, the drive with a disk sticking half out
+// the reading on the screen; beside it, the drive with the cover of the disk
+// that is inside sticking out of the slot (the bio's, by default)
 const station = (v, u) => `
 <section class="station" aria-label="${u.drive}">
   ${screen(u)}
   <div class="deck">
     <div class="drive">
-      <span class="peek-well"><button type="button" class="peek" hidden></button></span>
-      <span class="drive__face" aria-hidden="true">${driveFront}</span>
+      <span class="now-well" aria-hidden="true"><span class="now"></span></span>
+      <span class="drive__face">${driveFront(u)}</span>
     </div>
-    <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaPush}</b></p>
+    <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaShelf}</b></p>
   </div>
 </section>`;
 
@@ -219,7 +222,7 @@ const page = (v, lang) => {
   const u = ui[lang];
   const other = lang === 'es' ? 'en' : 'es';
   const url = `${site.baseUrl}/${PATH}/${v}/${lang}/`;
-  const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established };
+  const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
   return `<!doctype html>
 <html lang="${lang}" class="no-js">
 <head>
@@ -245,7 +248,7 @@ const page = (v, lang) => {
 <body class="ar ar--disquetes dq--${v}">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
-  <h1 class="masthead__title">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</h1>
+  <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
   <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
 </header>
 <main id="main">

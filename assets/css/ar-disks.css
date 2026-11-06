@@ -102,7 +102,7 @@
 .cover--r284 { gap: 1.2cqi; padding-right: 8cqi; }
 .cover--r284 .cv-title { font: 600 11cqi/1 var(--tech); letter-spacing: -.03em; }
 .cover--r284 .cv-sub { font-weight: 800; font-size: 3.2cqi; line-height: 1.1; }
-.cover--r284 .cv-vert { position: absolute; right: 2.5cqi; top: 3cqi; bottom: 12cqi; writing-mode: vertical-rl; font-weight: 800; font-size: 2.6cqi; letter-spacing: .12em; padding-left: 1.5cqi; border-left: .3cqi solid currentColor; }
+.cover--r284 .cv-vert { position: absolute; right: 2.5cqw; top: 3cqw; bottom: 12cqw; overflow: hidden; white-space: nowrap; writing-mode: vertical-rl; font-weight: 800; font-size: 3.4cqw; letter-spacing: .08em; padding-left: 1.5cqw; border-left: .3cqw solid currentColor; }
 .cover--r284 .cv-bars { margin-top: auto; }
 .cover--r284 .cv-stripes { margin: 0 -8cqi -3cqi -3cqi; height: 9cqi; flex: none; background: linear-gradient(#f9b874 0 25%, #f5832a 25% 50%, #e2373a 50% 75%, #c8172a 75%); }
 
@@ -123,7 +123,7 @@
 }
 .cover--psichic .cv-title { font-size: 16cqi; }
 .cover--psichic .cv-top { position: absolute; top: 2.6cqi; left: 0; right: 0; }
-.cover--psichic .cv-side { position: absolute; top: 50%; writing-mode: vertical-rl; font-size: 2.2cqi; font-weight: 800; transform: translateY(-50%); }
+.cover--psichic .cv-side { position: absolute; top: 50%; writing-mode: vertical-rl; font-size: 2.2cqw; font-weight: 800; transform: translateY(-50%); }
 .cover--psichic .cv-side--l { left: 1.6cqi; transform: translateY(-50%) rotate(180deg); }
 .cover--psichic .cv-side--r { right: 1.6cqi; }
 .cover--psichic .cv-pill { position: absolute; right: 3cqi; bottom: 2.4cqi; padding: .4cqi 1.4cqi; border: .35cqi solid currentColor; border-radius: 3cqi; font-size: 2.2cqi; font-weight: 800; }
@@ -135,7 +135,7 @@
   background: radial-gradient(circle, #0d3249 32%, transparent 34%) 0 0 / 2.2cqi 2.2cqi, linear-gradient(120deg, #4a9db1, #29557c);
 }
 .cover--mixtape .cv-title { font-size: 9.5cqi; padding-right: 2cqi; }
-.cover--mixtape .cv-vert { position: absolute; right: 1.4cqi; bottom: 3cqi; writing-mode: vertical-rl; transform: rotate(180deg); font-weight: 900; font-size: 2.4cqi; padding: 1cqi .5cqi; max-height: 80%; overflow: hidden; background: #0d3249; color: #fdf1d2; }
+.cover--mixtape .cv-vert { position: absolute; right: 1.4cqw; bottom: 3cqw; writing-mode: vertical-rl; transform: rotate(180deg); font-weight: 900; font-size: 2.4cqw; padding: 1cqw .5cqw; max-height: 80%; overflow: hidden; background: #0d3249; color: #fdf1d2; }
 
 /* SHAKE: blue, loud and repeated */
 .cover--shake { background: #29557c; color: #f9b874; align-items: center; justify-content: center; text-align: center; gap: 1cqi; }

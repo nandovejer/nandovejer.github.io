@@ -15,6 +15,9 @@
 @media (min-width: 64em) { .dq--asomado .deck { order: 0; } }
 
 .dq--asomado .drive { margin-top: 68%; }  /* room for the cover standing behind it (% of the drive width) */
+/* the drive sticks on wide screens: the invitation under it (its arrow is
+   animated, so it has its own layer) scrolls behind it, never over it */
+.dq--asomado .drive { z-index: 2; }
 .dq--asomado .drive__face { display: block; position: relative; z-index: 1; }
 
 /* the cover stands behind the drive, as wide as it, its foot hidden behind

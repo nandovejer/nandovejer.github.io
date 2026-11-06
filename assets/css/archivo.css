@@ -141,7 +141,6 @@ a:hover { text-decoration-thickness: 2px; }
 .masthead { position: relative; margin-bottom: 1.4rem; }
 .masthead::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1.4rem; background: var(--stripe); }
 .masthead a { text-decoration: none; }
-.masthead__version { font-weight: 800; letter-spacing: .12em; }
 
 /* ---------- correspondence ---------- */
 
@@ -150,17 +149,6 @@ a:hover { text-decoration-thickness: 2px; }
 .socials__label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .socials__handle { font-family: var(--tech); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 
-/* ---------- index of variants ---------- */
-
-.ar--index .variants { padding: var(--pad); }
-.variants__title { font: 800 clamp(3rem, 1rem + 9vw, 9rem)/.9 var(--sans); font-stretch: 62%; text-transform: uppercase; padding-bottom: 1.25rem; border-bottom: 1.5rem solid transparent; border-image: var(--stripe) 1; }
-.variants__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 var(--gap); }
-.variants__list li { display: grid; gap: .6rem; align-content: start; padding: 1.5rem 0 2rem; border-bottom: 1px solid var(--rule); }
-.variants__list h2 { font: 800 2.2rem/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
-.variants__list h2 span { color: var(--ink-soft); font-weight: 600; }
-.variants__num { font: 600 3rem/1 var(--tech); }
-.variants__en { color: var(--ink-soft); font-size: .9rem; }
-.variants__links { display: flex; gap: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .85rem; }
 .masthead a:hover { text-decoration: underline; }
 .masthead__title { font-size: inherit; font-weight: 700; }
 

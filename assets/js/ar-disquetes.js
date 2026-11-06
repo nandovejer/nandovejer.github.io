@@ -1,24 +1,20 @@
-// Archive · Disquetes — press or drag a disk into the drive to read it.
-// With no disk inserted the screen shows the bio, and each variant invites
-// the reader to insert one in its own way:
-//   dq--bandeja   a ghost disk keeps sliding into the slot
-//   dq--asomado   a real disk sticks half out of the drive: push it in
-//   dq--terminal  "insert disk in drive A: and press any key"
+// Archive · Disquetes — a disk sticks half out of the drive: push it in, or
+// press / drag any disk from the shelf. It travels to the drive and slides in
+// through the slot; the screen reads it. With no disk inserted the screen
+// shows the bio.
 import { reduceMotion } from './ar-common.js';
 
 const es = document.documentElement.lang === 'es';
 const T = { reading: es ? 'Leyendo' : 'Reading', push: es ? 'Empujar dentro' : 'Push in' };
-const variant = [...document.body.classList].find((c) => c.startsWith('dq--'))?.slice(4);
 
 const station = document.querySelector('.station');
 const drive = document.querySelector('.drive');
-const slot = drive.querySelector('.drive__slot');
+const well = document.querySelector('.peek-well');
 const screen = document.querySelector('.screen');
 const state = screen.querySelector('.screen__state');
 const out = screen.querySelector('.screen__out');
 const ejectBtn = screen.querySelector('.screen__eject');
-const screenCta = screen.querySelector('.screen__cta');
-const deckCta = document.querySelector('.deck .cta');
+const cta = document.querySelector('.deck .cta');
 const bioEntry = document.querySelector('.entry--bio');
 const entries = [...document.querySelectorAll('.entry:not(.entry--bio)')];
 
@@ -27,6 +23,12 @@ let busy = false;
 const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion.matches ? 0 : ms));
 
 /* ---------- the disk in flight ---------- */
+// The ghost is a fixed copy of the disk (transform-origin 0 0). While it goes
+// through the slot its outline is cut at the slot line, so the part that is
+// already inside the drive disappears: `cut(b)` keeps the disk's clipped
+// corner and shows it down to b% of its height.
+
+const cut = (b) => `polygon(0 0, 93% 0, 100% 6.5%, 100% ${b}%, 0 ${b}%)`;
 
 function ghostFrom(entry, rect) {
   const g = entry.querySelector('.entry__disk .disk').cloneNode(true);
@@ -37,36 +39,74 @@ function ghostFrom(entry, rect) {
   return g;
 }
 
-function slotTarget(rect) {
-  const s = slot.getBoundingClientRect();
-  const k = (s.width * .5) / rect.width;
-  const x = s.left + s.width / 2 - (rect.width * k) / 2;
-  return { k, x, above: s.top - rect.height * k - 8, into: s.top + s.height / 2 };
+// Where a disk sits right above the slot, at the size of the peeking disk.
+function dock(width) {
+  const r = well.getBoundingClientRect();
+  return { k: r.width / width, x: r.left, slot: r.bottom };
 }
 
-async function flyIn(ghost, rect) {
+const swallow = (delay) => setTimeout(() => {
+  drive.classList.add('is-swallowing');
+  setTimeout(() => drive.classList.remove('is-swallowing'), 500);
+}, delay);
+
+async function flyIn(ghost, rect, { fromPeek = false } = {}) {
   if (reduceMotion.matches) { ghost.remove(); return; }
-  const { k, x, above, into } = slotTarget(rect);
-  const a = ghost.animate([
-    { transform: `translate(${rect.left}px, ${rect.top}px) scale(1) rotate(0deg)` },
-    { transform: `translate(${x}px, ${above}px) scale(${k}) rotate(-4deg)`, offset: .6 },
-    { transform: `translate(${x}px, ${into}px) scale(${k}, .01)` }
-  ], { duration: 900, easing: 'cubic-bezier(.5, 0, .2, 1)', fill: 'forwards' });
+  const { k, x, slot } = dock(rect.width);
+  const H = rect.height * k;
+  let frames, duration;
+  if (fromPeek) {
+    // already above the slot and partly inside: push it the rest of the way
+    const b0 = Math.min(100, Math.max(0, (slot - rect.top) / rect.height * 100));
+    frames = [
+      { transform: `translate(${x}px, ${rect.top}px)`, clipPath: cut(b0) },
+      { transform: `translate(${x}px, ${slot}px)`, clipPath: cut(0) }
+    ];
+    duration = 650;
+    swallow(80);
+  } else {
+    // lift off, arc over to the drive tilting, line up above the slot, slide in
+    const top0 = slot - H;
+    const mx = (rect.left + x) / 2;
+    const my = Math.min(rect.top, top0) - Math.min(160, innerHeight * .18);
+    frames = [
+      { transform: `translate(${rect.left}px, ${rect.top}px) scale(1) rotate(0deg)`, clipPath: cut(100), offset: 0 },
+      { transform: `translate(${rect.left}px, ${rect.top - 14}px) scale(1.04) rotate(2deg)`, clipPath: cut(100), offset: .08 },
+      { transform: `translate(${mx}px, ${my}px) scale(${(1 + k) / 2}) rotate(-12deg)`, clipPath: cut(100), offset: .38 },
+      { transform: `translate(${x}px, ${top0 - 10}px) scale(${k}) rotate(2deg)`, clipPath: cut(100), offset: .6 },
+      { transform: `translate(${x}px, ${top0}px) scale(${k}) rotate(0deg)`, clipPath: cut(100), offset: .66 },
+      { transform: `translate(${x}px, ${slot}px) scale(${k}) rotate(0deg)`, clipPath: cut(0), offset: 1 }
+    ];
+    duration = 1500;
+    swallow(duration * .66);
+  }
+  const a = ghost.animate(frames, { duration, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' });
   await a.finished;
   ghost.remove();
 }
 
 async function flyOut(entry) {
+  if (reduceMotion.matches) return;
   const btn = entry.querySelector('.entry__disk');
-  const rect = btn.getBoundingClientRect();
-  if (reduceMotion.matches || rect.bottom < 0 || rect.top > innerHeight) return;
-  const ghost = ghostFrom(entry, rect);
-  const { k, x, above, into } = slotTarget(rect);
-  const a = ghost.animate([
-    { transform: `translate(${x}px, ${into}px) scale(${k}, .01)` },
-    { transform: `translate(${x}px, ${above}px) scale(${k}) rotate(3deg)`, offset: .35 },
-    { transform: `translate(${rect.left}px, ${rect.top}px) scale(1) rotate(0deg)` }
-  ], { duration: 800, easing: 'cubic-bezier(.5, 0, .2, 1)', fill: 'forwards' });
+  const home = btn.getBoundingClientRect();
+  const { k, x, slot } = dock(home.width);
+  const H = home.height * k;
+  const top0 = slot - H;
+  const ghost = ghostFrom(entry, home);
+  const visible = home.bottom > 0 && home.top < innerHeight;
+  const rise = [
+    { transform: `translate(${x}px, ${slot}px) scale(${k})`, clipPath: cut(0), opacity: 1, offset: 0 },
+    { transform: `translate(${x}px, ${top0}px) scale(${k})`, clipPath: cut(100), opacity: 1, offset: .38 }
+  ];
+  const back = visible
+    ? [
+        { transform: `translate(${(home.left + x) / 2}px, ${Math.min(home.top, top0) - 120}px) scale(${(1 + k) / 2}) rotate(10deg)`, clipPath: cut(100), opacity: 1, offset: .7 },
+        { transform: `translate(${home.left}px, ${home.top}px) scale(1) rotate(0deg)`, clipPath: cut(100), opacity: 1, offset: 1 }
+      ]
+    : [{ transform: `translate(${x}px, ${top0 - 140}px) scale(${k}) rotate(-6deg)`, clipPath: cut(100), opacity: 0, offset: 1 }];
+  drive.classList.add('is-swallowing');
+  setTimeout(() => drive.classList.remove('is-swallowing'), 450);
+  const a = ghost.animate([...rise, ...back], { duration: 1200, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' });
   await a.finished;
   ghost.remove();
 }
@@ -83,26 +123,24 @@ function render(entry) {
   return title;
 }
 
-// Nothing inserted: the bio, and the invitation to insert a disk.
+// Nothing inserted: the bio, and a disk sticking out asking to be pushed in.
 function showDefault() {
   const title = bioEntry ? render(bioEntry) : null;
   state.textContent = `${bioEntry?.dataset.code ?? ''} · ${title?.textContent ?? ''}`;
   document.body.classList.add('is-empty');
   screen.classList.add('is-default');
   ejectBtn.hidden = true;
-  if (screenCta) screenCta.hidden = false;
-  if (deckCta) deckCta.hidden = false;
+  if (cta) cta.hidden = false;
   showPeek();
 }
 
-async function insert(entry, { ghost, rect } = {}) {
+async function insert(entry, { ghost, rect, fromPeek = false } = {}) {
   if (busy || entry === loaded) return;
   busy = true;
   if (loaded) await eject({ silent: true, quiet: true });
   hidePeek();
   document.body.classList.remove('is-empty');
-  if (screenCta) screenCta.hidden = true;
-  if (deckCta) deckCta.hidden = true;
+  if (cta) cta.hidden = true;
 
   // bring the drive into view; the disk is lifted from where it was
   const btn = entry.querySelector('.entry__disk');
@@ -112,7 +150,7 @@ async function insert(entry, { ghost, rect } = {}) {
   ghost ??= ghostFrom(entry, rect);
   entry.classList.add('is-out');
 
-  await flyIn(ghost, rect);
+  await flyIn(ghost, rect, { fromPeek });
   screen.classList.remove('is-default');
   drive.classList.add('is-loaded', 'is-reading');
   state.textContent = `${T.reading} ${entry.dataset.code}…`;
@@ -135,10 +173,9 @@ async function eject({ silent = false, quiet = false } = {}) {
   drive.classList.add('is-ejecting');
   setTimeout(() => drive.classList.remove('is-ejecting'), 220);
   drive.classList.remove('is-loaded', 'is-reading');
-  const back = flyOut(entry);
   entry.classList.remove('is-out');
   entry.querySelector('.entry__disk').style.visibility = 'hidden';
-  await back;
+  await flyOut(entry);
   entry.querySelector('.entry__disk').style.visibility = '';
   if (!quiet) showDefault();
   if (!silent) entry.querySelector('.entry__disk').focus({ preventScroll: true });
@@ -146,7 +183,7 @@ async function eject({ silent = false, quiet = false } = {}) {
 
 ejectBtn.addEventListener('click', () => { if (!busy) eject(); });
 
-/* ---------- variant: a disk sticking half out of the drive ---------- */
+/* ---------- the disk sticking half out of the drive ---------- */
 
 const peek = document.querySelector('.peek');
 let peekIndex = 0;
@@ -167,26 +204,13 @@ function hidePeek() {
 peek?.addEventListener('click', () => {
   const entry = document.getElementById(peek.dataset.target);
   if (!entry || busy) return;
-  const rect = peek.querySelector('.disk').getBoundingClientRect();
+  const r = peek.querySelector('.disk').getBoundingClientRect();
+  const rect = { left: r.left, top: r.top, width: r.width, height: r.height };
   const ghost = ghostFrom(entry, rect);
   hidePeek();
   peekIndex++;
-  insert(entry, { ghost, rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } });
+  insert(entry, { ghost, rect, fromPeek: true });
 });
-
-/* ---------- variant: "press any key" ---------- */
-
-if (variant === 'terminal') {
-  let next = 0;
-  addEventListener('keydown', (e) => {
-    if (loaded || busy || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (['Tab', 'Shift', 'Escape', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) return;
-    const el = e.target instanceof Element ? e.target : null;
-    if (el?.closest('a, button, input, textarea, select')) return;
-    e.preventDefault();
-    insert(entries[next++ % entries.length]);
-  });
-}
 
 /* ---------- press, or drag onto the drive ---------- */
 
@@ -233,9 +257,9 @@ entries.forEach((entry, i) => {
     drive.classList.remove('is-target');
     if (!ghost) return; // a plain press: the click handler takes it
     suppressClick = true;
-    const rect = ghost.getBoundingClientRect();
+    const r = ghost.getBoundingClientRect();
     if (overDrive(e.clientX, e.clientY)) {
-      insert(entry, { ghost, rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } });
+      insert(entry, { ghost, rect: { left: r.left, top: r.top, width: r.width, height: r.height } });
     } else {
       const home = btn.getBoundingClientRect();
       if (!reduceMotion.matches) {

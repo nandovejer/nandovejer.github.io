@@ -3,36 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fernando Muñoz · Disquetes</title>
+  <title>Fernando Muñoz</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/archivo/disquetes/asomado/es/">
+  <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/archivo/disquetes/asomado/en/">
+  <script>
+    (function () {
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace('asomado/' + (/^es\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
+    })();
+  </script>
 </head>
-<body class="ar ar--index">
-<main id="main" class="variants">
-  <h1 class="variants__title">Disquetes</h1>
-  <ol class="variants__list">
-    <li>
-      <p class="variants__num"><span class="num"><span class="num__ghost">00</span>1</span></p>
-      <h2>Bandeja <span lang="en">/ Tray</span></h2>
-      <p>La unidad espera con la bio cargada; un disquete fantasma entra una y otra vez en la ranura para enseñarte qué hacer.</p>
-      <p lang="en" class="variants__en">The drive waits with the bio loaded; a ghost disk slides into the slot again and again to show you what to do.</p>
-      <p class="variants__links"><a href="bandeja/es/">Español</a> <a href="bandeja/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-    <li>
-      <p class="variants__num"><span class="num"><span class="num__ghost">00</span>2</span></p>
-      <h2>Asomado <span lang="en">/ Half-in</span></h2>
-      <p>Hay un disquete a medio meter asomando de la unidad: empújalo y se lee. Mientras tanto, la bio ocupa la pantalla.</p>
-      <p lang="en" class="variants__en">A disk is sticking half out of the drive: push it in and it reads. Meanwhile, the bio fills the screen.</p>
-      <p class="variants__links"><a href="asomado/es/">Español</a> <a href="asomado/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-    <li>
-      <p class="variants__num"><span class="num"><span class="num__ghost">00</span>3</span></p>
-      <h2>Terminal <span lang="en">/ Terminal</span></h2>
-      <p>Un ordenador de los noventa: el monitor muestra la bio y pide «inserte un disco en la unidad A: y pulse una tecla».</p>
-      <p lang="en" class="variants__en">A nineties computer: the monitor shows the bio and asks you to “insert disk in drive A: and press any key”.</p>
-      <p class="variants__links"><a href="terminal/es/">Español</a> <a href="terminal/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-  </ol>
-</main>
+<body>
+  <p><a href="asomado/es/">Edición en español</a> · <a href="asomado/en/" hreflang="en" lang="en">English edition</a></p>
 </body>
 </html>

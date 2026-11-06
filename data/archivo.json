@@ -13,25 +13,8 @@
     "insert": "Insertar",
     "eject": "Expulsar",
     "shelf": "Estantería",
-    "cta": "Inserta un disquete",
-    "ctaHint": "Pulsa o arrastra un disquete de la estantería hasta la unidad",
     "ctaPush": "Empújalo para leerlo",
-    "ctaDos": "INSERTE UN DISCO EN LA UNIDAD A: Y PULSE UNA TECLA",
-    "reading": "Leyendo",
-    "versions": {
-      "bandeja": {
-        "name": "Bandeja",
-        "summary": "La unidad espera con la bio cargada; un disquete fantasma entra una y otra vez en la ranura para enseñarte qué hacer."
-      },
-      "asomado": {
-        "name": "Asomado",
-        "summary": "Hay un disquete a medio meter asomando de la unidad: empújalo y se lee. Mientras tanto, la bio ocupa la pantalla."
-      },
-      "terminal": {
-        "name": "Terminal",
-        "summary": "Un ordenador de los noventa: el monitor muestra la bio y pide «inserte un disco en la unidad A: y pulse una tecla»."
-      }
-    }
+    "reading": "Leyendo"
   },
   "en": {
     "archive": "Archive",
@@ -47,24 +30,7 @@
     "insert": "Insert",
     "eject": "Eject",
     "shelf": "Shelf",
-    "cta": "Insert a disk",
-    "ctaHint": "Press or drag a disk from the shelf into the drive",
     "ctaPush": "Push it in to read it",
-    "ctaDos": "INSERT DISK IN DRIVE A: AND PRESS ANY KEY",
-    "reading": "Reading",
-    "versions": {
-      "bandeja": {
-        "name": "Tray",
-        "summary": "The drive waits with the bio loaded; a ghost disk slides into the slot again and again to show you what to do."
-      },
-      "asomado": {
-        "name": "Half-in",
-        "summary": "A disk is sticking half out of the drive: push it in and it reads. Meanwhile, the bio fills the screen."
-      },
-      "terminal": {
-        "name": "Terminal",
-        "summary": "A nineties computer: the monitor shows the bio and asks you to “insert disk in drive A: and press any key”."
-      }
-    }
+    "reading": "Reading"
   }
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Archive portfolio · Disquetes — zero-dependency static build.
 // Content: data/site.json and data/projects.json. Interface labels: data/archivo.json.
-//   archivo/disquetes/{es,en}/index.html   the portfolio
-//   archivo/index.html, index.html         send visitors to their language
+//   archivo/disquetes/asomado/{es,en}/index.html   the portfolio
+//   index.html, archivo/, archivo/disquetes/       send visitors to their language
 // Usage: node build-archivo.mjs
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
@@ -178,9 +178,10 @@ const entry = (o, u, content) => `
       </div>
     </li>`;
 
-/* ---------- the drive and its screen, per variant ---------- */
+/* ---------- the drive and its screen ---------- */
 
-const VARIANTS = ['bandeja', 'asomado', 'terminal'];
+// One variant kept: a disk sticks half out of the drive, push it in.
+const VARIANTS = ['asomado'];
 
 const driveFront = `
     <span class="drive__bezel">
@@ -191,28 +192,15 @@ const driveFront = `
       <span class="drive__btn"></span>
     </span>`;
 
-const screen = (u, cta) => `
+const screen = (u) => `
   <div class="screen">
     <p class="screen__status" aria-live="polite"><span class="label">${u.drive}</span> <span class="screen__state">${u.driveEmpty}</span></p>
     <div class="screen__out"></div>
-    ${cta ? `<p class="screen__cta" hidden>${cta}</p>` : ''}
     <button type="button" class="screen__eject" hidden>${u.eject} ⏏</button>
   </div>`;
 
-const station = (v, u) => ({
-  // the drive waits; a ghost disk shows the way into the slot
-  bandeja: `
-<section class="station" aria-label="${u.drive}">
-  <div class="deck">
-    <div class="drive" aria-hidden="true">${driveFront}
-      <span class="ghost-disk"><span></span></span>
-    </div>
-    <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↑</span> <b>${u.cta}</b> <span>${u.ctaHint}</span></p>
-  </div>
-  ${screen(u)}
-</section>`,
-  // a disk sticks half out of the drive: push it in
-  asomado: `
+// the bio on the screen; beside it, the drive with a disk sticking half out
+const station = (v, u) => `
 <section class="station" aria-label="${u.drive}">
   ${screen(u)}
   <div class="deck">
@@ -222,16 +210,7 @@ const station = (v, u) => ({
     </div>
     <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaPush}</b></p>
   </div>
-</section>`,
-  // a nineties computer: monitor on top of the drive
-  terminal: `
-<section class="station" aria-label="${u.drive}">
-  <div class="pc">
-    <div class="monitor">${screen(u, u.ctaDos)}</div>
-    <div class="drive" aria-hidden="true">${driveFront}</div>
-  </div>
-</section>`
-})[v];
+</section>`;
 
 /* ---------- the page ---------- */
 
@@ -267,7 +246,6 @@ const page = (v, lang) => {
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
   <h1 class="masthead__title">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</h1>
-  <p class="masthead__version"><a href="../../">${u.versions[v].name}</a></p>
   <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
 </header>
 <main id="main">
@@ -308,37 +286,26 @@ ${station(v, u)}
 `;
 };
 
-// The three variants, side by side (provisional, until one is chosen).
-const chooser = () => `<!doctype html>
+// Sends visitors to their language; without JS, offers both.
+const toLanguage = (prefix) => `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · Disquetes</title>
+  <title>${site.name}</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${PATH}/asomado/${l}/">`).join('\n  ')}
+  <script>
+    (function () {
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace('${prefix}' + (/^es\\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
+    })();
+  </script>
 </head>
-<body class="ar ar--index">
-<main id="main" class="variants">
-  <h1 class="variants__title">Disquetes</h1>
-  <ol class="variants__list">
-    ${VARIANTS.map((v, i) => `<li>
-      <p class="variants__num">${num(i + 1)}</p>
-      <h2>${ui.es.versions[v].name} <span lang="en">/ ${ui.en.versions[v].name}</span></h2>
-      <p>${ui.es.versions[v].summary}</p>
-      <p lang="en" class="variants__en">${ui.en.versions[v].summary}</p>
-      <p class="variants__links"><a href="${v}/es/">Español</a> <a href="${v}/en/" hreflang="en" lang="en">English</a></p>
-    </li>`).join('\n    ')}
-  </ol>
-</main>
+<body>
+  <p><a href="${prefix}es/">Edición en español</a> · <a href="${prefix}en/" hreflang="en" lang="en">English edition</a></p>
 </body>
 </html>
-`;
-
-const goTo = (href) => `<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><title>${site.name}</title>
-<meta http-equiv="refresh" content="0; url=${href}"></head>
-<body><p><a href="${href}">${site.name}</a></p></body></html>
 `;
 
 /* ---------- write ---------- */
@@ -352,6 +319,6 @@ const write = (path, html) => {
 
 rmSync(join(root, 'archivo'), { recursive: true, force: true });
 for (const v of VARIANTS) for (const lang of LANGS) write(`${PATH}/${v}/${lang}/index.html`, page(v, lang));
-write(`${PATH}/index.html`, chooser());
-write('archivo/index.html', goTo('disquetes/'));
-write('index.html', goTo(`${PATH}/`));
+write(`${PATH}/index.html`, toLanguage('asomado/'));
+write('archivo/index.html', toLanguage('disquetes/asomado/'));
+write('index.html', toLanguage(`${PATH}/asomado/`));

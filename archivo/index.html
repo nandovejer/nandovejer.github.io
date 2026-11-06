@@ -1,4 +1,20 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><title>Fernando Muñoz</title>
-<meta http-equiv="refresh" content="0; url=disquetes/"></head>
-<body><p><a href="disquetes/">Fernando Muñoz</a></p></body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fernando Muñoz</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/archivo/disquetes/asomado/es/">
+  <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/archivo/disquetes/asomado/en/">
+  <script>
+    (function () {
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace('disquetes/asomado/' + (/^es\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
+    })();
+  </script>
+</head>
+<body>
+  <p><a href="disquetes/asomado/es/">Edición en español</a> · <a href="disquetes/asomado/en/" hreflang="en" lang="en">English edition</a></p>
+</body>
+</html>

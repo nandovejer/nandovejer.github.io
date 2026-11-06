@@ -178,7 +178,7 @@
 .js .entry__static, .js .entry__content { display: none; }
 .entry__disk[hidden] { display: none; }
 .entry__disk {
-  all: unset; display: block; width: 100%; cursor: default;
+  all: unset; display: block; width: 100%; cursor: pointer;
   transition: transform .35s cubic-bezier(.3, .7, .2, 1);
 }
 .entry__disk:hover { transform: translateY(-.5rem) rotate(-2deg); }

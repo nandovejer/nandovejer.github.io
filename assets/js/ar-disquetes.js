@@ -328,3 +328,13 @@ if (main) {
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(snap);
   snap();
 }
+
+/* ---------- today, in Roman numerals ---------- */
+// The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).
+const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]
+  .reduce((s, [v, r]) => { while (n >= v) { s += r; n -= v; } return s; }, '');
+document.querySelectorAll('time.today').forEach((el) => {
+  const d = new Date();
+  el.textContent = `${roman(d.getDate())}·${roman(d.getMonth() + 1)}·${roman(d.getFullYear())}`;
+  el.dateTime = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+});

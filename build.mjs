@@ -23,6 +23,14 @@ const plain = (s) => s.replace(/\[\[(.+?)\]\]/g, '$1'); // the bio's erasure mar
 const pretty = (u) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 const pad = (n) => String(n).padStart(3, '0');
 
+// Dates in Roman numerals: 6 Nov 2026 → VI·XI·MMXXVI (day·month·year).
+// The page is built with the build date; ar-disquetes.js updates it to the
+// visitor's today.
+const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]
+  .reduce((s, [v, r]) => { while (n >= v) { s += r; n -= v; } return s; }, '');
+const romanDate = (d) => `${roman(d.getDate())}·${roman(d.getMonth() + 1)}·${roman(d.getFullYear())}`;
+const isoToday = new Date().toISOString().slice(0, 10);
+
 /* ---------- small pieces ---------- */
 
 // 001 → leading zeros in ghost grey
@@ -274,8 +282,8 @@ ${station(u)}
 </main>
 <footer class="colophon">
   <div class="colophon__doc">
-    <p class="label">${u.document}</p>
-    <p class="colophon__no">NM.000.MMXXVI</p>
+    <p class="label">${u.today}</p>
+    <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
   </div>
   <p class="colophon__text">${t.colophon}</p>
   <div class="colophon__code">${barcode('NM.000.MMXXVI')}<span class="square" aria-hidden="true"></span></div>

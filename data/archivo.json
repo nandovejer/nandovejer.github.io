@@ -14,7 +14,8 @@
     "eject": "Expulsar",
     "shelf": "Estantería",
     "reading": "Leyendo",
-    "ctaShelf": "Inserta un disquete de la estantería"
+    "ctaShelf": "Inserta un disquete de la estantería",
+    "today": "Hoy"
   },
   "en": {
     "archive": "Archive",
@@ -31,6 +32,7 @@
     "eject": "Eject",
     "shelf": "Shelf",
     "reading": "Reading",
-    "ctaShelf": "Insert a disk from the shelf"
+    "ctaShelf": "Insert a disk from the shelf",
+    "today": "Today"
   }
 }

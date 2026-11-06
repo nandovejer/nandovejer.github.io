@@ -3,47 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Archivo · Fernando Muñoz</title>
+  <title>Fernando Muñoz</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="../assets/css/archivo.css">
+  <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/archivo/disquetes/es/">
+  <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/archivo/disquetes/en/">
+  <script>
+    (function () {
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace('disquetes/' + (/^es\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
+    })();
+  </script>
 </head>
-<body class="ar ar--index">
-<main id="main" class="versions">
-  <header class="versions__head">
-    <p class="label">Archivo · <span lang="en">Archive</span></p>
-    <h1 class="versions__title">Fernando Muñoz</h1>
-    <div class="stack" aria-hidden="true"><span>NM</span><span>Archivo</span><span>Objetos</span></div>
-  </header>
-  <ol class="versions__list">
-    <li class="versions__item">
-      <p class="versions__num"><span class="num "><span class="num__ghost">00</span>1</span></p>
-      <h2>Fichero <span lang="en">/ Card file</span></h2>
-      <p>Todo en una página: la ficha de la persona y un muro de fichas de catálogo a todo el ancho que se dan la vuelta.</p>
-      <p lang="en" class="versions__en">Everything on one page: the person’s record and a full-width wall of catalogue cards that turn over.</p>
-      <p class="versions__links"><a href="fichero/es/">Español</a> <a href="fichero/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-    <li class="versions__item">
-      <p class="versions__num"><span class="num "><span class="num__ghost">00</span>2</span></p>
-      <h2>Registro <span lang="en">/ Ledger</span></h2>
-      <p>Varias páginas: el libro de registro y una ficha propia para la bio y para cada proyecto, con transiciones entre páginas.</p>
-      <p lang="en" class="versions__en">Several pages: the register, and a record page of its own for the bio and each project, with page transitions.</p>
-      <p class="versions__links"><a href="registro/es/">Español</a> <a href="registro/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-    <li class="versions__item">
-      <p class="versions__num"><span class="num "><span class="num__ghost">00</span>3</span></p>
-      <h2>Cinta <span lang="en">/ Tape</span></h2>
-      <p>Efecto de scroll: la sección se fija y la cinta de objetos avanza en horizontal mientras bajas, con contador y barras.</p>
-      <p lang="en" class="versions__en">Scroll effect: the section pins and the tape of objects runs sideways as you scroll down, with a counter and bars.</p>
-      <p class="versions__links"><a href="cinta/es/">Español</a> <a href="cinta/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-    <li class="versions__item">
-      <p class="versions__num"><span class="num "><span class="num__ghost">00</span>4</span></p>
-      <h2>Disquetes <span lang="en">/ Floppies</span></h2>
-      <p>Cada proyecto, y la bio, es un disquete etiquetado. Arrástralo a la unidad y la pantalla lo lee.</p>
-      <p lang="en" class="versions__en">Each project, and the bio, is a labelled floppy disk. Drag it into the drive and the screen reads it.</p>
-      <p class="versions__links"><a href="disquetes/es/">Español</a> <a href="disquetes/en/" hreflang="en" lang="en">English</a></p>
-    </li>
-  </ol>
-</main>
+<body>
+  <p><a href="disquetes/es/">Edición en español</a> · <a href="disquetes/en/" hreflang="en" lang="en">English edition</a></p>
 </body>
 </html>

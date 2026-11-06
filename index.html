@@ -3,54 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fernando Muñoz · Abecedario</title>
-  <meta name="description" content="Fernando Muñoz, Tech Lead Frontend en Madrid. Portafolio de proyectos web: estándares, accesibilidad y herramientas sin dependencias.">
+  <title>Fernando Muñoz</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/archivo/disquetes/es/">
+  <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/archivo/disquetes/en/">
+  <script>
+    (function () {
+      var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      location.replace('archivo/disquetes/' + (/^es\b/i.test(l) ? 'es' : 'en') + '/' + location.hash);
+    })();
+  </script>
 </head>
-<body class="ed--index">
-<main class="frontis" id="main">
-  <p class="frontis__eyebrow">Portafolio <span aria-hidden="true">·</span> <span lang="en">Portfolio</span></p>
-  <h1 class="frontis__name">Fernando Muñoz</h1>
-  <p class="frontis__deck">El abecedario, en una columna y con zoom <span aria-hidden="true">·</span> <span lang="en">The alphabet, in one column and with zoom</span></p>
-  <ol class="frontis__list">
-    <li class="frontis__ed">
-      <span class="frontis__num" aria-hidden="true">·</span>
-      <h2 class="frontis__title">Abecedario <i lang="en">Alphabet</i></h2>
-      <p class="frontis__summary">El abecedario en una columna: una tira de tipos, y cada letra se abre en el inspector con sus líneas de métrica.</p>
-      <p class="frontis__summary" lang="en">The alphabet in one column: a strip of type, and each letter opens in the inspector with its metric lines.</p>
-      <p class="frontis__links"><a href="abecedario/es/">Edición en español</a> <span aria-hidden="true">·</span> <a href="abecedario/en/" hreflang="en" lang="en">English edition</a></p>
-    </li>
-    <li class="frontis__ed">
-      <span class="frontis__num" aria-hidden="true">I</span>
-      <h2 class="frontis__title">Cuentahílos <i lang="en">Linen tester</i></h2>
-      <p class="frontis__summary">El alfabeto en una tira vertical de tipos. Cada letra viaja con zoom hasta el inspector, y un cuentahílos de imprenta amplía lo que pases por debajo.</p>
-      <p class="frontis__summary" lang="en">The alphabet as a vertical strip of type. Each letter zooms into the inspector, and a printer’s linen tester magnifies whatever you pass it over.</p>
-      <p class="frontis__links"><a href="cuentahilos/es/">Edición en español</a> <span aria-hidden="true">·</span> <a href="cuentahilos/en/" hreflang="en" lang="en">English edition</a></p>
-    </li>
-    <li class="frontis__ed">
-      <span class="frontis__num" aria-hidden="true">II</span>
-      <h2 class="frontis__title">Contraforma <i lang="en">Counterform</i></h2>
-      <p class="frontis__summary">Cada letra es una puerta: al hacer scroll crece hasta que te metes por su hueco, y al otro lado está el capítulo.</p>
-      <p class="frontis__summary" lang="en">Each letter is a doorway: scroll and it grows until you slip through its counter, into the chapter beyond.</p>
-      <p class="frontis__links"><a href="contraforma/es/">Edición en español</a> <span aria-hidden="true">·</span> <a href="contraforma/en/" hreflang="en" lang="en">English edition</a></p>
-    </li>
-    <li class="frontis__ed">
-      <span class="frontis__num" aria-hidden="true">III</span>
-      <h2 class="frontis__title">Cascada <i lang="en">Waterfall</i></h2>
-      <p class="frontis__summary">Una cascada de cuerpos, de 10 a 48 puntos, como en los especímenes. Cada línea se abre con zoom y despliega su capítulo.</p>
-      <p class="frontis__summary" lang="en">A waterfall of sizes, from 10 to 48 points, as in type specimens. Each line zooms open into its chapter.</p>
-      <p class="frontis__links"><a href="cascada/es/">Edición en español</a> <span aria-hidden="true">·</span> <a href="cascada/en/" hreflang="en" lang="en">English edition</a></p>
-    </li>
-    <li class="frontis__ed">
-      <span class="frontis__num" aria-hidden="true">IV</span>
-      <h2 class="frontis__title">Micrografía <i lang="en">Micrography</i></h2>
-      <p class="frontis__summary">Cada letra está compuesta con el texto de su capítulo en letra diminuta. Aumenta el zoom hasta poder leerla.</p>
-      <p class="frontis__summary" lang="en">Each letter is drawn with its chapter’s own text in tiny type. Zoom in until you can read it.</p>
-      <p class="frontis__links"><a href="micrografia/es/">Edición en español</a> <span aria-hidden="true">·</span> <a href="micrografia/en/" hreflang="en" lang="en">English edition</a></p>
-    </li>
-  </ol>
-  <p class="frontis__foot">Madrid · MMXXVI</p>
-</main>
+<body>
+  <p><a href="archivo/disquetes/es/">Edición en español</a> · <a href="archivo/disquetes/en/" hreflang="en" lang="en">English edition</a></p>
 </body>
 </html>

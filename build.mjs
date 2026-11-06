@@ -122,6 +122,13 @@ const links = (o, t) => `<ul class="links">
 const socials = () => `<ul class="socials">${site.socials.map((s) =>
   `<li><a href="${s.url}" rel="me noopener"><span class="socials__label">${s.label}</span> <span class="socials__handle">${esc(s.handle)}</span></a></li>`).join('')}</ul>`;
 
+// "{github}" in a text becomes a link to that social profile (the blog shows
+// its address, the rest their name).
+const linkSocials = (text) => esc(text).replace(/\{(\w+)\}/g, (m, id) => {
+  const s = site.socials.find((x) => x.id === id);
+  return s ? `<a href="${s.url}" rel="me noopener">${esc(id === 'blog' ? s.handle : s.label)}</a>` : m;
+});
+
 /* ---------- the disks ---------- */
 
 // Translucent plastic colour of each disk (img: diquete-color-transaprent)
@@ -330,7 +337,7 @@ ${station(u)}
     <p class="label">${u.today}</p>
     <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
   </div>
-  <p class="colophon__text">${t.colophon}</p>
+  <p class="colophon__text">${linkSocials(t.colophon)}</p>
   <div class="colophon__code">${code128('SOYNANDO.COM')}<span class="square" aria-hidden="true"></span></div>
 </footer>
 </body>

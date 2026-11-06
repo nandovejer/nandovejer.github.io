@@ -17,7 +17,26 @@
     "navBio": "Bio",
     "reading": "Leyendo",
     "ctaShelf": "Inserta el disquete de un proyecto",
-    "today": "Hoy"
+    "today": "Hoy",
+    "vhsVersion": "Versión VHS",
+    "diskVersion": "Versión disquete",
+    "vhs": {
+      "tv": "Televisor",
+      "channel": "CANAL 1",
+      "play": "PLAY",
+      "eject": "Expulsar",
+      "ejectOsd": "EJECT",
+      "rew": "Página anterior",
+      "ff": "Página siguiente",
+      "page": "PÁG.",
+      "insert": "Meter la cinta",
+      "playing": "Reproduciendo",
+      "cta": "Elige una cinta de la estantería",
+      "tapes": "cintas",
+      "recorder": "VIDEO RECORDER",
+      "studio": "NM HOME VIDEO",
+      "social": "Abrir"
+    }
   },
   "en": {
     "archive": "Archive",
@@ -37,6 +56,25 @@
     "navBio": "Bio",
     "reading": "Reading",
     "ctaShelf": "Insert a project's disk",
-    "today": "Today"
+    "today": "Today",
+    "vhsVersion": "VHS version",
+    "diskVersion": "Floppy version",
+    "vhs": {
+      "tv": "Television",
+      "channel": "CHANNEL 1",
+      "play": "PLAY",
+      "eject": "Eject",
+      "ejectOsd": "EJECT",
+      "rew": "Previous page",
+      "ff": "Next page",
+      "page": "PAGE",
+      "insert": "Insert the tape",
+      "playing": "Playing",
+      "cta": "Pick a tape from the shelf",
+      "tapes": "tapes",
+      "recorder": "VIDEO RECORDER",
+      "studio": "NM HOME VIDEO",
+      "social": "Open"
+    }
   }
 }

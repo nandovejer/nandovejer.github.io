@@ -356,6 +356,187 @@ ${station(u)}
   </div>
   <p class="colophon__text">${linkSocials(t.colophon)}</p>
   <div class="colophon__code">${code128('SOYNANDO.COM')}<span class="square" aria-hidden="true"></span></div>
+  <p class="colophon__version"><a href="../vhs/${lang}/">${u.vhsVersion} <span aria-hidden="true">▶</span></a></p>
+</footer>
+</body>
+</html>
+`;
+};
+
+/* ---------- the VHS version ---------- */
+// The same content in a room with a yellow TV/video combo on a shelf (img:
+// vhs.jpg). The projects are VHS tapes, spine out, on the shelves below; the
+// socials stand beside the TV. A tape goes into the video recorder and the
+// TV plays it: the sleeve as the picture, then the text, page by page.
+
+// Spine colours, after the tapes in the photo (black, red, cream, yellow…).
+const SPINE = {
+  bio: 'c', luz: 'a', ikay: 'f', 'chrome-local-ai': 'e', 'quien-canta-hoy': 'b',
+  'ares-api': 'g', 'toolbar-aem': 'd', accesibilidad: 'a', 'libros-del-mundo': 'h',
+  'string-transformer': 'c', 'coac-analisis': 'b', 'illo-loader': 'e', 'js-subtype': 'f',
+  github: 'a', x: 'f', blog: 'd', linkedin: 'e'
+};
+const longest = (s) => Math.max(...String(s).split(/\s+/).map((w) => w.length));
+const yy = (y) => String(y).slice(-2);
+
+// The spine: studio shield, vertical title, rating circle (the year), VHS.
+const spine = (o) => `<span class="spine sp--${SPINE[o.id] ?? 'a'}" style="--chars:${[...String(o.name)].length}" aria-hidden="true">
+          <span class="spine__logo">NM</span>
+          <span class="spine__title">${esc(o.name)}</span>
+          ${o.rate ? `<span class="spine__rate rate--${o.rate}">${o.rate}</span>` : `<span class="spine__note">${esc(o.note ?? '')}</span>`}
+          <span class="spine__vhs">VHS</span>
+        </span>`;
+
+// The sleeve, shown on the TV as the picture of the tape.
+const sleeve = (o, u) => `<span class="sleeve sp--${SPINE[o.id] ?? 'a'}" style="--chars:${longest(o.name)}" aria-hidden="true">
+            <span class="sleeve__studio">${u.vhs.studio}</span>
+            <span class="sleeve__art">${o.art ?? `<span class="sleeve__code">${o.code}</span>`}</span>
+            <span class="sleeve__title">${esc(o.name)}</span>
+            <span class="sleeve__foot"><span class="spine__rate rate--${o.rate}">${o.rate}</span><span class="sleeve__vhs">VHS</span></span>
+          </span>`;
+
+// What the TV plays: three pages (the sleeve and title, the text, the facts).
+const tvPages = (o, u, { text, facts }) => `
+          <section class="tvp tvp--cover">
+            ${sleeve(o, u)}
+            <div class="tvp__head">
+              <p class="tvp__code">${o.code}</p>
+              <h3 class="tvp__title">${esc(o.name)}</h3>
+              <p class="tvp__use">${esc(o.use)} · ${o.year}</p>
+              <p class="tvp__quote">“${esc(o.quote)}”</p>
+            </div>
+          </section>
+          <section class="tvp tvp--text">${text}</section>
+          <section class="tvp tvp--facts">${facts}</section>`;
+
+const vhsPage = (lang) => {
+  const t = { ...site.i18n[lang], lang };
+  const u = ui[lang];
+  const v = u.vhs;
+  const other = lang === 'es' ? 'en' : 'es';
+  const shelfId = lang === 'es' ? 'proyectos' : 'projects';
+  const url = `${site.baseUrl}/vhs/${lang}/`;
+  const bio = {
+    id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', rate: yy(new Date().getFullYear()),
+    use: t.kicker, quote: plain(t.deck).replace(/^“|”$/g, ''), art: null
+  };
+  const [p1, ...rest] = t.bio.map((p) => `<p>${esc(plain(p))}</p>`);
+  const bioPages = tvPages(bio, u, {
+    text: [p1, rest[0] ?? ''].join(''),
+    facts: `${rest.slice(1).join('')}${socials()}`
+  });
+  const socialTape = (s) => `
+      <li class="tape tape--social">
+        <a class="tape__spine" href="${s.url}" rel="me noopener" aria-label="${s.label}: ${esc(s.handle)}">
+        ${spine({ id: s.id, name: s.label, note: s.handle })}
+        </a>
+      </li>`;
+  const half = Math.ceil(site.socials.length / 2);
+  return `<!doctype html>
+<html lang="${lang}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${site.name} · ${t.runningHead} · VHS</title>
+  <meta name="description" content="${esc(t.metaDescription)}">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="${url}">
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/vhs/${l}/">`).join('\n  ')}
+  <meta property="og:title" content="${site.name} · ${t.runningHead} · VHS">
+  <meta property="og:description" content="${esc(t.metaDescription)}">
+  <meta property="og:url" content="${url}">
+  <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/vhs.css">
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <script type="module" src="../../assets/js/vhs.js"></script>
+</head>
+<body class="vhs">
+<a class="skip" href="#main">${t.skip}</a>
+<header class="masthead">
+  <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
+  <nav class="masthead__nav" aria-label="${u.nav}">
+    <a href="#tv" data-go="bio">${u.navBio}</a>
+    <a href="#${shelfId}" data-go="projects">${u.shelf}</a>
+  </nav>
+  <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
+</header>
+<main id="main">
+<section class="room" aria-label="${v.tv}">
+  <div class="room__row">
+    <ul class="tapes tapes--side tapes--l">${site.socials.slice(0, half).map(socialTape).join('')}
+    </ul>
+    <div class="tv" id="tv" data-play="${v.play}" data-eject="${v.ejectOsd}" data-channel="${v.channel}" data-page="${v.page}" data-playing="${v.playing}">
+      <div class="tv__body">
+        <div class="tv__bezel">
+          <div class="tv__screen">
+            <canvas class="tv__noise" width="160" height="120" aria-hidden="true"></canvas>
+            <p class="tv__osd" aria-hidden="true"><span class="osd__mode">${v.channel}</span><span class="osd__clock"></span></p>
+            <div class="tv__out">${bioPages}
+            </div>
+            <p class="osd__page" aria-hidden="true"></p>
+          </div>
+        </div>
+        <div class="tv__panel">
+          <span class="tv__badge" aria-hidden="true">VHS<br>HQ</span>
+          <span class="tv__brand" aria-hidden="true">NANDO</span>
+          <span class="vcr" aria-hidden="true">
+            <span class="vcr__label">${v.recorder}</span>
+            <span class="vcr__slot"><span class="vcr__flap"></span></span>
+          </span>
+          <span class="tv__speaker" aria-hidden="true"></span>
+          <span class="tv__knobs" aria-hidden="true"><span class="tv__led"></span><span class="tv__knob"></span><span class="tv__knob"></span></span>
+          <span class="tv__keys">
+            <button type="button" class="tv__key" data-tv="rew" aria-label="${v.rew}" title="${v.rew}">◀◀</button>
+            <button type="button" class="tv__key" data-tv="ff" aria-label="${v.ff}" title="${v.ff}">▶▶</button>
+            <button type="button" class="tv__key tv__key--eject" data-tv="eject" aria-label="${v.eject}" title="${v.eject}">⏏</button>
+          </span>
+        </div>
+      </div>
+      <p class="tv__state visually-hidden" aria-live="polite"></p>
+    </div>
+    <ul class="tapes tapes--side tapes--r">${site.socials.slice(half).map(socialTape).join('')}
+    </ul>
+  </div>
+  <p class="room__cta" hidden><span class="room__arrow" aria-hidden="true">↓</span> ${v.cta}</p>
+  <div class="bio-pages" hidden>${bioPages}
+  </div>
+</section>
+<section class="shelf" id="${shelfId}" aria-labelledby="shelf-title">
+  <header class="section-head">
+    <h2 id="shelf-title">${u.shelf}</h2>
+    <p class="section-head__count">${num(projects.length)} ${v.tapes}</p>
+  </header>
+  <ol class="tapes tapes--shelf">
+    ${projects.map((p, i) => {
+      const o = { ...objectOf(p, i, t, u), rate: yy(p.year) };
+      const art = p.plate && p.plate !== 'fingerprint' ? p.plate : p.ornament;
+      o.art = art ? plates[art] : null;
+      return `
+    <li class="tape tape--project" id="${o.id}" data-code="${o.code}">
+      <button type="button" class="tape__spine" aria-label="${v.insert}: ${esc(o.name)}">
+        ${spine(o)}
+      </button>
+      <div class="tape__content">${tvPages(o, u, {
+        text: `<p>${esc(o.body)}</p>`,
+        facts: `${cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3')}
+            ${links(o, t)}`
+      })}
+      </div>
+    </li>`;
+    }).join('')}
+  </ol>
+</section>
+</main>
+<footer class="colophon">
+  <div class="colophon__doc">
+    <p class="label">${u.today}</p>
+    <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
+  </div>
+  <p class="colophon__text">${linkSocials(t.colophon)}</p>
+  <div class="colophon__code">${code128('SOYNANDO.COM')}<span class="square" aria-hidden="true"></span></div>
+  <p class="colophon__version"><a href="../../${lang}/">${u.diskVersion} <span aria-hidden="true">▶</span></a></p>
 </footer>
 </body>
 </html>
@@ -400,3 +581,6 @@ for (const lang of LANGS) {
   write(`${lang}/index.html`, page(lang));
 }
 write('index.html', toLanguage(''));
+rmSync(join(root, 'vhs'), { recursive: true, force: true });
+for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
+write('vhs/index.html', toLanguage(''));

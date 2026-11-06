@@ -211,3 +211,12 @@ a:hover { text-decoration-thickness: 2px; }
   .masthead__lang { margin-left: 0; }
 }
 .masthead__nav a { color: var(--ink); }
+
+/* ---------- the other version, bottom right of the footer ---------- */
+
+.colophon__version { grid-column: 1 / -1; justify-self: end; margin: 0; }
+.colophon__version a {
+  font: 700 .78rem/1 var(--tech); letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  display: inline-flex; gap: .5em; align-items: center; padding: .55rem .8rem; border: 1.5px solid var(--ink);
+}
+.colophon__version a:hover { background: var(--ink); color: var(--panel); text-decoration: none; }

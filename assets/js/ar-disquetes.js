@@ -43,8 +43,8 @@ function ghostFrom(entry, rect) {
   return g;
 }
 
-// Where a disk sits right above the slot, at the width of the cover well.
-// The disk goes in through the slot, as wide as the drive, cut at the slot's
+// Where a disk sits right above the slot, just narrower than the slot.
+// The disk goes in through the slot, as wide as it can, cut at the slot's
 // top line as it slides in. (The cover stands behind the drive; the disk
 // itself goes into the slot.) On the shelf it keeps its own size.
 // `dy` is how far the page is about to scroll: the drive is measured where it
@@ -55,10 +55,11 @@ function ghostFrom(entry, rect) {
 function dock(width, dy = 0) {
   const y0 = scrollY;
   if (dy) scrollTo({ top: y0 + dy, behavior: 'instant' });
-  const face = drive.querySelector('.drive__bezel').getBoundingClientRect();
   const slot = drive.querySelector('.drive__slot').getBoundingClientRect();
   if (dy) scrollTo({ top: y0, behavior: 'instant' });
-  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 };
+  // a touch narrower than the slot, centred on it, so it fits through
+  const w = slot.width * .96;
+  return { k: w / width, x: slot.left + (slot.width - w) / 2, slot: slot.top + slot.height * .35 };
 }
 
 const swallow = (delay) => setTimeout(() => {

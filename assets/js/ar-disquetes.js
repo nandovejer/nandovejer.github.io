@@ -106,6 +106,9 @@ async function eject({ silent = false } = {}) {
   if (!loaded) return;
   const entry = loaded;
   loaded = null;
+  // the eject key goes down for a moment
+  drive.classList.add('is-ejecting');
+  setTimeout(() => drive.classList.remove('is-ejecting'), 220);
   drive.classList.remove('is-loaded', 'is-reading');
   out.replaceChildren();
   ejectBtn.hidden = true;

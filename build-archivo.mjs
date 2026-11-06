@@ -127,10 +127,13 @@ const page = (lang) => {
 <main id="main">
 <section class="station" aria-label="${u.drive}">
   <div class="drive" aria-hidden="true">
-    <span class="drive__brand">NM · 1.44 MB</span>
-    <span class="drive__slot"><span class="drive__flap"></span></span>
-    <span class="drive__led"></span>
-    <span class="drive__btn"></span>
+    <span class="drive__bezel">
+      <span class="drive__slot"><span class="drive__flap"></span></span>
+      <span class="drive__door"></span>
+      <span class="drive__led"></span>
+      <span class="drive__brand">1.44 MB</span>
+      <span class="drive__btn"></span>
+    </span>
   </div>
   <div class="screen">
     <p class="screen__status" aria-live="polite"><span class="label">${u.drive}</span> <span class="screen__state">${u.driveEmpty}</span></p>

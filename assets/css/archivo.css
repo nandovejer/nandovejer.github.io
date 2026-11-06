@@ -91,6 +91,8 @@ a:hover { text-decoration-thickness: 2px; }
 
 .square { display: inline-block; width: 1.6rem; height: 1.6rem; background: var(--accent); flex: none; }
 
+.barcode { width: 9rem; height: 2.2rem; color: var(--ink); }
+
 /* ---------- ruled cells of labelled fields ---------- */
 
 .cells {

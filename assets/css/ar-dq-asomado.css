@@ -14,17 +14,20 @@
 .dq--asomado .deck { order: -1; display: grid; gap: 1.25rem; }
 @media (min-width: 64em) { .dq--asomado .deck { order: 0; } }
 
-.dq--asomado .drive { margin-top: 34%; }  /* room for the cover sticking out (% of the column width) */
+.dq--asomado .drive { margin-top: 68%; }  /* room for the cover standing behind it (% of the drive width) */
 .dq--asomado .drive__face { display: block; position: relative; z-index: 1; }
 
-/* the well above the slot: what is below its bottom edge is "inside" */
+/* the cover stands behind the drive, as wide as it, its foot hidden behind
+   the drive's top edge; it sinks down behind the drive when the disk changes */
 .now-well {
-  position: absolute; z-index: 2;
-  left: 24%; width: 52%;
-  bottom: 73%;                 /* the slot's top line */
-  aspect-ratio: 1 / .62;
+  position: absolute; z-index: 0;
+  left: 0; width: 100%;
+  bottom: calc(100% - 1.25rem);  /* overlaps the drive's top: that part is behind it */
+  aspect-ratio: 1 / .72;
+  display: flex; align-items: flex-end;
   overflow: hidden;
 }
+.now-well .now { flex: 1; }
 
 /* the cover of the disk inside: a copy of the disk with only its cover shown,
    cropped to the cover (it spans 82% × 56% of the disk) */

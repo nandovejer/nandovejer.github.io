@@ -7,7 +7,7 @@ import { reduceMotion } from './ar-common.js';
 const es = document.documentElement.lang === 'es';
 const T = { reading: es ? 'Leyendo' : 'Reading' };
 
-const station = document.querySelector('.station');
+const stationEl = document.querySelector('.station');
 const drive = document.querySelector('.drive');
 const well = document.querySelector('.now-well');
 const now = document.querySelector('.now');
@@ -21,6 +21,10 @@ const entries = [...document.querySelectorAll('.entry:not(.entry--bio)')];
 
 let loaded = null;
 let busy = false;
+// Lets page effects follow the drive (grid versions listen to these).
+const announce = (type, entry) => document.dispatchEvent(new CustomEvent(type, {
+  detail: { entry, color: getComputedStyle(entry.querySelector('.disk')).getPropertyValue('--plastic').trim() }
+}));
 const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion.matches ? 0 : ms));
 
 /* ---------- the disk in flight ---------- */
@@ -41,9 +45,13 @@ function ghostFrom(entry, rect) {
 }
 
 // Where a disk sits right above the slot, at the width of the cover well.
+// The disk goes in through the slot, as wide as the drive, cut at the slot's
+// top line as it slides in. (The cover stands behind the drive; the disk
+// itself goes into the slot.) On the shelf it keeps its own size.
 function dock(width) {
-  const r = well.getBoundingClientRect();
-  return { k: r.width / width, x: r.left, slot: r.bottom };
+  const face = drive.querySelector('.drive__bezel').getBoundingClientRect();
+  const slot = drive.querySelector('.drive__slot').getBoundingClientRect();
+  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 };
 }
 
 const swallow = (delay) => setTimeout(() => {
@@ -153,14 +161,15 @@ async function insert(entry, { ghost, rect } = {}) {
   // bring the drive into view; the disk is lifted from where it was
   const btn = entry.querySelector('.entry__disk');
   rect ??= btn.getBoundingClientRect();
-  const s = station.getBoundingClientRect();
-  if (s.bottom < 80 || s.top > innerHeight * .5) station.scrollIntoView({ block: 'start' });
+  const s = (stationEl ?? drive).getBoundingClientRect();
+  if (s.bottom < 80 || s.top > innerHeight * .5) (stationEl ?? drive).scrollIntoView({ block: stationEl ? 'start' : 'center' });
   ghost ??= ghostFrom(entry, rect);
   entry.classList.add('is-out');
 
   await Promise.all([flyIn(ghost, rect), sinking]);
   screen.classList.remove('is-default');
   drive.classList.add('is-loaded', 'is-reading');
+  announce('disk:read', entry);
   state.textContent = `${T.reading} ${entry.dataset.code}…`;
   out.replaceChildren();
   await wait(900);
@@ -180,6 +189,7 @@ async function eject({ silent = false, quiet = false } = {}) {
   loaded = null;
   pressKey(); // the eject key goes in and springs back out
   drive.classList.remove('is-loaded', 'is-reading');
+  announce('disk:eject', entry);
   await sinkCover();             // its cover goes back in before it comes out
   entry.classList.remove('is-out');
   entry.querySelector('.entry__disk').style.visibility = 'hidden';

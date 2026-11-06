@@ -1,7 +1,7 @@
 /* ==========================================================================
    Archive · Disquetes — the creative one. The bio and every project are
-   labelled 3.5" floppy disks (img 10) on a full-width shelf. Press one, or
-   drag it, into the drive: it slides in, the LED blinks and the screen
+   labelled 3.5" floppy disks (img 10) on a full-width shelf. Press one and it
+   goes straight into the drive: it slides in, the LED blinks and the screen
    reads it out. Eject puts it back on the shelf.
    Without JS: each disk is followed by its text.
    ========================================================================== */
@@ -38,7 +38,6 @@
   transition: outline-color .2s ease;
   outline: 3px dashed transparent; outline-offset: 8px;
 }
-.drive.is-target { outline-color: var(--accent); }
 
 .drive__bezel {
   position: relative; display: block;
@@ -179,8 +178,7 @@
 .js .entry__static, .js .entry__content { display: none; }
 .entry__disk[hidden] { display: none; }
 .entry__disk {
-  all: unset; display: block; width: 100%; cursor: grab;
-  touch-action: none;
+  all: unset; display: block; width: 100%; cursor: default;
   transition: transform .35s cubic-bezier(.3, .7, .2, 1);
 }
 .entry__disk:hover { transform: translateY(-.5rem) rotate(-2deg); }

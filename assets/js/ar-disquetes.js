@@ -1,4 +1,4 @@
-// Archive · Disquetes — press or drag a disk from the shelf: it travels to the
+// Archive · Disquetes — press a disk on the shelf: it travels to the
 // drive and slides in through the slot, and the screen reads it. The cover of
 // the disk inside sticks out of the slot. With no project inserted, the bio
 // is the disk inside.
@@ -47,10 +47,12 @@ function ghostFrom(entry, rect) {
 // The disk goes in through the slot, as wide as the drive, cut at the slot's
 // top line as it slides in. (The cover stands behind the drive; the disk
 // itself goes into the slot.) On the shelf it keeps its own size.
-function dock(width) {
+// `dy` is how far the page is about to scroll: the drive is dealt with where
+// it will be when the flight lands, not where it is as it takes off.
+function dock(width, dy = 0) {
   const face = drive.querySelector('.drive__bezel').getBoundingClientRect();
   const slot = drive.querySelector('.drive__slot').getBoundingClientRect();
-  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 };
+  return { k: face.width / width, x: face.left, slot: slot.top + slot.height * .35 - dy };
 }
 
 const swallow = (delay) => setTimeout(() => {
@@ -58,14 +60,15 @@ const swallow = (delay) => setTimeout(() => {
   setTimeout(() => drive.classList.remove('is-swallowing'), 500);
 }, delay);
 
-async function flyIn(ghost, rect) {
+async function flyIn(ghost, rect, dy = 0) {
   if (reduceMotion.matches) { ghost.remove(); return; }
-  const { k, x, slot } = dock(rect.width);
+  const { k, x, slot } = dock(rect.width, dy);
   const H = rect.height * k;
   // lift off, arc over to the drive tilting, line up above the slot, slide in
   const top0 = slot - H;
   const mx = (rect.left + x) / 2;
-  const my = Math.min(rect.top, top0) - Math.min(160, innerHeight * .18);
+  // the top of the arc stays on screen
+  const my = Math.max(12, Math.min(rect.top, top0) - Math.min(160, innerHeight * .18));
   const frames = [
     { transform: `translate(${rect.left}px, ${rect.top}px) scale(1) rotate(0deg)`, clipPath: cut(100), offset: 0 },
     { transform: `translate(${rect.left}px, ${rect.top - 14}px) scale(1.04) rotate(2deg)`, clipPath: cut(100), offset: .08 },
@@ -164,10 +167,13 @@ async function insert(entry, { ghost, rect } = {}) {
   rect ??= btn.getBoundingClientRect();
   ghost ??= ghostFrom(entry, rect);
   entry.classList.add('is-out');
-  const bezel = drive.querySelector('.drive__bezel');
-  if (!fullyVisible(bezel)) await glideTo(drive, 'center');
+  // The page scrolls to the drive while the disk is in the air, so there is
+  // no wait: both take SCROLL_MS and the disk is lined up over the slot when
+  // the page stops.
+  const dy = driveScroll();
+  scrollAlong(dy, SCROLL_MS);
 
-  await Promise.all([flyIn(ghost, rect), sinking]);
+  await Promise.all([flyIn(ghost, rect, dy), sinking]);
   screen.classList.remove('is-default');
   drive.classList.add('is-loaded', 'is-reading');
   announce('disk:read', entry);
@@ -191,6 +197,33 @@ async function insert(entry, { ghost, rect } = {}) {
 
 const fullyVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; };
 const topVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.top <= innerHeight * .4; };
+const SCROLL_MS = 800; // the flight is 1500 ms and lines up over the slot at ~990 ms
+
+// How far the page must scroll to bring the drive to the middle of the screen
+// (0 when it is already fully in view), clamped to what the page can scroll.
+function driveScroll() {
+  const bezel = drive.querySelector('.drive__bezel');
+  if (fullyVisible(bezel)) return 0;
+  const r = drive.getBoundingClientRect();
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const to = Math.max(0, Math.min(max, scrollY + r.top + r.height / 2 - innerHeight / 2));
+  return Math.round(to - scrollY);
+}
+
+// Scrolls by dy over ms with its own easing, so the end time is known.
+function scrollAlong(dy, ms) {
+  if (!dy) return;
+  if (reduceMotion.matches) { scrollBy({ top: dy, behavior: 'instant' }); return; }
+  const y0 = scrollY, t0 = performance.now();
+  const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / ms);
+    scrollTo({ top: y0 + dy * ease(t), behavior: 'instant' });
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 // Smooth scroll, resolved when it ends (or soon after, as a fallback).
 function glideTo(el, block) {
   return new Promise((resolve) => {
@@ -233,66 +266,17 @@ driveKey?.addEventListener('click', () => {
   else pressKey();
 });
 
-/* ---------- press, or drag onto the drive ---------- */
-
-const overDrive = (x, y) => [drive, screen].some((el) => {
-  const r = el.getBoundingClientRect();
-  return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-});
+/* ---------- press a disk: it goes straight to the drive ---------- */
+// No dragging: the disk never follows the pointer, and the page keeps its
+// scroll (a finger or wheel over a disk scrolls the page as anywhere else).
 
 entries.forEach((entry, i) => {
   const btn = entry.querySelector('.entry__disk');
   btn.hidden = false;
   btn.style.setProperty('--i', i);
-  let drag = null;
-  let suppressClick = false;
-
   btn.addEventListener('click', () => {
-    if (suppressClick) { suppressClick = false; return; }
     if (entry === loaded) eject(); else insert(entry);
   });
-
-  btn.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0 || busy || entry === loaded) return;
-    const r = btn.getBoundingClientRect();
-    drag = { x0: e.clientX, y0: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, r, ghost: null };
-    btn.setPointerCapture(e.pointerId);
-  });
-
-  btn.addEventListener('pointermove', (e) => {
-    if (!drag) return;
-    if (!drag.ghost && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 6) {
-      drag.ghost = ghostFrom(entry, drag.r);
-      entry.classList.add('is-out');
-    }
-    if (drag.ghost) {
-      drag.ghost.style.transform = `translate(${e.clientX - drag.dx}px, ${e.clientY - drag.dy}px) rotate(-3deg)`;
-      drive.classList.toggle('is-target', overDrive(e.clientX, e.clientY));
-    }
-  });
-
-  const end = async (e) => {
-    if (!drag) return;
-    const { ghost } = drag;
-    drag = null;
-    drive.classList.remove('is-target');
-    if (!ghost) return; // a plain press: the click handler takes it
-    suppressClick = true;
-    const r = ghost.getBoundingClientRect();
-    if (overDrive(e.clientX, e.clientY)) {
-      insert(entry, { ghost, rect: { left: r.left, top: r.top, width: r.width, height: r.height } });
-    } else {
-      const home = btn.getBoundingClientRect();
-      if (!reduceMotion.matches) {
-        await ghost.animate([{ transform: ghost.style.transform }, { transform: `translate(${home.left}px, ${home.top}px)` }],
-          { duration: 400, easing: 'cubic-bezier(.3, .7, .2, 1)', fill: 'forwards' }).finished;
-      }
-      ghost.remove();
-      entry.classList.remove('is-out');
-    }
-  };
-  btn.addEventListener('pointerup', end);
-  btn.addEventListener('pointercancel', end);
 });
 
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && loaded && !busy) eject(); });

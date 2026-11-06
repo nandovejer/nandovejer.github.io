@@ -53,3 +53,61 @@
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
 .masthead__title a:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   The grid of square cells behind the page (as in the grid versions).
+   The body is the container; every section measures its cells from it, so
+   lines run on across sections, and the side margin is exactly one cell, so
+   content starts on a grid line. 8 columns mobile · 12 tablet · 16 desktop.
+   ========================================================================== */
+
+.dq--asomado:not(.gv) { container-type: inline-size; }
+.dq--asomado:not(.gv) > * {
+  --cols: 8;
+  --cell: calc(100cqi / var(--cols));
+  --pad: var(--cell);
+  --g-line: color-mix(in srgb, var(--ink) 22%, transparent);
+  --g-line-strong: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+@media (min-width: 37.5em) { .dq--asomado:not(.gv) > * { --cols: 12; } }
+@media (min-width: 64em)   { .dq--asomado:not(.gv) > * { --cols: 16; } }
+
+.dq--asomado:not(.gv) main {
+  background-image:
+    linear-gradient(90deg, var(--g-line) 1px, transparent 1px),
+    linear-gradient(var(--g-line) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+}
+/* sections let the lines through; boxes on top keep their own fill */
+.dq--asomado:not(.gv) .station { background: transparent; }
+.dq--asomado:not(.gv) .section-head { background: var(--bg); }
+
+/* each disk on the shelf sits in its own bordered cell, like the grid versions */
+.dq--asomado:not(.gv) .shelf__list { gap: 0; }
+.dq--asomado:not(.gv) .entry {
+  display: grid; place-items: center;
+  padding: 9%;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--g-line-strong);
+  margin: 0 -1px -1px 0;   /* neighbouring cells share one line */
+}
+.dq--asomado:not(.gv) .entry .entry__disk { width: 100%; }
+.dq--asomado:not(.gv) .entry.is-out::after { inset: 9% 9% auto; }
+
+/* the reading lands just under the top of the window */
+.screen { scroll-margin-top: 1rem; }
+.drive { scroll-margin: 2rem; }
+.dq--asomado:not(.gv) .entry[hidden] { display: none; }
+/* disk cells are exactly 3 × 3 grid cells, so their sides sit on grid lines */
+.dq--asomado:not(.gv) .shelf__list { grid-template-columns: repeat(auto-fill, calc(var(--cell) * 3)); }
+.dq--asomado:not(.gv) .entry { aspect-ratio: 1; padding: 11%; }
+/* the shelf draws its own lines from its own top, one cell of margin all
+   round, so the disk cells sit on grid lines vertically too */
+.dq--asomado:not(.gv) .shelf { background: var(--bg); }
+.dq--asomado:not(.gv) .shelf__list {
+  padding: var(--cell);
+  background-image:
+    linear-gradient(90deg, var(--g-line) 1px, transparent 1px),
+    linear-gradient(var(--g-line) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+}

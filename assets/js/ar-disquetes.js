@@ -7,7 +7,6 @@ import { reduceMotion } from './ar-common.js';
 const es = document.documentElement.lang === 'es';
 const T = { reading: es ? 'Leyendo' : 'Reading' };
 
-const stationEl = document.querySelector('.station');
 const drive = document.querySelector('.drive');
 const well = document.querySelector('.now-well');
 const now = document.querySelector('.now');
@@ -158,13 +157,15 @@ async function insert(entry, { ghost, rect } = {}) {
   document.body.classList.remove('is-empty');
   if (cta) cta.hidden = true;
 
-  // bring the drive into view; the disk is lifted from where it was
+  // The disk is lifted where the reader sees it (it stays put on screen),
+  // then the page glides up to the drive, and only then does it fly in, so
+  // the whole trip is visible.
   const btn = entry.querySelector('.entry__disk');
   rect ??= btn.getBoundingClientRect();
-  const s = (stationEl ?? drive).getBoundingClientRect();
-  if (s.bottom < 80 || s.top > innerHeight * .5) (stationEl ?? drive).scrollIntoView({ block: stationEl ? 'start' : 'center' });
   ghost ??= ghostFrom(entry, rect);
   entry.classList.add('is-out');
+  const bezel = drive.querySelector('.drive__bezel');
+  if (!fullyVisible(bezel)) await glideTo(drive, 'center');
 
   await Promise.all([flyIn(ghost, rect), sinking]);
   screen.classList.remove('is-default');
@@ -180,7 +181,24 @@ async function insert(entry, { ghost, rect } = {}) {
   ejectBtn.hidden = false;
   loaded = entry;
   title?.focus({ preventScroll: true });
+  // then take the reader to what was read (on small screens the screen is
+  // below the drive; on wide ones it is beside it and already in view)
+  if (!topVisible(screen)) glideTo(screen, 'start');
   busy = false;
+}
+
+/* ---------- scrolling to where things happen ---------- */
+
+const fullyVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; };
+const topVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.top <= innerHeight * .4; };
+// Smooth scroll, resolved when it ends (or soon after, as a fallback).
+function glideTo(el, block) {
+  return new Promise((resolve) => {
+    const done = () => { removeEventListener('scrollend', done); clearTimeout(t); resolve(); };
+    const t = setTimeout(done, reduceMotion.matches ? 0 : 900);
+    addEventListener('scrollend', done, { once: true });
+    el.scrollIntoView({ block, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+  });
 }
 
 async function eject({ silent = false, quiet = false } = {}) {

@@ -300,3 +300,31 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape' && loaded && !busy) 
 // The bio is the default reading, not a disk on the shelf.
 if (bioEntry) bioEntry.hidden = true;
 showDefault({ animate: false });
+
+/* ---------- on the grid: heights in whole cells (Asomado) ---------- */
+// The screen and the drive deck are rounded up to a whole number of cells,
+// so their bottom edges land on grid lines (widths are set in CSS).
+const main = document.querySelector('main');
+if (!document.body.classList.contains('gv') && main) {
+  const boxes = [screen, document.querySelector('.deck')].filter(Boolean);
+  const snap = () => {
+    const cols = parseFloat(getComputedStyle(main).getPropertyValue('--cols')) || 16;
+    const c = main.clientWidth / cols;
+    boxes.forEach((el) => {
+      el.style.minHeight = '';
+      const h = el.getBoundingClientRect().height;
+      const target = `${Math.ceil(h / c - 0.01) * c}px`;
+      if (el.style.minHeight !== target) el.style.minHeight = target;
+    });
+  };
+  let queued = false;
+  const ro = new ResizeObserver(() => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; snap(); });
+  });
+  ro.observe(main);
+  ro.observe(out);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(snap);
+  snap();
+}

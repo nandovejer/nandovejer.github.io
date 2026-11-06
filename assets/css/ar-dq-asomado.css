@@ -54,11 +54,18 @@
 
 .masthead__title a:hover { text-decoration: underline; }
 
+
 /* ==========================================================================
-   The grid of square cells behind the page (as in the grid versions).
-   The body is the container; every section measures its cells from it, so
-   lines run on across sections, and the side margin is exactly one cell, so
-   content starts on a grid line. 8 columns mobile · 12 tablet · 16 desktop.
+   Everything on the grid of square cells (as in the grid versions).
+   The body is the container; a cell is its width / columns, and every edge
+   in the page falls on a line:
+   · margins are one cell; the station and the shelf list are padded by one
+   · the screen and the drive deck are a whole number of cells wide, and
+     ar-disquetes.js rounds their heights up to whole cells
+   · the cover's top sits on a line: the drive leaves exactly --m cells above
+     it, and the rest of the cover hides behind the drive
+   · the shelf header is one cell tall; each disk box is 3 × 3 cells
+   8 columns mobile · 12 tablet · 16 desktop.
    ========================================================================== */
 
 .dq--asomado:not(.gv) { container-type: inline-size; }
@@ -66,11 +73,13 @@
   --cols: 8;
   --cell: calc(100cqi / var(--cols));
   --pad: var(--cell);
+  --deck: 6;   /* drive deck width, in cells */
+  --m: 4;      /* cells of cover above the drive: floor(0.7034 × deck) */
   --g-line: color-mix(in srgb, var(--ink) 22%, transparent);
   --g-line-strong: color-mix(in srgb, var(--ink) 70%, transparent);
 }
-@media (min-width: 37.5em) { .dq--asomado:not(.gv) > * { --cols: 12; } }
-@media (min-width: 64em)   { .dq--asomado:not(.gv) > * { --cols: 16; } }
+@media (min-width: 37.5em) { .dq--asomado:not(.gv) > * { --cols: 12; --deck: 8; --m: 5; } }
+@media (min-width: 64em)   { .dq--asomado:not(.gv) > * { --cols: 16; --deck: 5; --m: 3; } }
 
 .dq--asomado:not(.gv) main {
   background-image:
@@ -78,36 +87,63 @@
     linear-gradient(var(--g-line) 1px, transparent 1px);
   background-size: var(--cell) var(--cell);
 }
-/* sections let the lines through; boxes on top keep their own fill */
-.dq--asomado:not(.gv) .station { background: transparent; }
-.dq--asomado:not(.gv) .section-head { background: var(--bg); }
 
-/* each disk on the shelf sits in its own bordered cell, like the grid versions */
-.dq--asomado:not(.gv) .shelf__list { gap: 0; }
+/* ---------- station: screen | gap | deck, in cells ---------- */
+
+.dq--asomado:not(.gv) .station {
+  padding: var(--cell);
+  gap: var(--cell);
+  align-items: start;
+  background: transparent;
+  border-bottom: 0;
+}
+.dq--asomado:not(.gv) .deck { position: static; width: calc(var(--cell) * var(--deck)); justify-self: center; gap: 0; align-content: start; }
+@media (min-width: 64em) {
+  .dq--asomado:not(.gv) .station { grid-template-columns: calc(var(--cell) * 8) calc(var(--cell) * 5); }
+  .dq--asomado:not(.gv) .deck { justify-self: start; }
+}
+.dq--asomado:not(.gv) .cta { margin-top: calc(var(--cell) * .35); justify-content: flex-start; }
+
+/* the cover's top on a grid line, its foot behind the drive */
+.dq--asomado:not(.gv) .drive { margin-top: calc(var(--cell) * var(--m)); }
+.dq--asomado:not(.gv) .now-well {
+  top: calc(var(--cell) * var(--m) * -1); bottom: auto;
+  aspect-ratio: 1 / .7034;
+  display: block;
+}
+
+/* ---------- shelf ---------- */
+
+.dq--asomado:not(.gv) .section-head {
+  height: var(--cell);
+  padding-block: 0;
+  align-items: center;
+  border-bottom: 0;
+  background: var(--bg);
+  box-shadow: inset 0 1px 0 var(--g-line-strong), inset 0 -1px 0 var(--g-line-strong);
+}
+.dq--asomado:not(.gv) .section-head h2 { font-size: min(3.6rem, calc(var(--cell) * .62)); }
+
+.dq--asomado:not(.gv) .shelf__list {
+  gap: 0;
+  padding: var(--cell);
+  grid-template-columns: repeat(auto-fill, calc(var(--cell) * 3));
+}
 .dq--asomado:not(.gv) .entry {
+  aspect-ratio: 1;
   display: grid; place-items: center;
-  padding: 9%;
+  padding: 11%;
   background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--g-line-strong);
-  margin: 0 -1px -1px 0;   /* neighbouring cells share one line */
+  margin: 0 -1px -1px 0;   /* neighbouring boxes share one line */
 }
+.dq--asomado:not(.gv) .entry[hidden] { display: none; }
 .dq--asomado:not(.gv) .entry .entry__disk { width: 100%; }
-.dq--asomado:not(.gv) .entry.is-out::after { inset: 9% 9% auto; }
+.dq--asomado:not(.gv) .entry.is-out::after { inset: 11% 11% auto; }
 
 /* the reading lands just under the top of the window */
 .screen { scroll-margin-top: 1rem; }
 .drive { scroll-margin: 2rem; }
-.dq--asomado:not(.gv) .entry[hidden] { display: none; }
-/* disk cells are exactly 3 × 3 grid cells, so their sides sit on grid lines */
-.dq--asomado:not(.gv) .shelf__list { grid-template-columns: repeat(auto-fill, calc(var(--cell) * 3)); }
-.dq--asomado:not(.gv) .entry { aspect-ratio: 1; padding: 11%; }
-/* the shelf draws its own lines from its own top, one cell of margin all
-   round, so the disk cells sit on grid lines vertically too */
-.dq--asomado:not(.gv) .shelf { background: var(--bg); }
-.dq--asomado:not(.gv) .shelf__list {
-  padding: var(--cell);
-  background-image:
-    linear-gradient(90deg, var(--g-line) 1px, transparent 1px),
-    linear-gradient(var(--g-line) 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
-}
+/* exactly 3 cells tall (+1px that the shared line takes back) */
+.dq--asomado:not(.gv) .entry { aspect-ratio: auto; height: calc(var(--cell) * 3 + 1px); }
+.dq--asomado:not(.gv) .entry .entry__disk { width: 96%; }

@@ -76,7 +76,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--panel); }
 body {
   margin: 0;
   background: var(--bg);

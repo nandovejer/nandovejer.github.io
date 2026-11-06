@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Archive — shared base for the four versions.
+   Layout of a museum catalogue card (img 10): object number, condensed
+   headline, ruled grid of labelled fields, barcode, boxed stack.
+   Colours of the budget app (img 12): sage, dark olive, terracotta, and
+   ghost-grey digits.
+   Contrast rule: terracotta is never text on sage (1.8:1). It is a fill with
+   olive text on it (4.8:1) or text on olive panels (4.8:1).
+   Full width, fluid: mobile < 37.5em ≤ tablet < 64em ≤ desktop < 90em ≤ max.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-latin-wdth-normal.woff2") format("woff2");
+  font-weight: 100 900; font-stretch: 62% 125%; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("../fonts/chakra-petch-latin-500-normal.woff2") format("woff2");
+  font-weight: 500; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("../fonts/chakra-petch-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --bg: #a9ad9b;          /* outer sage */
+  --panel: #c2c4ae;       /* light sage */
+  --panel-2: #b7baa4;
+  --ink: #20251b;         /* dark olive */
+  --ink-soft: #4a4e40;
+  --ghost: #8f9482;       /* decorative digits only */
+  --accent: #dd6f50;      /* terracotta: fills, or text on olive */
+  --on-accent: #20251b;
+  --rule: color-mix(in srgb, var(--ink) 70%, transparent);
+  --hair: color-mix(in srgb, var(--ink) 25%, transparent);
+
+  --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --tech: "Chakra Petch", "Archivo", ui-monospace, monospace;
+
+  --pad: clamp(1rem, 3.5vw, 4rem);
+  --gap: clamp(1rem, 2vw, 2rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151812;
+    --panel: #1e2219;
+    --panel-2: #262b20;
+    --ink: #d9dcc8;
+    --ink-soft: #a9ad98;
+    --ghost: #5c6153;
+    --accent: #e5815f;
+    --on-accent: #1b1f17;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 clamp(.95rem, .9rem + .2vw, 1.05rem)/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+svg { display: block; }
+button { font: inherit; color: inherit; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.skip { position: absolute; left: 1rem; top: -4rem; z-index: 50; padding: .5rem 1rem; background: var(--ink); color: var(--panel); }
+.skip:focus { top: 1rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- type voices ---------- */
+
+.label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink);
+}
+.label::before { content: ""; display: inline-block; width: .55em; height: .55em; margin-right: .5em; background: var(--accent); vertical-align: .05em; }
+
+.num { font-family: var(--tech); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.num__ghost { color: var(--ghost); }
+
+.square { display: inline-block; width: 1.6rem; height: 1.6rem; background: var(--accent); flex: none; }
+
+.icon-globe { width: 2.2rem; height: 2.2rem; color: var(--ink); }
+
+/* the boxed stack: EA / ARCHIVE / OBJECT */
+.stack { display: inline-grid; border: 1.5px solid var(--ink); font-weight: 700; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+.stack span { padding: .3rem .7rem; min-width: 7.5rem; }
+.stack span + span { border-top: 1.5px solid var(--ink); }
+
+.barcode { width: 9rem; height: 2.2rem; color: var(--ink); }
+
+/* ---------- ruled cells of labelled fields ---------- */
+
+.cells {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1.5px solid var(--ink);
+}
+.cell { padding: .7rem .9rem .8rem 0; border-bottom: 1px solid var(--rule); }
+.cell + .cell { padding-left: .9rem; border-left: 1px solid var(--rule); }
+.cells .cell:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+.cell dt { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.cell dd { margin-top: .25rem; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; font-size: .9rem; }
+@media (min-width: 37.5em) {
+  .cells--4, .cells--6, .person__cells { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cells--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cells--4 .cell:nth-child(n), .cells--6 .cell:nth-child(n), .cells--3 .cell:nth-child(n), .person__cells .cell:nth-child(n) { padding-left: .9rem; border-left: 1px solid var(--rule); }
+  .cells--4 .cell:nth-child(4n + 1), .cells--6 .cell:nth-child(4n + 1), .cells--3 .cell:nth-child(3n + 1), .person__cells .cell:nth-child(4n + 1) { padding-left: 0; border-left: 0; }
+}
+@media (min-width: 64em) {
+  .cells--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .cells--6 .cell:nth-child(n) { padding-left: .9rem; border-left: 1px solid var(--rule); }
+  .cells--6 .cell:nth-child(6n + 1) { padding-left: 0; border-left: 0; }
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .25rem 2rem;
+  padding: 1rem var(--pad);
+  border-bottom: 1.5px solid var(--ink);
+  font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.masthead a { text-decoration: none; }
+.masthead a:hover { text-decoration: underline; }
+.masthead__version { font-weight: 800; letter-spacing: .12em; }
+
+/* ---------- the person (object 000) ---------- */
+
+.person {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem var(--gap);
+  padding: clamp(1.5rem, 4vw, 3.5rem) var(--pad) clamp(2rem, 5vw, 4rem);
+  background: var(--panel);
+}
+.person__head { grid-column: 1; }
+.person__num { font-family: var(--tech); font-size: clamp(3.4rem, 2rem + 6vw, 7.5rem); line-height: .9; margin-top: .3rem; }
+.person__num .num { font-weight: 600; }
+.person__kicker { margin-top: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.person__coll { text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); font-size: .85rem; }
+.person__mark { grid-column: 2; display: flex; flex-direction: column; align-items: flex-end; gap: 1.25rem; }
+.person__name {
+  grid-column: 1 / -1;
+  padding-top: clamp(1rem, 2vw, 1.75rem);
+  border-top: 1.5px solid var(--ink);
+  font: 800 clamp(3rem, 1rem + 9vw, 10rem)/.88 var(--sans);
+  font-stretch: 62%;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+}
+.person__name span { display: inline-block; }
+.person__deck { grid-column: 1 / -1; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; font-size: clamp(1rem, .9rem + .5vw, 1.35rem); }
+.person__cells { grid-column: 1 / -1; margin-top: .5rem; }
+.person__bio, .person__contact { grid-column: 1 / -1; }
+.person__bio p + p { margin-top: .75em; }
+.person__bio .label, .person__contact .label { margin-bottom: .6rem; }
+.person__bio { max-width: 46rem; }
+.more { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .85rem; }
+
+.socials { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+.socials a { text-decoration: none; display: inline-flex; gap: .5em; align-items: baseline; }
+.socials__label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.socials__handle { font-family: var(--tech); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+
+@media (min-width: 64em) {
+  .person { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .person__head { grid-column: 1 / span 6; }
+  .person__mark { grid-column: 9 / -1; }
+  .person__bio { grid-column: 1 / span 7; }
+  .person__contact { grid-column: 9 / -1; }
+}
+
+/* ---------- section heads ---------- */
+
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 1.25rem var(--pad) .9rem;
+  border-bottom: 1.5px solid var(--ink);
+}
+.section-head h2 { font: 800 clamp(1.8rem, 1rem + 3vw, 3.6rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.section-head__count { font-family: var(--tech); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: .85rem; }
+
+/* ---------- links ---------- */
+
+.links { display: grid; gap: .35rem; }
+.links a { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .85rem; }
+.links a span { font-family: var(--tech); font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--ink-soft); margin-left: .35em; }
+
+/* ---------- plates in the archive: olive ink on sage ---------- */
+
+.plate__art, .ornament__art { width: 100%; height: auto; color: var(--ink); }
+
+/* ---------- colophon ---------- */
+
+.colophon {
+  display: grid; gap: 1rem var(--gap); align-items: end;
+  grid-template-columns: 1fr;
+  padding: 2rem var(--pad) 2.5rem;
+  border-top: 1.5px solid var(--ink);
+  background: var(--panel);
+}
+.colophon__no { font-family: var(--tech); font-weight: 600; font-size: 1.15rem; margin-top: .25rem; }
+.colophon__text { font-size: .85rem; color: var(--ink-soft); max-width: 40rem; }
+.colophon__code { display: flex; align-items: flex-end; gap: 1rem; }
+@media (min-width: 64em) {
+  .colophon { grid-template-columns: 1fr 2fr auto; }
+}
+
+/* ---------- index of versions ---------- */
+
+.ar--index .versions { padding: var(--pad); }
+.versions__head { display: grid; gap: 1rem; padding-bottom: 2rem; border-bottom: 1.5px solid var(--ink); }
+.versions__title { font: 800 clamp(3rem, 1rem + 9vw, 9rem)/.9 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.versions__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.versions__item { padding: 1.5rem 1.25rem 2rem 0; border-bottom: 1px solid var(--rule); display: grid; gap: .6rem; align-content: start; }
+.versions__item h2 { font: 800 2rem/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.versions__item h2 span { color: var(--ink-soft); font-weight: 600; }
+.versions__num { font-size: 3rem; line-height: 1; font-family: var(--tech); font-weight: 600; }
+.versions__en { color: var(--ink-soft); font-size: .9rem; }
+.versions__links { display: flex; gap: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .85rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

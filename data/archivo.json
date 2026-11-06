@@ -1,0 +1,134 @@
+{
+  "versions": [
+    "fichero",
+    "registro",
+    "cinta",
+    "disquetes"
+  ],
+  "es": {
+    "archive": "Archivo",
+    "objects": "Objetos",
+    "object": "Objeto",
+    "collection": "Colección Fernando Muñoz",
+    "catalog": "Catálogo n.º",
+    "document": "Documento n.º",
+    "era": "Era",
+    "origin": "Origen",
+    "originValue": "Madrid, ES",
+    "use": "Uso",
+    "status": "Estado",
+    "statusOnline": "En línea",
+    "statusRepo": "Repositorio",
+    "statusActive": "En activo",
+    "description": "Descripción",
+    "material": "Material",
+    "format": "Formato",
+    "contact": "Contacto",
+    "links": "Enlaces",
+    "statObjects": "Objetos",
+    "statYears": "Años",
+    "statDemos": "Demos en línea",
+    "statDeps": "Dependencias",
+    "perYear": "Objetos por año",
+    "selected": "Objeto seleccionado",
+    "flipBack": "Ver reverso",
+    "flipFront": "Ver anverso",
+    "sortBy": "Ordenar por",
+    "filterBy": "Filtrar por material",
+    "all": "Todos",
+    "openRecord": "Abrir ficha de",
+    "drive": "Unidad de lectura",
+    "driveEmpty": "Inserta un disco para leerlo",
+    "insert": "Insertar",
+    "eject": "Expulsar",
+    "reading": "Leyendo",
+    "shelf": "Estantería",
+    "versions": {
+      "fichero": {
+        "name": "Fichero",
+        "summary": "Todo en una página: la ficha de la persona y un muro de fichas de catálogo a todo el ancho que se dan la vuelta."
+      },
+      "registro": {
+        "name": "Registro",
+        "summary": "Varias páginas: el libro de registro y una ficha propia para la bio y para cada proyecto, con transiciones entre páginas."
+      },
+      "cinta": {
+        "name": "Cinta",
+        "summary": "Efecto de scroll: la sección se fija y la cinta de objetos avanza en horizontal mientras bajas, con contador y barras."
+      },
+      "disquetes": {
+        "name": "Disquetes",
+        "summary": "Cada proyecto, y la bio, es un disquete etiquetado. Arrástralo a la unidad y la pantalla lo lee."
+      }
+    },
+    "bio": "Bio",
+    "readBio": "Leer la ficha completa",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "backToLedger": "Volver al registro",
+    "progress": "Progreso"
+  },
+  "en": {
+    "archive": "Archive",
+    "objects": "Objects",
+    "object": "Object",
+    "collection": "Fernando Muñoz Collection",
+    "catalog": "Catalog no.",
+    "document": "Document no.",
+    "era": "Era",
+    "origin": "Origin",
+    "originValue": "Madrid, ES",
+    "use": "Use",
+    "status": "Status",
+    "statusOnline": "Online",
+    "statusRepo": "Repository",
+    "statusActive": "Active",
+    "description": "Description",
+    "material": "Material",
+    "format": "Format",
+    "contact": "Contact",
+    "links": "Links",
+    "statObjects": "Objects",
+    "statYears": "Years",
+    "statDemos": "Online demos",
+    "statDeps": "Dependencies",
+    "perYear": "Objects per year",
+    "selected": "Selected object",
+    "flipBack": "See the back",
+    "flipFront": "See the front",
+    "sortBy": "Sort by",
+    "filterBy": "Filter by material",
+    "all": "All",
+    "openRecord": "Open record for",
+    "drive": "Disk drive",
+    "driveEmpty": "Insert a disk to read it",
+    "insert": "Insert",
+    "eject": "Eject",
+    "reading": "Reading",
+    "shelf": "Shelf",
+    "versions": {
+      "fichero": {
+        "name": "Card file",
+        "summary": "Everything on one page: the person’s record and a full-width wall of catalogue cards that turn over."
+      },
+      "registro": {
+        "name": "Ledger",
+        "summary": "Several pages: the register, and a record page of its own for the bio and each project, with page transitions."
+      },
+      "cinta": {
+        "name": "Tape",
+        "summary": "Scroll effect: the section pins and the tape of objects runs sideways as you scroll down, with a counter and bars."
+      },
+      "disquetes": {
+        "name": "Floppies",
+        "summary": "Each project, and the bio, is a labelled floppy disk. Drag it into the drive and the screen reads it."
+      }
+    },
+    "bio": "Bio",
+    "readBio": "Read the full record",
+    "prev": "Previous",
+    "next": "Next",
+    "backToLedger": "Back to the ledger",
+    "progress": "Progress"
+  }
+}

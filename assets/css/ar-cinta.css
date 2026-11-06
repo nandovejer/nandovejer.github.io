@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Archive · Cinta — scroll effect. The person's name splits apart as you
+   leave the header; then the works section pins to the screen and the tape
+   of objects runs sideways while you scroll down, with a rolling counter
+   and a progress bar of lines (img 12). Figures count up and the yearly
+   bars grow at the end.
+   Mobile, no JS or reduced motion: the tape is a plain vertical list.
+   ========================================================================== */
+
+.person__name span { transition: transform .1s linear; }
+.person__name span:first-child { transform: translateX(calc(var(--sp, 0) * -14vw)); }
+.person__name span:last-child  { transform: translateX(calc(var(--sp, 0) * 14vw)); color: color-mix(in srgb, var(--ink) calc(100% - var(--sp, 0) * 55%), transparent); }
+
+/* ---------- the tape ---------- */
+
+.tape { position: relative; border-top: 1.5px solid var(--ink); }
+.tape__stage { display: grid; grid-template-rows: auto 1fr; }
+.tape__hud {
+  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: .5rem 1rem;
+  padding: 1rem var(--pad) .9rem;
+  border-bottom: 1.5px solid var(--ink);
+  background: var(--bg);
+}
+.tape__hud h2 { font: 800 clamp(1.8rem, 1rem + 3vw, 3.6rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.tape__counter { font: 600 clamp(1.8rem, 1rem + 3vw, 3.6rem)/1 var(--tech); }
+.tape__of { color: var(--ghost); font-size: .45em; margin-left: .3em; }
+.tape__progress {
+  grid-column: 1 / -1; height: 1.6rem;
+  background: repeating-linear-gradient(90deg, var(--hair) 0 1px, transparent 1px 7px);
+}
+.tape__progress span {
+  display: block; height: 100%; width: calc(var(--p, 0) * 100%);
+  background: repeating-linear-gradient(90deg, var(--ink) 0 1.5px, transparent 1.5px 7px);
+}
+.tape__track { display: grid; gap: var(--gap); padding: var(--gap) var(--pad); }
+
+.panel {
+  display: grid; gap: .75rem; align-content: start;
+  background: var(--panel);
+  padding: 1.25rem 1.25rem 0;
+  box-shadow: 0 0 0 1.5px var(--ink);
+  overflow: hidden;
+}
+.panel__top { display: flex; justify-content: space-between; align-items: flex-start; }
+.panel__num { font-size: clamp(2.8rem, 2rem + 3vw, 4.6rem); line-height: .9; margin-top: .2rem; }
+.panel__year { font: 600 1.4rem/1 var(--tech); }
+.panel__title { font: 800 clamp(2.2rem, 1.4rem + 2.6vw, 3.8rem)/.9 var(--sans); font-stretch: 62%; text-transform: uppercase; padding-top: .6rem; border-top: 1.5px solid var(--ink); }
+.panel__use { font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.panel__art { width: min(40%, 9rem); justify-self: center; padding-block: .5rem; will-change: transform; }
+.panel__body { font-size: .95rem; }
+.panel__band {
+  display: grid; gap: .6rem;
+  margin: .5rem -1.25rem 0; padding: 1rem 1.25rem 1.25rem;
+  background: var(--accent); color: var(--on-accent);
+}
+.panel__band .links a span { color: var(--on-accent); }
+.panel__quote { font: 800 1.35rem/1.05 var(--sans); font-stretch: 70%; text-transform: uppercase; }
+
+/* ---------- pinned and running sideways ---------- */
+
+.tape.is-pinned { height: calc(var(--count) * 70vh + 100vh); }
+.tape.is-pinned .tape__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.tape.is-pinned .tape__track {
+  display: flex; align-items: stretch; gap: var(--gap);
+  width: max-content;
+  padding-block: var(--gap);
+  transform: translate3d(var(--x, 0px), 0, 0);
+  will-change: transform;
+}
+.tape.is-pinned .panel { width: clamp(20rem, 42vw, 34rem); }
+.tape.is-pinned .panel.is-current { box-shadow: 0 0 0 1.5px var(--ink), .7rem .7rem 0 -.1rem var(--accent); }
+@media (min-width: 90em) { .tape.is-pinned .panel { width: clamp(24rem, 30vw, 34rem); } }
+
+/* ---------- figures ---------- */
+
+.figures { border-top: 1.5px solid var(--ink); }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1.5px solid var(--ink); }
+.stat { padding: 1rem var(--pad) 1.25rem; border-bottom: 1px solid var(--rule); }
+.stat:nth-child(2n) { border-left: 1px solid var(--rule); }
+.stat dt { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.stat dd { font: 600 clamp(2.4rem, 1.4rem + 4vw, 5.5rem)/1 var(--tech); margin-top: .4rem; }
+.stat__dash { color: var(--ghost); }
+.stat--accent { background: var(--accent); color: var(--on-accent); }
+@media (min-width: 64em) {
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .stat { border-bottom: 0; }
+  .stat + .stat { border-left: 1px solid var(--rule); }
+}
+
+.years { padding: 1.5rem var(--pad) 2rem; }
+.years__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--gap); align-items: end; height: 16rem; margin-top: 1rem; }
+.years__list li { display: grid; grid-template-rows: 1fr auto auto; height: 100%; }
+.years__bar {
+  align-self: end;
+  height: calc(var(--h) * 100%);
+  background: repeating-linear-gradient(90deg, var(--ink) 0 1.5px, transparent 1.5px 8px);
+  border-bottom: 1.5px solid var(--ink);
+  transform-origin: bottom; transition: transform 1.2s cubic-bezier(.2, .7, .2, 1);
+}
+.years__list li:nth-child(odd) .years__bar { background: repeating-linear-gradient(90deg, var(--ink) 0 1.5px, transparent 1.5px 8px), var(--accent); }
+.js .figures:not(.is-inview) .years__bar { transform: scaleY(0); }
+.years__n { font: 600 1.6rem/1 var(--tech); margin-top: .5rem; }
+.years__y { font-weight: 700; letter-spacing: .06em; font-size: .8rem; }
+
+.stat:nth-child(2) dd { white-space: nowrap; font-size: clamp(1.8rem, 1rem + 2.8vw, 4rem); }

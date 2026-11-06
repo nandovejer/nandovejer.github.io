@@ -19,6 +19,8 @@
     "ctaShelf": "Inserta el disquete de un proyecto",
     "today": "Hoy",
     "vhsVersion": "Versión VHS",
+    "vhsCode": "VERSION VHS",
+    "diskCode": "VERSION DISQUETE",
     "diskVersion": "Versión disquete",
     "vhs": {
       "tv": "Televisor",
@@ -58,6 +60,8 @@
     "ctaShelf": "Insert a project's disk",
     "today": "Today",
     "vhsVersion": "VHS version",
+    "vhsCode": "VHS VERSION",
+    "diskCode": "FLOPPY VERSION",
     "diskVersion": "Floppy version",
     "vhs": {
       "tv": "Television",

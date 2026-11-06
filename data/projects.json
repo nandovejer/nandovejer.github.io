@@ -3,19 +3,23 @@
     "id": "luz",
     "name": "LUZ",
     "year": 2024,
-    "language": "JavaScript",
-    "demo": "https://nandovejer.github.io/luz/",
+    "tech": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "demo": "https://luzds.com/",
     "repo": "https://github.com/nandovejer/luz",
     "plate": "lamp",
     "es": {
       "kicker": "Sistema de diseño",
-      "body": "Un sistema de diseño ligero, usable y sin dependencias. Tokens de CSS por capas, componentes y JavaScript vanilla que mejoran el HTML nativo en lugar de sustituirlo. Todo funciona sin JavaScript, y es la base sobre la que están construidos casi todos los proyectos que vienen después.",
+      "body": "LUZ (Light, Usable & Zero-dependency) es un sistema de diseño en HTML, CSS y módulos ES, sin dependencias en tiempo de ejecución. El HTML que escribes sale con estilo sin poner ninguna clase, y las clases solo añaden lo que el HTML no puede decir. Se adopta por capas independientes: solo los tokens, los tokens con los componentes, o además el catálogo con buscador, aviso de cookies, selector de idioma y patrones de landing, blog o documentación. Tiene tres modos de color, se prueba con tests de accesibilidad, incluye luz-check para validar un proyecto sin conexión y está pensado para personas y a la vez sencillo para que un agente de IA lo escriba bien.",
       "quote": "Mejorar el HTML nativo en lugar de sustituirlo.",
       "caption": "La lámpara"
     },
     "en": {
       "kicker": "Design system",
-      "body": "A light, usable and zero-dependency design system. Layered CSS tokens, components and vanilla JavaScript that enhance native HTML instead of replacing it. Everything works without JavaScript, and it is the foundation almost every project that follows is built on.",
+      "body": "LUZ (Light, Usable & Zero-dependency) is a design system in HTML, CSS and ES modules, with no runtime dependencies. The HTML you write comes out styled with no class, and classes only add what HTML cannot say. You adopt it in independent layers: just the tokens, the tokens and the components, or the catalog on top, with search, cookie consent, a language switch and patterns for a landing page, a blog or documentation. It has three colour modes, is tested for accessibility, ships luz-check to validate a project offline, and is made for people while staying plain enough for an AI agent to write it correctly.",
       "quote": "Enhance native HTML instead of replacing it.",
       "caption": "The lamp"
     }
@@ -24,19 +28,24 @@
     "id": "ikay",
     "name": "IKAY",
     "year": 2026,
-    "language": "JavaScript",
+    "tech": [
+      "JavaScript",
+      "CSS",
+      "HTML",
+      "LUZ"
+    ],
     "demo": "https://nandovejer.github.io/ikay-vanilla/",
     "repo": "https://github.com/nandovejer/ikay-vanilla",
     "plate": "fingerprint",
     "es": {
       "kicker": "Huella digital del navegador",
-      "body": "Una herramienta para ver, identificar y gestionar la huella digital de tu navegador. Muestra un panel con 33 datos que entregas a cualquier web sin que te pida un solo permiso, y explica en lenguaje llano qué significa cada uno para ti. Contraste AA, AAA en alto contraste, y tres idiomas: español, inglés y árabe.",
+      "body": "IKAY lee 33 datos que cualquier web obtiene de tu navegador sin pedirte un solo permiso y te los enseña como el expediente que una web guarda de ti. Cada dato llega en una frase, con una marca de protegido o no protegido y una explicación de lo que significa para ti, con el detalle técnico plegado para quien lo quiera. Al final calcula «tu ID», una huella que sobrevive a las cookies y al modo incógnito, sin guardar ni enviar nada. Es la versión moderna del IKAY original: HTML, CSS y JavaScript sobre los tokens de LUZ, sin bundler, en español, inglés y árabe, con modo claro, oscuro y alto contraste.",
       "quote": "Treinta y tres datos, cero permisos.",
       "caption": "La huella"
     },
     "en": {
       "kicker": "Browser fingerprint",
-      "body": "A tool to see, identify and manage your browser fingerprint. It shows a dashboard of 33 data points you hand over to any website without being asked for a single permission, and explains in plain language what each one means for you. AA contrast, AAA in high contrast, and three languages: Spanish, English and Arabic.",
+      "body": "IKAY reads 33 pieces of data that any website gets from your browser without asking for a single permission, and shows them as the file a website keeps on you. Each one comes as a sentence, marked protected or not protected, with what it means for you and the technical detail folded away for the curious. At the end it computes “your ID”, a fingerprint that survives cookies and incognito mode, without storing or sending anything. It is the modern version of the original IKAY: HTML, CSS and JavaScript on the LUZ tokens, no bundler, in Spanish, English and Arabic, with light, dark and high-contrast looks.",
       "quote": "Thirty-three data points, zero permissions.",
       "caption": "The fingerprint"
     }
@@ -45,18 +54,23 @@
     "id": "chrome-local-ai",
     "name": "Chrome Local AI",
     "year": 2025,
-    "language": "TypeScript",
+    "tech": [
+      "TypeScript",
+      "Astro",
+      "Chrome AI",
+      "LUZ"
+    ],
     "demo": "https://nandovejer.github.io/apiChrome/",
     "repo": "https://github.com/nandovejer/apiChrome",
     "ornament": "asterism",
     "es": {
       "kicker": "IA en el navegador",
-      "body": "Demos de las APIs de inteligencia artificial integradas en Chrome con Gemini Nano: resumir, traducir, corregir, conversar o generar datos que siguen un JSON Schema. Todo ocurre en tu dispositivo: no hay servidor y, una vez descargado el modelo, tampoco hace falta conexión. Bilingüe, hecho con Astro, TypeScript y LUZ.",
+      "body": "Demos de las APIs de IA que Chrome trae integradas con Gemini Nano. Todo se ejecuta en tu dispositivo: no hay servidor y, una vez descargado el modelo, tampoco hace falta conexión. Hay un playground con respuesta en streaming, un chat con varias sesiones que se pueden bifurcar, salida en JSON que sigue un esquema, recetas para clasificar, extraer o moderar textos, un buscador de sinónimos con matices y una caja de herramientas para resumir, traducir y reescribir un mismo texto. Cada demo empieza con una guía paso a paso; el sitio es bilingüe y está hecho con Astro, TypeScript y LUZ.",
       "quote": "Inteligencia artificial que no sale de tu ordenador."
     },
     "en": {
       "kicker": "AI in the browser",
-      "body": "Demos of the artificial intelligence APIs built into Chrome with Gemini Nano: summarise, translate, proofread, chat or generate data that follows a JSON Schema. Everything happens on your device: there is no server and, once the model is downloaded, no connection is needed either. Bilingual, built with Astro, TypeScript and LUZ.",
+      "body": "Demos of the AI APIs built into Chrome with Gemini Nano. Everything runs on your device: there is no server and, once the model is downloaded, no connection is needed either. There is a playground with streamed answers, a chat with several sessions you can branch, JSON output that follows a schema, recipes to classify, extract or moderate text, a synonym finder that explains the nuances, and a toolkit to summarise, translate and rewrite the same text. Every demo starts with a step-by-step guide; the site is bilingual and built with Astro, TypeScript and LUZ.",
       "quote": "Artificial intelligence that never leaves your computer."
     }
   },
@@ -64,19 +78,24 @@
     "id": "quien-canta-hoy",
     "name": "¿Quién canta hoy?",
     "year": 2023,
-    "language": "TypeScript",
+    "tech": [
+      "TypeScript",
+      "React",
+      "Vite",
+      "LUZ"
+    ],
     "demo": "https://nandovejer.github.io/coac-quien-canta-hoy/",
     "repo": "https://github.com/nandovejer/coac-quien-canta-hoy",
     "plate": "mask",
     "es": {
       "kicker": "Carnaval de Cádiz",
-      "body": "El horario del Concurso Oficial de Agrupaciones Carnavalescas del Gran Teatro Falla, sesión a sesión: qué agrupaciones cantan hoy y en qué orden. Sin backend, hecho con LUZ y pensado para consultarlo en el móvil de camino al teatro.",
+      "body": "Responde a la pregunta que se hace todo el mundo durante el Carnaval de Cádiz: qué agrupación sale ahora en el COAC y cuándo me toca verla. El concurso del Gran Teatro Falla dura semanas, con una sesión por noche y más de una decena de agrupaciones en cada una, y el listado oficial es una tabla larga y sin horas. Esta web la convierte en una página para el móvil que dice qué sesión es la de hoy, a qué hora aproximada sale cada agrupación, cuál está en directo y cuánto falta para la próxima. Sin cuentas, sin cookies y sin servidor: React y TypeScript con la lógica separada y probada.",
       "quote": "Qué agrupaciones cantan hoy, y en qué orden.",
       "caption": "El antifaz"
     },
     "en": {
       "kicker": "Cádiz Carnival",
-      "body": "The schedule of the Official Carnival Groups Contest at the Gran Teatro Falla, session by session: which groups sing today and in what order. No backend, built with LUZ and designed to be checked on your phone on the way to the theatre.",
+      "body": "It answers the question everyone asks during the Cádiz Carnival: which group is on stage at the COAC right now, and when will mine be on. The contest at the Gran Teatro Falla lasts weeks, with one session a night and more than ten groups in each, and the official listing is a long table with no times. This site turns it into a page for your phone that tells you which session is tonight, roughly when each group goes on, which one is live and how long until the next. No accounts, no cookies and no server: React and TypeScript with the logic kept apart and tested.",
       "quote": "Which groups sing today, and in what order.",
       "caption": "The mask"
     }
@@ -85,19 +104,24 @@
     "id": "ares-api",
     "name": "Ares API",
     "year": 2026,
-    "language": "JavaScript",
+    "tech": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "JSON"
+    ],
     "demo": "https://nandovejer.github.io/api-coac/",
     "repo": "https://github.com/nandovejer/api-coac",
     "plate": "guitar",
     "es": {
       "kicker": "Archivo musical",
-      "body": "Una API estática y sin dependencias con la discografía y la obra completa de Antonio Martínez Ares. Solo ficheros JSON servidos desde GitHub Pages: sin base de datos, sin servidor y sin paso de compilación, con CORS abierto para que cualquiera pueda consultarla.",
+      "body": "Una API estática y sin dependencias con la discografía y la obra completa de Antonio Martínez Ares, el autor de comparsas del Carnaval de Cádiz. Sirve las composiciones, las letras y su contexto histórico como ficheros JSON alojados en GitHub Pages, sin base de datos, sin servidor y sin paso de compilación. Incluye un índice ligero para autocompletar búsquedas sin descargar todos los datos, los datos repartidos por épocas y CORS abierto para usarla desde cualquier web. Carga en menos de un segundo en una red normal y es software libre con licencia MIT.",
       "quote": "Una obra entera en ficheros JSON.",
       "caption": "La guitarra"
     },
     "en": {
       "kicker": "Music archive",
-      "body": "A static, zero-dependency API for the complete discography and works of Antonio Martínez Ares. Nothing but JSON files served from GitHub Pages: no database, no server and no build step, with open CORS so anyone can query it.",
+      "body": "A static, zero-dependency API with the complete discography and works of Antonio Martínez Ares, the comparsa writer of the Cádiz Carnival. It serves the compositions, the lyrics and their historical context as JSON files hosted on GitHub Pages, with no database, no server and no build step. It includes a light index for search autocomplete without downloading all the data, the data split by era, and open CORS so any website can use it. It loads in under a second on a normal network and is free software under the MIT licence.",
       "quote": "A whole body of work in JSON files.",
       "caption": "The guitar"
     }
@@ -106,18 +130,23 @@
     "id": "toolbar-aem",
     "name": "Toolbar AEM",
     "year": 2025,
-    "language": "JavaScript",
+    "tech": [
+      "JavaScript",
+      "CSS",
+      "HTML",
+      "Chrome Extension"
+    ],
     "demo": null,
     "repo": "https://github.com/nandovejer/toolbar-aem",
     "ornament": "vine",
     "es": {
       "kicker": "Extensión de Chrome",
-      "body": "Una barra flotante para las páginas de Adobe Experience Manager que permite saltar entre el Editor, Sites, CRXDE y los distintos entornos sin reescribir URLs. Marcadores, favicon de color por entorno e importación de ajustes para todo el equipo. JavaScript plano, Manifest V3, sin compilación ni dependencias.",
+      "body": "Una extensión de Chrome que añade una barra flotante a las páginas de Adobe Experience Manager para saltar entre el Editor, la vista publicada, Sites y CRXDE sin reescribir URLs, conservando la ruta del contenido. Abre la misma página en otro entorno (local, desarrollo, QA, stage), pone un favicon de color distinto a cada uno para no confundir Stage con Local y guarda marcadores a las rutas más usadas. Funciona con AEM as a Cloud Service, AMS, on-premise y el SDK local, y los ajustes se comparten con el equipo en un JSON. JavaScript plano, Manifest V3, sin compilación ni dependencias.",
       "quote": "Saltar entre consolas sin reescribir URLs."
     },
     "en": {
       "kicker": "Chrome extension",
-      "body": "A floating toolbar for Adobe Experience Manager pages that lets you jump between the Editor, Sites, CRXDE and every environment without retyping URLs. Bookmarks, a coloured favicon per environment and settings you can share with your team. Plain JavaScript, Manifest V3, no build step and no dependencies.",
+      "body": "A Chrome extension that adds a floating toolbar to Adobe Experience Manager pages to jump between the Editor, the published view, Sites and CRXDE without retyping URLs, keeping the content path. It reopens the same page on another environment (local, dev, QA, stage), gives each one its own coloured favicon so you never mistake Stage for Local, and keeps bookmarks to the paths you use most. It works with AEM as a Cloud Service, AMS, on-premise and the local SDK, and settings are shared with the team as a JSON file. Plain JavaScript, Manifest V3, no build step and no dependencies.",
       "quote": "Jump between consoles without retyping URLs."
     }
   },
@@ -125,19 +154,21 @@
     "id": "accesibilidad",
     "name": "Acme Studio",
     "year": 2026,
-    "language": "HTML",
+    "tech": [
+      "HTML"
+    ],
     "demo": "https://nandovejer.github.io/accessibility/",
     "repo": "https://github.com/nandovejer/accessibility",
     "plate": "keyhole",
     "es": {
       "kicker": "Accesibilidad",
-      "body": "Una web que parece limpia pero está rota a propósito: foco invisible, imágenes sin texto alternativo, enlaces que no lo parecen. Un banco de pruebas para practicar auditorías de accesibilidad encontrando los errores uno a uno.",
+      "body": "La web de un estudio ficticio, Acme Studio, que parece limpia pero está rota a propósito para practicar auditorías de accesibilidad. Tiene un enlace para saltar al contenido que apunta a un destino equivocado, imágenes sin texto alternativo, un botón con solo un icono y sin nombre, un orden de tabulación alterado, encabezados que se saltan niveles, un div que parece un botón pero no responde al teclado y una tabla sin cabeceras. El formulario de contacto suma etiquetas que no se corresponden con sus campos y campos con solo un placeholder. Cada error está comentado en el código para comprobar lo que has encontrado.",
       "quote": "Rota a propósito, para aprender a arreglarla.",
       "caption": "La cerradura"
     },
     "en": {
       "kicker": "Accessibility",
-      "body": "A website that looks clean but is broken on purpose: invisible focus, images without alternative text, links that do not look like links. A test bench for practising accessibility audits by finding the errors one by one.",
+      "body": "The website of a made-up studio, Acme Studio, that looks clean but is broken on purpose so you can practise accessibility audits. It has a skip link pointing to the wrong target, images without alternative text, an icon-only button with no name, a tampered tab order, headings that skip levels, a div that looks like a button but ignores the keyboard, and a table with no headers. The contact form adds labels that do not match their fields and fields with only a placeholder. Every error is commented in the code, so you can check what you found.",
       "quote": "Broken on purpose, so you can learn to fix it.",
       "caption": "The keyhole"
     }
@@ -146,19 +177,108 @@
     "id": "libros-del-mundo",
     "name": "Libros del mundo",
     "year": 2024,
-    "language": "Markdown",
+    "tech": [
+      "Markdown"
+    ],
     "demo": null,
     "repo": "https://github.com/nandovejer/libros-del-mundo",
     "ornament": "hedera",
     "es": {
       "kicker": "Biblioteca",
-      "body": "Un viaje literario por los continentes: un libro por país, con una sola regla, que se haya publicado de 2010 en adelante. Una ventana al alma cultural de cada lugar, contada por autores que viven y sienten su propia tierra, con enlace a las bibliotecas del mundo que lo tienen.",
+      "body": "Un viaje literario por los continentes: una lista de libros elegidos con una regla sencilla, que hayan sido publicados a partir de 2010 y escritos por autores del país que representan. La idea es asomarse a lo que se escribe y se lee hoy en cada lugar, contado desde dentro, con las voces y los temas del siglo XXI. Es un repositorio abierto y colaborativo: cualquiera puede proponer un libro con un pull request y una breve explicación de por qué lo eligió, siempre que se pueda encontrar en bibliotecas o plataformas.",
       "quote": "Un libro por país, publicado desde 2010."
     },
     "en": {
       "kicker": "Library",
-      "body": "A literary journey across the continents: one book per country, with a single rule, that it was published in 2010 or later. A window onto the cultural soul of each place, told by authors who live and feel their own land, with links to the world's libraries that hold it.",
+      "body": "A literary journey across the continents: a list of books chosen by a simple rule, published from 2010 on and written by authors from the country they stand for. The idea is to look at what is being written and read today in each place, told from within, with the voices and themes of the 21st century. It is an open, collaborative repository: anyone can suggest a book with a pull request and a short note on why they chose it, as long as it can be found in libraries or online.",
       "quote": "One book per country, published since 2010."
+    }
+  },
+  {
+    "id": "string-transformer",
+    "name": "String Transformer",
+    "year": 2023,
+    "tech": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "PWA"
+    ],
+    "demo": "https://nandovejer.github.io/string-transformer/",
+    "repo": "https://github.com/nandovejer/string-transformer",
+    "es": {
+      "kicker": "Herramienta de texto",
+      "body": "Convierte un texto a más de 50 formatos agrupados en ocho categorías: convenciones de nombres como camelCase, snake_case o kebab-case, codificaciones como Base64, URL, hexadecimal o Morse, cifrados clásicos como ROT13 o Atbash, hashes SHA, la carga de un JWT y utilidades para ordenar, deduplicar o limpiar líneas. Transforma mientras escribes, avisa cuando la entrada no tiene el formato esperado, sugiere el formato que detecta y permite invertir la conversión con un botón. Todo ocurre en el navegador sin enviar nada a ningún servidor; se instala como PWA, funciona sin conexión y también se usa como librería o desde la línea de comandos.",
+      "quote": "Lo que escribes no sale de tu navegador."
+    },
+    "en": {
+      "kicker": "Text tool",
+      "body": "Turns any text into more than 50 formats in eight categories: naming conventions such as camelCase, snake_case or kebab-case, encodings such as Base64, URL, hex or Morse, classic ciphers such as ROT13 or Atbash, SHA hashes, a JWT payload and utilities to sort, dedupe or clean up lines. It transforms as you type, tells you when the input is not in the expected format, suggests the format it detects and flips the conversion with one button. It all happens in the browser and nothing is sent to a server; it installs as a PWA, works offline and can also be used as a library or from the command line.",
+      "quote": "What you type never leaves your browser."
+    }
+  },
+  {
+    "id": "coac-analisis",
+    "name": "Gestor de comparsas",
+    "year": 2026,
+    "tech": [
+      "HTML",
+      "JavaScript",
+      "Chrome AI"
+    ],
+    "demo": "https://nandovejer.github.io/coac-analisis/",
+    "repo": "https://github.com/nandovejer/coac-analisis",
+    "es": {
+      "kicker": "Dashboard de datos",
+      "body": "Una aplicación de una sola página para registrar, importar y analizar las comparsas del COAC y sus modalidades discursivas en cada fase del concurso, de las preliminares a la final. Carga datos desde CSV o Excel o desde un formulario, evita duplicados de comparsa y año, se edita en la propia tabla y guarda los cambios en el navegador. Un dashboard muestra métricas y gráficos con filtros, y las preguntas en lenguaje natural las responde la IA local de Chrome usando solo los datos filtrados. No necesita backend ni instalación: todo cabe en un index.html.",
+      "quote": "Sin backend: todo cabe en un index.html."
+    },
+    "en": {
+      "kicker": "Data dashboard",
+      "body": "A single-page app to record, import and analyse the comparsas of the COAC, the Cádiz carnival contest, and their kinds of discourse in each round, from the preliminaries to the final. It loads data from CSV, Excel or a form, avoids duplicate comparsa-and-year entries, is edited right in the table and saves changes in the browser. A dashboard shows metrics and charts with filters, and questions in plain language are answered by Chrome’s local AI using only the filtered data. No backend and nothing to install: it all fits in one index.html.",
+      "quote": "No backend: it all fits in one index.html."
+    }
+  },
+  {
+    "id": "illo-loader",
+    "name": "illo-loader",
+    "year": 2025,
+    "tech": [
+      "JavaScript",
+      "Web Components"
+    ],
+    "demo": null,
+    "repo": "https://github.com/nandovejer/illo-loader",
+    "es": {
+      "kicker": "Componente web",
+      "body": "Un componente web que muestra un indicador de carga animado y que se usa con una sola etiqueta en cualquier proyecto, con o sin framework. La animación se hace con el símbolo que elijas, de un bloque sombreado a puntos, barras o signos musicales, y se adapta a los esquemas de color claro y oscuro con una animación suave y configurable. Se carga como módulo desde un CDN o desde los propios ficheros del repositorio.",
+      "quote": "Una etiqueta y cualquier símbolo."
+    },
+    "en": {
+      "kicker": "Web component",
+      "body": "A web component that shows an animated loading indicator and takes a single tag in any project, with or without a framework. The animation is made of the symbol you choose, from a shaded block to dots, bars or musical signs, and it follows light and dark colour schemes with a smooth, configurable animation. Load it as a module from a CDN or from the repository’s own files.",
+      "quote": "One tag and any symbol."
+    }
+  },
+  {
+    "id": "js-subtype",
+    "name": "js-subtype",
+    "year": 2024,
+    "tech": [
+      "JavaScript",
+      "Node.js"
+    ],
+    "demo": null,
+    "repo": "https://github.com/nandovejer/js-subtype",
+    "es": {
+      "kicker": "Librería npm",
+      "body": "Una librería pequeña y sin dependencias para saber el subtipo exacto de cualquier valor de JavaScript —Array, Date, Map, RegExp…— allí donde typeof solo dice «object». Expone una sola función, getType, que devuelve el nombre del subtipo y sirve para validar entradas con precisión o decidir cómo tratar un valor. Funciona en Node.js y en los navegadores modernos, se instala desde npm o yarn y tiene licencia MIT.",
+      "quote": "Más preciso que typeof."
+    },
+    "en": {
+      "kicker": "npm library",
+      "body": "A small, zero-dependency library that tells you the exact subtype of any JavaScript value —Array, Date, Map, RegExp…— where typeof only says “object”. It exposes a single function, getType, which returns the subtype’s name, handy to validate input precisely or decide how to handle a value. It works in Node.js and in modern browsers, installs from npm or yarn and is MIT licensed.",
+      "quote": "More precise than typeof."
     }
   }
 ]

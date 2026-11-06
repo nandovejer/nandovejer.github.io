@@ -164,9 +164,23 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* ---------- links ---------- */
 
-.links { display: grid; gap: .35rem; }
-.links a { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .85rem; }
-.links a span { font-family: var(--tech); font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--ink-soft); margin-left: .35em; }
+/* Demo and code are buttons: an icon and a word. The demo is the main one,
+   an orange fill with navy text (5.2:1); the code is outlined in navy. */
+.links { display: flex; flex-wrap: wrap; gap: .6rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: .55em;
+  min-height: 2.75rem; padding: .55rem 1.1rem .55rem .9rem;
+  border: 1.5px solid var(--ink); border-radius: .35rem;
+  font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .82rem;
+  text-decoration: none; color: var(--ink); background: transparent;
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .2s ease;
+}
+.btn--demo { background: var(--accent); color: var(--on-accent); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--ink); text-decoration: none; }
+.btn:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
+.btn__icon { width: 1.15em; height: 1.15em; flex: none; }
+.btn--repo:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
 
 /* ---------- colophon ---------- */
 

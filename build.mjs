@@ -106,7 +106,8 @@ const objectOf = (p, i, t, u) => {
   return {
     id: p.id, n, code: `NM-${pad(n)}`, doc: `NM.${pad(n)}.${p.year}`,
     name: p.name, use: c.kicker, body: c.body, quote: c.quote,
-    year: p.year, material: p.language,
+    // the covers print the main one; the card lists them all
+    year: p.year, material: p.tech[0], tech: p.tech.join(' · '),
     status: p.demo ? u.statusOnline : u.statusRepo,
     demo: p.demo, repo: p.repo,
     // silhouettes without internal ids (they are drawn twice per page)
@@ -114,9 +115,16 @@ const objectOf = (p, i, t, u) => {
   };
 };
 
+// Demo and code as buttons: an icon and a word. The address is in `title`.
+const icon = {
+  // a window with an arrow out of it: opens the live site
+  demo: '<svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  // angle brackets: the source code
+  repo: '<svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
 const links = (o, t) => `<ul class="links">
-  ${o.demo ? `<li><a href="${o.demo}">${t.demo} <span>${pretty(o.demo)}</span></a></li>` : ''}
-  <li><a href="${o.repo}">${t.repo} <span>${pretty(o.repo)}</span></a></li>
+  ${o.demo ? `<li><a class="btn btn--demo" href="${o.demo}" title="${pretty(o.demo)}">${icon.demo}<span>${t.demo}</span></a></li>` : ''}
+  <li><a class="btn btn--repo" href="${o.repo}" title="${pretty(o.repo)}">${icon.repo}<span>${t.repo}</span></a></li>
 </ul>`;
 
 const socials = () => `<ul class="socials">${site.socials.map((s) =>
@@ -142,7 +150,11 @@ const LOOK = {
   'ares-api':          { color: 'orange',  cover: 'tracklist' },
   'toolbar-aem':       { color: 'blue',    cover: 'radical' },
   accesibilidad:       { color: 'crimson', cover: 'bonestorm' },
-  'libros-del-mundo':  { color: 'mist',    cover: 'atlas' }
+  'libros-del-mundo':  { color: 'mist',    cover: 'atlas' },
+  'string-transformer':{ color: 'teal',    cover: 'psichic' },
+  'coac-analisis':     { color: 'apricot', cover: 'shake' },
+  'illo-loader':       { color: 'crimson', cover: 'mixtape' },
+  'js-subtype':        { color: 'blue',    cover: 'orion' }
 };
 const pad2 = (n) => String(n).padStart(2, '0');
 const miniBars = (str) => barcode(str).replace('class="barcode"', 'class="cv-bars"');
@@ -224,7 +236,7 @@ const disk = (o) => {
         </span>
         <span class="disk__hole disk__hole--l"></span>
         <span class="disk__hole disk__hole--r"></span>
-        <span class="cover cover--${look.cover}">${covers[look.cover](o)}</span>
+        <span class="cover cover--${look.cover}" style="--chars:${Math.max(...String(o.name).split(/\s+/).map((w) => w.length))}">${covers[look.cover](o)}</span>
       </div>`;
 };
 
@@ -331,7 +343,7 @@ ${station(u)}
         <p class="entry__use">${esc(o.use)} · ${o.year}</p>
         <p class="entry__quote">“${esc(o.quote)}”</p>
         <p>${esc(o.body)}</p>
-        ${cells([[u.material, o.material], [u.status, o.status], [u.date, o.year]], 'cells--3')}
+        ${cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3')}
         ${links(o, t)}`);
     }).join('')}
   </ol>

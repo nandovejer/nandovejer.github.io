@@ -286,6 +286,7 @@ const station = (u) => `
       <span class="drive__face">${driveFront(u)}</span>
     </div>
     <p class="cta" hidden><span class="cta__arrow" aria-hidden="true">↓</span> <b>${u.ctaShelf}</b></p>
+    <div class="deck__links"></div>
   </div>
 </section>`;
 

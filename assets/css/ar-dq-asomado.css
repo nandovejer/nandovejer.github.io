@@ -159,3 +159,12 @@
   .dq--asomado .now-well { display: none; }
   .dq--asomado .drive__bezel { border-radius: 0 0 .5rem .5rem; }
 }
+
+/* ---------- two columns: the disk's links under the drive ---------- */
+.deck__links { display: none; }
+@media (min-width: 64em) {
+  .dq--asomado .screen__out .links { display: none; }
+  .dq--asomado .deck__links { display: block; margin-top: calc(var(--cell) * .35); }
+  .dq--asomado .deck__links .links > * { animation: line-in .5s both; animation-delay: calc(var(--i, 0) * 90ms + .4s); }
+  .dq--asomado .deck__links .links > :nth-child(2) { --i: 1; }
+}

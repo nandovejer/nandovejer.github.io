@@ -15,6 +15,10 @@ const state = screen.querySelector('.screen__state');
 const out = screen.querySelector('.screen__out');
 const ejectBtn = screen.querySelector('.screen__eject');
 const cta = document.querySelector('.deck .cta');
+// on two columns the disk's links (demo, code) sit under the drive, outside
+// the screen; CSS shows either these or the ones inside the screen
+const deckLinks = document.querySelector('.deck__links');
+const setDeckLinks = (links) => deckLinks?.replaceChildren(...(links ? [links.cloneNode(true)] : []));
 const bioEntry = document.querySelector('.entry--bio');
 const entries = [...document.querySelectorAll('.entry:not(.entry--bio)')];
 
@@ -123,6 +127,7 @@ function render(entry) {
   const content = entry.querySelector('.entry__content').cloneNode(true);
   content.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
   out.replaceChildren(...content.children);
+  setDeckLinks(out.querySelector('.links'));
   [...out.children].forEach((el, i) => el.style.setProperty('--k', i));
   const title = out.querySelector('.entry__title');
   title?.setAttribute('tabindex', '-1');
@@ -206,6 +211,7 @@ async function insert(entry, { ghost, rect } = {}) {
   announce('disk:read', entry);
   state.textContent = `${T.reading} ${entry.dataset.code}…`;
   out.replaceChildren();
+  setDeckLinks(null);
   await wait(900);
   drive.classList.remove('is-reading');
   const title = render(entry);
@@ -272,6 +278,7 @@ async function eject({ silent = false, quiet = false } = {}) {
   pressKey(); // the eject key goes in and springs back out
   drive.classList.remove('is-loaded', 'is-reading');
   announce('disk:eject', entry);
+  setDeckLinks(null);
   await sinkCover();             // its cover goes back in before it comes out
   entry.classList.remove('is-out');
   entry.querySelector('.entry__disk').style.visibility = 'hidden';

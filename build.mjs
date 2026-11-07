@@ -647,7 +647,9 @@ const cassette = (o) => {
 // the poster: a logo, the title and a second line, the catalogue number.
 const caseSpine = (o) => {
   const [, band, type] = casOf(o.id);
-  return `<span class="cspine jc--${band} ty--${type}" aria-hidden="true"><span class="cspine__card">
+  const h = hash(o.id);
+  const off = `--dx:${(h % 9) - 4}px;--rot:${(((h >> 4) % 5) - 2) * .15}deg;--fade:${(.82 + ((h >> 7) % 19) / 100).toFixed(2)}`;
+  return `<span class="cspine jc--${band} ty--${type}" style="${off}" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">${esc(o.name)}</span><span class="cspine__sub">${esc(o.use ?? '')}</span></span>
           <span class="cspine__code"><span>${o.code}</span><span>${o.length ?? 'STEREO'}</span></span>
@@ -756,6 +758,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
             <span class="tdeck__glass" aria-hidden="true"></span>
           </div>
         </div>
+        <p class="keys__labels" aria-hidden="true"><span>PLAY</span><span>REW</span><span>F.FWD</span><span>STOP</span><span>EJECT</span></p>
         <div class="keys">
           <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
           <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span aria-hidden="true">◀◀</span></button>

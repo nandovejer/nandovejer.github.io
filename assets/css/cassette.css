@@ -157,6 +157,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
 .cabinet > *, .rack__cabinet > * { position: relative; z-index: 1; }
+.cabinet { z-index: 1; }
+.ccase { z-index: 0; }
 /* the frame: two stiles with the grain running down, two rails across them */
 .cabinet::before, .rack__cabinet::before, .cabinet::after, .rack__cabinet::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit;
@@ -393,6 +395,55 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .cabinet.is-ff .tdeck__well .reel { animation: reel .35s linear infinite; }
 .cabinet.is-rew .tdeck__well .reel { animation: reel .35s linear infinite reverse; }
 @keyframes reel { to { rotate: 1turn; } }
+
+/* ---------- the empty case, open under the deck (desktop) ----------
+   The clear case of the tape that is in the deck, open and empty: the base
+   lying flat with its two hub posts, the spine standing at the back, the lid
+   leaning open behind it. Five panes of clear polystyrene in 3D, the wall
+   seen through them, their edges catching the light. 1 mm is .7u. */
+.ccase { display: none; }
+@media (min-width: 64em) {
+  .ccase {
+    --u: calc(min(100cqi, 24rem) / 100);
+    display: grid; justify-content: center; margin-top: calc(4 * var(--u));
+    height: calc(84 * var(--u)); perspective: calc(520 * var(--u)); perspective-origin: 50% 50%; overflow: visible;
+  }
+}
+.ccase__3d {
+  position: relative; width: calc(76 * var(--u)); height: calc(49 * var(--u));
+  transform-style: preserve-3d;
+  transform: translateY(calc(42 * var(--u))) rotateX(56deg) rotateZ(-6deg);
+}
+.ccase__3d > *, .ccase__lid, .ccase__lidside { position: absolute; box-sizing: border-box; display: block; }
+.ccase__base, .ccase__side, .ccase__spine, .ccase__lid, .ccase__lidside {
+  background: linear-gradient(135deg, rgb(255 255 255 / .28), rgb(255 255 255 / .08) 45%, rgb(255 255 255 / .18));
+  border: 1px solid rgb(255 255 255 / .62);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .07), inset 0 0 calc(1.5 * var(--u)) rgb(255 255 255 / .18);
+  backface-visibility: visible;
+}
+.ccase__shadow {
+  inset: calc(-3 * var(--u)) calc(-4 * var(--u)) calc(-6 * var(--u)); transform: translateZ(-2px);
+  background: radial-gradient(ellipse 50% 50% at 50% 55%, rgb(0 0 0 / .4), rgb(0 0 0 / .15) 50%, transparent 72%);
+}
+/* the base: the tray with its two hub posts */
+.ccase__base {
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 50%, rgb(255 255 255 / .55) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.6 * var(--u)), rgb(255 255 255 / .6) calc(4.7 * var(--u)) calc(5.2 * var(--u)), transparent calc(5.4 * var(--u))),
+    radial-gradient(circle at 70% 50%, rgb(255 255 255 / .55) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.6 * var(--u)), rgb(255 255 255 / .6) calc(4.7 * var(--u)) calc(5.2 * var(--u)), transparent calc(5.4 * var(--u))),
+    linear-gradient(rgb(255 255 255 / .12), rgb(255 255 255 / .12)) 50% 50% / 86% 70% no-repeat,
+    linear-gradient(135deg, rgb(255 255 255 / .28), rgb(255 255 255 / .08) 45%, rgb(255 255 255 / .18));
+}
+/* the spine, standing along the back edge; the lid hangs open from its top */
+.ccase__spine { left: 0; right: 0; top: 0; height: calc(12 * var(--u)); transform-origin: 50% 0; transform: rotateX(90deg); transform-style: preserve-3d; background: linear-gradient(rgb(255 255 255 / .34), rgb(255 255 255 / .12)); }
+.ccase__lid { left: 0; right: 0; top: 100%; height: calc(49 * var(--u)); transform-origin: 50% 0; transform: rotateX(80deg); transform-style: preserve-3d; background: linear-gradient(160deg, rgb(255 255 255 / .3), rgb(255 255 255 / .06) 50%, rgb(255 255 255 / .22)); }
+/* the side walls of the base and of the lid */
+.ccase__side { top: 0; bottom: 0; width: calc(12 * var(--u)); }
+.ccase__side--l { left: 0; transform-origin: 0 50%; transform: rotateY(-90deg); }
+.ccase__side--r { right: 0; transform-origin: 100% 50%; transform: rotateY(90deg); }
+.ccase__lidside { top: 0; bottom: 0; width: calc(11 * var(--u)); }
+.ccase__lidside--l { left: 0; transform-origin: 0 50%; transform: rotateY(90deg); }
+.ccase__lidside--r { right: 0; transform-origin: 100% 50%; transform: rotateY(-90deg); }
 
 /* ---------- the rack: an oak case under the studio, slots a case wide ----------
    The rows run as wide as the page, as the VHS shelf does. */

@@ -65,7 +65,12 @@
       "stopped": "Parado",
       "ejected": "Cinta expulsada",
       "track": "Pista",
-      "liner": "Carátula"
+      "liner": "Carátula",
+      "tagline": "Casete dinámico · Bajo ruido · Alta salida",
+      "dateTime": "Fecha/Hora",
+      "noise": "Reducción de ruido",
+      "on": "Sí",
+      "off": "No"
     }
   },
   "en": {
@@ -134,7 +139,12 @@
       "stopped": "Stopped",
       "ejected": "Tape ejected",
       "track": "Track",
-      "liner": "Liner notes"
+      "liner": "Liner notes",
+      "tagline": "Dynamic cassette · Low noise · High output",
+      "dateTime": "Date/Time",
+      "noise": "Noise reduction",
+      "on": "On",
+      "off": "Off"
     }
   }
 }

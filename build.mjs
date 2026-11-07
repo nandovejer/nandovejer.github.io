@@ -656,22 +656,43 @@ const caseSpine = (o) => {
         </span></span>`;
 };
 
-// The liner notes: the head, then side A and side B as numbered tracks.
-const notes = (o, c, { a, b }) => `
-          <header class="notes__head">
-            <p class="notes__code">${o.code} · ${o.length ?? 'C60'}</p>
-            <h3 class="notes__title">${esc(o.name)}</h3>
-            <p class="notes__use">${esc(o.use)}${o.year ? ` · ${o.year}` : ''}</p>
-            ${o.quote ? `<p class="notes__quote">“${esc(o.quote)}”</p>` : ''}
-          </header>
-          <p class="notes__side label">${c.sideA}</p>
-          <ol class="tracks">${a.map((x, i) => `
-            <li class="track" data-no="A${i + 1}"><span class="track__no">A${i + 1}</span><div class="track__body">${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`).join('')}
-          </ol>
-          <p class="notes__side label">${c.sideB}</p>
-          <ol class="tracks">${b.map((x, i) => `
-            <li class="track" data-no="B${i + 1}"><span class="track__no">B${i + 1}</span><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`).join('')}
-          </ol>`;
+// The liner notes: a blank J-card, written on by hand. The printed band (the
+// brand, the length in a grey panel, the type in the tape's colour), the
+// title written under it, the spine printed upside down between two folds,
+// and inside the ruled lines with side A and side B as numbered tracks.
+const notes = (o, c, { a, b }) => {
+  const len = o.length ?? 'C60';
+  const track = (side) => (x, i) => `
+              <li class="track" data-no="${side}${i + 1}"><span class="track__no">${side}${i + 1}</span><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`;
+  return `
+          <div class="jcard">
+            <div class="jcard__band" aria-hidden="true">
+              <span class="jcard__brand">${brandMark}<b>NM</b></span>
+              <span class="jcard__len">${len}</span>
+              <span class="jcard__type">IEC I / TYPE I<br>NORMAL POSITION</span>
+            </div>
+            <p class="jcard__tagline" aria-hidden="true">${c.tagline}</p>
+            <header class="notes__head">
+              <p class="notes__code">${o.code} · ${len}</p>
+              <h3 class="notes__title">${esc(o.name)}</h3>
+              <p class="notes__use">${esc(o.use)}${o.year ? ` · ${o.year}` : ''}</p>
+              ${o.quote ? `<p class="notes__quote">“${esc(o.quote)}”</p>` : ''}
+            </header>
+            <div class="jcard__spine" aria-hidden="true"><span class="jcard__spine-in"><span class="jcard__spine-len">${len}</span><span class="jcard__spine-brand">${brandMark}<b>NM</b></span></span></div>
+            <div class="jcard__inside">
+              <p class="notes__side"><b aria-hidden="true">A</b> ${c.sideA}</p>
+              <ol class="tracks">${a.map(track('A')).join('')}
+              </ol>
+              <p class="notes__side"><b aria-hidden="true">B</b> ${c.sideB}</p>
+              <ol class="tracks">${b.map(track('B')).join('')}
+              </ol>
+            </div>
+            <div class="jcard__foot" aria-hidden="true">
+              <span><b>B</b> ${c.dateTime}<br>${c.noise} ☐${c.on} ☐${c.off}</span>
+              <span><b>A</b> ${c.dateTime}<br>${c.noise} ☐${c.on} ☐${c.off}</span>
+            </div>
+          </div>`;
+};
 
 const cassettePage = (lang) => {
   const t = { ...site.i18n[lang], lang };
@@ -725,6 +746,7 @@ const cassettePage = (lang) => {
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
+  <link rel="preload" href="../../assets/fonts/caveat-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/cassette.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../../assets/js/cassette.js"></script>

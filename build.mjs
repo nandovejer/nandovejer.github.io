@@ -375,7 +375,7 @@ ${station(u)}
       return entry(o, u, `<h3 class="entry__title">${esc(o.name)}</h3>
         <p class="entry__use">${esc(o.use)} · ${o.year}</p>
         <p class="entry__quote">“${esc(o.quote)}”</p>
-        <p>${esc(o.body)}</p>
+        ${o.body.map((b) => `<p>${esc(b)}</p>`).join('\n        ')}
         ${cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3')}
         ${links(o, t)}`);
     }).join('')}
@@ -576,7 +576,7 @@ const vhsPage = (lang) => {
         ${spine(o)}
       </button>
       <div class="tape__content">${tvPages(o, u, {
-        text: `<p>${esc(o.body)}</p>`,
+        text: o.body.map((b) => `<p>${esc(b)}</p>`).join(''),
         facts: `${cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3')}
             ${links(o, t)}`
       })}

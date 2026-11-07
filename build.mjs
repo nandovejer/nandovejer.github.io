@@ -812,12 +812,10 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     </section>
   </div>
   <div class="ccase" aria-hidden="true">
-    <div class="ccase__3d">
-      <span class="ccase__shadow"></span>
+    <div class="ccase__open">
+      <span class="ccase__lid"></span>
+      <span class="ccase__spine"></span>
       <span class="ccase__base"></span>
-      <span class="ccase__side ccase__side--l"></span>
-      <span class="ccase__side ccase__side--r"></span>
-      <span class="ccase__spine"><span class="ccase__lid"><span class="ccase__lidside ccase__lidside--l"></span><span class="ccase__lidside ccase__lidside--r"></span></span></span>
     </div>
   </div>
   </div>

@@ -397,53 +397,53 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @keyframes reel { to { rotate: 1turn; } }
 
 /* ---------- the empty case, open under the deck (desktop) ----------
-   The clear case of the tape that is in the deck, open and empty: the base
-   lying flat with its two hub posts, the spine standing at the back, the lid
-   leaning open behind it. Five panes of clear polystyrene in 3D, the wall
-   seen through them, their edges catching the light. 1 mm is .7u. */
+   The clear case of the tape that is in the deck, open flat and empty, seen
+   straight on: the lid above, the spine, the base with its two hub posts.
+   Clear polystyrene: the wall seen through it, the edges and the walls
+   catching the light. 1 mm is .7u (109 × 70 × 17 mm). */
 .ccase { display: none; }
 @media (min-width: 64em) {
-  .ccase {
-    --u: calc(min(100cqi, 24rem) / 100);
-    display: grid; justify-content: center; margin-top: calc(4 * var(--u));
-    height: calc(84 * var(--u)); perspective: calc(520 * var(--u)); perspective-origin: 50% 50%; overflow: visible;
-  }
+  .ccase { --u: calc(min(100cqi, 24rem) / 100); display: grid; justify-content: center; margin-top: calc(7 * var(--u)); }
 }
-.ccase__3d {
-  position: relative; width: calc(76 * var(--u)); height: calc(49 * var(--u));
-  transform-style: preserve-3d;
-  transform: translateY(calc(42 * var(--u))) rotateX(56deg) rotateZ(-6deg);
+.ccase__open {
+  position: relative; width: calc(76 * var(--u));
+  display: grid; grid-template-rows: calc(49 * var(--u)) calc(12 * var(--u)) calc(49 * var(--u));
+  filter: drop-shadow(0 calc(1.5 * var(--u)) calc(1.5 * var(--u)) rgb(0 0 0 / .35)) drop-shadow(0 calc(5 * var(--u)) calc(6 * var(--u)) rgb(0 0 0 / .3));
 }
-.ccase__3d > *, .ccase__lid, .ccase__lidside { position: absolute; box-sizing: border-box; display: block; }
-.ccase__base, .ccase__side, .ccase__spine, .ccase__lid, .ccase__lidside {
-  background: linear-gradient(135deg, rgb(255 255 255 / .28), rgb(255 255 255 / .08) 45%, rgb(255 255 255 / .18));
-  border: 1px solid rgb(255 255 255 / .62);
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .07), inset 0 0 calc(1.5 * var(--u)) rgb(255 255 255 / .18);
-  backface-visibility: visible;
-}
-.ccase__shadow {
-  inset: calc(-3 * var(--u)) calc(-4 * var(--u)) calc(-6 * var(--u)); transform: translateZ(-2px);
-  background: radial-gradient(ellipse 50% 50% at 50% 55%, rgb(0 0 0 / .4), rgb(0 0 0 / .15) 50%, transparent 72%);
-}
-/* the base: the tray with its two hub posts */
-.ccase__base {
-  inset: 0;
+.ccase__open > * { position: relative; display: block; box-sizing: border-box; border: 1px solid rgb(255 255 255 / .7); }
+/* the lid and the base: a pane, its four walls seen edge on as bright rims */
+.ccase__lid, .ccase__base {
   background:
-    radial-gradient(circle at 30% 50%, rgb(255 255 255 / .55) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.6 * var(--u)), rgb(255 255 255 / .6) calc(4.7 * var(--u)) calc(5.2 * var(--u)), transparent calc(5.4 * var(--u))),
-    radial-gradient(circle at 70% 50%, rgb(255 255 255 / .55) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.6 * var(--u)), rgb(255 255 255 / .6) calc(4.7 * var(--u)) calc(5.2 * var(--u)), transparent calc(5.4 * var(--u))),
-    linear-gradient(rgb(255 255 255 / .12), rgb(255 255 255 / .12)) 50% 50% / 86% 70% no-repeat,
-    linear-gradient(135deg, rgb(255 255 255 / .28), rgb(255 255 255 / .08) 45%, rgb(255 255 255 / .18));
+    linear-gradient(90deg, rgb(255 255 255 / .34) 0 calc(1.1 * var(--u)), rgb(255 255 255 / .1) calc(1.1 * var(--u)) calc(1.4 * var(--u)), transparent calc(1.4 * var(--u)) calc(100% - 1.4 * var(--u)), rgb(255 255 255 / .1) calc(100% - 1.4 * var(--u)) calc(100% - 1.1 * var(--u)), rgb(255 255 255 / .34) calc(100% - 1.1 * var(--u))),
+    linear-gradient(135deg, rgb(255 255 255 / .3), rgb(255 255 255 / .08) 40%, rgb(255 255 255 / .04) 60%, rgb(255 255 255 / .2));
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08), inset 0 0 calc(2 * var(--u)) rgb(255 255 255 / .12);
 }
-/* the spine, standing along the back edge; the lid hangs open from its top */
-.ccase__spine { left: 0; right: 0; top: 0; height: calc(12 * var(--u)); transform-origin: 50% 0; transform: rotateX(90deg); transform-style: preserve-3d; background: linear-gradient(rgb(255 255 255 / .34), rgb(255 255 255 / .12)); }
-.ccase__lid { left: 0; right: 0; top: 100%; height: calc(49 * var(--u)); transform-origin: 50% 0; transform: rotateX(80deg); transform-style: preserve-3d; background: linear-gradient(160deg, rgb(255 255 255 / .3), rgb(255 255 255 / .06) 50%, rgb(255 255 255 / .22)); }
-/* the side walls of the base and of the lid */
-.ccase__side { top: 0; bottom: 0; width: calc(12 * var(--u)); }
-.ccase__side--l { left: 0; transform-origin: 0 50%; transform: rotateY(-90deg); }
-.ccase__side--r { right: 0; transform-origin: 100% 50%; transform: rotateY(90deg); }
-.ccase__lidside { top: 0; bottom: 0; width: calc(11 * var(--u)); }
-.ccase__lidside--l { left: 0; transform-origin: 0 50%; transform: rotateY(90deg); }
-.ccase__lidside--r { right: 0; transform-origin: 100% 50%; transform: rotateY(-90deg); }
+.ccase__lid { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; border-bottom: 0; }
+.ccase__lid::after {
+  content: ""; position: absolute; inset: calc(1.4 * var(--u)) calc(1.4 * var(--u)) 0; pointer-events: none;
+  background:
+    linear-gradient(rgb(255 255 255 / .3) 0 calc(1.1 * var(--u)), rgb(255 255 255 / .08) calc(1.1 * var(--u)) calc(1.4 * var(--u)), transparent calc(1.4 * var(--u))),
+    linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .16) 40%, rgb(255 255 255 / .04) 48%, transparent 55%);
+}
+/* the spine: the hinge, a pin at each end, the lip the J-card slides under */
+.ccase__spine {
+  border-block: 1px solid rgb(255 255 255 / .55);
+  background:
+    radial-gradient(circle at calc(2.2 * var(--u)) 50%, rgb(255 255 255 / .9) 0 calc(.6 * var(--u)), rgb(255 255 255 / .35) calc(.7 * var(--u)) calc(1.3 * var(--u)), transparent calc(1.5 * var(--u))),
+    radial-gradient(circle at calc(100% - 2.2 * var(--u)) 50%, rgb(255 255 255 / .9) 0 calc(.6 * var(--u)), rgb(255 255 255 / .35) calc(.7 * var(--u)) calc(1.3 * var(--u)), transparent calc(1.5 * var(--u))),
+    linear-gradient(rgb(255 255 255 / .42), rgb(255 255 255 / .14) 35%, rgb(255 255 255 / .1) 65%, rgb(255 255 255 / .38));
+}
+/* the base: the tray, two hub posts in it, the lugs at the front */
+.ccase__base { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); border-top: 0; }
+.ccase__base::after {
+  content: ""; position: absolute; inset: calc(2.6 * var(--u)) calc(4 * var(--u)) calc(3.4 * var(--u)); pointer-events: none;
+  border-radius: calc(.8 * var(--u));
+  background:
+    radial-gradient(circle at 31% 50%, rgb(255 255 255 / .6) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.4 * var(--u)), rgb(255 255 255 / .65) calc(4.5 * var(--u)) calc(5 * var(--u)), transparent calc(5.2 * var(--u))),
+    radial-gradient(circle at 69% 50%, rgb(255 255 255 / .6) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.4 * var(--u)), rgb(255 255 255 / .65) calc(4.5 * var(--u)) calc(5 * var(--u)), transparent calc(5.2 * var(--u))),
+    linear-gradient(rgb(255 255 255 / .1), rgb(255 255 255 / .16));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .45), 0 0 0 1px rgb(0 0 0 / .06);
+}
 
 /* ---------- the rack: an oak case under the studio, slots a case wide ----------
    The rows run as wide as the page, as the VHS shelf does. */

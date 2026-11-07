@@ -321,6 +321,17 @@ body.vhs::before {
 .tv__osd { top: 4.5cqh; }
 .osd__page { bottom: 4cqh; justify-content: flex-end; }
 .tv.is-playing .osd__mode { color: #b8ffcf; }
+/* "press ▶ PLAY": bottom left of the screen, blinking like a VCR prompt,
+   and the PLAY key glows, until PLAY has been pressed once */
+.osd__hint {
+  position: absolute; z-index: 5; left: 5cqw; bottom: 4cqh; margin: 0;
+  font: 600 max(.65rem, 3.6cqh)/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
+  color: #b8ffcf; text-shadow: .3cqh .3cqh 0 #000, 0 0 1.2cqh rgb(120 255 180 / .7);
+  animation: blink 1.2s steps(2) infinite;
+}
+.tv.has-played .osd__hint, .tv.is-static .osd__hint, .tv__screen:popover-open .osd__hint { display: none; }
+.tv:not(.has-played) [data-tv="play"] { animation: key-glow 1.2s ease-in-out infinite; }
+@keyframes key-glow { 50% { box-shadow: 0 .45cqi 0 #958b3f, 0 0 0 .35cqi #b8ffcf, 0 0 2.4cqi #b8ffcf, inset 0 .15cqi 0 rgb(255 255 255 / .7); } }
 .tv.is-ejecting .osd__mode { animation: blink .5s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 

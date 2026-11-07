@@ -529,6 +529,7 @@ ${masthead(lang, t, u, { bioHref: '#tv' })}
             <div class="tv__out">${bioPages}
             </div>
             <p class="osd__page" aria-hidden="true"></p>
+            <p class="osd__hint" aria-hidden="true">${v.hint}</p>
             <span class="tv__full-keys">
               <button type="button" class="tv__osd-key" data-full="rew" aria-label="${v.rew}" title="${v.rew}"><span aria-hidden="true">◀◀</span></button>
               <button type="button" class="tv__osd-key" data-full="ff" aria-label="${v.ff}" title="${v.ff}"><span aria-hidden="true">▶▶</span></button>

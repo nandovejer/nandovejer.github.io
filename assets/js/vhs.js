@@ -76,7 +76,7 @@ const press = (key) => {
 keys.rew.addEventListener('click', () => { if (page > 0) turn(page - 1); });
 keys.ff.addEventListener('click', () => { if (page < pages.length - 1) turn(page + 1); });
 // PLAY starts the tape (or the channel) again from its first page, full screen
-keys.play.addEventListener('click', () => { press(keys.play); turn(0); fullScreen(true); });
+keys.play.addEventListener('click', () => { press(keys.play); tv.classList.add('has-played'); turn(0); fullScreen(true); });
 
 // The tape counter of the video recorder, while a tape plays.
 let tick = 0;

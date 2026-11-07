@@ -275,6 +275,23 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   });
 });
 
+/* ---------- the cases at the radio's scale ---------- */
+// A case is 109 mm long and the cassette in it 100 mm wide: the cases on the
+// stack are 1.09 × the cassette seen in the door (offsetWidth: the door's
+// tilt does not count).
+// (Never wider than the stack can hold: one column on phones, two above.)
+const stackEl = document.querySelector('.stack');
+const twoCols = matchMedia('(min-width: 37.5em)');
+const sizeCases = () => {
+  const w = well.firstElementChild?.offsetWidth;
+  if (!w) return;
+  const cols = twoCols.matches ? 2 : 1;
+  const room = stackEl.clientWidth / (cols + (cols - 1) * .1 + .24);
+  document.documentElement.style.setProperty('--case-w', `${Math.floor(Math.min(w * 1.09, room))}px`);
+};
+new ResizeObserver(sizeCases).observe(well);
+new ResizeObserver(sizeCases).observe(stackEl);
+
 /* ---------- switch on ---------- */
 load(house);
 retrace();

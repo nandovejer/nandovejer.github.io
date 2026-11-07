@@ -105,9 +105,15 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   padding: clamp(1.5rem, 4vw, 3rem) var(--pad);
 }
 .studio__deck { display: grid; gap: 2.5rem; align-content: start; }
+.studio { grid-template-columns: minmax(0, 1fr); grid-template-areas: "deck" "liner" "stack"; }
+.stack { min-width: 0; }
+.stack__frame { max-width: 100%; }
+.studio__deck { grid-area: deck; }
+.liner { grid-area: liner; }
+.stack { grid-area: stack; }
+/* wide: the radio with the stack under it, as on the oak cabinet; the notes beside */
 @media (min-width: 64em) {
-  .studio { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
-  .studio__deck { position: sticky; top: 1rem; }
+  .studio { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: "deck liner" "stack liner"; grid-template-rows: auto 1fr; align-items: start; }
 }
 
 .studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; }
@@ -475,88 +481,89 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .track.is-current .track__no::before { content: "▶"; display: inline-block; width: 0; translate: -1.1em 0; font-size: .7em; }
 .track .cells { margin-top: .25rem; }
 
-/* ---------- the stack: the tapes spine out, in a frame ---------- */
+/* ---------- the stack: the tapes spine out, in an oak cabinet ----------
+   At the scale of the radio: a case is 109 × 17 mm and the cassette in it
+   100 mm wide, so --case-w is 1.09 × the cassette seen in the door
+   (cassette.js measures it). The cabinet is as wide as its cases. */
 
-.stack { padding: 1rem 0 clamp(2rem, 5vw, 4rem); }
-/* the oak cabinet: a thick frame, a dark inside, an oak shelf under each
-   row and an oak upright between the two columns */
+:root { --case-w: 14rem; }
+.stack { --gx: calc(var(--case-w) * .1); padding: 0; }
+.stack .section-head { padding-inline: 0; }
 .stack__frame {
-  margin: 1.5rem var(--pad) 0;
-  padding: clamp(.8rem, 2vw, 1.4rem);
-  border-radius: .3rem;
+  width: fit-content; margin: 1.5rem auto 0;
+  padding: calc(var(--case-w) * .06);
+  border-radius: .25rem;
   background: var(--oak-grain-v);
-  box-shadow: inset 0 0 0 1px rgb(255 240 210 / .35), inset 0 -.3rem .5rem rgb(0 0 0 / .2), 0 1.6rem 2.4rem -1rem rgb(0 0 0 / .55);
+  box-shadow: inset 0 0 0 1px rgb(255 240 210 / .35), inset 0 -.3rem .5rem rgb(0 0 0 / .2), 0 1.4rem 2rem -1rem rgb(0 0 0 / .55);
 }
 .stack__list {
-  --gx: clamp(1.2rem, 2.4vw, 2rem);
-  position: relative; display: grid; gap: 0 var(--gx);
-  padding: 0 clamp(.7rem, 1.6vw, 1.1rem);
+  position: relative; display: grid; grid-template-columns: var(--case-w); gap: 0 var(--gx);
+  padding: 0 calc(var(--case-w) * .05);
   background: linear-gradient(#1e1610, #2e2216 30%, #261c12);
-  box-shadow: inset 0 .6rem 1rem rgb(0 0 0 / .65), inset .4rem 0 .6rem rgb(0 0 0 / .4), inset -.4rem 0 .6rem rgb(0 0 0 / .4);
+  box-shadow: inset 0 .5rem .8rem rgb(0 0 0 / .65), inset .3rem 0 .5rem rgb(0 0 0 / .4), inset -.3rem 0 .5rem rgb(0 0 0 / .4);
 }
-@media (min-width: 48em) {
-  .stack__list { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(8, auto); grid-auto-flow: column; }
+@media (min-width: 37.5em) {
+  .stack__list { grid-template-columns: repeat(2, var(--case-w)); grid-template-rows: repeat(8, auto); grid-auto-flow: column; }
   /* the upright between the columns */
   .stack__list::before {
     content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: calc(var(--gx) * .55); translate: -50% 0;
-    background: var(--oak-grain-v); box-shadow: .25rem 0 .5rem rgb(0 0 0 / .45), -.25rem 0 .5rem rgb(0 0 0 / .45);
+    background: var(--oak-grain-v); box-shadow: .2rem 0 .4rem rgb(0 0 0 / .45), -.2rem 0 .4rem rgb(0 0 0 / .45);
   }
 }
 /* each case lies on its own oak shelf */
-.slot { padding-top: clamp(.7rem, 1.4vw, 1rem); }
+.slot { padding-top: calc(var(--case-w) * .045); }
 .slot::after {
-  content: ""; display: block; height: clamp(.5rem, 1vw, .7rem);
-  margin: clamp(.45rem, 1vw, .6rem) calc(var(--gx) / -2) 0;
+  content: ""; display: block; height: calc(var(--case-w) * .03);
+  margin: calc(var(--case-w) * .03) calc(var(--gx) / -2) 0;
   background: var(--oak-grain);
-  box-shadow: inset 0 1px 0 rgb(255 240 210 / .55), 0 .3rem .5rem rgb(0 0 0 / .5);
+  box-shadow: inset 0 1px 0 rgb(255 240 210 / .55), 0 .2rem .35rem rgb(0 0 0 / .5);
 }
-.slot:nth-child(-n + 16) { position: relative; }
-@media (max-width: 47.99em) { .slot::after { margin-inline: calc(clamp(.7rem, 1.6vw, 1.1rem) * -1); } }
-@media (min-width: 48em) {
+@media (max-width: 37.49em) { .slot::after { margin-inline: calc(var(--case-w) * -.05); } }
+@media (min-width: 37.5em) {
   /* the outer shelves reach the cabinet's sides */
-  .slot:nth-child(-n + 8)::after { margin-left: calc(clamp(.7rem, 1.6vw, 1.1rem) * -1); }
-  .slot:nth-child(n + 9)::after { margin-right: calc(clamp(.7rem, 1.6vw, 1.1rem) * -1); }
+  .slot:nth-child(-n + 8)::after { margin-left: calc(var(--case-w) * -.05); }
+  .slot:nth-child(n + 9)::after { margin-right: calc(var(--case-w) * -.05); }
 }
 
-.slot__case { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; border-radius: .4rem; }
+.slot__case { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; border-radius: .2rem; }
 .slot__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 .cspine { display: block; container-type: inline-size; }
 /* the case: smoked plastic round the printed card, the card seen through the
    clear back, the light running along it; not all pushed in the same */
-.cspine { translate: var(--dx, 0) 0; rotate: var(--rot, 0deg); filter: saturate(var(--fade, 1)); }
+.cspine { translate: calc(var(--dx, 0px) * .5) 0; rotate: var(--rot, 0deg); filter: saturate(var(--fade, 1)); }
 .cspine__card {
   position: relative;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 3cqi;
-  height: clamp(2.7rem, 11.5cqi, 3.7rem); padding: 0 2.6cqi;
-  border-radius: .2rem;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 2.4cqi;
+  height: 15.6cqi; padding: 0 2.4cqi;   /* 17 mm of 109 */
+  border-radius: .6cqi;
   background: var(--tx-paper) 0 0 / 220px 220px, var(--jc); color: var(--jc-ink);
   box-shadow:
-    0 0 0 .3rem var(--case), 0 0 0 .34rem rgb(255 255 255 / .16), inset 0 0 0 1px rgb(0 0 0 / .25),
-    0 .5rem .6rem -.1rem rgb(0 0 0 / .6);
+    0 0 0 1.3cqi var(--case), 0 0 0 1.5cqi rgb(255 255 255 / .16), inset 0 0 0 1px rgb(0 0 0 / .25),
+    0 2cqi 2.4cqi -.4cqi rgb(0 0 0 / .6);
   transition: transform .2s ease;
 }
 /* the clear plastic: a band of light along the top, a sheen, the hinge ends */
 .cspine__card::after {
-  content: ""; position: absolute; inset: -.3rem; border-radius: .35rem; pointer-events: none;
+  content: ""; position: absolute; inset: -1.3cqi; border-radius: 1.2cqi; pointer-events: none;
   background:
     linear-gradient(rgb(255 255 255 / .42), rgb(255 255 255 / .1) 16%, transparent 34%, transparent 78%, rgb(0 0 0 / .14)),
-    linear-gradient(90deg, rgb(0 0 0 / .35) 0 .3rem, transparent .3rem calc(100% - .3rem), rgb(0 0 0 / .35) calc(100% - .3rem)),
+    linear-gradient(90deg, rgb(0 0 0 / .35) 0 1.3cqi, transparent 1.3cqi calc(100% - 1.3cqi), rgb(0 0 0 / .35) calc(100% - 1.3cqi)),
     linear-gradient(100deg, transparent 0 55%, rgb(255 255 255 / .1) 56% 64%, transparent 65%);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .35);
 }
-.slot__case:hover .cspine__card { transform: translateX(.5rem); }
-.cspine__logo { padding: .2rem .28rem; border: 2px solid currentColor; border-radius: 2px; font: 900 .62rem/1 var(--sans); letter-spacing: .04em; }
+.slot__case:hover .cspine__card { transform: translateX(4cqi); }
+.cspine__logo { padding: .6cqi .9cqi; border: max(1px, .7cqi) solid currentColor; border-radius: .4cqi; font: 900 max(.42rem, 2.6cqi)/1 var(--sans); letter-spacing: .04em; }
 .cspine__text { display: grid; justify-items: center; min-width: 0; text-align: center; }
 .cspine__title {
-  max-width: 100%; font-size: clamp(.95rem, 5.2cqi, 1.45rem); line-height: 1.05; color: var(--jc-title, var(--jc-ink));
+  max-width: 100%; font-size: max(.72rem, 6.2cqi); line-height: 1.05; color: var(--jc-title, var(--jc-ink));
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.ty--script .cspine__title { font-size: clamp(1.25rem, 7cqi, 2rem); line-height: 1.1; }
+.ty--script .cspine__title { font-size: max(.9rem, 8cqi); line-height: 1.1; }
 .cspine__sub {
-  max-width: 100%; font: 600 clamp(.58rem, 2.4cqi, .76rem)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase;
+  max-width: 100%; font: 600 max(.42rem, 2.9cqi)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.cspine__code { display: grid; justify-items: end; font: 600 .56rem/1.15 var(--tech); letter-spacing: .05em; }
+.cspine__code { display: grid; justify-items: end; font: 600 max(.4rem, 2.5cqi)/1.15 var(--tech); letter-spacing: .05em; }
 /* a case that is in the deck leaves its place empty */
 .cas-item.is-out .cspine { visibility: hidden; }
 .cas-item.is-out .slot__case { outline: 2px dashed rgb(255 240 210 / .35); outline-offset: -2px; }

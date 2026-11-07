@@ -778,26 +778,26 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     <div class="liner__out">${bioNotes}
     </div>
   </article>
+  <section class="stack" id="${shelfId}" aria-labelledby="shelf-title">
+    <header class="section-head">
+      <h2 id="shelf-title">${u.shelf}</h2>
+      <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
+    </header>
+    <div class="stack__frame">
+      <ol class="stack__list">${projects.map((p, i) => {
+        const o = objectOf(p, i, t, u);
+        const total = o.body.reduce((n, b) => n + trackLen(b), 0);
+        return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
+      }).join('')}${site.socials.map(socialSlot).join('')}
+      </ol>
+    </div>
+  </section>
   <div class="cas-bio" hidden>
     <div class="cas-item__tape">${cassette(bio)}</div>
     <div class="cas-item__notes">${bioNotes}
     </div>
   </div>
 </div>
-<section class="stack" id="${shelfId}" aria-labelledby="shelf-title">
-  <header class="section-head">
-    <h2 id="shelf-title">${u.shelf}</h2>
-    <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
-  </header>
-  <div class="stack__frame">
-    <ol class="stack__list">${projects.map((p, i) => {
-      const o = objectOf(p, i, t, u);
-      const total = o.body.reduce((n, b) => n + trackLen(b), 0);
-      return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
-    }).join('')}${site.socials.map(socialSlot).join('')}
-    </ol>
-  </div>
-</section>
 </main>
 ${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion })}
 </body>

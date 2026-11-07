@@ -188,3 +188,14 @@
   .dq--asomado .deck__links .links > * { animation: line-in .5s both; animation-delay: calc(var(--i, 0) * 90ms + .4s); }
   .dq--asomado .deck__links .links > :nth-child(2) { --i: 1; }
 }
+
+/* ---------- wide screens ----------
+   The cells grow with the window (up to 120px), so the text grows with them:
+   the root size goes up a step at 1600px and another at 1920px. Everything set
+   in rem (text, buttons, paddings) follows; the grid is in cells and does not. */
+@media (min-width: 100em) { html:has(.dq--asomado) { font-size: 106.25%; } }
+@media (min-width: 120em) { html:has(.dq--asomado) { font-size: 112.5%; } }
+
+/* the shelf: the boxes that fit, centred, so what is left over is split into
+   whole cells on each side (desktop 14 − 4×3 = 2 → 1 + 1; tablet 14 − 3×4) */
+.dq--asomado .shelf__list { justify-content: center; }

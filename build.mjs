@@ -523,12 +523,19 @@ ${masthead(lang, t, u, { bioHref: '#tv' })}
     <div class="tv" id="tv" data-play="${v.play}" data-eject="${v.ejectOsd}" data-channel="${v.channel}" data-page="${v.page}" data-playing="${v.playing}">
       <div class="tv__body">
         <div class="tv__bezel">
-          <div class="tv__screen">
+          <div class="tv__screen" id="tv-screen" popover="manual" role="region" aria-label="${v.tv}">
             <canvas class="tv__noise" width="160" height="120" aria-hidden="true"></canvas>
             <p class="tv__osd" aria-hidden="true"><span class="osd__mode">${v.channel}</span><span class="osd__clock"></span></p>
             <div class="tv__out">${bioPages}
             </div>
             <p class="osd__page" aria-hidden="true"></p>
+            <span class="tv__full-keys">
+              <button type="button" class="tv__osd-key" data-full="rew" aria-label="${v.rew}" title="${v.rew}"><span aria-hidden="true">◀◀</span></button>
+              <button type="button" class="tv__osd-key" data-full="ff" aria-label="${v.ff}" title="${v.ff}"><span aria-hidden="true">▶▶</span></button>
+            </span>
+            <button type="button" class="tv__close" aria-label="${v.exitFull}" title="${v.exitFull}">
+              <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M5 5 19 19M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"/></svg>
+            </button>
           </div>
         </div>
         <div class="tv__panel">
@@ -544,7 +551,7 @@ ${masthead(lang, t, u, { bioHref: '#tv' })}
           <span class="tv__power" aria-hidden="true"><span class="tv__button"></span><span class="tv__led"></span><span class="tv__jack"></span><span class="tv__jack"></span></span>
           <span class="tv__keys">
             <button type="button" class="tv__key" data-tv="rew" aria-label="${v.rew}" title="${v.rew}"><span aria-hidden="true">◀◀</span></button>
-            <button type="button" class="tv__key" data-tv="play" aria-label="${v.play}" title="${v.play}"><span aria-hidden="true">▶</span></button>
+            <button type="button" class="tv__key" data-tv="play" aria-label="${v.playFull}" title="${v.playFull}" aria-controls="tv-screen" aria-expanded="false"><span aria-hidden="true">▶</span></button>
             <button type="button" class="tv__key" data-tv="ff" aria-label="${v.ff}" title="${v.ff}"><span aria-hidden="true">▶▶</span></button>
             <button type="button" class="tv__key tv__key--eject" data-tv="eject" aria-label="${v.eject}" title="${v.eject}"><span aria-hidden="true">⏏</span></button>
           </span>

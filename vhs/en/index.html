@@ -81,7 +81,7 @@
     <div class="tv" id="tv" data-play="PLAY" data-eject="EJECT" data-channel="CHANNEL 1" data-page="PAGE" data-playing="Playing">
       <div class="tv__body">
         <div class="tv__bezel">
-          <div class="tv__screen">
+          <div class="tv__screen" id="tv-screen" popover="manual" role="region" aria-label="Television">
             <canvas class="tv__noise" width="160" height="120" aria-hidden="true"></canvas>
             <p class="tv__osd" aria-hidden="true"><span class="osd__mode">CHANNEL 1</span><span class="osd__clock"></span></p>
             <div class="tv__out">
@@ -103,6 +103,13 @@
           <section class="tvp tvp--facts"><p>I code and I write. Sometimes it is hard to tell one from the other.</p><ul class="socials"><li><a href="https://github.com/nandovejer" rel="me noopener"><span class="socials__label">GitHub</span> <span class="socials__handle">nandovejer</span></a></li><li><a href="https://x.com/nandovejer" rel="me noopener"><span class="socials__label">X</span> <span class="socials__handle">@nandovejer</span></a></li><li><a href="https://soynando.com" rel="me noopener"><span class="socials__label">Blog</span> <span class="socials__handle">soynando.com</span></a></li><li><a href="https://www.linkedin.com/in/nandovejer" rel="me noopener"><span class="socials__label">LinkedIn</span> <span class="socials__handle">in/nandovejer</span></a></li></ul></section>
             </div>
             <p class="osd__page" aria-hidden="true"></p>
+            <span class="tv__full-keys">
+              <button type="button" class="tv__osd-key" data-full="rew" aria-label="Previous page" title="Previous page"><span aria-hidden="true">◀◀</span></button>
+              <button type="button" class="tv__osd-key" data-full="ff" aria-label="Next page" title="Next page"><span aria-hidden="true">▶▶</span></button>
+            </span>
+            <button type="button" class="tv__close" aria-label="Exit full screen (Esc)" title="Exit full screen (Esc)">
+              <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M5 5 19 19M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"/></svg>
+            </button>
           </div>
         </div>
         <div class="tv__panel">
@@ -118,7 +125,7 @@
           <span class="tv__power" aria-hidden="true"><span class="tv__button"></span><span class="tv__led"></span><span class="tv__jack"></span><span class="tv__jack"></span></span>
           <span class="tv__keys">
             <button type="button" class="tv__key" data-tv="rew" aria-label="Previous page" title="Previous page"><span aria-hidden="true">◀◀</span></button>
-            <button type="button" class="tv__key" data-tv="play" aria-label="PLAY" title="PLAY"><span aria-hidden="true">▶</span></button>
+            <button type="button" class="tv__key" data-tv="play" aria-label="Play: watch full screen" title="Play: watch full screen" aria-controls="tv-screen" aria-expanded="false"><span aria-hidden="true">▶</span></button>
             <button type="button" class="tv__key" data-tv="ff" aria-label="Next page" title="Next page"><span aria-hidden="true">▶▶</span></button>
             <button type="button" class="tv__key tv__key--eject" data-tv="eject" aria-label="Eject" title="Eject"><span aria-hidden="true">⏏</span></button>
           </span>

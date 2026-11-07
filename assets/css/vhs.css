@@ -306,7 +306,7 @@ body.vhs::before {
 
 .tv__noise {
   position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%;
-  image-rendering: pixelated; opacity: 0; transition: opacity .15s;
+  image-rendering: pixelated; opacity: 0; transition: opacity .15s; pointer-events: none;
 }
 .tv.is-static .tv__noise { opacity: 1; }
 .tv.is-static .tv__out { opacity: 0; }
@@ -353,6 +353,56 @@ body.vhs::before {
 .tvp--facts .cells { margin-bottom: 1rem; }
 .tvp--facts .socials { margin-top: 1rem; }
 .tvp .btn { min-height: 2.5rem; }
+
+/* ---------- the screen, full screen ----------
+   PLAY lifts the tube into the top layer (a manual popover), over the whole
+   viewport; what plays stays clickable. An ✕ in the corner, or Esc, puts it
+   back in the set. In the set the popover's UA styles are undone, so it lays
+   out as before. */
+.tv__screen[popover] {
+  display: block; position: relative; inset: auto;
+  width: auto; height: auto; margin: 0; padding: 0; border: 0;
+  overflow: hidden; color: inherit;
+}
+.tv__screen:popover-open {
+  position: fixed; inset: 0;
+  width: 100vw; height: 100dvh; max-width: none; max-height: none;
+  border-radius: 0; box-shadow: none;
+  animation: tube-on .35s cubic-bezier(.2, .8, .2, 1);
+}
+.tv__screen::backdrop { background: #000; }
+@keyframes tube-on {
+  0% { clip-path: inset(49.5% 0 49.5% 0); filter: brightness(3); }
+  60% { clip-path: inset(0); filter: brightness(1.4); }
+  100% { clip-path: inset(0); filter: none; }
+}
+html:has(.tv__screen:popover-open) { overflow: hidden; }
+/* a wide screen: the picture keeps a readable column */
+.tv__screen:popover-open .tv__out { inset: 12cqh max(6cqw, (100cqw - 72rem) / 2) 12cqh; }
+.tv__screen:popover-open .tvp--text p,
+.tv__screen:popover-open .tvp--facts > p { font-size: clamp(1rem, .7rem + 1.2vw, 1.6rem); }
+.tv__screen:popover-open .tvp__title { font-size: min(7cqw, 11cqh); }
+
+/* the ✕ and the page keys: only full screen, in the OSD's voice */
+.tv__close, .tv__osd-key {
+  all: unset; box-sizing: border-box; cursor: pointer;
+  display: inline-grid; place-items: center;
+  min-width: 2.75rem; min-height: 2.75rem;
+  color: #fff; filter: drop-shadow(2px 2px 0 #000) drop-shadow(0 0 6px rgb(120 200 255 / .7));
+  font: 600 1rem/1 var(--tech); letter-spacing: .1em;
+}
+.tv__close {
+  position: absolute; z-index: 6; top: max(1rem, 3cqh); right: max(1rem, 3cqw);
+  width: 3rem; height: 3rem;
+}
+.tv__close svg { width: 1.75rem; height: 1.75rem; }
+.tv__full-keys { display: flex; position: absolute; z-index: 6; left: 5cqw; bottom: max(.5rem, 2.5cqh); gap: .5rem; }
+.tv__osd-key[aria-disabled="true"] { opacity: .35; cursor: default; }
+.tv__close:hover, .tv__osd-key:not([aria-disabled="true"]):hover { color: #b8ffcf; }
+.tv__close:focus-visible, .tv__osd-key:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.tv__screen:popover-open .tv__osd { right: calc(max(1rem, 3cqw) + 3.5rem); }
+.tv__screen:not(:popover-open) :is(.tv__close, .tv__full-keys) { display: none; }
+@media (prefers-reduced-motion: reduce) { .tv__screen:popover-open { animation: none; } }
 
 /* the sleeve: the picture of the tape */
 .sleeve {

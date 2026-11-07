@@ -25,6 +25,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, reduceMotion.matches ? 0 
 
 /* ---------- the screen ---------- */
 
+const tube = tv.querySelector('.tv__screen');
+const closeBtn = tube.querySelector('.tv__close');
+const fullKeys = Object.fromEntries([...tube.querySelectorAll('[data-full]')].map((b) => [b.dataset.full, b]));
+
 // Blue static, like an untuned set: a small canvas drawn every frame, scaled up.
 const canvas = tv.querySelector('.tv__noise');
 const ctx = canvas.getContext('2d');
@@ -62,8 +66,8 @@ function turn(i) {
   pages.forEach((p, k) => { p.hidden = k !== page; });
   out.scrollTop = 0;
   osdPage.textContent = `${L.page} ${page + 1}/${pages.length}`;
-  keys.rew.setAttribute('aria-disabled', String(page === 0));
-  keys.ff.setAttribute('aria-disabled', String(page === pages.length - 1));
+  for (const k of [keys.rew, fullKeys.rew]) k.setAttribute('aria-disabled', String(page === 0));
+  for (const k of [keys.ff, fullKeys.ff]) k.setAttribute('aria-disabled', String(page === pages.length - 1));
 }
 const press = (key) => {
   key.classList.add('is-pressed');
@@ -71,8 +75,8 @@ const press = (key) => {
 };
 keys.rew.addEventListener('click', () => { if (page > 0) turn(page - 1); });
 keys.ff.addEventListener('click', () => { if (page < pages.length - 1) turn(page + 1); });
-// PLAY starts the tape (or the channel) again from its first page
-keys.play.addEventListener('click', () => { press(keys.play); turn(0); });
+// PLAY starts the tape (or the channel) again from its first page, full screen
+keys.play.addEventListener('click', () => { press(keys.play); turn(0); fullScreen(true); });
 
 // The tape counter of the video recorder, while a tape plays.
 let tick = 0;
@@ -95,6 +99,40 @@ function channel() {
   tv.classList.remove('is-playing');
   cta.hidden = false;
 }
+
+/* ---------- full screen ----------
+   The tube goes into the top layer (a manual popover) over the whole viewport.
+   What plays stays clickable; ✕ or Esc put it back; ← → turn the pages; Tab
+   stays inside it while it is open. */
+const isFull = () => tube.matches(':popover-open');
+function fullScreen(on) {
+  if (!tube.showPopover || on === isFull()) return;
+  if (on) {
+    tube.showPopover();
+    keys.play.setAttribute('aria-expanded', 'true');
+    closeBtn.focus({ preventScroll: true });
+  } else {
+    tube.hidePopover();
+    keys.play.setAttribute('aria-expanded', 'false');
+    keys.play.focus({ preventScroll: true });
+  }
+}
+closeBtn.addEventListener('click', () => fullScreen(false));
+fullKeys.rew.addEventListener('click', () => { if (page > 0) turn(page - 1); });
+fullKeys.ff.addEventListener('click', () => { if (page < pages.length - 1) turn(page + 1); });
+const focusables = () => [...tube.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])')]
+  .filter((el) => el.offsetParent !== null || el === closeBtn);
+tube.addEventListener('keydown', (e) => {
+  if (!isFull()) return;
+  if (e.key === 'ArrowLeft' && page > 0) { e.preventDefault(); turn(page - 1); }
+  if (e.key === 'ArrowRight' && page < pages.length - 1) { e.preventDefault(); turn(page + 1); }
+  if (e.key === 'Tab') {
+    const f = focusables();
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
 
 /* ---------- the tape in flight ---------- */
 // A fixed copy of the spine flies from the shelf, turns on its side and lines
@@ -223,8 +261,11 @@ tapes.forEach((tape) => {
     if (tape === loaded) eject(); else insert(tape);
   });
 });
+// Esc: out of full screen first; with the set in view, it ejects the tape.
 addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && loaded && !busy) eject();
+  if (e.key !== 'Escape') return;
+  if (isFull()) { e.preventDefault(); fullScreen(false); return; }
+  if (loaded && !busy) eject();
 });
 
 /* ---------- header links ---------- */

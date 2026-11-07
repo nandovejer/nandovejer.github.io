@@ -37,7 +37,9 @@
       "tapes": "cintas",
       "recorder": "VIDEO RECORDER",
       "studio": "NM HOME VIDEO",
-      "social": "Abrir"
+      "social": "Abrir",
+      "playFull": "Play: ver a pantalla completa",
+      "exitFull": "Salir de pantalla completa (Esc)"
     }
   },
   "en": {
@@ -78,7 +80,9 @@
       "tapes": "tapes",
       "recorder": "VIDEO RECORDER",
       "studio": "NM HOME VIDEO",
-      "social": "Open"
+      "social": "Open",
+      "playFull": "Play: watch full screen",
+      "exitFull": "Exit full screen (Esc)"
     }
   }
 }

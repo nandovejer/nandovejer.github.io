@@ -31,12 +31,23 @@ const announce = (type, entry) => document.dispatchEvent(new CustomEvent(type, {
 const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion.matches ? 0 : ms));
 
 /* ---------- the disk in flight ---------- */
-// The ghost is a fixed copy of the disk (transform-origin 0 0). While it goes
-// through the slot its outline is cut at the slot line, so the part that is
-// already inside the drive disappears: `cut(b)` keeps the disk's clipped
-// corner and shows it down to b% of its height.
+// The ghost is a fixed copy of the disk (transform-origin 0 0). As in a real
+// drive it goes in shutter first: it turns over on the way (180°), so the
+// metal shutter points down, and slides down through the slot. While it does,
+// its outline is cut at the slot line, so the part already inside the drive
+// disappears: `cut(b)` shows b% of the disk, measured from its label end
+// (the end still outside), and keeps its clipped corner while that is out.
 
-const cut = (b) => `polygon(0 0, 93% 0, 100% 6.5%, 100% ${b}%, 0 ${b}%)`;
+const cut = (b) => {
+  const t = 100 - b;
+  return `polygon(0 ${t}%, 93% ${t}%, 100% ${Math.max(t, 6.5)}%, 100% 100%, 0 100%)`;
+};
+// The disk at (x, y) (its top-left corner when upright or upside down),
+// scaled by k and turned by deg around its own centre; w × h is its size.
+const pose = (x, y, k, deg, w, h) => {
+  const cx = (w * k) / 2, cy = (h * k) / 2;
+  return `translate(${x + cx}px, ${y + cy}px) rotate(${deg}deg) translate(${-cx}px, ${-cy}px) scale(${k})`;
+};
 
 function ghostFrom(entry, rect) {
   const g = entry.querySelector('.entry__disk .disk').cloneNode(true);
@@ -80,13 +91,15 @@ async function flyIn(ghost, rect, dy = 0) {
   const mx = (rect.left + x) / 2;
   // the top of the arc stays on screen
   const my = Math.max(12, Math.min(rect.top, top0) - Math.min(160, innerHeight * .18));
+  // it turns over in the air and is upside down (shutter first) over the slot
+  const W = rect.width, Hh = rect.height;
   const frames = [
-    { transform: `translate(${rect.left}px, ${rect.top}px) scale(1) rotate(0deg)`, clipPath: cut(100), offset: 0 },
-    { transform: `translate(${rect.left}px, ${rect.top - 14}px) scale(1.04) rotate(2deg)`, clipPath: cut(100), offset: .08 },
-    { transform: `translate(${mx}px, ${my}px) scale(${(1 + k) / 2}) rotate(-12deg)`, clipPath: cut(100), offset: .38 },
-    { transform: `translate(${x}px, ${top0 - 10}px) scale(${k}) rotate(2deg)`, clipPath: cut(100), offset: .6 },
-    { transform: `translate(${x}px, ${top0}px) scale(${k}) rotate(0deg)`, clipPath: cut(100), offset: .66 },
-    { transform: `translate(${x}px, ${slot}px) scale(${k}) rotate(0deg)`, clipPath: cut(0), offset: 1 }
+    { transform: pose(rect.left, rect.top, 1, 0, W, Hh), clipPath: cut(100), offset: 0 },
+    { transform: pose(rect.left, rect.top - 14, 1.04, 2, W, Hh), clipPath: cut(100), offset: .08 },
+    { transform: pose(mx, my, (1 + k) / 2, 100, W, Hh), clipPath: cut(100), offset: .38 },
+    { transform: pose(x, top0 - 10, k, 182, W, Hh), clipPath: cut(100), offset: .6 },
+    { transform: pose(x, top0, k, 180, W, Hh), clipPath: cut(100), offset: .66 },
+    { transform: pose(x, slot, k, 180, W, Hh), clipPath: cut(0), offset: 1 }
   ];
   const duration = 1500;
   swallow(duration * .66);
@@ -104,16 +117,18 @@ async function flyOut(entry) {
   const top0 = slot - H;
   const ghost = ghostFrom(entry, home);
   const visible = home.bottom > 0 && home.top < innerHeight;
+  // it comes out label first, as it went in, and turns back over on the way
+  const W = home.width, Hh = home.height;
   const rise = [
-    { transform: `translate(${x}px, ${slot}px) scale(${k})`, clipPath: cut(0), opacity: 1, offset: 0 },
-    { transform: `translate(${x}px, ${top0}px) scale(${k})`, clipPath: cut(100), opacity: 1, offset: .38 }
+    { transform: pose(x, slot, k, 180, W, Hh), clipPath: cut(0), opacity: 1, offset: 0 },
+    { transform: pose(x, top0, k, 180, W, Hh), clipPath: cut(100), opacity: 1, offset: .38 }
   ];
   const back = visible
     ? [
-        { transform: `translate(${(home.left + x) / 2}px, ${Math.min(home.top, top0) - 120}px) scale(${(1 + k) / 2}) rotate(10deg)`, clipPath: cut(100), opacity: 1, offset: .7 },
-        { transform: `translate(${home.left}px, ${home.top}px) scale(1) rotate(0deg)`, clipPath: cut(100), opacity: 1, offset: 1 }
+        { transform: pose((home.left + x) / 2, Math.min(home.top, top0) - 120, (1 + k) / 2, 80, W, Hh), clipPath: cut(100), opacity: 1, offset: .7 },
+        { transform: pose(home.left, home.top, 1, 0, W, Hh), clipPath: cut(100), opacity: 1, offset: 1 }
       ]
-    : [{ transform: `translate(${x}px, ${top0 - 140}px) scale(${k}) rotate(-6deg)`, clipPath: cut(100), opacity: 0, offset: 1 }];
+    : [{ transform: pose(x, top0 - 140, k, 150, W, Hh), clipPath: cut(100), opacity: 0, offset: 1 }];
   drive.classList.add('is-swallowing');
   setTimeout(() => drive.classList.remove('is-swallowing'), 450);
   const a = ghost.animate([...rise, ...back], { duration: 1200, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' });

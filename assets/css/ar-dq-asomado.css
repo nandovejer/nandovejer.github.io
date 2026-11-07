@@ -166,7 +166,9 @@
   .dq--asomado .screen__out .links { display: none; }
   /* the drive is 5 cells wide and 1.35 tall (4 : 1.08): .65 of a cell more
      puts the links' top on the next grid line */
+  /* one row of the grid of their own, the buttons centred in it */
   .dq--asomado .deck__links { display: block; margin-top: calc(var(--cell) * (2 - var(--deck) * .27)); }
+  .dq--asomado .deck__links .links { height: var(--cell); align-items: center; align-content: center; }
   .dq--asomado .deck__links .links > * { animation: line-in .5s both; animation-delay: calc(var(--i, 0) * 90ms + .4s); }
   .dq--asomado .deck__links .links > :nth-child(2) { --i: 1; }
 }

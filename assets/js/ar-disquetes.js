@@ -349,12 +349,11 @@ if (main) {
   const snap = () => {
     const cols = parseFloat(getComputedStyle(main).getPropertyValue('--cols')) || 16;
     const c = main.clientWidth / cols;
-    boxes.forEach((el) => {
-      el.style.minHeight = '';
-      const h = el.getBoundingClientRect().height;
-      const target = `${Math.ceil(h / c - 0.01) * c}px`;
-      if (el.style.minHeight !== target) el.style.minHeight = target;
-    });
+    boxes.forEach((el) => { el.style.minHeight = ''; });
+    const cells = boxes.map((el) => Math.ceil(el.getBoundingClientRect().height / c - 0.01));
+    // side by side (two columns), both end on the same line: the taller one's
+    const n = oneCol.matches ? null : Math.max(...cells);
+    boxes.forEach((el, i) => { el.style.minHeight = `${(n ?? cells[i]) * c}px`; });
   };
   let queued = false;
   const ro = new ResizeObserver(() => {
@@ -364,6 +363,7 @@ if (main) {
   });
   ro.observe(main);
   ro.observe(out);
+  if (deckLinks) ro.observe(deckLinks);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(snap);
   snap();
 }

@@ -3,7 +3,7 @@
 // it: the sleeve and title, then the text, then the facts; REW and FF turn the
 // pages, EJECT sends it back to the shelf. With no tape in, the TV is on
 // channel 1, which shows the bio.
-import { reduceMotion } from './ar-common.js';
+import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const tv = document.querySelector('.tv');
 const out = tv.querySelector('.tv__out');
@@ -169,18 +169,6 @@ function tvScroll() {
   const to = Math.max(0, Math.min(max, scrollY + r.top + Math.min(0, (r.height - innerHeight) / 2) - Math.max(16, (innerHeight - r.height) / 2)));
   return Math.round(to - scrollY);
 }
-function scrollAlong(dy, ms) {
-  if (!dy) return;
-  if (reduceMotion.matches) { scrollBy({ top: dy, behavior: 'instant' }); return; }
-  const y0 = scrollY, t0 = performance.now();
-  const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  const step = (now) => {
-    const t = Math.min(1, (now - t0) / ms);
-    scrollTo({ top: y0 + dy * ease(t), behavior: 'instant' });
-    if (t < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
 
 /* ---------- insert and eject ---------- */
 
@@ -241,14 +229,6 @@ addEventListener('keydown', (e) => {
 
 /* ---------- header links ---------- */
 
-function glideTo(el, block) {
-  return new Promise((resolve) => {
-    const done = () => { removeEventListener('scrollend', done); clearTimeout(t); resolve(); };
-    const t = setTimeout(done, reduceMotion.matches ? 0 : 900);
-    addEventListener('scrollend', done, { once: true });
-    el.scrollIntoView({ block, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-  });
-}
 document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   a.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -256,15 +236,6 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
     if (!fullyVisible(tv.querySelector('.tv__body'))) await glideTo(tv, 'center');
     if (loaded && !busy) await eject({ quiet: false });
   });
-});
-
-/* ---------- today, in Roman numerals ---------- */
-const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]
-  .reduce((s, [v, r]) => { while (n >= v) { s += r; n -= v; } return s; }, '');
-document.querySelectorAll('time.today').forEach((el) => {
-  const d = new Date();
-  el.textContent = `${roman(d.getDate())}·${roman(d.getMonth() + 1)}·${roman(d.getFullYear())}`;
-  el.dateTime = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 });
 
 /* ---------- switch on ---------- */

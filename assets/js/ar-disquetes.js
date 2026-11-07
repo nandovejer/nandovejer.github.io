@@ -2,7 +2,7 @@
 // drive and slides in through the slot, and the screen reads it. The cover of
 // the disk inside sticks out of the slot. With no project inserted, the bio
 // is the disk inside.
-import { reduceMotion } from './ar-common.js';
+import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const es = document.documentElement.lang === 'es';
 const T = { reading: es ? 'Leyendo' : 'Reading' };
@@ -250,11 +250,6 @@ const fullyVisible = (el) => { const r = el.getBoundingClientRect(); return r.to
 const topVisible = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.top <= innerHeight * .4; };
 const SCROLL_MS = 800; // the flight is 1500 ms and lines up over the slot at ~990 ms
 
-// While the page glides on its own, the masthead keeps its place (shown or
-// hidden): only the visitor's own scrolling hides or brings it back.
-let headHoldUntil = 0;
-const holdHead = (ms) => { headHoldUntil = Math.max(headHoldUntil, performance.now() + ms); };
-
 // How far the page must scroll to bring the drive a little below the middle of
 // the screen, so the cover standing behind it shows too
 // (0 when it is already fully in view), clamped to what the page can scroll.
@@ -265,32 +260,6 @@ function driveScroll() {
   const max = document.documentElement.scrollHeight - innerHeight;
   const to = Math.max(0, Math.min(max, scrollY + r.top + r.height / 2 - innerHeight * .62));
   return Math.round(to - scrollY);
-}
-
-// Scrolls by dy over ms with its own easing, so the end time is known.
-function scrollAlong(dy, ms) {
-  if (!dy) return;
-  holdHead(reduceMotion.matches ? 100 : ms + 150);
-  if (reduceMotion.matches) { scrollBy({ top: dy, behavior: 'instant' }); return; }
-  const y0 = scrollY, t0 = performance.now();
-  const ease = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  const step = (now) => {
-    const t = Math.min(1, (now - t0) / ms);
-    scrollTo({ top: y0 + dy * ease(t), behavior: 'instant' });
-    if (t < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
-
-// Smooth scroll, resolved when it ends (or soon after, as a fallback).
-function glideTo(el, block) {
-  return new Promise((resolve) => {
-    holdHead(1200);
-    const done = () => { removeEventListener('scrollend', done); clearTimeout(t); holdHead(150); resolve(); };
-    const t = setTimeout(done, reduceMotion.matches ? 0 : 900);
-    addEventListener('scrollend', done, { once: true });
-    el.scrollIntoView({ block, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-  });
 }
 
 async function eject({ silent = false, quiet = false } = {}) {
@@ -390,42 +359,3 @@ if (main) {
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(snap);
   snap();
 }
-
-/* ---------- the sticky masthead's height ---------- */
-// CSS uses it so anchors, glides and the language list stop under it.
-const head = document.querySelector('.masthead');
-if (head) {
-  const setHead = () => {
-    const h = head.getBoundingClientRect().height + parseFloat(getComputedStyle(head, '::after').height || 0);
-    document.documentElement.style.setProperty('--head-h', `${Math.round(h)}px`);
-  };
-  new ResizeObserver(setHead).observe(head);
-  setHead();
-
-  // It hides going down and comes back going up (or at the top of the page).
-  // It stays while the language list is open or focus is inside it.
-  const langMenu = head.querySelector('[popover]');
-  let lastY = scrollY, ticking = false;
-  const update = () => {
-    ticking = false;
-    const y = Math.max(0, scrollY), dy = y - lastY;
-    if (performance.now() < headHoldUntil) { lastY = y; return; }
-    if (Math.abs(dy) < 6) return; // ignore jitter
-    lastY = y;
-    const busyHead = head.contains(document.activeElement) || langMenu?.matches(':popover-open');
-    const hide = dy > 0 && y > head.offsetHeight && !busyHead;
-    head.classList.toggle('is-hidden', hide);
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  head.addEventListener('focusin', () => head.classList.remove('is-hidden'));
-}
-
-/* ---------- today, in Roman numerals ---------- */
-// The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).
-const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]
-  .reduce((s, [v, r]) => { while (n >= v) { s += r; n -= v; } return s; }, '');
-document.querySelectorAll('time.today').forEach((el) => {
-  const d = new Date();
-  el.textContent = `${roman(d.getDate())}·${roman(d.getMonth() + 1)}·${roman(d.getFullYear())}`;
-  el.dateTime = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-});

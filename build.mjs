@@ -316,12 +316,32 @@ const langSwitch = (lang) => `<div class="lang">
     </nav>
   </div>`;
 
+/* ---------- the chrome every version shares (chrome.css, chrome.js) ----------
+   The same masthead and colophon on Disquetes, VHS and any version to come.
+   `bioHref` is where the Bio link goes without JS; `version` is the barcode
+   to the other version: { href, code, label }. */
+const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
+  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
+  <nav class="masthead__nav" aria-label="${u.nav}">
+    <a href="${bioHref}" data-go="bio">${u.navBio}</a>
+    <a href="#${lang === 'es' ? 'proyectos' : 'projects'}" data-go="projects">${u.shelf}</a>
+  </nav>
+  ${langSwitch(lang)}
+</header>`;
+const colophon = (t, u, version) => `<footer class="colophon">
+  <div class="colophon__doc">
+    <p class="label">${u.today}</p>
+    <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
+  </div>
+  <p class="colophon__text">${linkSocials(t.colophon)}</p>
+  ${versionCode(version.href, version.code, version.label)}
+</footer>`;
+
 /* ---------- the page ---------- */
 
 const page = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
-  const other = lang === 'es' ? 'en' : 'es';
   const shelfId = lang === 'es' ? 'proyectos' : 'projects';
   const url = `${site.baseUrl}/${lang}/`;
   const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
@@ -341,6 +361,7 @@ const page = (lang) => {
   <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/archivo.css">
+  <link rel="stylesheet" href="../assets/css/chrome.css">
   <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
   <link rel="stylesheet" href="../assets/css/ar-disks.css">
   <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
@@ -349,14 +370,7 @@ const page = (lang) => {
 </head>
 <body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
-<header class="masthead">
-  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
-  <nav class="masthead__nav" aria-label="${u.nav}">
-    <a href="#bio" data-go="bio">${u.navBio}</a>
-    <a href="#${shelfId}" data-go="projects">${u.shelf}</a>
-  </nav>
-  ${langSwitch(lang)}
-</header>
+${masthead(lang, t, u, { bioHref: '#bio' })}
 <main id="main">
 ${station(u)}
 <section class="shelf" id="${shelfId}" aria-labelledby="shelf-title">
@@ -382,14 +396,7 @@ ${station(u)}
   </ol>
 </section>
 </main>
-<footer class="colophon">
-  <div class="colophon__doc">
-    <p class="label">${u.today}</p>
-    <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
-  </div>
-  <p class="colophon__text">${linkSocials(t.colophon)}</p>
-  ${versionCode(`../vhs/${lang}/`, u.vhsCode, u.vhsVersion)}
-</footer>
+${colophon(t, u, { href: `../vhs/${lang}/`, code: u.vhsCode, label: u.vhsVersion })}
 </body>
 </html>
 `;
@@ -466,7 +473,6 @@ const vhsPage = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const v = u.vhs;
-  const other = lang === 'es' ? 'en' : 'es';
   const shelfId = lang === 'es' ? 'proyectos' : 'projects';
   const url = `${site.baseUrl}/vhs/${lang}/`;
   const bio = {
@@ -501,20 +507,14 @@ const vhsPage = (lang) => {
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/chrome.css">
   <link rel="stylesheet" href="../../assets/css/vhs.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../../assets/js/vhs.js"></script>
 </head>
 <body class="vhs">
 <a class="skip" href="#main">${t.skip}</a>
-<header class="masthead">
-  <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
-  <nav class="masthead__nav" aria-label="${u.nav}">
-    <a href="#tv" data-go="bio">${u.navBio}</a>
-    <a href="#${shelfId}" data-go="projects">${u.shelf}</a>
-  </nav>
-  <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
-</header>
+${masthead(lang, t, u, { bioHref: '#tv' })}
 <main id="main">
 <section class="room" aria-label="${v.tv}">
   <div class="room__row">
@@ -586,14 +586,7 @@ const vhsPage = (lang) => {
   </ol>
 </section>
 </main>
-<footer class="colophon">
-  <div class="colophon__doc">
-    <p class="label">${u.today}</p>
-    <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
-  </div>
-  <p class="colophon__text">${linkSocials(t.colophon)}</p>
-  ${versionCode(`../../${lang}/`, u.diskCode, u.diskVersion)}
-</footer>
+${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion })}
 </body>
 </html>
 `;

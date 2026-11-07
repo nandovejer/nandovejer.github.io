@@ -4,7 +4,7 @@
    tapes spine out in their plastic sleeves. The projects are tapes; one goes
    into the video recorder and the TV plays it, page by page.
    Without JS: every tape is followed by its text.
-   Built on archivo.css (type, cells, buttons, masthead, colophon).
+   Built on archivo.css (type, cells, buttons) and chrome.css (masthead, colophon).
    ========================================================================== */
 
 @font-face {
@@ -64,7 +64,6 @@ body.vhs::before {
   content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .09; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.vhs .masthead { background: var(--panel); }
 
 /* ---------- the room: TV on the top shelf, the socials beside it ---------- */
 
@@ -479,9 +478,6 @@ body.vhs::before {
   .tv__keys { gap: .4rem; }
   .tv__key { min-width: 2.6rem; }
 }
-
-/* ---------- footer ---------- */
-.vhs .colophon { background: var(--panel); }
 
 @media (prefers-reduced-motion: reduce) {
   .tv__screen::before { animation: none; }

@@ -129,28 +129,12 @@ a:hover { text-decoration-thickness: 2px; }
   .cells--3 .cell:nth-child(3n + 1) { padding-left: 0; border-left: 0; }
 }
 
-/* ---------- masthead ---------- */
-
-.masthead {
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .25rem 2rem;
-  padding: 1rem var(--pad);
-  border-bottom: 1.5px solid var(--ink);
-  font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-}
-/* the retro stripe under the masthead */
-.masthead { position: relative; margin-bottom: 1.4rem; }
-.masthead::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1.4rem; background: var(--stripe); }
-.masthead a { text-decoration: none; }
-
 /* ---------- correspondence ---------- */
 
 .socials { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
 .socials a { text-decoration: none; display: inline-flex; gap: .5em; align-items: baseline; }
 .socials__label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .socials__handle { font-family: var(--tech); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
-
-.masthead a:hover { text-decoration: underline; }
-.masthead__title { font-size: inherit; font-weight: 700; }
 
 /* ---------- section heads ---------- */
 
@@ -182,44 +166,6 @@ a:hover { text-decoration-thickness: 2px; }
 .btn__icon { width: 1.15em; height: 1.15em; flex: none; }
 .btn--repo:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
 
-/* ---------- colophon ---------- */
-
-.colophon {
-  display: grid; gap: 1rem var(--gap); align-items: end;
-  grid-template-columns: 1fr;
-  padding: 2rem var(--pad) 2.5rem;
-  border-top: 1.5px solid var(--ink);
-  background: var(--panel);
-}
-.colophon__no { font-family: var(--tech); font-weight: 600; font-size: 1.15rem; margin-top: .25rem; }
-.colophon__text { font-size: .85rem; color: var(--ink-soft); max-width: 40rem; }
-@media (min-width: 64em) {
-  .colophon { grid-template-columns: 1fr 2fr auto; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-
-/* ---------- header links ---------- */
-
-.masthead__nav { display: flex; gap: 1.5rem; }
-.masthead__lang { margin-left: auto; }
-@media (min-width: 64em) {
-  .masthead__nav { margin-left: auto; }
-  .masthead__lang { margin-left: 0; }
-}
-.masthead__nav a { color: var(--ink); }
-
-/* ---------- the other version, bottom right of the footer ---------- */
-
-/* only a scannable barcode of its name */
-.colophon__version { justify-self: end; align-self: end; margin: 0; }
-.colophon__version a {
-  display: block; padding: .5rem;
-  color: var(--ink); text-decoration: none;
-  transition: transform .2s ease;
-}
-.colophon__version .barcode { width: 13rem; height: 3.2rem; }
-.colophon__version a:hover { transform: translateY(-2px); text-decoration: none; }
-

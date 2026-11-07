@@ -53,29 +53,6 @@
 }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
-/* ---------- the masthead: a magazine cover's ----------
-   The stripe runs along the top; under it the three squares and the name in
-   the condensed titling face, with the kicker under it in the technical one;
-   the links are ■ labels, the language a plain square like the screen's eject.
-   The brand (squares, name, kicker) is one link home. */
-.dq--asomado .masthead {
-  align-items: center;
-  padding-top: calc(.4rem + .55rem); padding-bottom: .55rem;
-  margin-bottom: 0;
-}
-.dq--asomado .masthead::after { top: 0; height: .4rem; }
-.brand { display: inline-flex; align-items: center; gap: .75rem; }
-.brand:hover { text-decoration: none; }
-.brand__mark { width: 2.2rem; height: 2.2rem; flex: none; }
-.brand__text { display: grid; }
-.brand__name { font: 800 1.7rem/.9 var(--sans); font-stretch: 62%; letter-spacing: 0; }
-.brand:hover .brand__name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
-.brand__kicker { margin-top: .25rem; font: 600 .66rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft); }
-.dq--asomado .masthead__nav { gap: 1.6rem; }
-.dq--asomado .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; }
-.dq--asomado .masthead__nav a::before { content: ""; width: .55em; height: .55em; background: var(--accent); }
-
-
 /* ==========================================================================
    Everything on the grid of square cells (as in the grid versions).
    The body is the container; a cell is its width / columns, and every edge
@@ -229,62 +206,5 @@
 .dq--asomado .entry .entry__disk { width: calc(var(--side) * .78 * .96); }
 .dq--asomado .entry.is-out::after { inset: auto; top: calc(var(--side) * .11); left: 50%; width: calc(var(--side) * .78); translate: -50% 0; }
 
-/* ---------- the masthead stays on top while the page scrolls ----------
-   (with its stripe: the stripe is its ::after). --head-h is its height, set
-   by ar-disquetes.js, so anchors and glides stop under it. */
-.dq--asomado .masthead { position: sticky; top: 0; z-index: 20; background: var(--bg); transition: translate .3s ease; }
-/* going down it slides away (stripe and all); going up it comes back (ar-disquetes.js) */
-.dq--asomado .masthead.is-hidden { translate: 0 -100%; }
-@media (prefers-reduced-motion: reduce) { .dq--asomado .masthead { transition: none; } }
-html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .dq--asomado .screen { scroll-margin-top: 0; }
 
-/* ---------- language: a button with the current code, a popover list ----------
-   As LUZ's lang-switch: native popover, one link per language named in
-   itself, the current one ticked. */
-.dq--asomado .lang { margin-left: auto; }
-@media (min-width: 64em) { .dq--asomado .lang { margin-left: 0; } }
-.lang__button {
-  display: inline-flex; align-items: center;
-  min-height: 2.5rem; padding: 0 .7rem;
-  border: 1.5px solid var(--ink); border-radius: .35rem;
-  background: transparent; color: var(--ink);
-  font: 600 .85rem/1 var(--tech); letter-spacing: .08em;
-  cursor: pointer;
-}
-.lang__button:hover, .lang__button:has(+ :popover-open) { background: var(--ink); color: var(--bg); }
-.dq--asomado .lang__button { width: 2.25rem; min-height: 2.25rem; padding: 0; justify-content: center; border-radius: 0; font-size: .78rem; }
-.lang__menu {
-  inset: auto; top: var(--head-h, 4.5rem); right: var(--pad, 1rem);
-  margin: 0; min-width: 12rem; padding: .5rem;
-  border: 1.5px solid var(--ink); border-radius: 0;
-  background: var(--panel); color: var(--ink);
-  box-shadow: 0 4px 0 var(--ink);
-  font-family: var(--sans);
-}
-@supports (position-anchor: --lang) {
-  .lang__button { anchor-name: --lang; }
-  .lang__menu { position-anchor: --lang; top: calc(anchor(bottom) + .5rem); right: anchor(right); }
-}
-.lang__title { padding: .25rem .6rem .45rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-.lang__list { display: grid; gap: .2rem; list-style: none; margin: 0; padding: 0; }
-.lang__link {
-  display: flex; align-items: center; gap: .6rem;
-  min-height: 2.75rem; padding: 0 .6rem; border-radius: 0;
-  color: var(--ink); font-weight: 600; text-decoration: none;
-}
-.lang__link:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); text-decoration: none; }
-.lang__link:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
-.lang__code { width: 1.8em; font: 600 .78rem/1 var(--tech); letter-spacing: .08em; color: var(--ink-soft); }
-/* the current one: a tick (a shape, not colour alone) and weight */
-.lang__link[aria-current] { background: color-mix(in srgb, var(--ink) 10%, transparent); font-weight: 800; }
-.lang__link[aria-current]::after {
-  content: ""; margin-left: auto; width: .4em; height: .75em;
-  border: solid var(--accent); border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -.1em;
-}
-/* without the popover API: the links in a row, no button */
-@supports not selector(:popover-open) {
-  .lang__button, .lang__title { display: none; }
-  .lang__menu { display: block; position: static; padding: 0; border: 0; box-shadow: none; background: none; min-width: 0; }
-  .lang__list { display: flex; }
-}

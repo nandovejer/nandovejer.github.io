@@ -300,6 +300,22 @@ const brandMark = `<svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="tru
   </svg>`;
 const brandName = `${site.nick} ${site.name.split(' ').slice(1).join(' ')}`.toUpperCase();
 
+/* ---------- the language switch (as in LUZ's lang-switch) ----------
+   A button with the current language's code opens a native popover with one
+   link per language, each named in itself; the current one is
+   aria-current="page". Going to the other language is navigation: no script. */
+const LANG_NAME = { es: 'Español', en: 'English' };
+const LANG_LABEL = { es: 'Idioma', en: 'Language' };
+const langSwitch = (lang) => `<div class="lang">
+    <button class="lang__button" type="button" popovertarget="lang-menu"><span class="visually-hidden">${LANG_LABEL[lang]}: </span><span aria-hidden="true">${lang.toUpperCase()}</span><span class="visually-hidden">${LANG_NAME[lang]}</span><svg class="lang__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+    <nav class="lang__menu" id="lang-menu" popover aria-labelledby="lang-title">
+      <p class="lang__title" id="lang-title">${LANG_LABEL[lang]}</p>
+      <ul class="lang__list">
+        ${Object.entries(LANG_NAME).map(([k, name]) => `<li><a class="lang__link" href="../${k}/" hreflang="${k}" lang="${k}"${k === lang ? ' aria-current="page"' : ''}><span class="lang__code" aria-hidden="true">${k.toUpperCase()}</span> ${name}</a></li>`).join('\n        ')}
+      </ul>
+    </nav>
+  </div>`;
+
 /* ---------- the page ---------- */
 
 const page = (lang) => {
@@ -339,7 +355,7 @@ const page = (lang) => {
     <a href="#bio" data-go="bio">${u.navBio}</a>
     <a href="#${shelfId}" data-go="projects">${u.shelf}</a>
   </nav>
-  <p class="masthead__lang"><a href="../${other}/" hreflang="${other}" lang="${other}">${t.otherEdition}</a></p>
+  ${langSwitch(lang)}
 </header>
 <main id="main">
 ${station(u)}

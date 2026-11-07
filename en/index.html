@@ -33,7 +33,16 @@
     <a href="#bio" data-go="bio">Bio</a>
     <a href="#projects" data-go="projects">Projects</a>
   </nav>
-  <p class="masthead__lang"><a href="../es/" hreflang="es" lang="es">Edición en español</a></p>
+  <div class="lang">
+    <button class="lang__button" type="button" popovertarget="lang-menu"><span class="visually-hidden">Language: </span><span aria-hidden="true">EN</span><span class="visually-hidden">English</span><svg class="lang__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+    <nav class="lang__menu" id="lang-menu" popover aria-labelledby="lang-title">
+      <p class="lang__title" id="lang-title">Language</p>
+      <ul class="lang__list">
+        <li><a class="lang__link" href="../es/" hreflang="es" lang="es"><span class="lang__code" aria-hidden="true">ES</span> Español</a></li>
+        <li><a class="lang__link" href="../en/" hreflang="en" lang="en" aria-current="page"><span class="lang__code" aria-hidden="true">EN</span> English</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 <main id="main">
 

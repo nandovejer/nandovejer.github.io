@@ -369,6 +369,18 @@ if (main) {
   snap();
 }
 
+/* ---------- the sticky masthead's height ---------- */
+// CSS uses it so anchors, glides and the language list stop under it.
+const head = document.querySelector('.masthead');
+if (head) {
+  const setHead = () => {
+    const h = head.getBoundingClientRect().height + parseFloat(getComputedStyle(head, '::after').height || 0);
+    document.documentElement.style.setProperty('--head-h', `${Math.round(h)}px`);
+  };
+  new ResizeObserver(setHead).observe(head);
+  setHead();
+}
+
 /* ---------- today, in Roman numerals ---------- */
 // The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).
 const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]

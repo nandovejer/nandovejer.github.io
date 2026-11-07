@@ -196,6 +196,14 @@
 @media (min-width: 100em) { html:has(.dq--asomado) { font-size: 106.25%; } }
 @media (min-width: 120em) { html:has(.dq--asomado) { font-size: 112.5%; } }
 
-/* the shelf: the boxes that fit, centred, so what is left over is split into
-   whole cells on each side (desktop 14 − 4×3 = 2 → 1 + 1; tablet 14 − 3×4) */
-.dq--asomado .shelf__list { justify-content: center; }
+/* the shelf runs the full width between the margins, like the station above
+   it (line 1 to the last but one): a fixed number of boxes per row share that
+   width (2 · 3 · 4), the rows stay --box cells tall, so their lines fall on
+   the grid's. The disk keeps its size (from the box height) and is centred. */
+.dq--asomado > * { --per: 2; }
+@media (min-width: 37.5em) { .dq--asomado > * { --per: 3; } }
+@media (min-width: 64em)   { .dq--asomado > * { --per: 4; } }
+.dq--asomado .shelf__list { grid-template-columns: repeat(var(--per), minmax(0, 1fr)); }
+.dq--asomado .entry { --side: calc(var(--cell) * var(--box)); padding: calc(var(--side) * .11) 0; }
+.dq--asomado .entry .entry__disk { width: calc(var(--side) * .78 * .96); }
+.dq--asomado .entry.is-out::after { inset: auto; top: calc(var(--side) * .11); left: 50%; width: calc(var(--side) * .78); translate: -50% 0; }

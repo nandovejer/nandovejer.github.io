@@ -104,9 +104,15 @@ function channel() {
    The tube goes into the top layer (a manual popover) over the whole viewport.
    What plays stays clickable; ✕ or Esc put it back; ← → turn the pages; Tab
    stays inside it while it is open. */
-const isFull = () => tube.matches(':popover-open');
+// (browsers without the popover API: no full screen, and :popover-open would throw)
+const canPop = typeof tube.showPopover === 'function';
+const isFull = () => canPop && tube.matches(':popover-open');
+// While it is open the rest of the page is inert, so screen readers and Tab
+// stay on the screen too.
+const behind = () => [...document.querySelectorAll('.skip, .masthead, .colophon, .shelf, .room__cta, .tapes--side, .tv__panel')];
 function fullScreen(on) {
-  if (!tube.showPopover || on === isFull()) return;
+  if (!canPop || on === isFull()) return;
+  behind().forEach((el) => { el.inert = on; });
   if (on) {
     tube.showPopover();
     keys.play.setAttribute('aria-expanded', 'true');
@@ -122,12 +128,13 @@ fullKeys.rew.addEventListener('click', () => { if (page > 0) turn(page - 1); });
 fullKeys.ff.addEventListener('click', () => { if (page < pages.length - 1) turn(page + 1); });
 const focusables = () => [...tube.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])')]
   .filter((el) => el.offsetParent !== null || el === closeBtn);
-tube.addEventListener('keydown', (e) => {
+addEventListener('keydown', (e) => {
   if (!isFull()) return;
   if (e.key === 'ArrowLeft' && page > 0) { e.preventDefault(); turn(page - 1); }
   if (e.key === 'ArrowRight' && page < pages.length - 1) { e.preventDefault(); turn(page + 1); }
   if (e.key === 'Tab') {
     const f = focusables();
+    if (!tube.contains(document.activeElement)) { e.preventDefault(); f[0].focus(); return; }
     const first = f[0], last = f[f.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
@@ -265,6 +272,8 @@ tapes.forEach((tape) => {
 addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (isFull()) { e.preventDefault(); fullScreen(false); return; }
+  // Esc that closes the language list is only for the list
+  if (canPop && document.querySelector('.lang__menu:popover-open')) return;
   if (loaded && !busy) eject();
 });
 

@@ -407,12 +407,15 @@ html:has(.tv__screen:popover-open) { overflow: hidden; }
   width: 3rem; height: 3rem;
 }
 .tv__close svg { width: 1.75rem; height: 1.75rem; }
-.tv__full-keys { display: flex; position: absolute; z-index: 6; left: 5cqw; bottom: max(.5rem, 2.5cqh); gap: .5rem; }
+.tv__full-keys { position: absolute; z-index: 6; left: 5cqw; bottom: max(.5rem, 2.5cqh); gap: .5rem; }
 .tv__osd-key[aria-disabled="true"] { opacity: .35; cursor: default; }
 .tv__close:hover, .tv__osd-key:not([aria-disabled="true"]):hover { color: #b8ffcf; }
 .tv__close:focus-visible, .tv__osd-key:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .tv__screen:popover-open .tv__osd { right: calc(max(1rem, 3cqw) + 3.5rem); }
-.tv__screen:not(:popover-open) :is(.tv__close, .tv__full-keys) { display: none; }
+/* hidden unless full screen (also where :popover-open is unknown) */
+.tv__close, .tv__full-keys { display: none; }
+.tv__screen:popover-open .tv__close { display: inline-grid; }
+.tv__screen:popover-open .tv__full-keys { display: flex; }
 @media (prefers-reduced-motion: reduce) { .tv__screen:popover-open { animation: none; } }
 
 /* the sleeve: the picture of the tape */

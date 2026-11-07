@@ -22,6 +22,8 @@
   font-weight: 400 900; font-display: swap;
 }
 
+@property --u { syntax: "<length>"; inherits: true; initial-value: 0px; }
+
 html:root {
   color-scheme: light dark;
   --bg: #5c6b56;          /* the wall: sage green, as behind the oak cabinet */
@@ -43,16 +45,22 @@ html:root {
   --tx-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85 .85' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
   --tx-plaster: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .55' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .28 -.02'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
   --tx-plastic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .9' numOctaves='2' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --screw: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3CradialGradient id='d' cx='.38' cy='.3' r='.72'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.45' stop-color='%23d2d4d0'/%3E%3Cstop offset='.8' stop-color='%23858783'/%3E%3Cstop offset='1' stop-color='%234d4f4c'/%3E%3C/radialGradient%3E%3CradialGradient id='s' cx='.5' cy='.55' r='.5'%3E%3Cstop offset='.7' stop-color='%23000' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='20' cy='21.5' r='19' fill='url(%23s)'/%3E%3Ccircle cx='20' cy='20' r='14' fill='url(%23d)' stroke='%23383a37' stroke-width='.8'/%3E%3Cg transform='rotate(20 20 20)'%3E%3Cpath d='M12 20h16M20 12v16' stroke='%23fff' stroke-opacity='.55' stroke-width='3.4' stroke-linecap='round' transform='translate(.7 .9)'/%3E%3Cpath d='M12 20h16M20 12v16' stroke='%23262724' stroke-width='3' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
   /* oak: the cabinet, its shelves and the plank the radio stands on */
   --oak: #c9995f;
+  /* the rays of the oak: short pale flecks across the grain */
+  --tx-oak-ray-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.04 .5' numOctaves='2' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .93  0 0 0 0 .78  0 0 0 1.6 -.95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
+  --tx-oak-ray-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5 .04' numOctaves='2' seed='22' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .93  0 0 0 0 .78  0 0 0 1.6 -.95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23f%29'/%3E%3C/svg%3E");
   --oak-grain:
+    var(--tx-oak-ray-h) 0 0 / 400px 200px,
     var(--tx-oak-h) 0 0 / 520px 160px,
-    linear-gradient(0deg, rgb(0 0 0 / .14), transparent 30%, rgb(255 240 210 / .18) 85%, rgb(255 245 225 / .35)),
-    linear-gradient(90deg, #c08f56, #d4a76e 30%, #c99a60 55%, #d6aa71 80%, #c49359);
+    linear-gradient(0deg, rgb(0 0 0 / .12), transparent 30%, rgb(255 240 210 / .14) 85%, rgb(255 245 225 / .3)),
+    linear-gradient(90deg, #b9895a, #cfa36c 14%, #c2945e 30%, #d4aa74 46%, #be8f5a 62%, #d0a66f 80%, #bb8c57);
   --oak-grain-v:
+    var(--tx-oak-ray-v) 0 0 / 200px 400px,
     var(--tx-oak-v) 0 0 / 160px 520px,
-    linear-gradient(90deg, rgb(255 245 225 / .25), transparent 12%, transparent 88%, rgb(0 0 0 / .14)),
-    linear-gradient(0deg, #c08f56, #d4a76e 30%, #c99a60 55%, #d6aa71 80%, #c49359);
+    linear-gradient(90deg, rgb(255 245 225 / .2), transparent 12%, transparent 88%, rgb(0 0 0 / .12)),
+    linear-gradient(0deg, #b9895a, #cfa36c 14%, #c2945e 30%, #d4aa74 46%, #be8f5a 62%, #d0a66f 80%, #bb8c57);
 }
 @media (prefers-color-scheme: dark) {
   html:root {
@@ -94,21 +102,20 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .ty--script :is(.cassette__title, .cspine__title) { font-family: "Pinyon Script", cursive; font-weight: 400; text-transform: none; }
 .ty--mono   :is(.cassette__title, .cspine__title) { font-family: var(--tech); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
 
-/* ---------- the studio: the radio-cassette and the liner notes ---------- */
+/* ---------- the studio: the cabinet on the left, the liner notes beside it ---------- */
 
 .studio {
   display: grid; gap: 1.5rem var(--gap);
-  padding: clamp(1.5rem, 4vw, 3rem) var(--pad);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--pad) 0;
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "deck" "liner";
 }
-.studio__deck { display: grid; gap: 2rem; align-content: start; }
-.studio { grid-template-columns: minmax(0, 1fr); grid-template-areas: "deck" "liner"; }
-.studio__deck { grid-area: deck; }
+.studio__deck { grid-area: deck; container-type: inline-size; }
 .liner { grid-area: liner; }
 @media (min-width: 64em) {
-  .studio { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: "deck liner"; align-items: start; }
+  .studio { grid-template-columns: minmax(0, 40rem) minmax(0, 1fr); grid-template-areas: "deck liner"; align-items: start; }
 }
 
-.studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+.studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; margin: 2.5rem var(--pad) 0; }
 .studio__cta[hidden] { display: none; }
 .studio__cta b { font: 800 clamp(1.2rem, 1rem + 1vw, 1.8rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
 .studio__arrow {
@@ -119,156 +126,228 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
-/* ---------- the cabinet: an oak case on the wall ----------
-   After the photo: a brushed aluminium plate on top (a little CRT with a
-   blue trace, the deck with the tape seen through its window, two
-   perforated speakers, four aluminium keys and an orange one, two knobs,
-   LEDs and a lit strip naming the tape) and, under it, oak slots with the
-   cases standing spine out. Everything in cq units of the cabinet, at real
-   scale: a case is 17 × 109 mm and the cassette in the deck 100 mm wide. */
+/* ---------- the oak cabinets ----------
+   After the photo: on the wall, a brushed aluminium plate in an oak case (a
+   little CRT with a blue trace, the deck with the tape behind its smoked
+   door, two perforated speakers, four aluminium keys and an orange one, two
+   knobs, LEDs and a lit strip naming the tape) and, under it, a second oak
+   case with the tapes standing spine out in slots. The light comes from the
+   top left: lit top and left edges, shade below and to the right.
 
-.cabinet {
-  position: relative; container-type: inline-size;
-  width: min(100%, 40rem); margin-inline: auto;
-  padding: 3.4cqi;
-  border-radius: .5cqi;
-  background: var(--oak-grain-v);
+   Both cases are drawn in one unit, --u: a hundredth of the width of the
+   deck's cabinet (40rem at most), so the slots, the cases in them and the
+   cassette in the door keep their real proportions (a case is 17 × 109 mm,
+   the cassette 100 mm wide) whatever the width of the rack. */
+
+.cabinet, .rack__cabinet {
+  --u: calc(min(100cqi, 40rem) / 100);
+  position: relative; isolation: isolate;
+  padding: calc(3.6 * var(--u));
+  border-radius: calc(.4 * var(--u));
+  /* the back panel, in the shade of the frame */
+  background:
+    linear-gradient(rgb(0 0 0 / .5) calc(3.6 * var(--u)), transparent calc(6.4 * var(--u))),
+    linear-gradient(90deg, rgb(0 0 0 / .4) calc(3.6 * var(--u)), transparent calc(6 * var(--u))),
+    linear-gradient(-90deg, rgb(0 0 0 / .15) calc(3.6 * var(--u)), transparent calc(5 * var(--u))),
+    var(--oak-grain-v);
   box-shadow:
-    inset 0 0 0 .25cqi rgb(255 240 210 / .35), inset .5cqi .5cqi .6cqi rgb(255 245 225 / .25), inset -.5cqi -.5cqi .8cqi rgb(80 45 15 / .3),
-    0 1.5cqi 2cqi -.5cqi rgb(0 0 0 / .45), 0 5cqi 8cqi -2cqi rgb(0 0 0 / .45);
+    0 1px 2px rgb(0 0 0 / .4),
+    calc(.3 * var(--u)) calc(1.2 * var(--u)) calc(1.6 * var(--u)) calc(-.5 * var(--u)) rgb(0 0 0 / .45),
+    calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
+}
+.cabinet > *, .rack__cabinet > * { position: relative; z-index: 1; }
+/* the frame: two stiles with the grain running down, two rails across them */
+.cabinet::before, .rack__cabinet::before, .cabinet::after, .rack__cabinet::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit;
+}
+.cabinet::before, .rack__cabinet::before {
+  background:
+    linear-gradient(90deg, rgb(255 248 230 / .5), rgb(255 248 230 / .12) 30%, transparent 65%, rgb(0 0 0 / .25)) left / calc(3.6 * var(--u)) 100% no-repeat,
+    linear-gradient(90deg, rgb(255 248 230 / .25), transparent 30%, transparent 65%, rgb(0 0 0 / .32)) right / calc(3.6 * var(--u)) 100% no-repeat,
+    var(--oak-grain-v);
+  -webkit-mask: linear-gradient(90deg, #000 0 calc(3.6 * var(--u)), transparent calc(3.6 * var(--u)) calc(100% - calc(3.6 * var(--u))), #000 calc(100% - calc(3.6 * var(--u))));
+          mask: linear-gradient(90deg, #000 0 calc(3.6 * var(--u)), transparent calc(3.6 * var(--u)) calc(100% - calc(3.6 * var(--u))), #000 calc(100% - calc(3.6 * var(--u))));
+}
+.cabinet::after, .rack__cabinet::after {
+  background:
+    linear-gradient(rgb(255 250 235 / .6), rgb(255 248 230 / .14) 30%, transparent 70%, rgb(0 0 0 / .28)) top / 100% calc(3.6 * var(--u)) no-repeat,
+    linear-gradient(rgb(255 248 230 / .3), transparent 30%, transparent 70%, rgb(0 0 0 / .4)) bottom / 100% calc(3.6 * var(--u)) no-repeat,
+    var(--oak-grain);
+  -webkit-mask: linear-gradient(#000 0 calc(3.6 * var(--u)), transparent calc(3.6 * var(--u)) calc(100% - calc(3.6 * var(--u))), #000 calc(100% - calc(3.6 * var(--u))));
+          mask: linear-gradient(#000 0 calc(3.6 * var(--u)), transparent calc(3.6 * var(--u)) calc(100% - calc(3.6 * var(--u))), #000 calc(100% - calc(3.6 * var(--u))));
 }
 
-/* the plate */
+/* the plate: brushed aluminium, a soft sheen across it, chamfered edges */
 .panel {
   position: relative;
   display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "crt deck" "spk ctl";
-  gap: 3.4cqi 5cqi; align-items: center;
-  padding: 5cqi 5.5cqi 4.4cqi;
-  border-radius: .3cqi;
+  gap: calc(3.4 * var(--u)) calc(5 * var(--u)); align-items: center;
+  padding: calc(5 * var(--u)) calc(5.5 * var(--u)) calc(4.4 * var(--u));
+  border-radius: calc(.5 * var(--u));
   color: #2b2c2a;
   background:
+    linear-gradient(100deg, transparent 15%, rgb(255 255 255 / .26) 30%, rgb(255 255 255 / .06) 42%, transparent 56%, rgb(0 0 0 / .05) 78%),
     var(--tx-brushed) 0 0 / 600px 300px,
     var(--tx-brushed-dark) 0 0 / 600px 300px,
-    linear-gradient(#e9eae6, #d6d7d3 50%, #c9cac6);
-  box-shadow: inset 0 .3cqi 0 rgb(255 255 255 / .9), inset 0 -.3cqi 0 rgb(0 0 0 / .2), 0 0 0 .3cqi rgb(90 60 25 / .35), 0 .4cqi .6cqi rgb(0 0 0 / .35);
+    linear-gradient(#e4e5e1, #d2d3cf 45%, #c3c4c0);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .95), inset 1px 0 0 rgb(255 255 255 / .6),
+    inset 0 -1px 0 rgb(0 0 0 / .4), inset -1px 0 0 rgb(0 0 0 / .2),
+    inset 0 calc(.3 * var(--u)) calc(.5 * var(--u)) calc(-.2 * var(--u)) rgb(255 255 255 / .5),
+    0 0 0 1px rgb(60 40 20 / .4), 0 calc(.25 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .35), 0 calc(1 * var(--u)) calc(1.4 * var(--u)) calc(-.3 * var(--u)) rgb(0 0 0 / .5);
 }
-/* six screws: the corners and the middle of the long sides */
+/* six pan-head screws: the corners and the middle of the long sides */
 .panel::before {
-  content: ""; position: absolute; inset: 1.4cqi; pointer-events: none;
-  --s: #8d8f8b 30%, #f4f4f2 42%, #a2a49f 68%, transparent 78%;
+  content: ""; position: absolute; inset: calc(1.1 * var(--u)); pointer-events: none;
   background:
-    radial-gradient(circle .75cqi at .9cqi .9cqi, var(--s)),
-    radial-gradient(circle .75cqi at 50% .9cqi, var(--s)),
-    radial-gradient(circle .75cqi at calc(100% - .9cqi) .9cqi, var(--s)),
-    radial-gradient(circle .75cqi at .9cqi calc(100% - .9cqi), var(--s)),
-    radial-gradient(circle .75cqi at 50% calc(100% - .9cqi), var(--s)),
-    radial-gradient(circle .75cqi at calc(100% - .9cqi) calc(100% - .9cqi), var(--s));
+    var(--screw) 0 0 / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat, var(--screw) 50% 0 / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat,
+    var(--screw) 0 100% / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat, var(--screw) 50% 100% / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2 * var(--u)) calc(2 * var(--u)) no-repeat;
 }
 
-/* the little CRT: an aluminium bezel round a dark, curved screen */
-.crt { grid-area: crt; padding: 1.4cqi; border-radius: 4.5cqi; background: linear-gradient(#f6f6f4, #b9bab6); box-shadow: 0 .5cqi .8cqi rgb(0 0 0 / .35), inset 0 .2cqi 0 #fff, inset 0 -.25cqi 0 rgb(0 0 0 / .25); }
+/* the little CRT: an aluminium bezel round a dark, curved glass */
+.crt, .tdeck {
+  background: linear-gradient(170deg, #f8f8f6, #cbccc8 55%, #a8aaa6);
+  box-shadow:
+    inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .4), inset 0 calc(-.25 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .15),
+    0 calc(.15 * var(--u)) calc(.25 * var(--u)) rgb(0 0 0 / .3), 0 calc(.6 * var(--u)) calc(1 * var(--u)) calc(-.1 * var(--u)) rgb(0 0 0 / .4);
+}
+.crt { grid-area: crt; padding: calc(1.4 * var(--u)); border-radius: calc(4.5 * var(--u)); }
 .crt__glass {
   position: relative; aspect-ratio: 4 / 3; overflow: hidden;
-  border-radius: 3.6cqi / 4.2cqi;
-  background: radial-gradient(ellipse 80% 70% at 50% 50%, #121820, #07090c 70%, #020304);
-  box-shadow: inset 0 0 0 .6cqi #151515, inset 0 0 3cqi #000;
+  border-radius: calc(3.6 * var(--u)) / calc(4.2 * var(--u));
+  background: radial-gradient(ellipse 75% 65% at 50% 48%, #1a2129, #0b0f14 65%, #030405);
+  box-shadow: inset 0 0 0 calc(.55 * var(--u)) #111, inset 0 0 0 calc(.7 * var(--u)) #2b2b2b, inset 0 calc(.5 * var(--u)) calc(2.5 * var(--u)) calc(.5 * var(--u)) #000, inset 0 0 calc(4 * var(--u)) rgb(0 0 0 / .8);
 }
 .crt__glass::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
   background:
-    repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / .18) 2px 3px),
-    radial-gradient(ellipse 60% 45% at 30% 18%, rgb(255 255 255 / .16), transparent 62%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgb(0 0 0 / .55));
+    repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / .16) 2px 3px),
+    radial-gradient(ellipse 50% 36% at 27% 15%, rgb(255 255 255 / .2), rgb(255 255 255 / .06) 45%, transparent 68%),
+    radial-gradient(ellipse 30% 20% at 78% 85%, rgb(255 255 255 / .05), transparent 70%),
+    linear-gradient(165deg, rgb(255 255 255 / .07), transparent 40%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 52%, rgb(0 0 0 / .65));
 }
 .crt__wave { position: absolute; inset: 0; width: 100%; height: 100%; }
 .crt__osd {
-  position: absolute; left: 6%; right: 6%; margin: 0;
-  display: flex; justify-content: space-between; gap: 1cqi; white-space: nowrap;
-  font: 600 max(.5rem, 1.9cqi)/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
-  color: rgb(140 200 255 / .75); text-shadow: 0 0 .6cqi rgb(90 170 255 / .6);
+  position: absolute; left: 7%; right: 7%; margin: 0;
+  display: flex; justify-content: space-between; gap: calc(1 * var(--u)); white-space: nowrap;
+  font: 600 max(.5rem, calc(1.9 * var(--u)))/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
+  color: rgb(150 205 255 / .8); text-shadow: 0 0 calc(.6 * var(--u)) rgb(90 170 255 / .7), 0 0 2px rgb(140 200 255 / .5);
 }
-.crt__osd--top { top: 8%; }
-.crt__osd--bottom { bottom: 8%; }
+.crt__osd--top { top: 9%; }
+.crt__osd--bottom { bottom: 9%; }
 .osd__title { overflow: hidden; text-overflow: ellipsis; }
-.cabinet.is-playing .osd__mode { color: rgb(160 255 190 / .85); }
+.cabinet.is-playing .osd__mode { color: rgb(160 255 190 / .85); text-shadow: 0 0 calc(.6 * var(--u)) rgb(90 255 150 / .6); }
 
-/* the deck: a raised aluminium surround, the smoked door with the tape */
-.tdeck {
-  grid-area: deck; perspective: 70cqi;
-  padding: 1.3cqi; border-radius: 3cqi;
-  background: linear-gradient(#f6f6f4, #b5b6b2);
-  box-shadow: 0 .5cqi .8cqi rgb(0 0 0 / .35), inset 0 .2cqi 0 #fff, inset 0 -.25cqi 0 rgb(0 0 0 / .25);
-}
+/* the deck: a raised aluminium surround, the smoked door, the tape behind it */
+.tdeck { grid-area: deck; perspective: calc(70 * var(--u)); padding: calc(1.3 * var(--u)); border-radius: calc(3 * var(--u)); }
 .tdeck__door {
-  position: relative; padding: 1.6cqi 1.8cqi; border-radius: 2cqi;
-  background: linear-gradient(#2c2c2c, #151515);
-  box-shadow: inset 0 0 0 .25cqi #444, inset 0 .5cqi .8cqi rgb(0 0 0 / .6);
+  position: relative; padding: calc(1.6 * var(--u)) calc(1.8 * var(--u)); border-radius: calc(2 * var(--u));
+  background: linear-gradient(#262626, #121212);
+  box-shadow: inset 0 0 0 calc(.25 * var(--u)) #3a3a3a, inset 0 0 0 calc(calc(.25 * var(--u)) + 1px) rgb(255 255 255 / .12), inset 0 calc(.6 * var(--u)) calc(1 * var(--u)) rgb(0 0 0 / .7);
   transform-origin: 50% 100%; transition: transform .35s cubic-bezier(.3, .7, .3, 1);
 }
 .tdeck__door.is-open { transform: rotateX(-30deg); }
+/* the hinge line along the foot of the door */
+.tdeck__door::after {
+  content: ""; position: absolute; left: 12%; right: 12%; bottom: calc(.45 * var(--u)); height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / .28) 30% 70%, transparent);
+}
 .tdeck__well { position: relative; }
-.tdeck__well .cassette { filter: brightness(.92); }
+.tdeck__well .cassette { filter: brightness(.82) contrast(.96); }
 .tdeck__glass {
-  position: absolute; inset: 1.6cqi 1.8cqi; border-radius: .8cqi; pointer-events: none;
-  background: linear-gradient(115deg, transparent 0 20%, rgb(255 255 255 / .16) 21% 28%, transparent 29%), linear-gradient(rgb(255 255 255 / .1), transparent 35%);
+  position: absolute; inset: calc(1.6 * var(--u)) calc(1.8 * var(--u)); border-radius: calc(.8 * var(--u)); pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 18%, rgb(255 255 255 / .16) 19% 27%, rgb(255 255 255 / .04) 28%, transparent 36%),
+    linear-gradient(rgb(255 255 255 / .16), rgb(255 255 255 / .03) 30%, transparent 45%, rgb(0 0 0 / .1)),
+    rgb(26 28 32 / .22);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 0 calc(1.2 * var(--u)) rgb(0 0 0 / .4);
 }
 
-/* two speakers: holes punched through the plate, in rings */
-.grilles { grid-area: spk; display: flex; justify-content: center; gap: 2.4cqi; }
+/* two speakers: holes punched through the plate, their lower lips catching the light */
+.grilles { grid-area: spk; display: flex; justify-content: center; gap: calc(2.4 * var(--u)); }
 .grille {
-  position: relative; width: 18cqi; aspect-ratio: 1; border-radius: 50%;
+  position: relative; width: calc(18 * var(--u)); aspect-ratio: 1; border-radius: 50%;
   background:
-    radial-gradient(circle, #1c1c1c .26cqi, rgb(0 0 0 / .25) .34cqi, transparent .4cqi) 0 0 / 1.4cqi 1.4cqi,
-    radial-gradient(circle, #1c1c1c .26cqi, rgb(0 0 0 / .25) .34cqi, transparent .4cqi) .7cqi .7cqi / 1.4cqi 1.4cqi;
+    radial-gradient(circle at 50% 46%, #0c0c0c calc(.27 * var(--u)), #1e1e1e calc(.31 * var(--u)), transparent calc(.36 * var(--u))) 0 0 / calc(1.4 * var(--u)) calc(1.4 * var(--u)),
+    radial-gradient(circle at 50% 54%, rgb(255 255 255 / .7) calc(.27 * var(--u)), rgb(255 255 255 / .2) calc(.33 * var(--u)), transparent calc(.4 * var(--u))) 0 0 / calc(1.4 * var(--u)) calc(1.4 * var(--u)),
+    radial-gradient(circle at 50% 46%, #0c0c0c calc(.27 * var(--u)), #1e1e1e calc(.31 * var(--u)), transparent calc(.36 * var(--u))) calc(.7 * var(--u)) calc(.7 * var(--u)) / calc(1.4 * var(--u)) calc(1.4 * var(--u)),
+    radial-gradient(circle at 50% 54%, rgb(255 255 255 / .7) calc(.27 * var(--u)), rgb(255 255 255 / .2) calc(.33 * var(--u)), transparent calc(.4 * var(--u))) calc(.7 * var(--u)) calc(.7 * var(--u)) / calc(1.4 * var(--u)) calc(1.4 * var(--u));
   -webkit-mask: radial-gradient(circle, #000 68%, transparent 69%);
           mask: radial-gradient(circle, #000 68%, transparent 69%);
 }
-.grille::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 .2cqi rgb(0 0 0 / .12); }
+.grille::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 calc(.3 * var(--u)) calc(.8 * var(--u)) rgb(0 0 0 / .22), inset 0 calc(-.2 * var(--u)) calc(.4 * var(--u)) rgb(255 255 255 / .2); }
 .cabinet.is-playing .grille { animation: thump .46s ease-in-out infinite alternate; }
-@keyframes thump { to { filter: brightness(.9); transform: scale(1.01); } }
+@keyframes thump { to { filter: brightness(.92); transform: scale(1.01); } }
 
-/* the controls: the keys, two knobs, LEDs and the lit strip */
-.controls { grid-area: ctl; display: grid; gap: 1.8cqi; justify-items: center; }
-.keys { display: flex; gap: 1.2cqi; }
+/* the controls: the keys in a slot in the plate, two knobs, LEDs and the lit strip */
+.controls { grid-area: ctl; display: grid; gap: calc(1.8 * var(--u)); justify-items: center; }
+.keys {
+  display: flex; gap: calc(.9 * var(--u)); padding: calc(.7 * var(--u)) calc(.8 * var(--u)); border-radius: calc(.7 * var(--u));
+  background: linear-gradient(#111, #1e1e1e);
+  box-shadow: inset 0 calc(.3 * var(--u)) calc(.5 * var(--u)) rgb(0 0 0 / .85), inset 0 -1px 0 rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .65);
+}
 .key {
   all: unset; box-sizing: border-box; cursor: pointer;
   display: grid; place-items: center;
-  width: max(1.9rem, 6.2cqi); aspect-ratio: 1 / .9;
-  border-radius: .5cqi;
-  background: linear-gradient(#fbfbfa, #d7d8d4 50%, #c4c5c1);
-  color: #4a4b48; font: 700 max(.55rem, 1.6cqi)/1 var(--tech);
-  box-shadow: inset 0 .2cqi 0 #fff, inset 0 -.3cqi 0 rgb(0 0 0 / .15), 0 .55cqi 0 #8e908c, 0 .8cqi .6cqi rgb(0 0 0 / .35);
+  width: max(1.9rem, calc(6.2 * var(--u))); aspect-ratio: 1 / .9;
+  border-radius: calc(.45 * var(--u));
+  background: var(--tx-brushed) 0 0 / 600px 300px, linear-gradient(170deg, #fafaf9, #dfe0dc 45%, #c8c9c5);
+  color: #3f403d; font: 700 max(.55rem, calc(1.6 * var(--u)))/1 var(--tech); text-shadow: 0 1px 0 rgb(255 255 255 / .85);
+  box-shadow:
+    inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .6), inset 0 -1px 0 rgb(0 0 0 / .28), inset -1px 0 0 rgb(0 0 0 / .12),
+    0 calc(.5 * var(--u)) 0 #8a8c88, 0 calc(.5 * var(--u)) 0 1px #555753, 0 calc(.7 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .55);
   transition: transform .08s ease, box-shadow .08s ease;
 }
-.key:active, .key.is-pressed, .key[aria-pressed="true"] { transform: translateY(.45cqi); box-shadow: inset 0 .2cqi 0 #fff, 0 .1cqi 0 #8e908c, 0 .2cqi .3cqi rgb(0 0 0 / .3); }
+.key:active, .key.is-pressed, .key[aria-pressed="true"] {
+  transform: translateY(calc(.4 * var(--u)));
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .28), 0 calc(.1 * var(--u)) 0 #8a8c88, 0 calc(.1 * var(--u)) 0 1px #555753, 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
+}
 .key[aria-pressed="true"] span { color: #1f8a3a; }
-.key--eject { background: linear-gradient(#ff8b55, #f0602a 55%, #d64d1a); color: #fff; box-shadow: inset 0 .2cqi 0 rgb(255 255 255 / .5), 0 .55cqi 0 #8a3510, 0 .8cqi .6cqi rgb(0 0 0 / .35); }
-.key--eject:active, .key--eject.is-pressed { box-shadow: inset 0 .2cqi 0 rgb(255 255 255 / .4), 0 .1cqi 0 #8a3510; }
+.key--eject {
+  background: var(--tx-brushed) 0 0 / 600px 300px, linear-gradient(170deg, #ff9d66, #f26a2e 50%, #d8501a);
+  color: #fff; text-shadow: 0 -1px 0 rgb(0 0 0 / .35);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .55), inset 0 -1px 0 rgb(0 0 0 / .3), 0 calc(.5 * var(--u)) 0 #9a3c12, 0 calc(.5 * var(--u)) 0 1px #4d1d06, 0 calc(.7 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .55);
+}
+.key--eject:active, .key--eject.is-pressed { box-shadow: inset 0 1px 0 rgb(255 255 255 / .4), 0 calc(.1 * var(--u)) 0 #9a3c12, 0 calc(.1 * var(--u)) 0 1px #4d1d06, 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4); }
 .key[aria-disabled="true"] { cursor: default; }
 .key[aria-disabled="true"] span { opacity: .4; }
 .key:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.controls__row { display: flex; align-items: center; gap: 1.6cqi; width: 100%; }
+.controls__row { display: flex; align-items: center; gap: calc(1.6 * var(--u)); width: 100%; }
+/* turned aluminium knobs, a pointer line on each */
 .knob {
-  width: 3.4cqi; aspect-ratio: 1; flex: none; border-radius: 50%;
-  background: conic-gradient(from 20deg, #f1f1ef, #a7a9a5 15%, #e3e3e1 30%, #8f918d 48%, #f4f4f2 62%, #a9aba7 80%, #f1f1ef);
-  box-shadow: 0 0 0 .25cqi #77797a, 0 .4cqi .5cqi rgb(0 0 0 / .4);
+  width: calc(4 * var(--u)); aspect-ratio: 1; flex: none; border-radius: 50%;
+  background:
+    linear-gradient(#2a2b29, #2a2b29) 50% 10% / calc(.4 * var(--u)) 30% no-repeat,
+    radial-gradient(circle, transparent 0 58%, rgb(0 0 0 / .22) 59% 63%, rgb(255 255 255 / .35) 64% 66%, transparent 67%),
+    repeating-radial-gradient(circle, rgb(255 255 255 / .16) 0 1px, transparent 1px 3px),
+    conic-gradient(from 20deg, #f1f1ef, #a7a9a5 15%, #e3e3e1 30%, #8f918d 48%, #f4f4f2 62%, #a9aba7 80%, #f1f1ef);
+  box-shadow: 0 0 0 calc(.2 * var(--u)) #6d6f6b, 0 0 0 calc(.3 * var(--u)) rgb(255 255 255 / .4), 0 calc(.35 * var(--u)) calc(.5 * var(--u)) rgb(0 0 0 / .45), inset 0 1px 1px rgb(255 255 255 / .8);
 }
-.leds { display: grid; grid-template-columns: repeat(2, auto); gap: .5cqi; }
-.leds i { width: .9cqi; aspect-ratio: 1; border-radius: 50%; background: #4a1a14; box-shadow: inset 0 0 .2cqi #000; }
-.leds i:nth-child(2n) { background: #14304a; }
-.cabinet.is-playing .leds i:first-child { background: #ff4b30; box-shadow: 0 0 .7cqi #ff4b30; }
-.cabinet.is-playing .leds i:nth-child(2) { background: #4fb0ff; box-shadow: 0 0 .7cqi #4fb0ff; }
+.leds { display: grid; grid-template-columns: repeat(2, auto); gap: calc(.5 * var(--u)); }
+.leds i {
+  --led: #4a1a14;
+  width: calc(.95 * var(--u)); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .55), transparent 45%), var(--led);
+  box-shadow: inset 0 0 calc(.2 * var(--u)) rgb(0 0 0 / .8), 0 1px 0 rgb(255 255 255 / .55);
+}
+.leds i:nth-child(2n) { --led: #14304a; }
+.cabinet.is-playing .leds i:first-child { --led: #ff4b30; box-shadow: 0 0 calc(.8 * var(--u)) #ff4b30, 0 1px 0 rgb(255 255 255 / .55); }
+.cabinet.is-playing .leds i:nth-child(2) { --led: #4fb0ff; box-shadow: 0 0 calc(.8 * var(--u)) #4fb0ff, 0 1px 0 rgb(255 255 255 / .55); }
+/* the strip: a frosted window, lit from behind */
 .strip {
   position: relative; flex: 1; min-width: 0; overflow: hidden;
-  display: flex; align-items: center; justify-content: space-between; gap: 1cqi;
-  padding: .55cqi 1cqi; border-radius: .25cqi;
-  background: linear-gradient(#eef6fb, #c3dbeb);
-  box-shadow: inset 0 0 0 .2cqi #7f97a8, 0 .2cqi 0 #fff, 0 0 1.4cqi rgb(160 210 255 / .45);
-  color: #1d2d3a; font: 700 max(.45rem, 1.35cqi)/1.2 var(--tech); letter-spacing: .08em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between; gap: calc(1 * var(--u));
+  padding: calc(.55 * var(--u)) calc(1 * var(--u)); border-radius: calc(.3 * var(--u));
+  background: linear-gradient(rgb(255 255 255 / .55), transparent 55%), linear-gradient(#dcebf7, #b3cfe4);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .4), inset 0 calc(.25 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .35), 0 1px 0 rgb(255 255 255 / .6), 0 0 calc(1.4 * var(--u)) rgb(160 210 255 / .3);
+  color: #1d2d3a; font: 700 max(.45rem, calc(1.35 * var(--u)))/1.2 var(--tech); letter-spacing: .08em; text-transform: uppercase;
+  transition: box-shadow .3s ease;
 }
+.cabinet.is-playing .strip { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .4), inset 0 calc(.25 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .3), 0 1px 0 rgb(255 255 255 / .6), 0 0 calc(2 * var(--u)) rgb(160 210 255 / .7); }
 .strip__text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.strip__led { width: 1cqi; min-width: 4px; aspect-ratio: 1; flex: none; border-radius: 50%; background: #5a1b14; }
-.cabinet.is-playing .strip__led { background: #ff3b24; box-shadow: 0 0 .8cqi #ff3b24; }
+.strip__led { width: calc(1 * var(--u)); min-width: 4px; aspect-ratio: 1; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .5), transparent 45%), #5a1b14; }
+.cabinet.is-playing .strip__led { background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .6), transparent 45%), #ff3b24; box-shadow: 0 0 calc(.8 * var(--u)) #ff3b24; }
 
 /* the reels turn as it plays, fast on ◀◀ / ▶▶ */
 .cabinet.is-playing .tdeck__well .reel { animation: reel 1.8s linear infinite; }
@@ -276,20 +355,29 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .cabinet.is-rew .tdeck__well .reel { animation: reel .35s linear infinite reverse; }
 @keyframes reel { to { rotate: 1turn; } }
 
-/* the rack: twelve oak slots a row, an oak shelf under each row */
-.rack { margin-top: 3.4cqi; }
+/* ---------- the rack: an oak case under the studio, slots a case wide ----------
+   The rows run as wide as the page, as the VHS shelf does. */
+.rack { padding: 1rem var(--pad) 3rem; container-type: inline-size; }
+.rack .section-head { margin-bottom: 1.25rem; }
 .rack__slots {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3.4cqi 1.1cqi;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(6.9 * var(--u)), 1fr)); gap: calc(3.4 * var(--u)) calc(1.1 * var(--u));
+  margin: 0; padding: 0; list-style: none;
 }
+/* each slot a recess in the oak: dark at the back, the shelf above throwing
+   its shade in, the lit edge of the shelf below */
 .slot {
   position: relative; display: flex; align-items: flex-end; justify-content: center;
-  padding: 3.2cqi .35cqi 0;
-  background: linear-gradient(#120d08, #2a1f14 25%, #20170e);
-  box-shadow: inset 0 1.4cqi 1.2cqi rgb(0 0 0 / .75), inset .5cqi 0 .5cqi rgb(0 0 0 / .45), inset -.5cqi 0 .5cqi rgb(0 0 0 / .45);
+  padding: calc(3.2 * var(--u)) calc(.35 * var(--u)) 0;
+  background: linear-gradient(#0c0805, #231a10 32%, #1a130b);
+  box-shadow:
+    inset 0 calc(1.6 * var(--u)) calc(1.4 * var(--u)) rgb(0 0 0 / .85), inset calc(.6 * var(--u)) 0 calc(.6 * var(--u)) rgb(0 0 0 / .6), inset calc(-.4 * var(--u)) 0 calc(.5 * var(--u)) rgb(0 0 0 / .4),
+    0 1px 0 rgb(255 245 225 / .5), 0 -1px 0 rgb(0 0 0 / .45);
 }
-.slot__case { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; }
+.slot__case { all: unset; box-sizing: border-box; display: block; width: calc(6.1 * var(--u)); max-width: 100%; cursor: pointer; }
 .slot__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.slot__case:hover .cspine__card { transform: translateY(-2.5cqi); }
+.slot__case:hover .cspine__card { transform: translateY(calc(-2.5 * var(--u))); }
+.slot--blank .cspine, .slot--empty { pointer-events: none; }
+.slot--blank .cspine { width: calc(6.1 * var(--u)); max-width: 100%; }
 
 /* ---------- the cassette, face on ---------- */
 
@@ -497,15 +585,16 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   padding: 8cqw 0 7cqw;
   border-radius: 6cqw;
   background: var(--tx-paper) 0 0 / 220px 220px, var(--jc); color: var(--jc-ink);
-  box-shadow: 0 0 0 7cqw var(--case), 0 0 0 8cqw rgb(255 255 255 / .14), inset 0 0 0 1px rgb(0 0 0 / .25);
+  box-shadow: 0 0 0 7cqw var(--case), 0 0 0 8cqw rgb(255 255 255 / .14), 2cqw 1cqw 6cqw 8cqw rgb(0 0 0 / .5), inset 0 0 0 1px rgb(0 0 0 / .25);
   transition: transform .2s ease;
 }
 /* the clear plastic: light running down one edge, the hinge ends darker */
 .cspine__card::after {
   content: ""; position: absolute; inset: -7cqw; border-radius: 10cqw; pointer-events: none;
   background:
-    linear-gradient(90deg, rgb(255 255 255 / .38), rgb(255 255 255 / .08) 22%, transparent 40%, transparent 80%, rgb(0 0 0 / .18)),
-    linear-gradient(rgb(0 0 0 / .4) 0 5cqw, transparent 5cqw calc(100% - 5cqw), rgb(0 0 0 / .4) calc(100% - 5cqw));
+    var(--shade, linear-gradient(transparent, transparent)),
+    linear-gradient(90deg, rgb(255 255 255 / .55) 0 3cqw, rgb(255 255 255 / .12) 12%, transparent 34%, transparent 62%, rgb(255 255 255 / .1) 72%, transparent 82%, rgb(0 0 0 / .22)),
+    linear-gradient(rgb(0 0 0 / .45) 0 5cqw, transparent 5cqw calc(100% - 5cqw), rgb(0 0 0 / .45) calc(100% - 5cqw));
 }
 .cspine__logo { padding: 3cqw 4cqw; border: max(1px, 4cqw) solid currentColor; border-radius: 3cqw; font: 900 max(.32rem, 20cqw)/1 var(--sans); letter-spacing: 0; }
 .cspine__text { writing-mode: vertical-rl; display: flex; align-items: center; gap: 6cqw; min-height: 0; overflow: hidden; }
@@ -521,6 +610,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .ty--script .cspine__title { --fit: 150; }
 .cspine__sub { font: 600 max(.3rem, 20cqw)/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: 45cqh; opacity: .85; }
 .cspine__code { writing-mode: vertical-rl; display: flex; gap: 4cqw; font: 600 max(.28rem, 18cqw)/1 var(--tech); letter-spacing: .04em; }
+/* the shelf above throws its shade on the top of each case in the rack */
+.slot .cspine__card { --shade: linear-gradient(rgb(0 0 0 / .55), rgb(0 0 0 / .2) 12%, transparent 26%); }
 /* a case that is in the deck leaves its slot empty */
 .cas-item.is-out .cspine { visibility: hidden; }
 

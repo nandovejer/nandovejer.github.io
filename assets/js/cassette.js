@@ -77,10 +77,6 @@ function trace(now = 0) {
   const amp = playing || fast ? h * .32 : h * .03;
   const speed = fast ? .02 : .004;
   wctx.clearRect(0, 0, w, h);
-  wctx.lineWidth = 2.5;
-  wctx.strokeStyle = '#7cc6ff';
-  wctx.shadowColor = '#5ab4ff';
-  wctx.shadowBlur = 8;
   wctx.beginPath();
   for (let x = 0; x <= w; x += 3) {
     const t = x / w * Math.PI * 2;
@@ -88,6 +84,16 @@ function trace(now = 0) {
       + (playing ? 0 : (Math.random() - .5) * 1.2);
     x ? wctx.lineTo(x, y) : wctx.moveTo(x, y);
   }
+  // the phosphor: a wide soft halo, then the bright core of the line
+  wctx.lineJoin = 'round';
+  wctx.shadowColor = 'rgb(70 160 255 / .9)';
+  wctx.shadowBlur = 18;
+  wctx.lineWidth = 7;
+  wctx.strokeStyle = 'rgb(60 150 255 / .22)';
+  wctx.stroke();
+  wctx.shadowBlur = 6;
+  wctx.lineWidth = 2;
+  wctx.strokeStyle = '#bfe3ff';
   wctx.stroke();
   if ((playing || fast) && !reduceMotion.matches) wframe = requestAnimationFrame(trace);
 }
@@ -270,6 +276,25 @@ addEventListener('keydown', async (e) => {
   if (typeof liner.showPopover === 'function' && document.querySelector('.lang__menu:popover-open')) return;
   busy = true; await eject(); busy = false;
 });
+
+/* ---------- the rack's empty slots ----------
+   The rows run as wide as the page; the slots the tapes leave at the end of
+   the last row are still slots (empty ones), as in a real cabinet. */
+const slots = document.querySelector('.rack__slots');
+function fillRack() {
+  slots.querySelectorAll('.slot--fill').forEach((s) => s.remove());
+  const cols = getComputedStyle(slots).gridTemplateColumns.split(' ').length;
+  const n = slots.children.length;
+  const rest = (cols - (n % cols)) % cols;
+  for (let i = 0; i < rest; i++) {
+    const li = document.createElement('li');
+    li.className = 'slot slot--empty slot--fill';
+    li.setAttribute('aria-hidden', 'true');
+    slots.append(li);
+  }
+}
+fillRack();
+new ResizeObserver(fillRack).observe(slots);
 
 /* ---------- header links ---------- */
 // Bio: the house tape (ejecting the project if one is in) and its notes.

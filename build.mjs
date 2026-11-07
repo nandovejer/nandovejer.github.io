@@ -799,19 +799,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       </div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
-    <section class="rack" id="${shelfId}" aria-labelledby="shelf-title">
-      <h2 class="visually-hidden" id="shelf-title">${u.shelf}</h2>
-      <ol class="rack__slots">${projects.map((p, i) => {
-        const o = objectOf(p, i, t, u);
-        const total = o.body.reduce((n, b) => n + trackLen(b), 0);
-        return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
-      }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
-        <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
-        <li class="slot slot--empty"></li>
-      </ol>
-    </section>
   </div>
-  <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>${c.cta}</b></p>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}
@@ -823,6 +811,23 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     </div>
   </div>
 </div>
+<p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>${c.cta}</b></p>
+<section class="rack" id="${shelfId}" aria-labelledby="shelf-title">
+  <header class="section-head">
+    <h2 id="shelf-title">${u.shelf}</h2>
+    <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
+  </header>
+  <div class="rack__cabinet">
+    <ol class="rack__slots">${projects.map((p, i) => {
+      const o = objectOf(p, i, t, u);
+      const total = o.body.reduce((n, b) => n + trackLen(b), 0);
+      return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
+    }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
+      <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
+      <li class="slot slot--empty"></li>
+    </ol>
+  </div>
+</section>
 </main>
 ${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion })}
 </body>

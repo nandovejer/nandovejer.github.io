@@ -307,7 +307,7 @@ const brandName = `${site.nick} ${site.name.split(' ').slice(1).join(' ')}`.toUp
 const LANG_NAME = { es: 'Español', en: 'English' };
 const LANG_LABEL = { es: 'Idioma', en: 'Language' };
 const langSwitch = (lang) => `<div class="lang">
-    <button class="lang__button" type="button" popovertarget="lang-menu"><span class="visually-hidden">${LANG_LABEL[lang]}: </span><span aria-hidden="true">${lang.toUpperCase()}</span><span class="visually-hidden">${LANG_NAME[lang]}</span><svg class="lang__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+    <button class="lang__button" type="button" popovertarget="lang-menu"><span class="visually-hidden">${LANG_LABEL[lang]}: </span><span aria-hidden="true">${lang.toUpperCase()}</span><span class="visually-hidden">${LANG_NAME[lang]}</span></button>
     <nav class="lang__menu" id="lang-menu" popover aria-labelledby="lang-title">
       <p class="lang__title" id="lang-title">${LANG_LABEL[lang]}</p>
       <ul class="lang__list">
@@ -344,10 +344,7 @@ const page = (lang) => {
   <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
   <link rel="stylesheet" href="../assets/css/ar-disks.css">
   <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
-  <link rel="stylesheet" href="../assets/css/dq-headers.css">
-  <script>document.documentElement.classList.replace('no-js','js');
-  // header prototypes: ?h=1…4 (proto-headers.html shows them side by side)
-  { const h = new URLSearchParams(location.search).get('h'); if (/^[1-4]$/.test(h ?? '')) document.documentElement.dataset.header = h; }</script>
+  <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../assets/js/ar-disquetes.js"></script>
 </head>
 <body class="ar ar--disquetes dq--asomado">

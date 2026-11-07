@@ -52,13 +52,27 @@
 }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
-/* the brand: the three squares and the name, together one link home */
-.dq--asomado .masthead { align-items: center; }
-.brand { display: inline-flex; align-items: center; gap: .7rem; }
-.brand__mark { width: 1.75rem; height: 1.75rem; flex: none; }
-.brand__name { font-size: 1rem; font-weight: 800; letter-spacing: .1em; }
+/* ---------- the masthead: a magazine cover's ----------
+   The stripe runs along the top; under it the three squares and the name in
+   the condensed titling face, with the kicker under it in the technical one;
+   the links are ■ labels, the language a plain square like the screen's eject.
+   The brand (squares, name, kicker) is one link home. */
+.dq--asomado .masthead {
+  align-items: center;
+  padding-top: calc(.5rem + .9rem); padding-bottom: .9rem;
+  margin-bottom: 0;
+}
+.dq--asomado .masthead::after { top: 0; height: .5rem; }
+.brand { display: inline-flex; align-items: center; gap: .9rem; }
 .brand:hover { text-decoration: none; }
-.brand:hover .brand__name { text-decoration: underline; text-underline-offset: .2em; }
+.brand__mark { width: 2.6rem; height: 2.6rem; flex: none; }
+.brand__text { display: grid; }
+.brand__name { font: 800 2rem/.9 var(--sans); font-stretch: 62%; letter-spacing: 0; }
+.brand:hover .brand__name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
+.brand__kicker { margin-top: .3rem; font: 600 .66rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft); }
+.dq--asomado .masthead__nav { gap: 1.6rem; }
+.dq--asomado .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; }
+.dq--asomado .masthead__nav a::before { content: ""; width: .55em; height: .55em; background: var(--accent); }
 
 
 /* ==========================================================================
@@ -227,7 +241,7 @@ html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .dq--asomado .lang { margin-left: auto; }
 @media (min-width: 64em) { .dq--asomado .lang { margin-left: 0; } }
 .lang__button {
-  display: inline-flex; align-items: center; gap: .4rem;
+  display: inline-flex; align-items: center;
   min-height: 2.5rem; padding: 0 .7rem;
   border: 1.5px solid var(--ink); border-radius: .35rem;
   background: transparent; color: var(--ink);
@@ -235,9 +249,8 @@ html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
   cursor: pointer;
 }
 .lang__button:hover, .lang__button:has(+ :popover-open) { background: var(--ink); color: var(--bg); }
-.lang__caret { width: .7rem; height: .7rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: rotate .2s ease; }
-.lang__button:has(+ :popover-open) .lang__caret { rotate: 180deg; }
-
+.dq--asomado .lang__button { width: 2.5rem; padding: 0; justify-content: center; border-radius: 0; font-size: .78rem; }
+.dq--asomado .lang__button:has(+ :popover-open) 
 .lang__menu {
   inset: auto; top: var(--head-h, 4.5rem); right: var(--pad, 1rem);
   margin: 0; min-width: 12rem; padding: .5rem;

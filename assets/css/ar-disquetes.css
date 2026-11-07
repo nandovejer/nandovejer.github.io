@@ -146,6 +146,8 @@
 .screen__out .entry__use { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
 .screen__out .entry__quote { font: 800 clamp(1.3rem, 1rem + 1vw, 1.9rem)/1.05 var(--sans); font-stretch: 70%; text-transform: uppercase; padding: .75rem 1rem; background: var(--accent); color: var(--on-accent); }
 .screen__out p { max-width: 52rem; }
+/* the description, the fields and the links: one even, wider step between them */
+.screen__out .cells { margin-block: 1rem; }
 .screen__out > * { animation: line-in .5s both; animation-delay: calc(var(--k, 0) * 90ms + .2s); }
 @keyframes line-in { from { opacity: 0; transform: translateY(.4rem); } }
 .screen { position: relative; --sq: 2.25rem; }

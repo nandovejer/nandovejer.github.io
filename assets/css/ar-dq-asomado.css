@@ -232,7 +232,10 @@
 /* ---------- the masthead stays on top while the page scrolls ----------
    (with its stripe: the stripe is its ::after). --head-h is its height, set
    by ar-disquetes.js, so anchors and glides stop under it. */
-.dq--asomado .masthead { position: sticky; top: 0; z-index: 20; background: var(--bg); }
+.dq--asomado .masthead { position: sticky; top: 0; z-index: 20; background: var(--bg); transition: translate .3s ease; }
+/* going down it slides away (stripe and all); going up it comes back (ar-disquetes.js) */
+.dq--asomado .masthead.is-hidden { translate: 0 -100%; }
+@media (prefers-reduced-motion: reduce) { .dq--asomado .masthead { transition: none; } }
 html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .dq--asomado .screen { scroll-margin-top: 0; }
 

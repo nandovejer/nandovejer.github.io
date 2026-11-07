@@ -157,8 +157,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
 .cabinet > *, .rack__cabinet > * { position: relative; z-index: 1; }
-.cabinet { z-index: 1; }
-.ccase { z-index: 0; }
 /* the frame: two stiles with the grain running down, two rails across them */
 .cabinet::before, .rack__cabinet::before, .cabinet::after, .rack__cabinet::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit;
@@ -396,55 +394,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .cabinet.is-rew .tdeck__well .reel { animation: reel .35s linear infinite reverse; }
 @keyframes reel { to { rotate: 1turn; } }
 
-/* ---------- the empty case, open under the deck (desktop) ----------
-   The clear case of the tape that is in the deck, open flat and empty, seen
-   straight on: the lid above, the spine, the base with its two hub posts.
-   Clear polystyrene: the wall seen through it, the edges and the walls
-   catching the light. 1 mm is .7u (109 × 70 × 17 mm). */
-.ccase { display: none; }
-@media (min-width: 64em) {
-  .ccase { --u: calc(min(100cqi, 24rem) / 100); display: grid; justify-content: center; margin-top: calc(7 * var(--u)); }
-}
-.ccase__open {
-  position: relative; width: calc(76 * var(--u));
-  display: grid; grid-template-rows: calc(49 * var(--u)) calc(12 * var(--u)) calc(49 * var(--u));
-  filter: drop-shadow(0 calc(1.5 * var(--u)) calc(1.5 * var(--u)) rgb(0 0 0 / .35)) drop-shadow(0 calc(5 * var(--u)) calc(6 * var(--u)) rgb(0 0 0 / .3));
-}
-.ccase__open > * { position: relative; display: block; box-sizing: border-box; border: 1px solid rgb(255 255 255 / .7); }
-/* the lid and the base: a pane, its four walls seen edge on as bright rims */
-.ccase__lid, .ccase__base {
-  background:
-    linear-gradient(90deg, rgb(255 255 255 / .34) 0 calc(1.1 * var(--u)), rgb(255 255 255 / .1) calc(1.1 * var(--u)) calc(1.4 * var(--u)), transparent calc(1.4 * var(--u)) calc(100% - 1.4 * var(--u)), rgb(255 255 255 / .1) calc(100% - 1.4 * var(--u)) calc(100% - 1.1 * var(--u)), rgb(255 255 255 / .34) calc(100% - 1.1 * var(--u))),
-    linear-gradient(135deg, rgb(255 255 255 / .3), rgb(255 255 255 / .08) 40%, rgb(255 255 255 / .04) 60%, rgb(255 255 255 / .2));
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08), inset 0 0 calc(2 * var(--u)) rgb(255 255 255 / .12);
-}
-.ccase__lid { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; border-bottom: 0; }
-.ccase__lid::after {
-  content: ""; position: absolute; inset: calc(1.4 * var(--u)) calc(1.4 * var(--u)) 0; pointer-events: none;
-  background:
-    linear-gradient(rgb(255 255 255 / .3) 0 calc(1.1 * var(--u)), rgb(255 255 255 / .08) calc(1.1 * var(--u)) calc(1.4 * var(--u)), transparent calc(1.4 * var(--u))),
-    linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .16) 40%, rgb(255 255 255 / .04) 48%, transparent 55%);
-}
-/* the spine: the hinge, a pin at each end, the lip the J-card slides under */
-.ccase__spine {
-  border-block: 1px solid rgb(255 255 255 / .55);
-  background:
-    radial-gradient(circle at calc(2.2 * var(--u)) 50%, rgb(255 255 255 / .9) 0 calc(.6 * var(--u)), rgb(255 255 255 / .35) calc(.7 * var(--u)) calc(1.3 * var(--u)), transparent calc(1.5 * var(--u))),
-    radial-gradient(circle at calc(100% - 2.2 * var(--u)) 50%, rgb(255 255 255 / .9) 0 calc(.6 * var(--u)), rgb(255 255 255 / .35) calc(.7 * var(--u)) calc(1.3 * var(--u)), transparent calc(1.5 * var(--u))),
-    linear-gradient(rgb(255 255 255 / .42), rgb(255 255 255 / .14) 35%, rgb(255 255 255 / .1) 65%, rgb(255 255 255 / .38));
-}
-/* the base: the tray, two hub posts in it, the lugs at the front */
-.ccase__base { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); border-top: 0; }
-.ccase__base::after {
-  content: ""; position: absolute; inset: calc(2.6 * var(--u)) calc(4 * var(--u)) calc(3.4 * var(--u)); pointer-events: none;
-  border-radius: calc(.8 * var(--u));
-  background:
-    radial-gradient(circle at 31% 50%, rgb(255 255 255 / .6) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.4 * var(--u)), rgb(255 255 255 / .65) calc(4.5 * var(--u)) calc(5 * var(--u)), transparent calc(5.2 * var(--u))),
-    radial-gradient(circle at 69% 50%, rgb(255 255 255 / .6) 0 calc(1.2 * var(--u)), rgb(255 255 255 / .22) calc(1.3 * var(--u)) calc(4.4 * var(--u)), rgb(255 255 255 / .65) calc(4.5 * var(--u)) calc(5 * var(--u)), transparent calc(5.2 * var(--u))),
-    linear-gradient(rgb(255 255 255 / .1), rgb(255 255 255 / .16));
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .45), 0 0 0 1px rgb(0 0 0 / .06);
-}
-
 /* ---------- the rack: an oak case under the studio, slots a case wide ----------
    The rows run as wide as the page, as the VHS shelf does. */
 .rack { padding: 1rem var(--pad) 3rem; container-type: inline-size; }
@@ -598,6 +547,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   background: var(--jc-c, #e3412b); color: var(--jc-ink, #1b1b1a);
   font: italic 500 clamp(.5rem, .35rem + .5vw, .72rem)/1.35 "Playfair Display", Georgia, serif; letter-spacing: .06em; text-transform: uppercase;
 }
+/* the cover of the tape, printed on the grey panel in place of the length */
+.jcard__len--art { --paper: #dededb; padding: .35rem 0; color: #1b1b1a; }
+.jcard__len--art svg { height: 100%; width: auto; max-width: 62%; display: block; }
 .jcard__tagline {
   padding: .25rem 1.4rem 0 36%;
   font: italic 700 clamp(.5rem, .4rem + .3vw, .66rem)/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #b4892c;

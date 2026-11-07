@@ -682,7 +682,7 @@ const notes = (o, c, { a, b }) => {
           <div class="jcard">
             <div class="jcard__band" aria-hidden="true">
               <span class="jcard__brand">${brandMark}<b>NM</b></span>
-              <span class="jcard__len">${len}</span>
+              ${o.art ? `<span class="jcard__len jcard__len--art">${o.art}</span>` : `<span class="jcard__len">${len}</span>`}
               <span class="jcard__type">IEC I / TYPE I<br>NORMAL POSITION</span>
             </div>
             <p class="jcard__tagline" aria-hidden="true">${c.tagline}</p>
@@ -811,12 +811,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
   </div>
-  <div class="ccase" aria-hidden="true">
-    <div class="ccase__open">
-      <span class="ccase__lid"></span>
-      <span class="ccase__spine"></span>
-      <span class="ccase__base"></span>
-    </div>
   </div>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
@@ -839,7 +833,9 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     <ol class="rack__slots">${projects.map((p, i) => {
       const o = objectOf(p, i, t, u);
       const total = o.body.reduce((n, b) => n + trackLen(b), 0);
-      return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
+      // the cover printed on the J-card: the plate, or the ornament, as on the VHS sleeves
+      const art = p.plate && p.plate !== 'fingerprint' ? p.plate : p.ornament;
+      return projectSlot({ ...o, art: art ? plates[art] : null, length: total > 15 * 60 ? 'C90' : 'C60' });
     }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
       <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
       <li class="slot slot--empty"></li>

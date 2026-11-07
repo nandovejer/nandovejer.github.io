@@ -16,6 +16,7 @@ const osdMode = bb.querySelector('.osd__mode');
 const osdNo = bb.querySelector('.osd__no');
 const osdCount = bb.querySelector('.osd__count');
 const dialTitle = bb.querySelector('.dial__title');
+const strip = bb.querySelector('.strip__text');
 const cta = document.querySelector('.studio__cta');
 const keys = Object.fromEntries([...bb.querySelectorAll('[data-key]')].map((b) => [b.dataset.key, b]));
 const house = document.querySelector('.cas-bio');
@@ -47,6 +48,7 @@ function load(src) {
   liner.className = ['liner', ...[...tape.classList].filter((c) => /^(jc|ty)--/.test(c))].join(' ');
   tracks = [...out.querySelectorAll('.track')];
   dialTitle.textContent = out.querySelector('.notes__title')?.textContent ?? '';
+  strip.textContent = `${out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? ''} · ${dialTitle.textContent}`;
   count = 0;
   showCount();
   setTrack(0);
@@ -61,6 +63,34 @@ function setTrack(i) {
   keys.ff.setAttribute('aria-disabled', String(track === tracks.length - 1));
 }
 
+/* ---------- the trace in the dial ----------
+   A blue oscilloscope line, as on the cabinet's little CRT: flat (a quiver)
+   when stopped, a moving wave while it plays, fast while it winds. */
+const wave = bb.querySelector('.dial__wave');
+const wctx = wave.getContext('2d');
+let wframe = 0;
+function trace(now = 0) {
+  const { width: w, height: h } = wave;
+  const fast = bb.classList.contains('is-ff') || bb.classList.contains('is-rew');
+  const amp = playing || fast ? h * .32 : h * .03;
+  const speed = fast ? .02 : .004;
+  wctx.clearRect(0, 0, w, h);
+  wctx.lineWidth = 2.5;
+  wctx.strokeStyle = '#7cc6ff';
+  wctx.shadowColor = '#5ab4ff';
+  wctx.shadowBlur = 8;
+  wctx.beginPath();
+  for (let x = 0; x <= w; x += 3) {
+    const t = x / w * Math.PI * 2;
+    const y = h / 2 + amp * (Math.sin(t * 3 + now * speed) * .6 + Math.sin(t * 7.3 - now * speed * 1.7) * .3 + Math.sin(t * 13 + now * speed * .6) * .1)
+      + (playing ? 0 : (Math.random() - .5) * 1.2);
+    x ? wctx.lineTo(x, y) : wctx.moveTo(x, y);
+  }
+  wctx.stroke();
+  if ((playing || fast) && !reduceMotion.matches) wframe = requestAnimationFrame(trace);
+}
+const retrace = () => { cancelAnimationFrame(wframe); trace(performance.now()); };
+
 const showCount = () => { osdCount.textContent = String(count).padStart(3, '0'); };
 function play(on) {
   playing = on;
@@ -69,6 +99,7 @@ function play(on) {
   osdMode.textContent = on ? '▶ PLAY' : '■ STOP';
   clearInterval(tick);
   if (on) tick = setInterval(() => { count = (count + 1) % 1000; showCount(); }, 1000);
+  retrace();
 }
 
 // ◀◀ / ▶▶: the reels whirr, the counter runs, the next track lights up.
@@ -76,10 +107,12 @@ async function wind(dir) {
   const to = track + dir;
   if (busy || to < 0 || to >= tracks.length) return;
   bb.classList.add(dir > 0 ? 'is-ff' : 'is-rew');
+  retrace();
   count = (count + dir * 37 + 1000) % 1000;
   showCount();
   await sleep(420);
   bb.classList.remove('is-ff', 'is-rew');
+  retrace();
   setTrack(to);
   const r = tracks[track].getBoundingClientRect();
   if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
@@ -244,3 +277,4 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
 
 /* ---------- switch on ---------- */
 load(house);
+retrace();

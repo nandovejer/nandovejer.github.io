@@ -740,6 +740,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <span class="tweeter" aria-hidden="true"></span>
         <div class="dial" aria-hidden="true">
           <p class="dial__row"><span class="dial__band">FM</span><span class="dial__scale">88 92 96 100 104 108</span><span class="osd__mode">■ STOP</span></p>
+          <canvas class="dial__wave" width="480" height="60"></canvas>
           <p class="dial__row"><span class="dial__band">AM</span><span class="dial__title">${esc(site.name)}</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
           <span class="dial__needle"></span>
         </div>
@@ -762,6 +763,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span aria-hidden="true">■</span></button>
           <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span aria-hidden="true">⏏</span></button>
         </div>
+        <p class="strip" aria-hidden="true"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
       </div>
       <span class="speaker speaker--r" aria-hidden="true"><span class="speaker__cone"></span></span>
     </div>

@@ -161,7 +161,8 @@ keys.eject.addEventListener('click', async () => {
 /* ---------- the case in flight ---------- */
 
 // Transforms about the centre of the copy (w × h), placed with its centre at (cx, cy).
-const at = (cx, cy, w, h, deg, k) => `translate(${cx - w / 2}px, ${cy - h / 2}px) rotate(${deg}deg) scale(${k})`;
+// k: one scale, or [across, along] the case (applied in its own frame, after the turn)
+const at = (cx, cy, w, h, deg, k) => `translate(${cx - w / 2}px, ${cy - h / 2}px) rotate(${deg}deg) scale(${[].concat(k).join(', ')})`;
 
 // A fixed copy of a case's spine, at its place in the rack.
 function ghostOf(spine, r = spine.getBoundingClientRect()) {
@@ -182,12 +183,13 @@ function rectAt(el, dy = 0) {
   return r;
 }
 
-// From the rack (r) into the door (t): up out of its slot, over in an arc,
-// turning on its side, down into the door as long as the cassette is wide,
-// and in.
+// From the rack (r) onto the spine along the top of the liner notes (t): up
+// out of its slot, over in an arc, turning on its side, and down onto the
+// spine, stretched to its size (as long as the card is wide, as tall as the
+// spine is).
 function arc(r, t) {
   const w = r.width, h = r.height;
-  const k = (t.width * 1.06) / h;             // 109 mm of case for 100 mm of tape
+  const k = [t.height / w, t.width / h];
   const a = [r.left + w / 2, r.top + h / 2];
   const b = [t.left + t.width / 2, t.top + t.height / 2];
   const up = a[1] - h * .35;
@@ -195,24 +197,28 @@ function arc(r, t) {
   return [
     { transform: at(a[0], a[1], w, h, 0, 1), opacity: 1, offset: 0 },
     { transform: at(a[0], up, w, h, 0, 1), opacity: 1, offset: .16 },
-    { transform: at((a[0] + b[0]) / 2, top, w, h, -50, (1 + k) / 2), opacity: 1, offset: .5 },
-    { transform: at(b[0], b[1] - t.height * .5, w, h, -90, k), opacity: 1, offset: .78 },
-    { transform: at(b[0], b[1], w, h, -90, k), opacity: 1, offset: .9 },
-    { transform: at(b[0], b[1] + 4, w, h, -90, k * .96), opacity: 0, offset: 1 }
+    { transform: at((a[0] + b[0]) / 2, top, w, h, -50, [(1 + k[0]) / 2, (1 + k[1]) / 2]), opacity: 1, offset: .5 },
+    { transform: at(b[0], b[1] - t.height * .6, w, h, -90, k), opacity: 1, offset: .8 },
+    { transform: at(b[0], b[1], w, h, -90, k), opacity: 1, offset: 1 }
   ];
 }
+const fade = (el, out) => (reduceMotion.matches || !el ? Promise.resolve()
+  : el.animate([{ opacity: out ? 1 : 0 }, { opacity: out ? 0 : 1 }], { duration: 160, easing: 'ease', fill: 'forwards' }).finished);
 
 const lift = (el) => (reduceMotion.matches || !el ? Promise.resolve()
   : el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-35%)', opacity: 0 }], { duration: 320, easing: 'ease-in', fill: 'forwards' }).finished);
 const drop = (el) => (reduceMotion.matches || !el ? Promise.resolve()
   : el.animate([{ transform: 'translateY(-35%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 380, easing: 'cubic-bezier(.2, .8, .2, 1)' }).finished);
 
-// How far the page must scroll to show the whole radio-cassette (0 if it is).
-function deckScroll() {
-  const r = panel.getBoundingClientRect();
-  if (r.top >= 0 && r.bottom <= innerHeight) return 0;
+// How far the page must scroll to show the top of the liner notes under the
+// header (0 if the spine along its top is already in view).
+const spineOf = () => liner.querySelector('.hspine');
+function linerScroll() {
+  const r = spineOf().getBoundingClientRect();
+  const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 0;
+  if (r.top >= head && r.bottom <= innerHeight) return 0;
   const max = document.documentElement.scrollHeight - innerHeight;
-  const to = Math.max(0, Math.min(max, scrollY + r.top - Math.max(16, (innerHeight - r.height) / 2)));
+  const to = Math.max(0, Math.min(max, scrollY + liner.getBoundingClientRect().top - head - 24));
   return Math.round(to - scrollY);
 }
 
@@ -230,16 +236,18 @@ async function insert(item) {
   const r = spine.getBoundingClientRect();
   const g = ghostOf(spine, r);
   item.classList.add('is-out');
-  const dy = deckScroll();
+  const dy = linerScroll();
   scrollAlong(dy, 700);
   door.classList.add('is-open');
   const gone = lift(well.firstElementChild);
   if (!reduceMotion.matches) {
-    await g.animate(arc(r, rectAt(well, dy)), { duration: 1300, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
+    await g.animate(arc(r, rectAt(spineOf(), dy)), { duration: 1300, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
   }
   await gone;
-  g.remove();
+  // the case lands on the card: its spine is now the card's
   load(item);
+  await fade(g, true);
+  g.remove();
   await drop(well.firstElementChild);
   door.classList.remove('is-open');
   loaded = item;
@@ -258,22 +266,25 @@ async function eject({ quiet = false } = {}) {
   play(false);
   osdMode.textContent = '⏏ EJECT';
   door.classList.add('is-open');
-  const w = well.getBoundingClientRect();
-  await lift(well.firstElementChild);
-  // the case goes back to its slot
+  const gone = lift(well.firstElementChild);
+  // the case lifts off the card and goes back to its slot
   const spine = item.querySelector('.cspine');
   const r = spine.getBoundingClientRect();
   if (!reduceMotion.matches) {
+    const t = spineOf().getBoundingClientRect();
     const g = ghostOf(spine, r);
-    const frames = arc(r, w).reverse().map((f) => ({ ...f, offset: 1 - f.offset }));
+    const frames = arc(r, t).reverse().map((f) => ({ ...f, offset: 1 - f.offset }));
     const visible = r.bottom > 0 && r.top < innerHeight;
-    if (!visible) frames.splice(3, frames.length, { ...frames[2], opacity: 0, offset: 1 });
-    await g.animate(frames, { duration: 1100, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
+    if (!visible) frames.splice(2, frames.length, { ...frames[1], opacity: 0, offset: 1 });
+    const flight = g.animate(frames, { duration: 1100, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
+    if (!quiet) load(house);
+    await flight;
     g.remove();
   }
+  await gone;
   item.classList.remove('is-out');
   if (quiet) return;
-  load(house);
+  if (reduceMotion.matches) load(house);
   await drop(well.firstElementChild);
   door.classList.remove('is-open');
   cta.hidden = false;

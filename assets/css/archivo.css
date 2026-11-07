@@ -49,8 +49,8 @@
   --ink: #0d3249;         /* navy */
   --ink-soft: #29557c;
   --ghost: #e6c98c;       /* decorative digits only */
-  --accent: #f5832a;      /* orange: a fill, or text on navy */
-  --on-accent: #0d3249;
+  --accent: #c8172a;      /* crimson: a fill, with cream text on it */
+  --on-accent: #fbe6b4;
   --text-accent: #c8172a; /* crimson: may be text on cream */
   --rule: color-mix(in srgb, var(--ink) 70%, transparent);
   --hair: color-mix(in srgb, var(--ink) 25%, transparent);
@@ -69,8 +69,8 @@
     --ink: #fbe6b4;
     --ink-soft: #93bcc0;
     --ghost: #29557c;
-    --accent: #f5832a;
-    --on-accent: #0d3249;
+    --accent: #c8172a;
+    --on-accent: #fbe6b4;
     --text-accent: #f9b874;
   }
 }

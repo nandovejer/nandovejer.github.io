@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Disquetes · header prototypes. Pick one with ?h=1…4 on the URL
+   (proto-headers.html shows the four together). Without ?h the current
+   header stays as it is. Each is built from pieces the page already uses:
+   1 Celdas      the header is one row of the grid, split into ruled boxes
+                 like the shelf; the stripe is a thin band under it
+   2 Portada     a magazine masthead: the stripe on top, the name in the
+                 condensed titling face with its kicker, links as ■ labels
+   3 Disquetera  the header is the drive's front: navy plastic, an LED,
+                 the language as the moulded eject key
+   4 Botones     compact and see-through over the grid; links and language
+                 are the same buttons as "Ver demo / Ver código"
+   ========================================================================== */
+
+/* the kicker under the name: hidden unless a variant shows it */
+.brand__kicker { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.brand__text { display: grid; }
+
+/* ---------- 1 · Celdas ---------- */
+
+[data-header="1"] .dq--asomado .masthead {
+  --hh: calc(var(--cell) * 2);
+  padding-block: 0; gap: 0;
+  align-items: stretch;
+  min-height: var(--hh);
+  margin-bottom: .5rem;
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 var(--g-line-strong);
+}
+@media (min-width: 64em) { [data-header="1"] .dq--asomado .masthead { --hh: var(--cell); } }
+[data-header="1"] .dq--asomado .masthead::after { height: .5rem; }
+[data-header="1"] .masthead__title,
+[data-header="1"] .masthead__nav a,
+[data-header="1"] .dq--asomado .lang { display: flex; align-items: center; }
+[data-header="1"] .masthead__title { padding-right: 1.5rem; }
+[data-header="1"] .brand__mark { width: calc(min(var(--cell), 4.5rem) * .5); height: auto; }
+[data-header="1"] .brand__name { font-size: 1.05rem; }
+[data-header="1"] .masthead__nav { gap: 0; }
+[data-header="1"] .masthead__nav a {
+  justify-content: center; min-width: calc(var(--cell) * 2); padding-inline: 1rem;
+  box-shadow: inset 1px 0 0 var(--g-line-strong);
+}
+[data-header="1"] .masthead__nav a:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
+[data-header="1"] .dq--asomado .lang { min-width: var(--cell); justify-content: center; box-shadow: inset 1px 0 0 var(--g-line-strong), inset -1px 0 0 var(--g-line-strong); }
+[data-header="1"] .lang__button { border: 0; border-radius: 0; min-height: 100%; width: 100%; justify-content: center; }
+@media (max-width: 63.999em) {
+  /* phone, tablet: name and language on the first row, the links under it */
+  [data-header="1"] .dq--asomado .masthead { padding-inline: var(--pad); }
+  [data-header="1"] .masthead__title { flex: 1; min-height: max(var(--cell), 2.75rem); }
+  [data-header="1"] .dq--asomado .lang { order: 1; margin-left: 0; min-width: calc(var(--cell) * 2); }
+  [data-header="1"] .masthead__nav { order: 2; flex-basis: 100%; box-shadow: inset 0 1px 0 var(--g-line-strong); }
+  [data-header="1"] .masthead__nav a { flex: 1; min-height: max(var(--cell), 2.75rem); }
+  [data-header="1"] .masthead__nav a:first-child { box-shadow: none; }
+}
+
+/* ---------- 2 · Portada ---------- */
+
+[data-header="2"] .dq--asomado .masthead {
+  padding-top: calc(.5rem + .9rem); padding-bottom: .9rem;
+  margin-bottom: 0;
+  align-items: center;
+}
+[data-header="2"] .dq--asomado .masthead::after { top: 0; height: .5rem; }
+[data-header="2"] .brand { gap: .9rem; }
+[data-header="2"] .brand__mark { width: 2.6rem; height: 2.6rem; }
+[data-header="2"] .brand__name { font: 800 2rem/.9 var(--sans); font-stretch: 62%; letter-spacing: 0; }
+[data-header="2"] .brand__kicker {
+  position: static; width: auto; height: auto; overflow: visible; clip-path: none;
+  margin-top: .3rem; font: 600 .66rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft);
+}
+[data-header="2"] .masthead__nav { gap: 1.6rem; }
+[data-header="2"] .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; }
+[data-header="2"] .masthead__nav a::before { content: ""; width: .55em; height: .55em; background: var(--accent); }
+[data-header="2"] .lang__button { width: 2.5rem; padding: 0; justify-content: center; border-radius: 0; font-size: .78rem; }
+[data-header="2"] .lang__caret { display: none; }
+
+/* ---------- 3 · Disquetera ---------- */
+
+[data-header="3"] .dq--asomado .masthead {
+  --ink: #fbe6b4; --bg: #0d3249; --ink-soft: #93bcc0;
+  color: var(--ink);
+  background: linear-gradient(var(--device-2, #163f5c), var(--device, #0d3249));
+  border-bottom: 0;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / .08), inset 0 -3px 0 rgb(0 0 0 / .25), 0 .6rem 1.2rem -.8rem rgb(0 0 0 / .5);
+  margin-bottom: .4rem;
+}
+[data-header="3"] .dq--asomado .masthead::after { height: .4rem; }
+[data-header="3"] .brand__name { font: 600 .95rem/1 var(--tech); letter-spacing: .14em; }
+/* the LED: on, in the accent, like the drive's when it reads */
+[data-header="3"] .masthead__nav { align-items: center; }
+[data-header="3"] .masthead__nav::before {
+  content: ""; width: .9rem; height: .3rem; border-radius: .15rem; margin-right: .4rem;
+  background: var(--accent); box-shadow: 0 0 .5rem var(--accent);
+}
+[data-header="3"] .masthead__nav a { font-family: var(--tech); font-weight: 600; letter-spacing: .12em; color: var(--ink); }
+/* the language: the moulded eject key */
+[data-header="3"] .lang__button {
+  border: 0; color: #93bcc0;
+  background: linear-gradient(#2c6185, #1b4a6a);
+  box-shadow: 0 .2rem 0 #081e2d, inset 0 1px 0 rgb(255 255 255 / .15);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+[data-header="3"] .lang__button:hover, [data-header="3"] .lang__button:has(+ :popover-open) { background: linear-gradient(#336b91, #20537a); color: #fbe6b4; }
+[data-header="3"] .lang__button:active { transform: translateY(.15rem); box-shadow: 0 .05rem 0 #081e2d, inset 0 .1rem .3rem rgb(0 0 0 / .45); }
+/* the popover is in the top layer, with the page's own colours */
+[data-header="3"] .lang__menu { --ink: #0d3249; --bg: #fbe6b4; --ink-soft: #29557c; }
+@media (prefers-color-scheme: dark) { [data-header="3"] .lang__menu { --ink: #fbe6b4; --bg: #0b2a3e; --ink-soft: #93bcc0; } }
+
+/* ---------- 4 · Botones ---------- */
+
+[data-header="4"] .dq--asomado .masthead {
+  padding-block: .7rem;
+  margin-bottom: .2rem;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1.5px solid var(--ink);
+}
+[data-header="4"] .dq--asomado .masthead::after { height: .2rem; }
+[data-header="4"] .brand__name { font: 800 1.45rem/1 var(--sans); font-stretch: 62%; letter-spacing: .02em; }
+[data-header="4"] .masthead__nav { gap: .6rem; }
+[data-header="4"] .masthead__nav a,
+[data-header="4"] .lang__button {
+  display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0 .9rem;
+  border: 1.5px solid var(--ink); border-radius: .35rem;
+  box-shadow: 0 3px 0 var(--ink);
+  font: 800 .74rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+[data-header="4"] .masthead__nav a:hover, [data-header="4"] .lang__button:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--ink); text-decoration: none; background: transparent; color: var(--ink); }
+[data-header="4"] .masthead__nav a:active, [data-header="4"] .lang__button:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
+[data-header="4"] .masthead__nav a[data-go="projects"] { background: var(--accent); color: var(--on-accent); }
+[data-header="4"] .lang__button:has(+ :popover-open) { background: var(--ink); color: var(--bg); }

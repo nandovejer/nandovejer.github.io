@@ -344,13 +344,16 @@ const page = (lang) => {
   <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
   <link rel="stylesheet" href="../assets/css/ar-disks.css">
   <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
-  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <link rel="stylesheet" href="../assets/css/dq-headers.css">
+  <script>document.documentElement.classList.replace('no-js','js');
+  // header prototypes: ?h=1…4 (proto-headers.html shows them side by side)
+  { const h = new URLSearchParams(location.search).get('h'); if (/^[1-4]$/.test(h ?? '')) document.documentElement.dataset.header = h; }</script>
   <script type="module" src="../assets/js/ar-disquetes.js"></script>
 </head>
 <body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
-  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__name">${brandName}</span><span class="visually-hidden">, ${t.kicker}</span></a></h1>
+  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
   <nav class="masthead__nav" aria-label="${u.nav}">
     <a href="#bio" data-go="bio">${u.navBio}</a>
     <a href="#${shelfId}" data-go="projects">${u.shelf}</a>

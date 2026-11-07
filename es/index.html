@@ -18,7 +18,10 @@
   <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
   <link rel="stylesheet" href="../assets/css/ar-disks.css">
   <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
-  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <link rel="stylesheet" href="../assets/css/dq-headers.css">
+  <script>document.documentElement.classList.replace('no-js','js');
+  // header prototypes: ?h=1…4 (proto-headers.html shows them side by side)
+  { const h = new URLSearchParams(location.search).get('h'); if (/^[1-4]$/.test(h ?? '')) document.documentElement.dataset.header = h; }</script>
   <script type="module" src="../assets/js/ar-disquetes.js"></script>
 </head>
 <body class="ar ar--disquetes dq--asomado">
@@ -28,7 +31,7 @@
     <rect width="24" height="24" style="fill: var(--c-crimson)"/>
     <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
     <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
-  </svg><span class="brand__name">NANDO MUÑOZ</span><span class="visually-hidden">, Tech Lead Frontend · Madrid</span></a></h1>
+  </svg><span class="brand__text"><span class="brand__name">NANDO MUÑOZ</span><span class="brand__kicker"><span class="visually-hidden">, </span>Tech Lead Frontend · Madrid</span></span></a></h1>
   <nav class="masthead__nav" aria-label="Secciones">
     <a href="#bio" data-go="bio">Bio</a>
     <a href="#proyectos" data-go="projects">Proyectos</a>

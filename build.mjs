@@ -594,6 +594,206 @@ ${masthead(lang, t, u, { bioHref: '#tv' })}
   </ol>
 </section>
 </main>
+${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label: u.cassetteVersion })}
+</body>
+</html>
+`;
+};
+
+/* ---------- the cassette version ----------
+   After a photo of an oak wall cabinet on a sage wall: on top a brushed
+   aluminium panel with a small CRT showing a blue waveform, a cassette deck
+   with the tape seen through its door, two round speakers, the keys (four
+   silver, the eject orange), two knobs and a lit strip naming the tape in;
+   below, oak slots with the cassettes spine out. The projects (and the
+   socials) are the tapes; one goes into the deck and plays. Beside the
+   cabinet, the liner notes (J-card) of the tape in: side A is the text, a
+   track per paragraph; side B the facts and links. With no project in, the
+   house tape (the bio) is in the deck. */
+
+// Each tape: shell colour (the cassette seen in the deck), J-card colour
+// (its spine on the shelf and the band of its label), lettering.
+const CAS = {
+  bio: ['cream', 'red', 'cond'], luz: ['smoke', 'yellow', 'cond'], ikay: ['white', 'sky', 'wide'],
+  'chrome-local-ai': ['smoke', 'black', 'mono'], 'quien-canta-hoy': ['black', 'pink', 'script'],
+  'ares-api': ['cream', 'orange', 'serif'], 'toolbar-aem': ['black', 'cream', 'cond'],
+  accesibilidad: ['white', 'mint', 'wide'], 'libros-del-mundo': ['smoke', 'tan', 'script'],
+  'string-transformer': ['black', 'white', 'mono'], 'coac-analisis': ['cream', 'red', 'cond'],
+  'illo-loader': ['smoke', 'black', 'serif'], 'js-subtype': ['white', 'fade', 'wide'],
+  github: ['black', 'black', 'mono'], x: ['white', 'white', 'wide'], blog: ['cream', 'yellow', 'script'], linkedin: ['black', 'sky', 'cond']
+};
+const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
+// A track's length from its words (a paragraph read aloud, more or less).
+const mmss = (sec) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
+
+// The cassette, face on (in the deck).
+const cassette = (o) => {
+  const [shell, band, type] = casOf(o.id);
+  return `<span class="cassette sh--${shell} jc--${band} ty--${type}" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">${esc(o.name)}</span>
+            <span class="cassette__meta">${esc(o.use ?? '')}${o.year ? ` · ${o.year}` : ''}</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>${o.code}</span><span>${o.length ?? 'C60'}</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span>`;
+};
+
+// The case, spine out (on the stack): the J-card's spine, lying flat as on
+// the poster: a logo, the title and a second line, the catalogue number.
+const caseSpine = (o) => {
+  const [, band, type] = casOf(o.id);
+  return `<span class="cspine jc--${band} ty--${type}" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">${esc(o.name)}</span><span class="cspine__sub">${esc(o.use ?? '')}</span></span>
+          <span class="cspine__code"><span>${o.code}</span><span>${o.length ?? 'STEREO'}</span></span>
+        </span></span>`;
+};
+
+// The liner notes: the head, then side A and side B as numbered tracks.
+const notes = (o, c, { a, b }) => `
+          <header class="notes__head">
+            <p class="notes__code">${o.code} · ${o.length ?? 'C60'}</p>
+            <h3 class="notes__title">${esc(o.name)}</h3>
+            <p class="notes__use">${esc(o.use)}${o.year ? ` · ${o.year}` : ''}</p>
+            ${o.quote ? `<p class="notes__quote">“${esc(o.quote)}”</p>` : ''}
+          </header>
+          <p class="notes__side label">${c.sideA}</p>
+          <ol class="tracks">${a.map((x, i) => `
+            <li class="track" data-no="A${i + 1}"><span class="track__no">A${i + 1}</span><div class="track__body">${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`).join('')}
+          </ol>
+          <p class="notes__side label">${c.sideB}</p>
+          <ol class="tracks">${b.map((x, i) => `
+            <li class="track" data-no="B${i + 1}"><span class="track__no">B${i + 1}</span><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`).join('')}
+          </ol>`;
+
+const cassettePage = (lang) => {
+  const t = { ...site.i18n[lang], lang };
+  const u = ui[lang];
+  const c = u.cassette;
+  const shelfId = lang === 'es' ? 'proyectos' : 'projects';
+  const url = `${site.baseUrl}/cassette/${lang}/`;
+  const bio = {
+    id: 'bio', code: 'NM-000', name: site.name, use: t.kicker, year: null, length: 'C90',
+    quote: plain(t.deck).replace(/^“|”$/g, '')
+  };
+  const bioNotes = notes(bio, c, {
+    a: t.bio.map((p) => plain(p)).map((p) => ({ body: `<p>${esc(p)}</p>`, sec: trackLen(p) })),
+    b: [{ title: c.socials, body: socials(), sec: 90 }]
+  });
+  const projectSlot = (o) => `
+      <li class="slot cas-item" id="${o.id}">
+        <button type="button" class="slot__case" aria-label="${c.insert}: ${esc(o.name)}">
+        ${caseSpine(o)}
+        </button>
+        <div class="cas-item__tape" hidden>${cassette(o)}</div>
+        <div class="cas-item__notes" hidden>${notes(o, c, {
+          a: o.body.map((p) => ({ body: `<p>${esc(p)}</p>`, sec: trackLen(p) })),
+          b: [
+            { title: c.facts, body: cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3'), sec: 75 },
+            { title: c.links, body: links(o, t), sec: 40 }
+          ]
+        })}
+        </div>
+      </li>`;
+  const socialSlot = (s) => `
+      <li class="slot slot--social">
+        <a class="slot__case" href="${s.url}" rel="me noopener" aria-label="${s.label}: ${esc(s.handle)}">
+        ${caseSpine({ id: s.id, name: s.label, use: s.handle, code: s.id.toUpperCase() })}
+        </a>
+      </li>`;
+  return `<!doctype html>
+<html lang="${lang}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${site.name} · ${t.runningHead} · Cassette</title>
+  <meta name="description" content="${esc(t.metaDescription)}">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="${url}">
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/cassette/${l}/">`).join('\n  ')}
+  <meta property="og:title" content="${site.name} · ${t.runningHead} · Cassette">
+  <meta property="og:description" content="${esc(t.metaDescription)}">
+  <meta property="og:url" content="${url}">
+  <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/chrome.css">
+  <link rel="stylesheet" href="../../assets/css/cassette.css">
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <script type="module" src="../../assets/js/cassette.js"></script>
+</head>
+<body class="cas">
+<a class="skip" href="#main">${t.skip}</a>
+${masthead(lang, t, u, { bioHref: '#liner' })}
+<main id="main">
+<div class="studio">
+  <div class="studio__deck">
+  <section class="boombox" id="deck" aria-label="${c.deck}" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
+    <span class="bb__handle" aria-hidden="true"></span>
+    <div class="bb__body">
+      <div class="bb__top">
+        <span class="tweeter" aria-hidden="true"></span>
+        <div class="dial" aria-hidden="true">
+          <p class="dial__row"><span class="dial__band">FM</span><span class="dial__scale">88 92 96 100 104 108</span><span class="osd__mode">■ STOP</span></p>
+          <p class="dial__row"><span class="dial__band">AM</span><span class="dial__title">${esc(site.name)}</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+          <span class="dial__needle"></span>
+        </div>
+        <span class="tweeter" aria-hidden="true"></span>
+        <div class="knobs" aria-hidden="true"><span class="knob"></span><span class="knob"></span><span class="knob"></span><span class="slide"></span><span class="knob"></span><span class="knob knob--big"></span></div>
+      </div>
+      <span class="speaker speaker--l" aria-hidden="true"><span class="speaker__cone"></span></span>
+      <div class="bb__center">
+        <p class="bb__plate" aria-hidden="true"><b>NM</b> CS-26 <span>STEREO</span></p>
+        <div class="tdeck">
+          <div class="tdeck__door">
+            <div class="tdeck__well">${cassette(bio)}</div>
+            <span class="tdeck__glass" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="keys">
+          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
+          <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span aria-hidden="true">◀◀</span></button>
+          <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span aria-hidden="true">▶▶</span></button>
+          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span aria-hidden="true">■</span></button>
+          <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span aria-hidden="true">⏏</span></button>
+        </div>
+      </div>
+      <span class="speaker speaker--r" aria-hidden="true"><span class="speaker__cone"></span></span>
+    </div>
+    <p class="bb__state visually-hidden" aria-live="polite"></p>
+  </section>
+  <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>${c.cta}</b></p>
+  </div>
+  <article class="liner" id="liner" aria-label="${c.liner}">
+    <div class="liner__out">${bioNotes}
+    </div>
+  </article>
+  <div class="cas-bio" hidden>
+    <div class="cas-item__tape">${cassette(bio)}</div>
+    <div class="cas-item__notes">${bioNotes}
+    </div>
+  </div>
+</div>
+<section class="stack" id="${shelfId}" aria-labelledby="shelf-title">
+  <header class="section-head">
+    <h2 id="shelf-title">${u.shelf}</h2>
+    <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
+  </header>
+  <div class="stack__frame">
+    <ol class="stack__list">${projects.map((p, i) => {
+      const o = objectOf(p, i, t, u);
+      const total = o.body.reduce((n, b) => n + trackLen(b), 0);
+      return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
+    }).join('')}${site.socials.map(socialSlot).join('')}
+    </ol>
+  </div>
+</section>
+</main>
 ${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion })}
 </body>
 </html>
@@ -641,3 +841,6 @@ write('index.html', toLanguage(''));
 rmSync(join(root, 'vhs'), { recursive: true, force: true });
 for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
 write('vhs/index.html', toLanguage(''));
+rmSync(join(root, 'cassette'), { recursive: true, force: true });
+for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
+write('cassette/index.html', toLanguage(''));

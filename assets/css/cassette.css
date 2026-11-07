@@ -1,0 +1,377 @@
+/* ==========================================================================
+   Cassette — a silver radio-cassette (img: radio.jpg) over the liner notes
+   of the tape inside, and the tapes stacked spine out in a frame, as on a
+   poster of cassette spines: mustard, pink, sky, orange, mint, cream, black
+   and red J-cards. Built on archivo.css (type, cells, buttons) and
+   chrome.css (masthead, colophon).
+   ========================================================================== */
+
+@font-face {
+  font-family: "Pinyon Script";
+  src: url("../fonts/pinyon-script-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/playfair-display-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 900; font-display: swap;
+}
+
+html:root {
+  color-scheme: light dark;
+  --bg: #eceae3;          /* the wall: a warm off-white */
+  --panel: #f9f8f3;
+  --paper: #fbfaf6;       /* the poster and the liner notes */
+  --ink: #1d1d1b;
+  --ink-soft: #57554f;
+  --ghost: #c9c5ba;
+  --accent: #e3412b;      /* red, as on the spines */
+  --on-accent: #ffffff;
+  --text-accent: #c2311d;
+  --rule: color-mix(in srgb, var(--ink) 60%, transparent);
+  --hair: color-mix(in srgb, var(--ink) 18%, transparent);
+  --frame: #4a4a49;       /* the poster's frame */
+  --case: #232323;        /* the plastic of the cases */
+}
+@media (prefers-color-scheme: dark) {
+  html:root {
+    --bg: #17181a;
+    --panel: #212225;
+    --paper: #242528;
+    --ink: #f1efe8;
+    --ink-soft: #b9b6ad;
+    --ghost: #4a4b4f;
+    --text-accent: #ff7a5c;
+    --frame: #0c0c0d;
+    --case: #0f0f10;
+  }
+}
+body.cas { background: var(--bg); }
+
+/* ---------- the J-card colours (spines, labels, the liner's band) ---------- */
+.jc--yellow { --jc: #f5d43c; --jc-c: #f5d43c; --jc-ink: #1d1d1b; --jc-title: #d6321f; }
+.jc--pink   { --jc: #ef8fb3; --jc-c: #ef8fb3; --jc-ink: #1d1d1b; }
+.jc--sky    { --jc: #2f97d3; --jc-c: #2f97d3; --jc-ink: #ffffff; }
+.jc--orange { --jc: #f29a45; --jc-c: #f29a45; --jc-ink: #1d1d1b; }
+.jc--mint   { --jc: #86d3c9; --jc-c: #86d3c9; --jc-ink: #1d1d1b; --jc-title: #1d5f7a; }
+.jc--cream  { --jc: #efe6d2; --jc-c: #e9dcbd; --jc-ink: #1d1d1b; --jc-title: #d6321f; }
+.jc--tan    { --jc: #ecc095; --jc-c: #ecc095; --jc-ink: #3a2a1c; }
+.jc--white  { --jc: #f7f6f1; --jc-c: #d9d6cc; --jc-ink: #1d1d1b; --jc-title: #d6321f; }
+.jc--black  { --jc: #1e1e1e; --jc-c: #1e1e1e; --jc-ink: #f3f1ea; --jc-title: #f5d43c; }
+.jc--red    { --jc: #e3412b; --jc-c: #e3412b; --jc-ink: #ffffff; }
+.jc--fade   { --jc: linear-gradient(90deg, #f7f6f1 35%, #2f97d3); --jc-c: #2f97d3; --jc-ink: #1d1d1b; --jc-title: #1d5f7a; }
+
+/* the lettering, as varied as on a real stack */
+.ty--cond   :is(.cassette__title, .cspine__title, .notes__title) { font-family: var(--sans); font-weight: 800; font-stretch: 62%; text-transform: uppercase; }
+.ty--wide   :is(.cassette__title, .cspine__title, .notes__title) { font-family: var(--sans); font-weight: 900; font-stretch: 118%; text-transform: uppercase; letter-spacing: -.01em; }
+.ty--serif  :is(.cassette__title, .cspine__title, .notes__title) { font-family: "Playfair Display", Georgia, serif; font-weight: 800; }
+.ty--script :is(.cassette__title, .cspine__title, .notes__title) { font-family: "Pinyon Script", cursive; font-weight: 400; text-transform: none; }
+.ty--mono   :is(.cassette__title, .cspine__title, .notes__title) { font-family: var(--tech); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ---------- the studio: the radio-cassette and the liner notes ---------- */
+
+.studio {
+  display: grid; gap: 1.5rem var(--gap);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--pad);
+}
+.studio__deck { display: grid; gap: 1.25rem; align-content: start; }
+@media (min-width: 64em) {
+  .studio { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+  .studio__deck { position: sticky; top: 1rem; }
+}
+
+.studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+.studio__cta[hidden] { display: none; }
+.studio__cta b { font: 800 clamp(1.2rem, 1rem + 1vw, 1.8rem)/1 var(--sans); font-stretch: 62%; text-transform: uppercase; }
+.studio__arrow {
+  display: inline-grid; place-items: center; width: 2.6rem; aspect-ratio: 1; flex: none;
+  border-radius: 50%; background: var(--accent); color: var(--on-accent);
+  font: 800 1.3rem/1 var(--sans);
+  animation: nudge-down 1.2s ease-in-out infinite;
+}
+@keyframes nudge-down { 50% { transform: translateY(.35rem); } }
+
+/* ---------- the radio-cassette ---------- */
+
+.boombox { position: relative; container-type: inline-size; width: min(100%, 56rem); margin-inline: auto; }
+/* the carrying handle: a bar on two posts */
+.bb__handle {
+  position: absolute; top: 0; left: 13%; right: 13%; height: 9.5cqi;
+  border: 1.5cqi solid #bdbeba; border-bottom: 0; border-radius: 1.2cqi 1.2cqi 0 0;
+  box-shadow: inset 0 .35cqi 0 rgb(255 255 255 / .7), 0 -.3cqi 0 #8d8f8b, inset 0 -.2cqi .4cqi rgb(0 0 0 / .2);
+}
+.bb__body {
+  position: relative; margin-top: 8cqi;  /* room for the handle (cq units: the boombox is the container) */
+  display: grid; grid-template-columns: 30% minmax(0, 1fr) 30%; column-gap: 2cqi;
+  grid-template-areas: "top top top" "spl center spr";
+  padding: 1.6cqi 2.2cqi 2.6cqi;
+  border-radius: 2.2cqi;
+  color: #2b2c2a;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / .1) 0 1px, transparent 1px 3px),
+    linear-gradient(#f4f4f1, #d9dad6 38%, #c6c7c3 72%, #b2b3af);
+  box-shadow:
+    inset 0 .3cqi 0 #fff, inset 0 -.5cqi 0 rgb(0 0 0 / .14),
+    0 1cqi 0 #8a8c88, 0 3cqi 3cqi -1.2cqi rgb(0 0 0 / .45);
+}
+
+/* top band: tweeters at the ends, the tuner dial, the knobs under it */
+.bb__top {
+  grid-area: top;
+  display: grid; grid-template-columns: 9cqi minmax(0, 1fr) 9cqi; grid-template-areas: "tl dial tr" ". knobs .";
+  gap: 1.4cqi 2.4cqi; align-items: center;
+  padding-bottom: 1.8cqi; margin-bottom: 2cqi;
+  border-bottom: .3cqi solid #a2a4a0; box-shadow: 0 .3cqi 0 rgb(255 255 255 / .6);
+}
+.tweeter {
+  width: 100%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #3a3a3a 0 .25cqi, transparent .3cqi) 0 0 / 1cqi 1cqi, #111;
+  box-shadow: 0 0 0 .5cqi #e6e6e3, 0 0 0 .8cqi #8c8e8a, inset 0 0 1cqi #000;
+}
+.tweeter:last-of-type { grid-area: tr; }
+.dial {
+  grid-area: dial; position: relative;
+  display: grid; gap: .7cqi; padding: 1.3cqi 2cqi;
+  border-radius: .6cqi;
+  background: linear-gradient(#1b5a78, #103e57);
+  box-shadow: inset 0 0 0 .3cqi #0b2738, inset 0 .6cqi 1cqi rgb(0 0 0 / .5), 0 .25cqi 0 rgb(255 255 255 / .8);
+  color: #dff4ff; font: 600 max(.6rem, 1.7cqi)/1.2 var(--tech); letter-spacing: .1em;
+  text-shadow: 0 0 .6cqi rgb(140 220 255 / .45);
+}
+.dial__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 1.6cqi; align-items: baseline; white-space: nowrap; }
+.dial__band { color: #8fd8ff; }
+.dial__scale { word-spacing: 1.4cqi; opacity: .75; overflow: hidden; }
+.dial__title { overflow: hidden; text-overflow: ellipsis; color: #fff; text-transform: uppercase; }
+.osd__mode { color: #ffd84d; }
+.boombox.is-playing .osd__mode { color: #a5ffb8; }
+.osd__track { color: #fff; }
+/* the tuning needle walks along the scale with the tracks */
+.dial__needle {
+  position: absolute; top: .5cqi; bottom: .5cqi; width: .35cqi;
+  left: calc(16% + var(--p, 0) * 52%);
+  background: #ff4a32; box-shadow: 0 0 .7cqi #ff4a32;
+  transition: left .5s cubic-bezier(.3, .7, .3, 1);
+}
+.knobs { grid-area: knobs; display: flex; align-items: center; justify-content: space-between; gap: 1.4cqi; padding: 0 1cqi; }
+.knob {
+  position: relative; width: 4.2cqi; aspect-ratio: 1; flex: none; border-radius: 50%;
+  background: repeating-conic-gradient(#ececea 0 6deg, #c5c6c2 6deg 12deg);
+  box-shadow: 0 0 0 .3cqi #9fa19d, 0 .5cqi .6cqi rgb(0 0 0 / .35), inset 0 .3cqi 0 #fff;
+}
+.knob::after { content: ""; position: absolute; top: 12%; left: 50%; width: .4cqi; height: 32%; translate: -50% 0; background: #333; border-radius: 1px; }
+.knob--big { width: 6.2cqi; }
+.boombox.is-playing .knob--big { rotate: 40deg; transition: rotate .6s ease; }
+.slide { position: relative; width: 11cqi; height: 2.2cqi; border-radius: .3cqi; background: #2a2a2a; box-shadow: inset 0 .3cqi .4cqi #000, 0 .2cqi 0 #fff; }
+.slide::after { content: ""; position: absolute; left: 30%; top: -30%; width: 3cqi; height: 160%; border-radius: .3cqi; background: linear-gradient(90deg, #f2f2ef, #b9bab6); box-shadow: 0 .2cqi .3cqi rgb(0 0 0 / .4); }
+
+/* the big speakers: black mesh in a chrome ring; the cones beat as it plays */
+.speaker {
+  position: relative; align-self: center; justify-self: center;
+  width: calc(100% - 3cqi); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #232323 0 50%, #0f0f0f 72%);
+  box-shadow: 0 0 0 1.1cqi #dcdcd9, 0 0 0 1.4cqi #8e908c, 0 0 0 1.9cqi #c4c5c1, inset 0 0 2cqi #000;
+}
+.speaker--l { grid-area: spl; }
+.speaker--r { grid-area: spr; }
+.speaker::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%;
+  background: radial-gradient(circle, #454545 .22cqi, transparent .28cqi) 0 0 / 1cqi 1cqi;
+}
+.speaker__cone { position: absolute; inset: 28%; border-radius: 50%; background: radial-gradient(circle, #2e2e2e, #0b0b0b 72%); box-shadow: inset 0 0 1.5cqi #000; }
+.boombox.is-playing .speaker__cone { animation: thump .46s ease-in-out infinite alternate; }
+@keyframes thump { to { transform: scale(1.06); } }
+
+/* the centre: the model plate, the cassette door, the piano keys */
+.bb__center { grid-area: center; display: grid; gap: 1.2cqi; align-content: start; }
+.bb__plate { display: flex; align-items: center; justify-content: space-between; gap: 1cqi; font: 700 max(.55rem, 1.5cqi)/1 var(--tech); letter-spacing: .2em; color: #3a3b38; }
+.bb__plate b { padding: .35cqi .8cqi; border-radius: .3cqi; background: #2a2a2a; color: #f2f2ef; letter-spacing: .08em; }
+.tdeck {
+  perspective: 70cqi; padding: .9cqi; border-radius: .7cqi;
+  background: #a9aaa6; box-shadow: inset 0 .4cqi .6cqi rgb(0 0 0 / .35), 0 .25cqi 0 #fff;
+}
+.tdeck__door {
+  position: relative; padding: 1.4cqi 1.8cqi 2.4cqi; border-radius: .5cqi;
+  background: linear-gradient(#e6e7e3, #c9cac6);
+  box-shadow: inset 0 .25cqi 0 #fff, 0 .3cqi .4cqi rgb(0 0 0 / .3);
+  transform-origin: 50% 100%; transition: transform .35s cubic-bezier(.3, .7, .3, 1);
+}
+.tdeck__door.is-open { transform: rotateX(-32deg); }
+.tdeck__well { position: relative; padding: .8cqi; border-radius: .4cqi; background: #161616; box-shadow: inset 0 0 0 .3cqi #3d3d3d; }
+.tdeck__glass {
+  position: absolute; inset: 1.4cqi 1.8cqi 2.4cqi; border-radius: .4cqi; pointer-events: none;
+  background: linear-gradient(160deg, rgb(255 255 255 / .24), transparent 38%), rgb(40 50 55 / .14);
+}
+.keys { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5cqi; padding: .6cqi; border-radius: .5cqi; background: #1b1b1b; }
+.key {
+  all: unset; box-sizing: border-box; cursor: pointer;
+  display: grid; place-items: center; min-height: max(2.75rem, 5cqi);
+  border-radius: .3cqi .3cqi .7cqi .7cqi;
+  background: linear-gradient(#555, #303030 55%, #1e1e1e);
+  color: #f2f2ef; font: 700 max(.75rem, 1.7cqi)/1 var(--tech);
+  box-shadow: inset 0 .25cqi 0 rgb(255 255 255 / .25), 0 .5cqi 0 #000;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+.key:active, .key.is-pressed, .key[aria-pressed="true"] { transform: translateY(.4cqi); box-shadow: inset 0 .2cqi 0 rgb(255 255 255 / .15), 0 .1cqi 0 #000; }
+.key[aria-pressed="true"] span { color: #a5ffb8; }
+.key[data-key="eject"] span { color: #ffb36b; }
+.key[aria-disabled="true"] { cursor: default; }
+.key[aria-disabled="true"] span { opacity: .45; }
+.key:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* the reels turn as it plays, fast on ◀◀ / ▶▶ */
+.boombox.is-playing .tdeck__well .reel { animation: reel 1.8s linear infinite; }
+.boombox.is-ff .tdeck__well .reel { animation: reel .35s linear infinite; }
+.boombox.is-rew .tdeck__well .reel { animation: reel .35s linear infinite reverse; }
+@keyframes reel { to { rotate: 1turn; } }
+
+/* one column: the speakers go under the deck, side by side */
+@media (max-width: 37.49em) {
+  .bb__body { grid-template-columns: 1fr 1fr; grid-template-areas: "top top" "center center" "spl spr"; row-gap: 3cqi; }
+  .speaker { width: 72%; }
+  .dial__scale { visibility: hidden; }
+  .dial { font-size: max(.62rem, 2.6cqi); }
+  .knob { width: 6cqi; } .knob--big { width: 8cqi; } .slide { width: 14cqi; }
+  .bb__plate { font-size: max(.55rem, 2.4cqi); }
+}
+
+/* ---------- the cassette, face on ---------- */
+
+.cassette { display: block; position: relative; width: 100%; aspect-ratio: 100 / 63.5; container-type: inline-size; }
+.cassette__body {
+  position: absolute; inset: 0; border-radius: 3.2cqw;
+  background:
+    radial-gradient(circle 1.3cqw at 4.5cqw 4.5cqw, #cfcfca 55%, #5b5b55 70%, transparent 76%),
+    radial-gradient(circle 1.3cqw at calc(100% - 4.5cqw) 4.5cqw, #cfcfca 55%, #5b5b55 70%, transparent 76%),
+    radial-gradient(circle 1.3cqw at 4.5cqw calc(100% - 4.5cqw), #cfcfca 55%, #5b5b55 70%, transparent 76%),
+    radial-gradient(circle 1.3cqw at calc(100% - 4.5cqw) calc(100% - 4.5cqw), #cfcfca 55%, #5b5b55 70%, transparent 76%),
+    linear-gradient(170deg, rgb(255 255 255 / .18), transparent 40%),
+    var(--shell);
+  box-shadow: inset 0 .5cqw 0 rgb(255 255 255 / .22), inset 0 -.8cqw 0 rgb(0 0 0 / .25);
+}
+.sh--black { --shell: #202021; }
+.sh--smoke { --shell: #4b4d51; }
+.sh--white { --shell: #e9e8e2; }
+.sh--cream { --shell: #e6dabf; }
+.cassette__label {
+  position: absolute; left: 7cqw; right: 7cqw; top: 5cqw; height: 42cqw; overflow: hidden;
+  border-radius: 2cqw; background: var(--jc); color: var(--jc-ink);
+}
+.cassette__side { position: absolute; left: 3cqw; top: 2.4cqw; font: 900 6cqw/1 var(--sans); }
+.cassette__title {
+  position: absolute; left: 11cqw; right: 4cqw; top: 2cqw;
+  font-size: 6.6cqw; line-height: 1.05; color: var(--jc-title, var(--jc-ink));
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ty--script .cassette__title { font-size: 8cqw; top: 1cqw; }
+.cassette__meta {
+  position: absolute; left: 11cqw; right: 4cqw; top: 10.2cqw;
+  font: 600 2.6cqw/1 var(--tech); letter-spacing: .08em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85;
+}
+.cassette__band { position: absolute; left: 0; right: 0; top: 15cqw; height: 22cqw; background: rgb(0 0 0 / .8); }
+.jc--black .cassette__band { background: #f5d43c; }
+.cassette__window {
+  position: absolute; left: 18cqw; right: 18cqw; top: 18cqw; height: 16cqw; overflow: hidden;
+  border-radius: 8cqw;
+  background:
+    radial-gradient(circle 11.5cqw at 9cqw 50%, #4a3324 97%, transparent 100%),
+    radial-gradient(circle 8cqw at calc(100% - 9cqw) 50%, #4a3324 97%, transparent 100%),
+    linear-gradient(rgb(255 255 255 / .16), rgb(255 255 255 / .04)), #121212;
+  box-shadow: inset 0 0 0 .6cqw #d9d6cc;
+}
+.reel {
+  position: absolute; top: 50%; width: 9cqw; aspect-ratio: 1; margin-top: -4.5cqw; border-radius: 50%;
+  background: repeating-conic-gradient(#f3f1ea 0 22deg, #c3bfb2 22deg 45deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 1.6cqw, #000 1.7cqw);
+          mask: radial-gradient(circle, transparent 0 1.6cqw, #000 1.7cqw);
+}
+.reel--l { left: 4.5cqw; }
+.reel--r { right: 4.5cqw; }
+.cassette__code { position: absolute; left: 4cqw; right: 4cqw; bottom: 1.3cqw; display: flex; justify-content: space-between; font: 600 2.4cqw/1 var(--tech); letter-spacing: .08em; }
+.cassette__foot {
+  position: absolute; left: 22cqw; right: 22cqw; bottom: 0; height: 11cqw;
+  background:
+    radial-gradient(circle 1.7cqw at 25% 55%, #0c0c0c 95%, transparent),
+    radial-gradient(circle 1.7cqw at 75% 55%, #0c0c0c 95%, transparent),
+    color-mix(in srgb, var(--shell) 78%, #000);
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+}
+
+/* ---------- the liner notes (the J-card of the tape inside) ---------- */
+
+.liner {
+  border-top: .9rem solid var(--jc-c, var(--accent));
+  border-radius: .3rem;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--hair), 0 1rem 2rem -1.2rem rgb(0 0 0 / .4);
+}
+.notes__code { font: 600 .8rem/1 var(--tech); letter-spacing: .12em; color: var(--ink-soft); }
+.notes__title { margin: .35rem 0 .45rem; font: 800 clamp(2rem, 1.2rem + 3vw, 3.4rem)/.95 var(--sans); font-stretch: 62%; text-transform: uppercase; color: var(--ink); overflow-wrap: anywhere; }
+.liner.ty--script .notes__title { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.4rem); line-height: 1.05; }
+.notes__use { font: 700 .8rem/1.3 var(--tech); letter-spacing: .08em; text-transform: uppercase; color: var(--text-accent); }
+.notes__quote { margin-top: .9rem; font: 600 1.15rem/1.35 var(--sans); }
+.notes__side { margin: 1.8rem 0 .5rem; }
+.tracks { border-top: 1.5px solid var(--ink); }
+.track {
+  display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; gap: .9rem; align-items: start;
+  padding: .85rem .6rem .85rem .4rem; border-bottom: 1px solid var(--hair);
+  transition: background-color .25s ease;
+}
+.track__no, .track__time { font: 600 .82rem/1.6 var(--tech); letter-spacing: .06em; }
+.track__time { color: var(--ink-soft); }
+.track__body p + p { margin-top: .6em; }
+.track__title { margin-bottom: .6rem; font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.track.is-current { background: color-mix(in srgb, var(--jc-c, var(--accent)) 24%, transparent); }
+.track.is-current .track__no { color: var(--text-accent); }
+.track.is-current .track__no::before { content: "▶"; display: inline-block; width: 0; translate: -1.1em 0; font-size: .7em; }
+.track .cells { margin-top: .25rem; }
+
+/* ---------- the stack: the tapes spine out, in a frame ---------- */
+
+.stack { padding: 1rem 0 clamp(2rem, 5vw, 4rem); }
+.stack__frame {
+  margin: 1.5rem var(--pad) 0;
+  padding: clamp(.9rem, 2.5vw, 2rem);
+  border: clamp(.6rem, 1.4vw, 1rem) solid var(--frame);
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08), 0 1.2rem 2rem -1rem rgb(0 0 0 / .45);
+}
+.stack__list { display: grid; gap: clamp(.55rem, 1.2vw, .9rem) clamp(1rem, 2vw, 1.6rem); }
+@media (min-width: 48em) { .stack__list { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(8, auto); grid-auto-flow: column; } }
+
+.slot__case { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; border-radius: .4rem; }
+.slot__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.cspine { display: block; container-type: inline-size; }
+/* the case: black plastic round the card */
+.cspine__card {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 3cqi;
+  height: clamp(2.7rem, 11.5cqi, 3.7rem); padding: 0 2.6cqi;
+  border-radius: .3rem;
+  background: var(--jc); color: var(--jc-ink);
+  box-shadow: 0 0 0 .32rem var(--case), 0 0 0 .38rem rgb(255 255 255 / .12), 0 .45rem .5rem -.1rem rgb(0 0 0 / .45);
+  transition: transform .2s ease;
+}
+.slot__case:hover .cspine__card { transform: translateX(.5rem); }
+.cspine__logo { padding: .2rem .28rem; border: 2px solid currentColor; border-radius: 2px; font: 900 .62rem/1 var(--sans); letter-spacing: .04em; }
+.cspine__text { display: grid; justify-items: center; min-width: 0; text-align: center; }
+.cspine__title {
+  max-width: 100%; font-size: clamp(.95rem, 5.2cqi, 1.45rem); line-height: 1.05; color: var(--jc-title, var(--jc-ink));
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ty--script .cspine__title { font-size: clamp(1.25rem, 7cqi, 2rem); line-height: 1.1; }
+.cspine__sub {
+  max-width: 100%; font: 600 clamp(.58rem, 2.4cqi, .76rem)/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cspine__code { display: grid; justify-items: end; font: 600 .56rem/1.15 var(--tech); letter-spacing: .05em; }
+/* a case that is in the deck leaves its place empty */
+.cas-item.is-out .cspine { visibility: hidden; }
+.cas-item.is-out .slot__case { outline: 2px dashed color-mix(in srgb, var(--ink) 35%, transparent); outline-offset: -2px; }
+
+/* the case in flight, from the stack to the deck and back */
+.ghost { position: fixed; left: 0; top: 0; z-index: 40; margin: 0; transform-origin: 0 0; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .boombox .reel, .speaker__cone, .studio__arrow { animation: none !important; }
+}

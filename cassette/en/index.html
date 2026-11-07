@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fernando Muñoz · Portfolio · Cassette</title>
+  <meta name="description" content="Fernando Muñoz, Frontend Tech Lead in Madrid. Portfolio of web projects: standards, accessibility and zero-dependency tools.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://nandovejer.github.io/cassette/en/">
+  <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/cassette/es/">
+  <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/cassette/en/">
+  <meta property="og:title" content="Fernando Muñoz · Portfolio · Cassette">
+  <meta property="og:description" content="Fernando Muñoz, Frontend Tech Lead in Madrid. Portfolio of web projects: standards, accessibility and zero-dependency tools.">
+  <meta property="og:url" content="https://nandovejer.github.io/cassette/en/">
+  <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/chrome.css">
+  <link rel="stylesheet" href="../../assets/css/cassette.css">
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <script type="module" src="../../assets/js/cassette.js"></script>
+</head>
+<body class="cas">
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <h1 class="masthead__title"><a class="brand" href="./" rel="home"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
+    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
+    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
+  </svg><span class="brand__text"><span class="brand__name">NANDO MUÑOZ</span><span class="brand__kicker"><span class="visually-hidden">, </span>Frontend Tech Lead · Madrid</span></span></a></h1>
+  <nav class="masthead__nav" aria-label="Sections">
+    <a href="#liner" data-go="bio">Bio</a>
+    <a href="#projects" data-go="projects">Projects</a>
+  </nav>
+  <div class="lang">
+    <button class="lang__button" type="button" popovertarget="lang-menu"><span class="visually-hidden">Language: </span><span aria-hidden="true">EN</span><span class="visually-hidden">English</span></button>
+    <nav class="lang__menu" id="lang-menu" popover aria-labelledby="lang-title">
+      <p class="lang__title" id="lang-title">Language</p>
+      <ul class="lang__list">
+        <li><a class="lang__link" href="../es/" hreflang="es" lang="es"><span class="lang__code" aria-hidden="true">ES</span> Español</a></li>
+        <li><a class="lang__link" href="../en/" hreflang="en" lang="en" aria-current="page"><span class="lang__code" aria-hidden="true">EN</span> English</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="studio">
+  <div class="studio__deck">
+  <section class="boombox" id="deck" aria-label="Tape deck" data-playing="Playing" data-stopped="Stopped" data-ejected="Tape ejected">
+    <span class="bb__handle" aria-hidden="true"></span>
+    <div class="bb__body">
+      <div class="bb__top">
+        <span class="tweeter" aria-hidden="true"></span>
+        <div class="dial" aria-hidden="true">
+          <p class="dial__row"><span class="dial__band">FM</span><span class="dial__scale">88 92 96 100 104 108</span><span class="osd__mode">■ STOP</span></p>
+          <p class="dial__row"><span class="dial__band">AM</span><span class="dial__title">Fernando Muñoz</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+          <span class="dial__needle"></span>
+        </div>
+        <span class="tweeter" aria-hidden="true"></span>
+        <div class="knobs" aria-hidden="true"><span class="knob"></span><span class="knob"></span><span class="knob"></span><span class="slide"></span><span class="knob"></span><span class="knob knob--big"></span></div>
+      </div>
+      <span class="speaker speaker--l" aria-hidden="true"><span class="speaker__cone"></span></span>
+      <div class="bb__center">
+        <p class="bb__plate" aria-hidden="true"><b>NM</b> CS-26 <span>STEREO</span></p>
+        <div class="tdeck">
+          <div class="tdeck__door">
+            <div class="tdeck__well"><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Fernando Muñoz</span>
+            <span class="cassette__meta">Frontend Tech Lead · Madrid</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-000</span><span>C90</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+            <span class="tdeck__glass" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="keys">
+          <button type="button" class="key" data-key="play" aria-label="Play" title="Play" aria-pressed="false"><span aria-hidden="true">▶</span></button>
+          <button type="button" class="key" data-key="rew" aria-label="Previous track" title="Previous track"><span aria-hidden="true">◀◀</span></button>
+          <button type="button" class="key" data-key="ff" aria-label="Next track" title="Next track"><span aria-hidden="true">▶▶</span></button>
+          <button type="button" class="key" data-key="stop" aria-label="Stop" title="Stop"><span aria-hidden="true">■</span></button>
+          <button type="button" class="key" data-key="eject" aria-label="Eject" title="Eject"><span aria-hidden="true">⏏</span></button>
+        </div>
+      </div>
+      <span class="speaker speaker--r" aria-hidden="true"><span class="speaker__cone"></span></span>
+    </div>
+    <p class="bb__state visually-hidden" aria-live="polite"></p>
+  </section>
+  <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>Pick a tape from the shelf</b></p>
+  </div>
+  <article class="liner" id="liner" aria-label="Liner notes">
+    <div class="liner__out">
+          <header class="notes__head">
+            <p class="notes__code">NM-000 · C90</p>
+            <h3 class="notes__title">Fernando Muñoz</h3>
+            <p class="notes__use">Frontend Tech Lead · Madrid</p>
+            <p class="notes__quote">“Memoirs of a coder who writes”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>I am Fernando Muñoz, though almost everyone calls me Nando. I work as a Frontend Tech Lead in Madrid and spend my days between Adobe Experience Manager and Salesforce Commerce Cloud, two giants I am paid to bring order to.</p></div><span class="track__time">1:01</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>I believe in HTML that works without JavaScript, in CSS that reads like a book and in zero-dependency tools that will still stand ten years from now. So I build lightweight design systems, demos that respect your privacy and the odd tribute to the Cádiz Carnival.</p></div><span class="track__time">1:06</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>I code and I write. Sometimes it is hard to tell one from the other.</p></div><span class="track__time">0:39</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Where to find me</p><ul class="socials"><li><a href="https://github.com/nandovejer" rel="me noopener"><span class="socials__label">GitHub</span> <span class="socials__handle">nandovejer</span></a></li><li><a href="https://x.com/nandovejer" rel="me noopener"><span class="socials__label">X</span> <span class="socials__handle">@nandovejer</span></a></li><li><a href="https://soynando.com" rel="me noopener"><span class="socials__label">Blog</span> <span class="socials__handle">soynando.com</span></a></li><li><a href="https://www.linkedin.com/in/nandovejer" rel="me noopener"><span class="socials__label">LinkedIn</span> <span class="socials__handle">in/nandovejer</span></a></li></ul></div><span class="track__time">1:30</span></li>
+          </ol>
+    </div>
+  </article>
+  <div class="cas-bio" hidden>
+    <div class="cas-item__tape"><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Fernando Muñoz</span>
+            <span class="cassette__meta">Frontend Tech Lead · Madrid</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-000</span><span>C90</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+    <div class="cas-item__notes">
+          <header class="notes__head">
+            <p class="notes__code">NM-000 · C90</p>
+            <h3 class="notes__title">Fernando Muñoz</h3>
+            <p class="notes__use">Frontend Tech Lead · Madrid</p>
+            <p class="notes__quote">“Memoirs of a coder who writes”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>I am Fernando Muñoz, though almost everyone calls me Nando. I work as a Frontend Tech Lead in Madrid and spend my days between Adobe Experience Manager and Salesforce Commerce Cloud, two giants I am paid to bring order to.</p></div><span class="track__time">1:01</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>I believe in HTML that works without JavaScript, in CSS that reads like a book and in zero-dependency tools that will still stand ten years from now. So I build lightweight design systems, demos that respect your privacy and the odd tribute to the Cádiz Carnival.</p></div><span class="track__time">1:06</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>I code and I write. Sometimes it is hard to tell one from the other.</p></div><span class="track__time">0:39</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Where to find me</p><ul class="socials"><li><a href="https://github.com/nandovejer" rel="me noopener"><span class="socials__label">GitHub</span> <span class="socials__handle">nandovejer</span></a></li><li><a href="https://x.com/nandovejer" rel="me noopener"><span class="socials__label">X</span> <span class="socials__handle">@nandovejer</span></a></li><li><a href="https://soynando.com" rel="me noopener"><span class="socials__label">Blog</span> <span class="socials__handle">soynando.com</span></a></li><li><a href="https://www.linkedin.com/in/nandovejer" rel="me noopener"><span class="socials__label">LinkedIn</span> <span class="socials__handle">in/nandovejer</span></a></li></ul></div><span class="track__time">1:30</span></li>
+          </ol>
+    </div>
+  </div>
+</div>
+<section class="stack" id="projects" aria-labelledby="shelf-title">
+  <header class="section-head">
+    <h2 id="shelf-title">Projects</h2>
+    <p class="section-head__count"><span class="num"><span class="num__ghost">0</span>12</span> tapes</p>
+  </header>
+  <div class="stack__frame">
+    <ol class="stack__list">
+      <li class="slot cas-item" id="luz">
+        <button type="button" class="slot__case" aria-label="Put the tape in: LUZ">
+        <span class="cspine jc--yellow ty--cond" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">LUZ</span><span class="cspine__sub">Design system</span></span>
+          <span class="cspine__code"><span>NM-001</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--smoke jc--yellow ty--cond" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">LUZ</span>
+            <span class="cassette__meta">Design system · 2024</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-001</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-001 · C60</p>
+            <h3 class="notes__title">LUZ</h3>
+            <p class="notes__use">Design system · 2024</p>
+            <p class="notes__quote">“Enhance native HTML instead of replacing it.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>LUZ (Light, Usable &amp; Zero-dependency) is a design system in HTML, CSS and ES modules, with no runtime dependencies. The HTML you write comes out styled with no class, and classes only add what HTML cannot say.</p></div><span class="track__time">0:58</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>You adopt it in independent layers: just the tokens, the tokens and the components, or the catalog on top, with search, cookie consent, a language switch and patterns for a landing page, a blog or documentation.</p></div><span class="track__time">0:57</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>It has three colour modes, is tested for accessibility, ships luz-check to validate a project offline, and is made for people while staying plain enough for an AI agent to write it correctly.</p></div><span class="track__time">0:55</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · HTML · CSS</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2024</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://luzds.com/" title="luzds.com"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/luz" title="github.com/nandovejer/luz"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="ikay">
+        <button type="button" class="slot__case" aria-label="Put the tape in: IKAY">
+        <span class="cspine jc--sky ty--wide" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">IKAY</span><span class="cspine__sub">Browser fingerprint</span></span>
+          <span class="cspine__code"><span>NM-002</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--white jc--sky ty--wide" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">IKAY</span>
+            <span class="cassette__meta">Browser fingerprint · 2026</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-002</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-002 · C60</p>
+            <h3 class="notes__title">IKAY</h3>
+            <p class="notes__use">Browser fingerprint · 2026</p>
+            <p class="notes__quote">“Thirty-three data points, zero permissions.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>IKAY reads 33 pieces of data that any website gets from your browser without asking for a single permission, and shows them as the file a website keeps on you.</p></div><span class="track__time">0:52</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>Each one comes as a sentence, marked protected or not protected, with what it means for you and the technical detail folded away for the curious. At the end it computes “your ID”, a fingerprint that survives cookies and incognito mode, without storing or sending anything.</p></div><span class="track__time">1:06</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>It is the modern version of the original IKAY: HTML, CSS and JavaScript on the LUZ tokens, no bundler, in Spanish, English and Arabic, with light, dark and high-contrast looks.</p></div><span class="track__time">0:52</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · CSS · HTML · LUZ</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2026</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/ikay-vanilla/" title="nandovejer.github.io/ikay-vanilla"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/ikay-vanilla" title="github.com/nandovejer/ikay-vanilla"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="chrome-local-ai">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Chrome Local AI">
+        <span class="cspine jc--black ty--mono" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Chrome Local AI</span><span class="cspine__sub">AI in the browser</span></span>
+          <span class="cspine__code"><span>NM-003</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--smoke jc--black ty--mono" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Chrome Local AI</span>
+            <span class="cassette__meta">AI in the browser · 2025</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-003</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-003 · C60</p>
+            <h3 class="notes__title">Chrome Local AI</h3>
+            <p class="notes__use">AI in the browser · 2025</p>
+            <p class="notes__quote">“Artificial intelligence that never leaves your computer.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>Demos of the AI APIs built into Chrome with Gemini Nano. Everything runs on your device: there is no server and, once the model is downloaded, no connection is needed either.</p></div><span class="track__time">0:53</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>There is a playground with streamed answers, a chat with several sessions you can branch, JSON output that follows a schema, recipes to classify, extract or moderate text, a synonym finder that explains the nuances, and a toolkit to summarise, translate and rewrite the same text.</p></div><span class="track__time">1:06</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>Every demo starts with a step-by-step guide; the site is bilingual and built with Astro, TypeScript and LUZ.</p></div><span class="track__time">0:41</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>TypeScript · Astro · Chrome AI · LUZ</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2025</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/apiChrome/" title="nandovejer.github.io/apiChrome"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/apiChrome" title="github.com/nandovejer/apiChrome"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="quien-canta-hoy">
+        <button type="button" class="slot__case" aria-label="Put the tape in: ¿Quién canta hoy?">
+        <span class="cspine jc--pink ty--script" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">¿Quién canta hoy?</span><span class="cspine__sub">Cádiz Carnival</span></span>
+          <span class="cspine__code"><span>NM-004</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--black jc--pink ty--script" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">¿Quién canta hoy?</span>
+            <span class="cassette__meta">Cádiz Carnival · 2023</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-004</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-004 · C60</p>
+            <h3 class="notes__title">¿Quién canta hoy?</h3>
+            <p class="notes__use">Cádiz Carnival · 2023</p>
+            <p class="notes__quote">“Which groups sing today, and in what order.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>It answers the question everyone asks during the Cádiz Carnival: which group is on stage at the COAC right now, and when will mine be on. The contest at the Gran Teatro Falla lasts weeks, with one session a night and more than ten groups in each, and the official listing is a long table with no times.</p></div><span class="track__time">1:17</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>This site turns it into a page for your phone that tells you which session is tonight, roughly when each group goes on, which one is live and how long until the next.</p></div><span class="track__time">0:55</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>No accounts, no cookies and no server: React and TypeScript with the logic kept apart and tested.</p></div><span class="track__time">0:40</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>TypeScript · React · Vite · LUZ</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2023</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/coac-quien-canta-hoy/" title="nandovejer.github.io/coac-quien-canta-hoy"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/coac-quien-canta-hoy" title="github.com/nandovejer/coac-quien-canta-hoy"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="ares-api">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Ares API">
+        <span class="cspine jc--orange ty--serif" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Ares API</span><span class="cspine__sub">Music archive</span></span>
+          <span class="cspine__code"><span>NM-005</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--cream jc--orange ty--serif" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Ares API</span>
+            <span class="cassette__meta">Music archive · 2026</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-005</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-005 · C60</p>
+            <h3 class="notes__title">Ares API</h3>
+            <p class="notes__use">Music archive · 2026</p>
+            <p class="notes__quote">“A whole body of work in JSON files.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A static, zero-dependency API with the complete discography and works of Antonio Martínez Ares, the comparsa writer of the Cádiz Carnival. It serves the compositions, the lyrics and their historical context as JSON files hosted on GitHub Pages, with no database, no server and no build step.</p></div><span class="track__time">1:07</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It includes a light index for search autocomplete without downloading all the data, the data split by era, and open CORS so any website can use it. It loads in under a second on a normal network and is free software under the MIT licence.</p></div><span class="track__time">1:06</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · HTML · CSS · JSON</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2026</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/api-coac/" title="nandovejer.github.io/api-coac"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/api-coac" title="github.com/nandovejer/api-coac"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="toolbar-aem">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Toolbar AEM">
+        <span class="cspine jc--cream ty--cond" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Toolbar AEM</span><span class="cspine__sub">Chrome extension</span></span>
+          <span class="cspine__code"><span>NM-006</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--black jc--cream ty--cond" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Toolbar AEM</span>
+            <span class="cassette__meta">Chrome extension · 2025</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-006</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-006 · C60</p>
+            <h3 class="notes__title">Toolbar AEM</h3>
+            <p class="notes__use">Chrome extension · 2025</p>
+            <p class="notes__quote">“Jump between consoles without retyping URLs.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A Chrome extension that adds a floating toolbar to Adobe Experience Manager pages to jump between the Editor, the published view, Sites and CRXDE without retyping URLs, keeping the content path.</p></div><span class="track__time">0:53</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It reopens the same page on another environment (local, dev, QA, stage), gives each one its own coloured favicon so you never mistake Stage for Local, and keeps bookmarks to the paths you use most.</p></div><span class="track__time">0:57</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>It works with AEM as a Cloud Service, AMS, on-premise and the local SDK, and settings are shared with the team as a JSON file. Plain JavaScript, Manifest V3, no build step and no dependencies.</p></div><span class="track__time">0:57</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · CSS · HTML · Chrome Extension</dd></div><div class="cell"><dt>Status</dt><dd>Repository</dd></div><div class="cell"><dt>Date</dt><dd>2025</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/toolbar-aem" title="github.com/nandovejer/toolbar-aem"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="accesibilidad">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Acme Studio">
+        <span class="cspine jc--mint ty--wide" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Acme Studio</span><span class="cspine__sub">Accessibility</span></span>
+          <span class="cspine__code"><span>NM-007</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--white jc--mint ty--wide" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Acme Studio</span>
+            <span class="cassette__meta">Accessibility · 2026</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-007</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-007 · C60</p>
+            <h3 class="notes__title">Acme Studio</h3>
+            <p class="notes__use">Accessibility · 2026</p>
+            <p class="notes__quote">“Broken on purpose, so you can learn to fix it.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>The website of a made-up studio, Acme Studio, that looks clean but is broken on purpose so you can practise accessibility audits.</p></div><span class="track__time">0:45</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It has a skip link pointing to the wrong target, images without alternative text, an icon-only button with no name, a tampered tab order, headings that skip levels, a div that looks like a button but ignores the keyboard, and a table with no headers. The contact form adds labels that do not match their fields and fields with only a placeholder.</p></div><span class="track__time">1:21</span></li>
+            <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>Every error is commented in the code, so you can check what you found.</p></div><span class="track__time">0:38</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>HTML</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2026</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/accessibility/" title="nandovejer.github.io/accessibility"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/accessibility" title="github.com/nandovejer/accessibility"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="libros-del-mundo">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Libros del mundo">
+        <span class="cspine jc--tan ty--script" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Libros del mundo</span><span class="cspine__sub">Library</span></span>
+          <span class="cspine__code"><span>NM-008</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--smoke jc--tan ty--script" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Libros del mundo</span>
+            <span class="cassette__meta">Library · 2024</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-008</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-008 · C60</p>
+            <h3 class="notes__title">Libros del mundo</h3>
+            <p class="notes__use">Library · 2024</p>
+            <p class="notes__quote">“One book per country, published since 2010.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A literary journey across the continents: a list of books chosen by a simple rule, published from 2010 on and written by authors from the country they stand for. The idea is to look at what is being written and read today in each place, told from within, with the voices and themes of the 21st century.</p></div><span class="track__time">1:16</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It is an open, collaborative repository: anyone can suggest a book with a pull request and a short note on why they chose it, as long as it can be found in libraries or online.</p></div><span class="track__time">0:57</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>Markdown</dd></div><div class="cell"><dt>Status</dt><dd>Repository</dd></div><div class="cell"><dt>Date</dt><dd>2024</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/libros-del-mundo" title="github.com/nandovejer/libros-del-mundo"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="string-transformer">
+        <button type="button" class="slot__case" aria-label="Put the tape in: String Transformer">
+        <span class="cspine jc--white ty--mono" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">String Transformer</span><span class="cspine__sub">Text tool</span></span>
+          <span class="cspine__code"><span>NM-009</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--black jc--white ty--mono" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">String Transformer</span>
+            <span class="cassette__meta">Text tool · 2023</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-009</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-009 · C60</p>
+            <h3 class="notes__title">String Transformer</h3>
+            <p class="notes__use">Text tool · 2023</p>
+            <p class="notes__quote">“What you type never leaves your browser.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>Turns any text into more than 50 formats in eight categories: naming conventions such as camelCase, snake_case or kebab-case, encodings such as Base64, URL, hex or Morse, classic ciphers such as ROT13 or Atbash, SHA hashes, a JWT payload and utilities to sort, dedupe or clean up lines.</p></div><span class="track__time">1:08</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It transforms as you type, tells you when the input is not in the expected format, suggests the format it detects and flips the conversion with one button. It all happens in the browser and nothing is sent to a server; it installs as a PWA, works offline and can also be used as a library or from the command line.</p></div><span class="track__time">1:20</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · HTML · CSS · PWA</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2023</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/string-transformer/" title="nandovejer.github.io/string-transformer"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/string-transformer" title="github.com/nandovejer/string-transformer"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="coac-analisis">
+        <button type="button" class="slot__case" aria-label="Put the tape in: Gestor de comparsas">
+        <span class="cspine jc--red ty--cond" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Gestor de comparsas</span><span class="cspine__sub">Data dashboard</span></span>
+          <span class="cspine__code"><span>NM-010</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">Gestor de comparsas</span>
+            <span class="cassette__meta">Data dashboard · 2026</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-010</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-010 · C60</p>
+            <h3 class="notes__title">Gestor de comparsas</h3>
+            <p class="notes__use">Data dashboard · 2026</p>
+            <p class="notes__quote">“No backend: it all fits in one index.html.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A single-page app to record, import and analyse the comparsas of the COAC, the Cádiz carnival contest, and their kinds of discourse in each round, from the preliminaries to the final. It loads data from CSV, Excel or a form, avoids duplicate comparsa-and-year entries, is edited right in the table and saves changes in the browser.</p></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>A dashboard shows metrics and charts with filters, and questions in plain language are answered by Chrome’s local AI using only the filtered data. No backend and nothing to install: it all fits in one index.html.</p></div><span class="track__time">0:57</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>HTML · JavaScript · Chrome AI</dd></div><div class="cell"><dt>Status</dt><dd>Online</dd></div><div class="cell"><dt>Date</dt><dd>2026</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  <li><a class="btn btn--demo" href="https://nandovejer.github.io/coac-analisis/" title="nandovejer.github.io/coac-analisis"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View demo</span></a></li>
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/coac-analisis" title="github.com/nandovejer/coac-analisis"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="illo-loader">
+        <button type="button" class="slot__case" aria-label="Put the tape in: illo-loader">
+        <span class="cspine jc--black ty--serif" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">illo-loader</span><span class="cspine__sub">Web component</span></span>
+          <span class="cspine__code"><span>NM-011</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--smoke jc--black ty--serif" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">illo-loader</span>
+            <span class="cassette__meta">Web component · 2025</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-011</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-011 · C60</p>
+            <h3 class="notes__title">illo-loader</h3>
+            <p class="notes__use">Web component · 2025</p>
+            <p class="notes__quote">“One tag and any symbol.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A web component that shows an animated loading indicator and takes a single tag in any project, with or without a framework.</p></div><span class="track__time">0:45</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>The animation is made of the symbol you choose, from a shaded block to dots, bars or musical signs, and it follows light and dark colour schemes with a smooth, configurable animation. Load it as a module from a CDN or from the repository’s own files.</p></div><span class="track__time">1:06</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · Web Components</dd></div><div class="cell"><dt>Status</dt><dd>Repository</dd></div><div class="cell"><dt>Date</dt><dd>2025</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/illo-loader" title="github.com/nandovejer/illo-loader"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot cas-item" id="js-subtype">
+        <button type="button" class="slot__case" aria-label="Put the tape in: js-subtype">
+        <span class="cspine jc--fade ty--wide" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">js-subtype</span><span class="cspine__sub">npm library</span></span>
+          <span class="cspine__code"><span>NM-012</span><span>C60</span></span>
+        </span></span>
+        </button>
+        <div class="cas-item__tape" hidden><span class="cassette sh--white jc--fade ty--wide" aria-hidden="true"><span class="cassette__body">
+          <span class="cassette__label">
+            <span class="cassette__side">A</span>
+            <span class="cassette__title">js-subtype</span>
+            <span class="cassette__meta">npm library · 2024</span>
+            <span class="cassette__band"></span>
+            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
+            <span class="cassette__code"><span>NM-012</span><span>C60</span></span>
+          </span>
+          <span class="cassette__foot"></span>
+        </span></span></div>
+        <div class="cas-item__notes" hidden>
+          <header class="notes__head">
+            <p class="notes__code">NM-012 · C60</p>
+            <h3 class="notes__title">js-subtype</h3>
+            <p class="notes__use">npm library · 2024</p>
+            <p class="notes__quote">“More precise than typeof.”</p>
+          </header>
+          <p class="notes__side label">Side A</p>
+          <ol class="tracks">
+            <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>A small, zero-dependency library that tells you the exact subtype of any JavaScript value —Array, Date, Map, RegExp…— where typeof only says “object”.</p></div><span class="track__time">0:46</span></li>
+            <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>It exposes a single function, getType, which returns the subtype’s name, handy to validate input precisely or decide how to handle a value. It works in Node.js and in modern browsers, installs from npm or yarn and is MIT licensed.</p></div><span class="track__time">1:01</span></li>
+          </ol>
+          <p class="notes__side label">Side B</p>
+          <ol class="tracks">
+            <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Facts</p><dl class="cells cells--3"><div class="cell"><dt>Technologies</dt><dd>JavaScript · Node.js</dd></div><div class="cell"><dt>Status</dt><dd>Repository</dd></div><div class="cell"><dt>Date</dt><dd>2024</dd></div></dl></div><span class="track__time">1:15</span></li>
+            <li class="track" data-no="B2"><span class="track__no">B2</span><div class="track__body"><p class="track__title">Links</p><ul class="links">
+  
+  <li><a class="btn btn--repo" href="https://github.com/nandovejer/js-subtype" title="github.com/nandovejer/js-subtype"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>View code</span></a></li>
+</ul></div><span class="track__time">0:40</span></li>
+          </ol>
+        </div>
+      </li>
+      <li class="slot slot--social">
+        <a class="slot__case" href="https://github.com/nandovejer" rel="me noopener" aria-label="GitHub: nandovejer">
+        <span class="cspine jc--black ty--mono" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">GitHub</span><span class="cspine__sub">nandovejer</span></span>
+          <span class="cspine__code"><span>GITHUB</span><span>STEREO</span></span>
+        </span></span>
+        </a>
+      </li>
+      <li class="slot slot--social">
+        <a class="slot__case" href="https://x.com/nandovejer" rel="me noopener" aria-label="X: @nandovejer">
+        <span class="cspine jc--white ty--wide" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">X</span><span class="cspine__sub">@nandovejer</span></span>
+          <span class="cspine__code"><span>X</span><span>STEREO</span></span>
+        </span></span>
+        </a>
+      </li>
+      <li class="slot slot--social">
+        <a class="slot__case" href="https://soynando.com" rel="me noopener" aria-label="Blog: soynando.com">
+        <span class="cspine jc--yellow ty--script" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">Blog</span><span class="cspine__sub">soynando.com</span></span>
+          <span class="cspine__code"><span>BLOG</span><span>STEREO</span></span>
+        </span></span>
+        </a>
+      </li>
+      <li class="slot slot--social">
+        <a class="slot__case" href="https://www.linkedin.com/in/nandovejer" rel="me noopener" aria-label="LinkedIn: in/nandovejer">
+        <span class="cspine jc--sky ty--cond" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__logo">NM</span>
+          <span class="cspine__text"><span class="cspine__title">LinkedIn</span><span class="cspine__sub">in/nandovejer</span></span>
+          <span class="cspine__code"><span>LINKEDIN</span><span>STEREO</span></span>
+        </span></span>
+        </a>
+      </li>
+    </ol>
+  </div>
+</section>
+</main>
+<footer class="colophon">
+  <div class="colophon__doc">
+    <p class="label">Today</p>
+    <p class="colophon__no"><time class="today" datetime="2026-11-07">VII·XI·MMXXVI</time></p>
+  </div>
+  <p class="colophon__text">Projects by Nando Muñoz, handmade in Madrid. Let's talk: I'm on <a href="https://github.com/nandovejer" rel="me noopener">GitHub</a>, <a href="https://x.com/nandovejer" rel="me noopener">X</a> and <a href="https://www.linkedin.com/in/nandovejer" rel="me noopener">LinkedIn</a>, and I write at <a href="https://soynando.com" rel="me noopener">soynando.com</a>.</p>
+  <p class="colophon__version"><a href="../../en/" aria-label="Floppy version">
+<svg class="barcode" viewBox="0 0 209 40" preserveAspectRatio="none" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><g fill="currentColor"><rect x="10" width="2" height="40"/><rect x="13" width="1" height="40"/><rect x="16" width="1" height="40"/><rect x="21" width="1" height="40"/><rect x="25" width="2" height="40"/><rect x="30" width="1" height="40"/><rect x="32" width="1" height="40"/><rect x="36" width="2" height="40"/><rect x="39" width="3" height="40"/><rect x="43" width="1" height="40"/><rect x="47" width="3" height="40"/><rect x="51" width="2" height="40"/><rect x="54" width="3" height="40"/><rect x="58" width="3" height="40"/><rect x="62" width="2" height="40"/><rect x="65" width="3" height="40"/><rect x="69" width="3" height="40"/><rect x="73" width="2" height="40"/><rect x="76" width="3" height="40"/><rect x="80" width="2" height="40"/><rect x="83" width="1" height="40"/><rect x="87" width="2" height="40"/><rect x="90" width="2" height="40"/><rect x="94" width="2" height="40"/><rect x="98" width="3" height="40"/><rect x="102" width="1" height="40"/><rect x="104" width="2" height="40"/><rect x="109" width="1" height="40"/><rect x="113" width="2" height="40"/><rect x="116" width="1" height="40"/><rect x="120" width="2" height="40"/><rect x="125" width="1" height="40"/><rect x="127" width="3" height="40"/><rect x="131" width="2" height="40"/><rect x="134" width="3" height="40"/><rect x="138" width="1" height="40"/><rect x="142" width="2" height="40"/><rect x="147" width="1" height="40"/><rect x="151" width="1" height="40"/><rect x="153" width="1" height="40"/><rect x="157" width="3" height="40"/><rect x="161" width="2" height="40"/><rect x="164" width="1" height="40"/><rect x="166" width="3" height="40"/><rect x="172" width="2" height="40"/><rect x="175" width="1" height="40"/><rect x="177" width="4" height="40"/><rect x="183" width="1" height="40"/><rect x="186" width="2" height="40"/><rect x="191" width="3" height="40"/><rect x="195" width="1" height="40"/><rect x="197" width="2" height="40"/></g></svg></a></p>
+</footer>
+</body>
+</html>

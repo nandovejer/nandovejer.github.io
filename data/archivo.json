@@ -41,6 +41,31 @@
       "playFull": "Play: ver a pantalla completa",
       "exitFull": "Salir de pantalla completa (Esc)",
       "hint": "Dale al ▶ PLAY"
+    },
+    "cassetteVersion": "Versión casete",
+    "cassetteCode": "VERSION CASETE",
+    "cassette": {
+      "deck": "Pletina",
+      "model": "PLETINA ESTÉREO · NM-1",
+      "door": "AUTO REVERSE · NR",
+      "play": "Reproducir",
+      "stop": "Parar",
+      "rew": "Pista anterior",
+      "ff": "Pista siguiente",
+      "eject": "Expulsar",
+      "sideA": "Cara A",
+      "sideB": "Cara B",
+      "facts": "Ficha",
+      "links": "Enlaces",
+      "socials": "Dónde encontrarme",
+      "insert": "Poner la cinta",
+      "cta": "Elige una cinta de la estantería",
+      "tapes": "cintas",
+      "playing": "Sonando",
+      "stopped": "Parado",
+      "ejected": "Cinta expulsada",
+      "track": "Pista",
+      "liner": "Carátula"
     }
   },
   "en": {
@@ -85,6 +110,31 @@
       "playFull": "Play: watch full screen",
       "exitFull": "Exit full screen (Esc)",
       "hint": "Press ▶ PLAY"
+    },
+    "cassetteVersion": "Cassette version",
+    "cassetteCode": "CASSETTE VERSION",
+    "cassette": {
+      "deck": "Tape deck",
+      "model": "STEREO CASSETTE DECK · NM-1",
+      "door": "AUTO REVERSE · NR",
+      "play": "Play",
+      "stop": "Stop",
+      "rew": "Previous track",
+      "ff": "Next track",
+      "eject": "Eject",
+      "sideA": "Side A",
+      "sideB": "Side B",
+      "facts": "Facts",
+      "links": "Links",
+      "socials": "Where to find me",
+      "insert": "Put the tape in",
+      "cta": "Pick a tape from the shelf",
+      "tapes": "tapes",
+      "playing": "Playing",
+      "stopped": "Stopped",
+      "ejected": "Tape ejected",
+      "track": "Track",
+      "liner": "Liner notes"
     }
   }
 }

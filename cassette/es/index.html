@@ -6,6 +6,7 @@
   <title>Fernando Muñoz · Portafolio · Cassette</title>
   <meta name="description" content="Fernando Muñoz, Tech Lead Frontend en Madrid. Portafolio de proyectos web: estándares, accesibilidad y herramientas sin dependencias.">
   <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://nandovejer.github.io/cassette/es/">
   <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/cassette/es/">
   <link rel="alternate" hreflang="en" href="https://nandovejer.github.io/cassette/en/">
@@ -49,12 +50,19 @@
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="Sonando" data-stopped="Parado" data-ejected="Cinta expulsada">
     <section class="panel" aria-label="Pletina">
-      <div class="crt" aria-hidden="true">
-        <div class="crt__glass">
-          <canvas class="crt__wave" width="400" height="300"></canvas>
-          <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-          <p class="crt__osd crt__osd--bottom"><span class="osd__title">Fernando Muñoz</span></p>
+      <div class="panel__top">
+        <div class="crt" aria-hidden="true">
+          <div class="crt__glass">
+            <canvas class="crt__wave" width="400" height="300"></canvas>
+            <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+            <p class="crt__osd crt__osd--bottom"><span class="osd__title">Fernando Muñoz</span></p>
+          </div>
         </div>
+        <span class="grille" aria-hidden="true"></span>
+      </div>
+      <div class="panel__meter" aria-hidden="true">
+        <span class="counter"><span class="counter__label">Contador</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
+        <p class="strip"><span class="strip__text">NM-000 · Fernando Muñoz</span><span class="strip__led"></span></p>
       </div>
       <div class="tdeck">
         <div class="tdeck__door">
@@ -72,20 +80,19 @@
           <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
       </div>
-      <div class="grilles" aria-hidden="true"><span class="grille"></span><span class="grille"></span></div>
-      <div class="controls">
-        <div class="keys">
-          <button type="button" class="key" data-key="rew" aria-label="Pista anterior" title="Pista anterior"><span aria-hidden="true">◀◀</span></button>
-          <button type="button" class="key" data-key="play" aria-label="Reproducir" title="Reproducir" aria-pressed="false"><span aria-hidden="true">▶</span></button>
-          <button type="button" class="key" data-key="ff" aria-label="Pista siguiente" title="Pista siguiente"><span aria-hidden="true">▶▶</span></button>
-          <button type="button" class="key" data-key="stop" aria-label="Parar" title="Parar"><span aria-hidden="true">■</span></button>
-          <button type="button" class="key key--eject" data-key="eject" aria-label="Expulsar" title="Expulsar"><span aria-hidden="true">⏏</span></button>
-        </div>
-        <div class="controls__row" aria-hidden="true">
-          <span class="knob"></span><span class="knob"></span>
-          <span class="leds"><i></i><i></i><i></i><i></i></span>
-          <p class="strip"><span class="strip__text">NM-000 · Fernando Muñoz</span><span class="strip__led"></span></p>
-        </div>
+      <div class="panel__plate" aria-hidden="true">
+        <span class="plate__brand"><b>Fernando Muñoz</b><small>NM-110 AT · STEREO</small></span>
+        <span class="mic"><i></i><small>MICRO</small></span>
+        <span class="leds"><i></i><i></i><i></i><i></i><small>Nivel</small></span>
+        <span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>Tono</small></span>
+      </div>
+      <div class="keys">
+          <button type="button" class="key" data-key="eject" aria-label="Expulsar" title="Expulsar"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="stop" aria-label="Parar" title="Parar"><span class="key__label" aria-hidden="true">■<small>STOP</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="play" aria-label="Reproducir" title="Reproducir" aria-pressed="false"><span class="key__label" aria-hidden="true">▶<small>PLAY</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="rew" aria-label="Pista anterior" title="Pista anterior"><span class="key__label" aria-hidden="true">◀◀<small>REW</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="ff" aria-label="Pista siguiente" title="Pista siguiente"><span class="key__label" aria-hidden="true">▶▶<small>F.FWD</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="pause" aria-label="Pausa" title="Pausa" aria-pressed="false"><span class="key__label" aria-hidden="true">❚❚<small>PAUSE</small></span><span class="key__cap" aria-hidden="true"></span></button>
       </div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>

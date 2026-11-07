@@ -70,7 +70,11 @@
       "dateTime": "Fecha/Hora",
       "noise": "Reducción de ruido",
       "on": "Sí",
-      "off": "No"
+      "off": "No",
+      "pause": "Pausa",
+      "counter": "Contador",
+      "level": "Nivel",
+      "tone": "Tono"
     }
   },
   "en": {
@@ -144,7 +148,11 @@
       "dateTime": "Date/Time",
       "noise": "Noise reduction",
       "on": "On",
-      "off": "Off"
+      "off": "Off",
+      "pause": "Pause",
+      "counter": "Counter",
+      "level": "Level",
+      "tone": "Tone"
     }
   }
 }

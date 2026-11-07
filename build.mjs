@@ -293,6 +293,8 @@ const station = (u) => `
 /* ---------- the brand: three squares and the name ---------- */
 // One square inside another inside another, all sitting in the bottom right
 // corner, in three colours of the stripe under the masthead.
+// the favicon: the same mark, as a file
+const ICON = '../../assets/favicon.svg';
 const brandMark = `<svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <rect width="24" height="24" style="fill: var(--c-crimson)"/>
     <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
@@ -353,6 +355,7 @@ const page = (lang) => {
   <title>${site.name} · ${t.runningHead}</title>
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead}">
@@ -499,6 +502,7 @@ const vhsPage = (lang) => {
   <title>${site.name} · ${t.runningHead} · VHS</title>
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="dark">
+  <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/vhs/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead} · VHS">
@@ -747,6 +751,7 @@ const cassettePage = (lang) => {
   <title>${site.name} · ${t.runningHead} · Cassette</title>
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/cassette/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead} · Cassette">
@@ -769,12 +774,19 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
     <section class="panel" aria-label="${c.deck}">
-      <div class="crt" aria-hidden="true">
-        <div class="crt__glass">
-          <canvas class="crt__wave" width="400" height="300"></canvas>
-          <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-          <p class="crt__osd crt__osd--bottom"><span class="osd__title">${esc(site.name)}</span></p>
+      <div class="panel__top">
+        <div class="crt" aria-hidden="true">
+          <div class="crt__glass">
+            <canvas class="crt__wave" width="400" height="300"></canvas>
+            <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+            <p class="crt__osd crt__osd--bottom"><span class="osd__title">${esc(site.name)}</span></p>
+          </div>
         </div>
+        <span class="grille" aria-hidden="true"></span>
+      </div>
+      <div class="panel__meter" aria-hidden="true">
+        <span class="counter"><span class="counter__label">${c.counter}</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
+        <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
       </div>
       <div class="tdeck">
         <div class="tdeck__door">
@@ -782,20 +794,19 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
       </div>
-      <div class="grilles" aria-hidden="true"><span class="grille"></span><span class="grille"></span></div>
-      <div class="controls">
-        <div class="keys">
-          <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span aria-hidden="true">◀◀</span></button>
-          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
-          <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span aria-hidden="true">▶▶</span></button>
-          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span aria-hidden="true">■</span></button>
-          <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span aria-hidden="true">⏏</span></button>
-        </div>
-        <div class="controls__row" aria-hidden="true">
-          <span class="knob"></span><span class="knob"></span>
-          <span class="leds"><i></i><i></i><i></i><i></i></span>
-          <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
-        </div>
+      <div class="panel__plate" aria-hidden="true">
+        <span class="plate__brand"><b>${esc(site.name)}</b><small>NM-110 AT · STEREO</small></span>
+        <span class="mic"><i></i><small>MICRO</small></span>
+        <span class="leds"><i></i><i></i><i></i><i></i><small>${c.level}</small></span>
+        <span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>${c.tone}</small></span>
+      </div>
+      <div class="keys">
+          <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">■<small>STOP</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span class="key__label" aria-hidden="true">▶<small>PLAY</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span class="key__label" aria-hidden="true">◀◀<small>REW</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span class="key__label" aria-hidden="true">▶▶<small>F.FWD</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="pause" aria-label="${c.pause}" title="${c.pause}" aria-pressed="false"><span class="key__label" aria-hidden="true">❚❚<small>PAUSE</small></span><span class="key__cap" aria-hidden="true"></span></button>
       </div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
@@ -836,13 +847,14 @@ ${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersio
 };
 
 // Sends visitors to their language; without JS, offers both.
-const toLanguage = (prefix) => `<!doctype html>
+const toLanguage = (prefix, icon = 'assets/favicon.svg') => `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${site.name}</title>
   <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="${icon}" type="image/svg+xml">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
   <link rel="alternate" hreflang="x-default" href="${site.baseUrl}/">
   <script>
@@ -875,7 +887,7 @@ for (const lang of LANGS) {
 write('index.html', toLanguage(''));
 rmSync(join(root, 'vhs'), { recursive: true, force: true });
 for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
-write('vhs/index.html', toLanguage(''));
+write('vhs/index.html', toLanguage('', '../assets/favicon.svg'));
 rmSync(join(root, 'cassette'), { recursive: true, force: true });
 for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
-write('cassette/index.html', toLanguage(''));
+write('cassette/index.html', toLanguage('', '../assets/favicon.svg'));

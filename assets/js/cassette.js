@@ -99,11 +99,19 @@ function trace(now = 0) {
 }
 const retrace = () => { cancelAnimationFrame(wframe); trace(performance.now()); };
 
-const showCount = () => { osdCount.textContent = String(count).padStart(3, '0'); };
+const drums = [...bb.querySelectorAll('.counter__win b')];
+const showCount = () => {
+  const s = String(count).padStart(3, '0');
+  osdCount.textContent = s;
+  drums.forEach((d, i) => { d.textContent = s[i]; });
+};
+let paused = false;
 function play(on) {
   playing = on;
+  paused = false;
   bb.classList.toggle('is-playing', on);
   keys.play.setAttribute('aria-pressed', String(on));
+  keys.pause.setAttribute('aria-pressed', 'false');
   osdMode.textContent = on ? '▶ PLAY' : '■ STOP';
   clearInterval(tick);
   if (on) tick = setInterval(() => { count = (count + 1) % 1000; showCount(); }, 1000);
@@ -128,6 +136,16 @@ async function wind(dir) {
 
 keys.play.addEventListener('click', () => { press(keys.play); if (!busy) play(true); });
 keys.stop.addEventListener('click', () => { press(keys.stop); play(false); });
+// ❚❚ holds the tape where it is; ❚❚ again (or ▶) goes on from there
+keys.pause.addEventListener('click', () => {
+  if (busy) return;
+  if (playing) {
+    play(false);
+    paused = true;
+    keys.pause.setAttribute('aria-pressed', 'true');
+    osdMode.textContent = '❚❚ PAUSE';
+  } else if (paused) play(true);
+});
 keys.ff.addEventListener('click', () => { press(keys.ff); wind(1); });
 keys.rew.addEventListener('click', () => { press(keys.rew); wind(-1); });
 keys.eject.addEventListener('click', async () => {

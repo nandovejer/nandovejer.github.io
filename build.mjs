@@ -812,7 +812,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     </section>
   </div>
   </div>
-  </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}
     </div>

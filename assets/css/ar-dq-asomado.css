@@ -253,7 +253,7 @@ html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .lang__menu {
   inset: auto; top: var(--head-h, 4.5rem); right: var(--pad, 1rem);
   margin: 0; min-width: 12rem; padding: .5rem;
-  border: 1.5px solid var(--ink); border-radius: .35rem;
+  border: 1.5px solid var(--ink); border-radius: 0;
   background: var(--panel); color: var(--ink);
   box-shadow: 0 4px 0 var(--ink);
   font-family: var(--sans);
@@ -266,7 +266,7 @@ html:has(.dq--asomado) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .lang__list { display: grid; gap: .2rem; list-style: none; margin: 0; padding: 0; }
 .lang__link {
   display: flex; align-items: center; gap: .6rem;
-  min-height: 2.75rem; padding: 0 .6rem; border-radius: .25rem;
+  min-height: 2.75rem; padding: 0 .6rem; border-radius: 0;
   color: var(--ink); font-weight: 600; text-decoration: none;
 }
 .lang__link:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); text-decoration: none; }

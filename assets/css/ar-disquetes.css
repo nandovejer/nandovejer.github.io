@@ -213,7 +213,7 @@
 .entry.is-out .entry__disk { visibility: hidden; }
 .entry.is-out::after {
   content: ""; position: absolute; inset: 0 0 auto; aspect-ratio: 1 / 1.03;
-  border: 2px dashed var(--rule); border-radius: .3rem;
+  border: 2px dashed var(--rule); border-radius: 0;
 }
 
 /* the disk itself and its covers: ar-disks.css */
@@ -232,3 +232,7 @@
 /* the drive swallows: inner shutter opens, the door gives a little */
 .drive.is-swallowing .drive__flap { transform: scaleY(.1); }
 .drive.is-swallowing .drive__door { transform: scaleY(.93); filter: brightness(.82); }
+
+/* the interface is square (boxes, fields, keys, buttons); only the objects
+   (the drive, the disks) keep their rounded plastic */
+.ar--disquetes .btn { border-radius: 0; }

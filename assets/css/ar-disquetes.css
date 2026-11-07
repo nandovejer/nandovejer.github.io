@@ -148,17 +148,21 @@
 .screen__out p { max-width: 52rem; }
 /* the description, the fields and the links: one even, wider step between them */
 .screen__out .cells { margin-block: 1rem; }
-/* the fields: technologies runs long, status and date are short. One column:
+/* the fields: technologies runs long, status and date are short. Stacked:
    technologies across the whole width, status and date half and half under
-   it; two columns: one row, technologies twice as wide (2 : 1 : 1) */
+   it. Only on two columns AND with room in the screen (40rem of text): one
+   row, technologies twice as wide (2 : 1 : 1) */
+.screen__out { container: screen-out / inline-size; }
 .ar--disquetes .cells--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .ar--disquetes .cells--3 .cell:first-child { grid-column: 1 / -1; }
 .ar--disquetes .cells--3 .cell:nth-child(2) { padding-left: 0; border-left: 0; }
 .ar--disquetes .cells--3 .cell:nth-child(3) { padding-left: .9rem; border-left: 1px solid var(--rule); }
 @media (min-width: 64em) {
-  .ar--disquetes .cells--3 { grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); }
-  .ar--disquetes .cells--3 .cell:first-child { grid-column: auto; }
-  .ar--disquetes .cells--3 .cell:nth-child(2) { padding-left: .9rem; border-left: 1px solid var(--rule); }
+  @container screen-out (min-width: 40rem) {
+    .ar--disquetes .cells--3 { grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); }
+    .ar--disquetes .cells--3 .cell:first-child { grid-column: auto; }
+    .ar--disquetes .cells--3 .cell:nth-child(2) { padding-left: .9rem; border-left: 1px solid var(--rule); }
+  }
 }
 .screen__out > * { animation: line-in .5s both; animation-delay: calc(var(--k, 0) * 90ms + .2s); }
 @keyframes line-in { from { opacity: 0; transform: translateY(.4rem); } }

@@ -678,12 +678,13 @@ const notes = (o, c, { a, b }) => {
   const len = o.length ?? 'C60';
   const track = (side) => (x, i) => `
               <li class="track" data-no="${side}${i + 1}"><span class="track__no">${side}${i + 1}</span><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`;
+  const [, band, type] = casOf(o.id);
   return `
           <div class="jcard">
-            <div class="jcard__band" aria-hidden="true">
-              <span class="jcard__brand">${brandMark}<b>NM</b></span>
-              ${o.art ? `<span class="jcard__len jcard__len--art">${o.art}</span>` : `<span class="jcard__len">${len}</span>`}
-              <span class="jcard__type">IEC I / TYPE I<br>NORMAL POSITION</span>
+            <div class="hspine jc--${band} ty--${type}" aria-hidden="true">
+              <span class="hspine__logo">NM</span>
+              <span class="hspine__text"><span class="hspine__title">${esc(o.name)}</span><span class="hspine__sub">${esc(o.use ?? '')}</span></span>
+              <span class="hspine__code"><span>${o.code}</span><span>${len}</span></span>
             </div>
             <p class="jcard__tagline" aria-hidden="true">${c.tagline}</p>
             <header class="notes__head">
@@ -832,9 +833,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     <ol class="rack__slots">${projects.map((p, i) => {
       const o = objectOf(p, i, t, u);
       const total = o.body.reduce((n, b) => n + trackLen(b), 0);
-      // the cover printed on the J-card: the plate, or the ornament, as on the VHS sleeves
-      const art = p.plate && p.plate !== 'fingerprint' ? p.plate : p.ornament;
-      return projectSlot({ ...o, art: art ? plates[art] : null, length: total > 15 * 60 ? 'C90' : 'C60' });
+      return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
     }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
       <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
       <li class="slot slot--empty"></li>

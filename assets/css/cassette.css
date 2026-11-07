@@ -97,11 +97,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .jc--fade   { --jc: linear-gradient(90deg, #f7f6f1 35%, #2f97d3); --jc-c: #2f97d3; --jc-ink: #1d1d1b; --jc-title: #1d5f7a; }
 
 /* the lettering, as varied as on a real stack */
-.ty--cond   :is(.cassette__title, .cspine__title) { font-family: var(--sans); font-weight: 800; font-stretch: 62%; text-transform: uppercase; }
-.ty--wide   :is(.cassette__title, .cspine__title) { font-family: var(--sans); font-weight: 900; font-stretch: 118%; text-transform: uppercase; letter-spacing: -.01em; }
-.ty--serif  :is(.cassette__title, .cspine__title) { font-family: "Playfair Display", Georgia, serif; font-weight: 800; }
-.ty--script :is(.cassette__title, .cspine__title) { font-family: "Pinyon Script", cursive; font-weight: 400; text-transform: none; }
-.ty--mono   :is(.cassette__title, .cspine__title) { font-family: var(--tech); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.ty--cond   :is(.cassette__title, .cspine__title, .hspine__title) { font-family: var(--sans); font-weight: 800; font-stretch: 62%; text-transform: uppercase; }
+.ty--wide   :is(.cassette__title, .cspine__title, .hspine__title) { font-family: var(--sans); font-weight: 900; font-stretch: 118%; text-transform: uppercase; letter-spacing: -.01em; }
+.ty--serif  :is(.cassette__title, .cspine__title, .hspine__title) { font-family: "Playfair Display", Georgia, serif; font-weight: 800; }
+.ty--script :is(.cassette__title, .cspine__title, .hspine__title) { font-family: "Pinyon Script", cursive; font-weight: 400; text-transform: none; }
+.ty--mono   :is(.cassette__title, .cspine__title, .hspine__title) { font-family: var(--tech); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
 
 /* ---------- the studio: the cabinet on the left, the liner notes beside it ---------- */
 
@@ -529,27 +529,27 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .jcard { position: relative; }
 
-/* the printed band */
-.jcard__band { position: relative; height: clamp(3.6rem, 9vw, 4.6rem); background: #141414; overflow: hidden; }
-.jcard__brand { position: absolute; left: 1.4rem; top: 50%; translate: 0 -50%; display: flex; align-items: center; gap: .45rem; color: #fff; font: 900 1.25rem/1 var(--sans); letter-spacing: .02em; }
-.jcard__brand .brand__mark, .jcard__spine-brand .brand__mark { width: 1.1rem; height: 1.1rem; }
-.jcard__len {
-  position: absolute; top: 0; bottom: 0; left: 36%; width: 34%;
-  display: grid; place-items: center;
-  clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
-  background: linear-gradient(#ececea, #cfcfcc);
-  font: italic 500 clamp(2rem, 1.2rem + 2.6vw, 3.1rem)/1 "Playfair Display", Georgia, serif; color: #1b1b1a;
+/* the spine of the case, laid along the top: the J-card's spine seen through
+   the clear plastic, the black of the case above and below */
+.hspine {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 1rem;
+  height: clamp(3.6rem, 9vw, 4.6rem); padding: 0 1.2rem;
+  border-block: .45rem solid var(--case);
+  background: var(--tx-paper) 0 0 / 220px 220px, var(--jc); color: var(--jc-ink);
 }
-.jcard__type {
-  position: absolute; top: 0; bottom: 0; left: 64%; right: 0;
-  display: grid; align-content: center; padding-left: 9%;
-  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
-  background: var(--jc-c, #e3412b); color: var(--jc-ink, #1b1b1a);
-  font: italic 500 clamp(.5rem, .35rem + .5vw, .72rem)/1.35 "Playfair Display", Georgia, serif; letter-spacing: .06em; text-transform: uppercase;
+.hspine::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(rgb(255 255 255 / .4), rgb(255 255 255 / .1) 22%, transparent 45%, transparent 80%, rgb(0 0 0 / .16)),
+    linear-gradient(90deg, rgb(0 0 0 / .35) 0 .5rem, transparent .5rem calc(100% - .5rem), rgb(0 0 0 / .35) calc(100% - .5rem));
 }
-/* the cover of the tape, printed on the grey panel in place of the length */
-.jcard__len--art { --paper: #dededb; padding: .35rem 0; color: #1b1b1a; }
-.jcard__len--art svg { height: 100%; width: auto; max-width: 62%; display: block; }
+.hspine__logo { flex: none; padding: .25rem .4rem; border: 2px solid currentColor; border-radius: .25rem; font: 900 1rem/1 var(--sans); }
+.hspine__text { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .8rem; }
+.hspine__title { font-size: clamp(1.4rem, 1rem + 1.6vw, 2.3rem); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--jc-title, var(--jc-ink)); }
+.hspine__sub { flex: none; max-width: 40%; font: 600 .62rem/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
+.hspine__code { flex: none; display: flex; gap: .6rem; font: 600 .68rem/1 var(--tech); letter-spacing: .04em; }
+
 .jcard__tagline {
   padding: .25rem 1.4rem 0 36%;
   font: italic 700 clamp(.5rem, .4rem + .3vw, .66rem)/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #b4892c;

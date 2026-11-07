@@ -74,7 +74,9 @@
       "pause": "Pausa",
       "counter": "Contador",
       "level": "Nivel",
-      "tone": "Tono"
+      "tone": "Tono",
+      "voice": "Voz",
+      "mute": "Silenciar la voz"
     }
   },
   "en": {
@@ -152,7 +154,9 @@
       "pause": "Pause",
       "counter": "Counter",
       "level": "Level",
-      "tone": "Tone"
+      "tone": "Tone",
+      "voice": "Voice",
+      "mute": "Mute the voice"
     }
   }
 }

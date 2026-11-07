@@ -4,7 +4,9 @@
 // trace on the little CRT moves and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape back to its slot. With no
-// project in, the house tape (the bio) is in the deck.
+// project in, the house tape (the bio) is in the deck. While it plays, the
+// browser's own synthetic voice (Web Speech API) reads the tape aloud: the
+// title and its line, then track after track; the VOZ key mutes it.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
@@ -54,6 +56,9 @@ function load(src) {
   count = 0;
   showCount();
   setTrack(0);
+  hush();
+  fresh = true;
+  part = 0;
 }
 
 function setTrack(i) {
@@ -99,6 +104,97 @@ function trace(now = 0) {
 }
 const retrace = () => { cancelAnimationFrame(wframe); trace(performance.now()); };
 
+/* ---------- the voice ----------
+   The browser's speech synthesis reads the track that is lit, a sentence at
+   a time (long utterances get cut off in some browsers), and goes on to the
+   next track when it is done; after the last one the tape stops. A new tape
+   starts with its title, its line and its quote. Pause keeps the sentence it
+   was on; ■, ◀◀ / ▶▶ and ⏏ cut it short. The VOZ key mutes it (and the
+   choice is remembered in this browser). */
+const synth = 'speechSynthesis' in window ? speechSynthesis : null;
+const muteKey = bb.querySelector('.mute');
+const lang = document.documentElement.lang || 'es';
+let muted = false;
+try { muted = localStorage.getItem('cassette-muted') === '1'; } catch { /* storage off */ }
+let said = 0;      // bumps on every cut, so a stale utterance's end is ignored
+let fresh = true;  // the next reading starts with the tape's title
+let part = 0;      // the sentence of the current track to read next
+
+const tidy = (s) => s.replace(/\s+/g, ' ').replace(/\s·\s/g, ', ').trim();
+const stop = (s) => (/[.!?…:”"]$/.test(s) ? s : `${s}.`);
+// What a track says: its title, its paragraphs, the facts as "label, value"
+// (the link buttons say nothing worth hearing).
+const textOf = (t) => [...t.querySelectorAll('.track__title, .track__body > p, dt, dd, .socials li')]
+  .map((n) => tidy(n.textContent)).filter(Boolean).map(stop).join(' ');
+const headOf = () => ['.notes__title', '.notes__use', '.notes__quote']
+  .map((s) => tidy(out.querySelector(s)?.textContent ?? '')).filter(Boolean).map(stop).join(' ');
+const sentences = (s) => s.split(/(?<=[.!?…:;”"])\s+/).filter(Boolean);
+
+let chosen = null;
+function voiceFor() {
+  if (chosen?.lang.toLowerCase().startsWith(lang)) return chosen;
+  const all = synth.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang));
+  chosen = all.find((v) => v.localService && v.default) ?? all.find((v) => v.localService) ?? all[0] ?? null;
+  return chosen;
+}
+synth?.addEventListener?.('voiceschanged', () => { chosen = null; });
+
+function hush() {
+  said++;
+  synth?.cancel();
+}
+
+function speak() {
+  hush();
+  if (!synth || muted || !playing || !tracks.length) return;
+  const me = said;
+  const lines = sentences(`${fresh ? `${headOf()} ` : ''}${textOf(tracks[track])}`);
+  const start = fresh ? 0 : Math.min(part, Math.max(0, lines.length - 1));
+  fresh = false;
+  let i = start;
+  const next = () => {
+    if (me !== said || !playing) return;
+    if (i >= lines.length) {
+      part = 0;
+      if (track < tracks.length - 1) {
+        setTrack(track + 1);
+        const r = tracks[track].getBoundingClientRect();
+        if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
+        speak();
+      } else {
+        play(false);
+        setTrack(0);
+        state.textContent = L.stopped;
+      }
+      return;
+    }
+    part = i;
+    const u = new SpeechSynthesisUtterance(lines[i++]);
+    u.lang = lang;
+    const v = voiceFor();
+    if (v) u.voice = v;
+    u.onend = next;
+    // no voice to be had (none installed, blocked): the tape plays on, silent
+    u.onerror = (e) => { if (e.error !== 'interrupted' && e.error !== 'canceled' && me === said) said++; };
+    synth.speak(u);
+  };
+  next();
+}
+
+function setMuted(on) {
+  muted = on;
+  muteKey.setAttribute('aria-pressed', String(on));
+  try { localStorage.setItem('cassette-muted', on ? '1' : '0'); } catch { /* storage off */ }
+  if (on) hush(); else speak();
+}
+if (synth) {
+  muteKey.setAttribute('aria-pressed', String(muted));
+  muteKey.addEventListener('click', () => setMuted(!muted));
+  addEventListener('pagehide', hush);
+} else {
+  muteKey.hidden = true;
+}
+
 const drums = [...bb.querySelectorAll('.counter__win b')];
 const showCount = () => {
   const s = String(count).padStart(3, '0');
@@ -107,6 +203,7 @@ const showCount = () => {
 };
 let paused = false;
 function play(on) {
+  const was = playing;
   playing = on;
   paused = false;
   bb.classList.toggle('is-playing', on);
@@ -116,12 +213,15 @@ function play(on) {
   clearInterval(tick);
   if (on) tick = setInterval(() => { count = (count + 1) % 1000; showCount(); }, 1000);
   retrace();
+  if (on && !was) speak();
+  if (!on) hush();
 }
 
 // ◀◀ / ▶▶: the reels whirr, the counter runs, the next track lights up.
 async function wind(dir) {
   const to = track + dir;
   if (busy || to < 0 || to >= tracks.length) return;
+  hush();
   bb.classList.add(dir > 0 ? 'is-ff' : 'is-rew');
   retrace();
   count = (count + dir * 37 + 1000) % 1000;
@@ -130,12 +230,15 @@ async function wind(dir) {
   bb.classList.remove('is-ff', 'is-rew');
   retrace();
   setTrack(to);
+  part = 0;
+  fresh = false;
+  speak();
   const r = tracks[track].getBoundingClientRect();
   if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
 }
 
 keys.play.addEventListener('click', () => { press(keys.play); if (!busy) play(true); });
-keys.stop.addEventListener('click', () => { press(keys.stop); play(false); });
+keys.stop.addEventListener('click', () => { press(keys.stop); play(false); part = 0; });
 // ❚❚ holds the tape where it is; ❚❚ again (or ▶) goes on from there
 keys.pause.addEventListener('click', () => {
   if (busy) return;

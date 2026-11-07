@@ -794,11 +794,14 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
       </div>
-      <div class="panel__plate" aria-hidden="true">
-        <span class="plate__brand"><b>${esc(site.name)}</b><small>NM-110 AT · STEREO</small></span>
-        <span class="mic"><i></i><small>MICRO</small></span>
-        <span class="leds"><i></i><i></i><i></i><i></i><small>${c.level}</small></span>
-        <span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>${c.tone}</small></span>
+      <div class="panel__plate">
+        <span class="plate__brand" aria-hidden="true"><b>${esc(site.name)}</b><small>NM-110 AT · STEREO</small></span>
+        <button type="button" class="mute" aria-pressed="false" aria-label="${c.mute}" title="${c.mute}">
+          <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
+          <small aria-hidden="true">${c.voice}</small>
+        </button>
+        <span class="leds" aria-hidden="true"><i></i><i></i><i></i><i></i><small>${c.level}</small></span>
+        <span class="knob" aria-hidden="true"><small>VOL</small></span><span class="knob knob--tone" aria-hidden="true"><small>${c.tone}</small></span>
       </div>
       <div class="keys">
           <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>

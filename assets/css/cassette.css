@@ -307,18 +307,31 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 0 calc(1.2 * var(--u)) rgb(0 0 0 / .4);
 }
 
-/* the plate under the door: the wordmark, the mic, the level LEDs, two knobs */
+/* the plate under the door: the wordmark, the voice key, the level LEDs, two knobs */
 .panel__plate { display: flex; align-items: center; gap: calc(3 * var(--u)); padding-bottom: calc(1 * var(--u)); }
 .plate__brand { display: grid; gap: calc(.4 * var(--u)); margin-right: auto; color: #1f201e; }
 .plate__brand b { font: 900 max(.6rem, calc(3.3 * var(--u)))/1 var(--sans); font-stretch: 75%; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
-.plate__brand small, .mic small, .leds small, .knob small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3c39; white-space: nowrap; }
-.mic { display: grid; justify-items: center; gap: calc(.6 * var(--u)); }
-.mic i {
-  width: calc(4.4 * var(--u)); height: calc(3 * var(--u)); border-radius: calc(.3 * var(--u));
-  background:
-    radial-gradient(circle at 50% 46%, #0c0c0c calc(.25 * var(--u)), transparent calc(.35 * var(--u))) 0 0 / calc(1.1 * var(--u)) calc(1.1 * var(--u)),
-    radial-gradient(circle at 50% 58%, rgb(255 255 255 / .7) calc(.25 * var(--u)), transparent calc(.4 * var(--u))) 0 0 / calc(1.1 * var(--u)) calc(1.1 * var(--u));
+.plate__brand small, .mute small, .leds small, .knob small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3c39; white-space: nowrap; }
+/* the voice key: a small square push button with a speaker printed on it;
+   it latches down when the voice is muted, and its speaker shows a cross */
+.mute { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(0.6 * var(--u)); }
+.mute__cap {
+  display: grid; place-items: center; width: calc(5.6 * var(--u)); aspect-ratio: 1; border-radius: calc(0.6 * var(--u));
+  background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.55 * var(--u)) 0 #8b8d89, 0 calc(0.55 * var(--u)) 0 1px #4f514d, 0 calc(0.9 * var(--u)) calc(0.7 * var(--u)) rgb(0 0 0 / .45);
+  transition: transform .09s ease, box-shadow .09s ease;
 }
+.mute svg { width: 64%; height: 64%; fill: none; stroke: #2b2c2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mute__cone { fill: #2b2c2a; }
+.mute__x { display: none; stroke: #c2311d; }
+.mute:active .mute__cap, .mute[aria-pressed="true"] .mute__cap {
+  transform: translateY(calc(0.45 * var(--u)));
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.1 * var(--u)) 0 #8b8d89, 0 calc(0.1 * var(--u)) 0 1px #4f514d, 0 calc(0.25 * var(--u)) calc(0.3 * var(--u)) rgb(0 0 0 / .4);
+}
+.mute[aria-pressed="true"] .mute__waves { display: none; }
+.mute[aria-pressed="true"] .mute__x { display: inline; }
+.mute:focus-visible .mute__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
+.mute[hidden] { display: none; }
 .leds { display: grid; grid-template-columns: repeat(4, auto); justify-items: center; gap: calc(.6 * var(--u)) calc(1.1 * var(--u)); }
 .leds small { grid-column: 1 / -1; }
 .leds i {

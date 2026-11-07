@@ -272,7 +272,7 @@ const screen = (u) => `
   <div class="screen">
     <p class="screen__status" aria-live="polite"><span class="label">${u.drive}</span> <span class="screen__state">${u.driveEmpty}</span></p>
     <div class="screen__out"></div>
-    <button type="button" class="screen__eject" hidden>${u.eject} ⏏</button>
+    <button type="button" class="screen__eject" aria-label="${u.eject}" title="${u.eject}" hidden>${ejectIcon}</button>
   </div>`;
 
 // the reading on the screen; beside it, the drive with the cover of the disk

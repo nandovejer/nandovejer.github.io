@@ -148,12 +148,21 @@
 .screen__out p { max-width: 52rem; }
 .screen__out > * { animation: line-in .5s both; animation-delay: calc(var(--k, 0) * 90ms + .2s); }
 @keyframes line-in { from { opacity: 0; transform: translateY(.4rem); } }
+.screen { position: relative; --sq: 2.25rem; }
+/* eject: only the symbol, in a plain square at the top right corner: its top
+   on the padding line, its right edge flush with the text's, and the status
+   line centred in the same band */
 .screen__eject {
-  align-self: flex-start;
-  padding: .55rem 1rem; border: 1.5px solid var(--ink); background: none;
-  font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; cursor: pointer;
+  position: absolute; right: 1.25rem; top: 1.1rem;
+  width: var(--sq); height: var(--sq); padding: 0;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--ink); background: var(--bg); color: var(--ink);
+  cursor: pointer;
 }
-.screen__eject:hover { background: var(--ink); color: var(--bg); }
+.screen__eject svg { width: 55%; height: auto; fill: currentColor; }
+.screen__eject:hover, .screen__eject:focus-visible { background: var(--ink); color: var(--bg); }
+.screen__status { min-height: var(--sq); align-content: center; }
+.screen:has(.screen__eject:not([hidden])) .screen__status { padding-right: calc(var(--sq) + .75rem); }
 .screen__eject[hidden] { display: none; }
 
 /* ---------- the shelf ---------- */

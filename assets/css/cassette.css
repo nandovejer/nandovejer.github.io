@@ -75,6 +75,9 @@ body.cas {
   background-attachment: scroll, fixed, fixed, scroll;
 }
 
+/* the content sits in a 1420px container, centred; the wall runs edge to edge */
+body.cas main { width: min(100%, 1420px); margin-inline: auto; }
+
 /* ---------- the J-card colours (spines, labels, the liner's band) ---------- */
 .jc--yellow { --jc: #f5d43c; --jc-c: #f5d43c; --jc-ink: #1d1d1b; --jc-title: #d6321f; }
 .jc--pink   { --jc: #ef8fb3; --jc-c: #ef8fb3; --jc-ink: #1d1d1b; }

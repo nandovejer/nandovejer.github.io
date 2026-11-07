@@ -649,10 +649,20 @@ const caseSpine = (o) => {
   const [, band, type] = casOf(o.id);
   const h = hash(o.id);
   const off = `--dx:${(h % 9) - 4}px;--rot:${(((h >> 4) % 5) - 2) * .15}deg;--fade:${(.82 + ((h >> 7) % 19) / 100).toFixed(2)}`;
-  return `<span class="cspine jc--${band} ty--${type}" style="${off}" aria-hidden="true"><span class="cspine__card">
+  return `<span class="cspine jc--${band} ty--${type}" style="${off};--chars:${[...String(o.name)].length}" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">${esc(o.name)}</span><span class="cspine__sub">${esc(o.use ?? '')}</span></span>
           <span class="cspine__code"><span>${o.code}</span><span>${o.length ?? 'STEREO'}</span></span>
+        </span></span>`;
+};
+
+// A virgin tape: a blank J-card spine, nothing written on it (decoration).
+const blankSpine = (i) => {
+  const h = hash(`blank${i}`);
+  return `<span class="cspine cspine--blank${i % 3 === 1 ? ' cspine--smoke' : ''}" style="--dx:${(h % 7) - 3}px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">${i % 2 ? 'C90' : 'C60'}</span>
         </span></span>`;
 };
 
@@ -757,63 +767,56 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
 <main id="main">
 <div class="studio">
   <div class="studio__deck">
-  <section class="boombox" id="deck" aria-label="${c.deck}" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
-    <span class="bb__handle" aria-hidden="true"></span>
-    <div class="bb__body">
-      <div class="bb__top">
-        <span class="tweeter" aria-hidden="true"></span>
-        <div class="dial" aria-hidden="true">
-          <p class="dial__row"><span class="dial__band">FM</span><span class="dial__scale">88 92 96 100 104 108</span><span class="osd__mode">■ STOP</span></p>
-          <canvas class="dial__wave" width="480" height="60"></canvas>
-          <p class="dial__row"><span class="dial__band">AM</span><span class="dial__title">${esc(site.name)}</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-          <span class="dial__needle"></span>
+  <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
+    <section class="panel" aria-label="${c.deck}">
+      <div class="crt" aria-hidden="true">
+        <div class="crt__glass">
+          <canvas class="crt__wave" width="400" height="300"></canvas>
+          <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+          <p class="crt__osd crt__osd--bottom"><span class="osd__title">${esc(site.name)}</span></p>
         </div>
-        <span class="tweeter" aria-hidden="true"></span>
-        <div class="knobs" aria-hidden="true"><span class="knob"></span><span class="knob"></span><span class="knob"></span><span class="slide"></span><span class="knob"></span><span class="knob knob--big"></span></div>
       </div>
-      <span class="speaker speaker--l" aria-hidden="true"><span class="speaker__cone"></span></span>
-      <div class="bb__center">
-        <p class="bb__plate" aria-hidden="true"><b>NM</b> CS-26 <span>STEREO</span></p>
-        <div class="tdeck">
-          <div class="tdeck__door">
-            <div class="tdeck__well">${cassette(bio)}</div>
-            <span class="tdeck__glass" aria-hidden="true"></span>
-          </div>
+      <div class="tdeck">
+        <div class="tdeck__door">
+          <div class="tdeck__well">${cassette(bio)}</div>
+          <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
-        <p class="keys__labels" aria-hidden="true"><span>PLAY</span><span>REW</span><span>F.FWD</span><span>STOP</span><span>EJECT</span></p>
+      </div>
+      <div class="grilles" aria-hidden="true"><span class="grille"></span><span class="grille"></span></div>
+      <div class="controls">
         <div class="keys">
-          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
           <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span aria-hidden="true">◀◀</span></button>
+          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
           <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span aria-hidden="true">▶▶</span></button>
           <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span aria-hidden="true">■</span></button>
-          <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span aria-hidden="true">⏏</span></button>
+          <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span aria-hidden="true">⏏</span></button>
         </div>
-        <p class="strip" aria-hidden="true"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
+        <div class="controls__row" aria-hidden="true">
+          <span class="knob"></span><span class="knob"></span>
+          <span class="leds"><i></i><i></i><i></i><i></i></span>
+          <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
+        </div>
       </div>
-      <span class="speaker speaker--r" aria-hidden="true"><span class="speaker__cone"></span></span>
-    </div>
-    <p class="bb__state visually-hidden" aria-live="polite"></p>
-  </section>
+      <p class="bb__state visually-hidden" aria-live="polite"></p>
+    </section>
+    <section class="rack" id="${shelfId}" aria-labelledby="shelf-title">
+      <h2 class="visually-hidden" id="shelf-title">${u.shelf}</h2>
+      <ol class="rack__slots">${projects.map((p, i) => {
+        const o = objectOf(p, i, t, u);
+        const total = o.body.reduce((n, b) => n + trackLen(b), 0);
+        return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
+      }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
+        <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
+        <li class="slot slot--empty"></li>
+      </ol>
+    </section>
+  </div>
   <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>${c.cta}</b></p>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}
     </div>
   </article>
-  <section class="stack" id="${shelfId}" aria-labelledby="shelf-title">
-    <header class="section-head">
-      <h2 id="shelf-title">${u.shelf}</h2>
-      <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
-    </header>
-    <div class="stack__frame">
-      <ol class="stack__list">${projects.map((p, i) => {
-        const o = objectOf(p, i, t, u);
-        const total = o.body.reduce((n, b) => n + trackLen(b), 0);
-        return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
-      }).join('')}${site.socials.map(socialSlot).join('')}
-      </ol>
-    </div>
-  </section>
   <div class="cas-bio" hidden>
     <div class="cas-item__tape">${cassette(bio)}</div>
     <div class="cas-item__notes">${bioNotes}

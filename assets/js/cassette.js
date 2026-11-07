@@ -1,12 +1,14 @@
-// Cassette version — press a case on the stack: it slides out, flies to the
-// radio-cassette, the door opens and the tape goes in; the reels turn, the
-// speakers beat and the liner notes beside it are that tape's: side A the
+// Cassette version — press a case standing in the oak rack: it rises out of
+// its slot, turns on its side and flies into the deck on the cabinet's
+// aluminium plate; the door opens and the tape goes in; the reels turn, the
+// trace on the little CRT moves and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
-// between tracks, ■ stops, ⏏ sends the tape back to the stack. With no
+// between tracks, ■ stops, ⏏ sends the tape back to its slot. With no
 // project in, the house tape (the bio) is in the deck.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
-const bb = document.querySelector('.boombox');
+const bb = document.querySelector('.cabinet');
+const panel = bb.querySelector('.panel');
 const door = bb.querySelector('.tdeck__door');
 const well = bb.querySelector('.tdeck__well');
 const liner = document.querySelector('.liner');
@@ -15,7 +17,7 @@ const state = bb.querySelector('.bb__state');
 const osdMode = bb.querySelector('.osd__mode');
 const osdNo = bb.querySelector('.osd__no');
 const osdCount = bb.querySelector('.osd__count');
-const dialTitle = bb.querySelector('.dial__title');
+const dialTitle = bb.querySelector('.osd__title');
 const strip = bb.querySelector('.strip__text');
 const cta = document.querySelector('.studio__cta');
 const keys = Object.fromEntries([...bb.querySelectorAll('[data-key]')].map((b) => [b.dataset.key, b]));
@@ -66,7 +68,7 @@ function setTrack(i) {
 /* ---------- the trace in the dial ----------
    A blue oscilloscope line, as on the cabinet's little CRT: flat (a quiver)
    when stopped, a moving wave while it plays, fast while it winds. */
-const wave = bb.querySelector('.dial__wave');
+const wave = bb.querySelector('.crt__wave');
 const wctx = wave.getContext('2d');
 let wframe = 0;
 function trace(now = 0) {
@@ -134,13 +136,14 @@ keys.eject.addEventListener('click', async () => {
 
 /* ---------- the case in flight ---------- */
 
-const at = (x, y, k, deg = 0) => `translate(${x}px, ${y}px) rotate(${deg}deg) scale(${k})`;
+// Transforms about the centre of the copy (w × h), placed with its centre at (cx, cy).
+const at = (cx, cy, w, h, deg, k) => `translate(${cx - w / 2}px, ${cy - h / 2}px) rotate(${deg}deg) scale(${k})`;
 
-// A fixed copy of a case's spine, at its place on the stack.
+// A fixed copy of a case's spine, at its place in the rack.
 function ghostOf(spine, r = spine.getBoundingClientRect()) {
   const g = spine.cloneNode(true);
   g.classList.add('ghost');
-  Object.assign(g.style, { width: `${r.width}px`, height: `${r.height}px`, transform: at(r.left, r.top, 1) });
+  Object.assign(g.style, { width: `${r.width}px`, height: `${r.height}px`, transform: at(r.left + r.width / 2, r.top + r.height / 2, r.width, r.height, 0, 1) });
   document.body.append(g);
   return g;
 }
@@ -155,18 +158,23 @@ function rectAt(el, dy = 0) {
   return r;
 }
 
-// From the stack (r) into the door (t): out of its slot, up in an arc, down
-// into the door at its width, and in.
+// From the rack (r) into the door (t): up out of its slot, over in an arc,
+// turning on its side, down into the door as long as the cassette is wide,
+// and in.
 function arc(r, t) {
-  const k = t.width / r.width;
-  const ex = t.left, ey = t.top + (t.height - r.height * k) / 2;
-  const mx = (r.left + ex) / 2, my = Math.min(r.top, ey) - Math.min(140, innerHeight * .15);
+  const w = r.width, h = r.height;
+  const k = (t.width * 1.06) / h;             // 109 mm of case for 100 mm of tape
+  const a = [r.left + w / 2, r.top + h / 2];
+  const b = [t.left + t.width / 2, t.top + t.height / 2];
+  const up = a[1] - h * .35;
+  const top = Math.min(up, b[1]) - Math.min(120, innerHeight * .12);
   return [
-    { transform: at(r.left, r.top, 1), opacity: 1, offset: 0 },
-    { transform: at(r.left + 14, r.top - 8, 1.02, -1), opacity: 1, offset: .12 },
-    { transform: at(mx, my, (1 + k) / 2, -4), opacity: 1, offset: .55 },
-    { transform: at(ex, ey, k), opacity: 1, offset: .88 },
-    { transform: at(ex, ey + 8, k * .96), opacity: 0, offset: 1 }
+    { transform: at(a[0], a[1], w, h, 0, 1), opacity: 1, offset: 0 },
+    { transform: at(a[0], up, w, h, 0, 1), opacity: 1, offset: .16 },
+    { transform: at((a[0] + b[0]) / 2, top, w, h, -50, (1 + k) / 2), opacity: 1, offset: .5 },
+    { transform: at(b[0], b[1] - t.height * .5, w, h, -90, k), opacity: 1, offset: .78 },
+    { transform: at(b[0], b[1], w, h, -90, k), opacity: 1, offset: .9 },
+    { transform: at(b[0], b[1] + 4, w, h, -90, k * .96), opacity: 0, offset: 1 }
   ];
 }
 
@@ -177,7 +185,7 @@ const drop = (el) => (reduceMotion.matches || !el ? Promise.resolve()
 
 // How far the page must scroll to show the whole radio-cassette (0 if it is).
 function deckScroll() {
-  const r = bb.getBoundingClientRect();
+  const r = panel.getBoundingClientRect();
   if (r.top >= 0 && r.bottom <= innerHeight) return 0;
   const max = document.documentElement.scrollHeight - innerHeight;
   const to = Math.max(0, Math.min(max, scrollY + r.top - Math.max(16, (innerHeight - r.height) / 2)));
@@ -228,7 +236,7 @@ async function eject({ quiet = false } = {}) {
   door.classList.add('is-open');
   const w = well.getBoundingClientRect();
   await lift(well.firstElementChild);
-  // the case goes back to its place on the stack
+  // the case goes back to its slot
   const spine = item.querySelector('.cspine');
   const r = spine.getBoundingClientRect();
   if (!reduceMotion.matches) {
@@ -265,32 +273,15 @@ addEventListener('keydown', async (e) => {
 
 /* ---------- header links ---------- */
 // Bio: the house tape (ejecting the project if one is in) and its notes.
-// Projects: the stack.
+// Projects: the rack.
 document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   a.addEventListener('click', async (e) => {
     e.preventDefault();
-    if (a.dataset.go === 'projects') { glideTo(document.querySelector('.stack'), 'start'); return; }
-    await glideTo(oneColumn.matches ? bb : document.querySelector('.studio'), 'start');
+    if (a.dataset.go === 'projects') { glideTo(document.querySelector('.rack'), 'center'); return; }
+    await glideTo(oneColumn.matches ? panel : document.querySelector('.studio'), 'start');
     if (loaded && !busy) { busy = true; await eject(); busy = false; }
   });
 });
-
-/* ---------- the cases at the radio's scale ---------- */
-// A case is 109 mm long and the cassette in it 100 mm wide: the cases on the
-// stack are 1.09 × the cassette seen in the door (offsetWidth: the door's
-// tilt does not count).
-// (Never wider than the stack can hold: one column on phones, two above.)
-const stackEl = document.querySelector('.stack');
-const twoCols = matchMedia('(min-width: 37.5em)');
-const sizeCases = () => {
-  const w = well.firstElementChild?.offsetWidth;
-  if (!w) return;
-  const cols = twoCols.matches ? 2 : 1;
-  const room = stackEl.clientWidth / (cols + (cols - 1) * .1 + .24);
-  document.documentElement.style.setProperty('--case-w', `${Math.floor(Math.min(w * 1.09, room))}px`);
-};
-new ResizeObserver(sizeCases).observe(well);
-new ResizeObserver(sizeCases).observe(stackEl);
 
 /* ---------- switch on ---------- */
 load(house);

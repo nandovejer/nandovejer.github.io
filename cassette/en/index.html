@@ -47,26 +47,18 @@
 <main id="main">
 <div class="studio">
   <div class="studio__deck">
-  <section class="boombox" id="deck" aria-label="Tape deck" data-playing="Playing" data-stopped="Stopped" data-ejected="Tape ejected">
-    <span class="bb__handle" aria-hidden="true"></span>
-    <div class="bb__body">
-      <div class="bb__top">
-        <span class="tweeter" aria-hidden="true"></span>
-        <div class="dial" aria-hidden="true">
-          <p class="dial__row"><span class="dial__band">FM</span><span class="dial__scale">88 92 96 100 104 108</span><span class="osd__mode">■ STOP</span></p>
-          <canvas class="dial__wave" width="480" height="60"></canvas>
-          <p class="dial__row"><span class="dial__band">AM</span><span class="dial__title">Fernando Muñoz</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-          <span class="dial__needle"></span>
+  <div class="cabinet" id="deck" data-playing="Playing" data-stopped="Stopped" data-ejected="Tape ejected">
+    <section class="panel" aria-label="Tape deck">
+      <div class="crt" aria-hidden="true">
+        <div class="crt__glass">
+          <canvas class="crt__wave" width="400" height="300"></canvas>
+          <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+          <p class="crt__osd crt__osd--bottom"><span class="osd__title">Fernando Muñoz</span></p>
         </div>
-        <span class="tweeter" aria-hidden="true"></span>
-        <div class="knobs" aria-hidden="true"><span class="knob"></span><span class="knob"></span><span class="knob"></span><span class="slide"></span><span class="knob"></span><span class="knob knob--big"></span></div>
       </div>
-      <span class="speaker speaker--l" aria-hidden="true"><span class="speaker__cone"></span></span>
-      <div class="bb__center">
-        <p class="bb__plate" aria-hidden="true"><b>NM</b> CS-26 <span>STEREO</span></p>
-        <div class="tdeck">
-          <div class="tdeck__door">
-            <div class="tdeck__well"><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
+      <div class="tdeck">
+        <div class="tdeck__door">
+          <div class="tdeck__well"><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
           <span class="cassette__label">
             <span class="cassette__side">A</span>
             <span class="cassette__title">Fernando Muñoz</span>
@@ -77,78 +69,32 @@
           </span>
           <span class="cassette__foot"></span>
         </span></span></div>
-            <span class="tdeck__glass" aria-hidden="true"></span>
-          </div>
+          <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
-        <p class="keys__labels" aria-hidden="true"><span>PLAY</span><span>REW</span><span>F.FWD</span><span>STOP</span><span>EJECT</span></p>
+      </div>
+      <div class="grilles" aria-hidden="true"><span class="grille"></span><span class="grille"></span></div>
+      <div class="controls">
         <div class="keys">
-          <button type="button" class="key" data-key="play" aria-label="Play" title="Play" aria-pressed="false"><span aria-hidden="true">▶</span></button>
           <button type="button" class="key" data-key="rew" aria-label="Previous track" title="Previous track"><span aria-hidden="true">◀◀</span></button>
+          <button type="button" class="key" data-key="play" aria-label="Play" title="Play" aria-pressed="false"><span aria-hidden="true">▶</span></button>
           <button type="button" class="key" data-key="ff" aria-label="Next track" title="Next track"><span aria-hidden="true">▶▶</span></button>
           <button type="button" class="key" data-key="stop" aria-label="Stop" title="Stop"><span aria-hidden="true">■</span></button>
-          <button type="button" class="key" data-key="eject" aria-label="Eject" title="Eject"><span aria-hidden="true">⏏</span></button>
+          <button type="button" class="key key--eject" data-key="eject" aria-label="Eject" title="Eject"><span aria-hidden="true">⏏</span></button>
         </div>
-        <p class="strip" aria-hidden="true"><span class="strip__text">NM-000 · Fernando Muñoz</span><span class="strip__led"></span></p>
+        <div class="controls__row" aria-hidden="true">
+          <span class="knob"></span><span class="knob"></span>
+          <span class="leds"><i></i><i></i><i></i><i></i></span>
+          <p class="strip"><span class="strip__text">NM-000 · Fernando Muñoz</span><span class="strip__led"></span></p>
+        </div>
       </div>
-      <span class="speaker speaker--r" aria-hidden="true"><span class="speaker__cone"></span></span>
-    </div>
-    <p class="bb__state visually-hidden" aria-live="polite"></p>
-  </section>
-  <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>Pick a tape from the shelf</b></p>
-  </div>
-  <article class="liner" id="liner" aria-label="Liner notes">
-    <div class="liner__out">
-          <div class="jcard">
-            <div class="jcard__band" aria-hidden="true">
-              <span class="jcard__brand"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
-    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
-    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
-  </svg><b>NM</b></span>
-              <span class="jcard__len">C90</span>
-              <span class="jcard__type">IEC I / TYPE I<br>NORMAL POSITION</span>
-            </div>
-            <p class="jcard__tagline" aria-hidden="true">Dynamic cassette · Low noise · High output</p>
-            <header class="notes__head">
-              <p class="notes__code">NM-000 · C90</p>
-              <h3 class="notes__title">Fernando Muñoz</h3>
-              <p class="notes__use">Frontend Tech Lead · Madrid</p>
-              <p class="notes__quote">“Memoirs of a coder who writes”</p>
-            </header>
-            <div class="jcard__spine" aria-hidden="true"><span class="jcard__spine-in"><span class="jcard__spine-len">C90</span><span class="jcard__spine-brand"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
-    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
-    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
-  </svg><b>NM</b></span></span></div>
-            <div class="jcard__inside">
-              <p class="notes__side"><b aria-hidden="true">A</b> Side A</p>
-              <ol class="tracks">
-              <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>I am Fernando Muñoz, though almost everyone calls me Nando. I work as a Frontend Tech Lead in Madrid and spend my days between Adobe Experience Manager and Salesforce Commerce Cloud, two giants I am paid to bring order to.</p></div><span class="track__time">1:01</span></li>
-              <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>I believe in HTML that works without JavaScript, in CSS that reads like a book and in zero-dependency tools that will still stand ten years from now. So I build lightweight design systems, demos that respect your privacy and the odd tribute to the Cádiz Carnival.</p></div><span class="track__time">1:06</span></li>
-              <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>I code and I write. Sometimes it is hard to tell one from the other.</p></div><span class="track__time">0:39</span></li>
-              </ol>
-              <p class="notes__side"><b aria-hidden="true">B</b> Side B</p>
-              <ol class="tracks">
-              <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Where to find me</p><ul class="socials"><li><a href="https://github.com/nandovejer" rel="me noopener"><span class="socials__label">GitHub</span> <span class="socials__handle">nandovejer</span></a></li><li><a href="https://x.com/nandovejer" rel="me noopener"><span class="socials__label">X</span> <span class="socials__handle">@nandovejer</span></a></li><li><a href="https://soynando.com" rel="me noopener"><span class="socials__label">Blog</span> <span class="socials__handle">soynando.com</span></a></li><li><a href="https://www.linkedin.com/in/nandovejer" rel="me noopener"><span class="socials__label">LinkedIn</span> <span class="socials__handle">in/nandovejer</span></a></li></ul></div><span class="track__time">1:30</span></li>
-              </ol>
-            </div>
-            <div class="jcard__foot" aria-hidden="true">
-              <span><b>B</b> Date/Time<br>Noise reduction ☐On ☐Off</span>
-              <span><b>A</b> Date/Time<br>Noise reduction ☐On ☐Off</span>
-            </div>
-          </div>
-    </div>
-  </article>
-  <section class="stack" id="projects" aria-labelledby="shelf-title">
-    <header class="section-head">
-      <h2 id="shelf-title">Projects</h2>
-      <p class="section-head__count"><span class="num"><span class="num__ghost">0</span>12</span> tapes</p>
-    </header>
-    <div class="stack__frame">
-      <ol class="stack__list">
+      <p class="bb__state visually-hidden" aria-live="polite"></p>
+    </section>
+    <section class="rack" id="projects" aria-labelledby="shelf-title">
+      <h2 class="visually-hidden" id="shelf-title">Projects</h2>
+      <ol class="rack__slots">
       <li class="slot cas-item" id="luz">
         <button type="button" class="slot__case" aria-label="Put the tape in: LUZ">
-        <span class="cspine jc--yellow ty--cond" style="--dx:-1px;--rot:0.3deg;--fade:1.00" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--yellow ty--cond" style="--dx:-1px;--rot:0.3deg;--fade:1.00;--chars:3" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">LUZ</span><span class="cspine__sub">Design system</span></span>
           <span class="cspine__code"><span>NM-001</span><span>C60</span></span>
@@ -213,7 +159,7 @@
       </li>
       <li class="slot cas-item" id="ikay">
         <button type="button" class="slot__case" aria-label="Put the tape in: IKAY">
-        <span class="cspine jc--sky ty--wide" style="--dx:1px;--rot:-0.15deg;--fade:0.99" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--sky ty--wide" style="--dx:1px;--rot:-0.15deg;--fade:0.99;--chars:4" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">IKAY</span><span class="cspine__sub">Browser fingerprint</span></span>
           <span class="cspine__code"><span>NM-002</span><span>C60</span></span>
@@ -278,7 +224,7 @@
       </li>
       <li class="slot cas-item" id="chrome-local-ai">
         <button type="button" class="slot__case" aria-label="Put the tape in: Chrome Local AI">
-        <span class="cspine jc--black ty--mono" style="--dx:1px;--rot:-0.75deg;--fade:0.78" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--black ty--mono" style="--dx:1px;--rot:-0.75deg;--fade:0.78;--chars:15" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Chrome Local AI</span><span class="cspine__sub">AI in the browser</span></span>
           <span class="cspine__code"><span>NM-003</span><span>C60</span></span>
@@ -343,7 +289,7 @@
       </li>
       <li class="slot cas-item" id="quien-canta-hoy">
         <button type="button" class="slot__case" aria-label="Put the tape in: ¿Quién canta hoy?">
-        <span class="cspine jc--pink ty--script" style="--dx:-2px;--rot:0.15deg;--fade:0.82" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--pink ty--script" style="--dx:-2px;--rot:0.15deg;--fade:0.82;--chars:17" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">¿Quién canta hoy?</span><span class="cspine__sub">Cádiz Carnival</span></span>
           <span class="cspine__code"><span>NM-004</span><span>C60</span></span>
@@ -408,7 +354,7 @@
       </li>
       <li class="slot cas-item" id="ares-api">
         <button type="button" class="slot__case" aria-label="Put the tape in: Ares API">
-        <span class="cspine jc--orange ty--serif" style="--dx:-1px;--rot:-0.44999999999999996deg;--fade:0.81" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--orange ty--serif" style="--dx:-1px;--rot:-0.44999999999999996deg;--fade:0.81;--chars:8" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Ares API</span><span class="cspine__sub">Music archive</span></span>
           <span class="cspine__code"><span>NM-005</span><span>C60</span></span>
@@ -472,7 +418,7 @@
       </li>
       <li class="slot cas-item" id="toolbar-aem">
         <button type="button" class="slot__case" aria-label="Put the tape in: Toolbar AEM">
-        <span class="cspine jc--cream ty--cond" style="--dx:-2px;--rot:-0.75deg;--fade:0.72" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--cream ty--cond" style="--dx:-2px;--rot:-0.75deg;--fade:0.72;--chars:11" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Toolbar AEM</span><span class="cspine__sub">Chrome extension</span></span>
           <span class="cspine__code"><span>NM-006</span><span>C60</span></span>
@@ -537,7 +483,7 @@
       </li>
       <li class="slot cas-item" id="accesibilidad">
         <button type="button" class="slot__case" aria-label="Put the tape in: Acme Studio">
-        <span class="cspine jc--mint ty--wide" style="--dx:3px;--rot:-0.75deg;--fade:0.76" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--mint ty--wide" style="--dx:3px;--rot:-0.75deg;--fade:0.76;--chars:11" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Acme Studio</span><span class="cspine__sub">Accessibility</span></span>
           <span class="cspine__code"><span>NM-007</span><span>C60</span></span>
@@ -602,7 +548,7 @@
       </li>
       <li class="slot cas-item" id="libros-del-mundo">
         <button type="button" class="slot__case" aria-label="Put the tape in: Libros del mundo">
-        <span class="cspine jc--tan ty--script" style="--dx:-1px;--rot:-0.75deg;--fade:0.68" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--tan ty--script" style="--dx:-1px;--rot:-0.75deg;--fade:0.68;--chars:16" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Libros del mundo</span><span class="cspine__sub">Library</span></span>
           <span class="cspine__code"><span>NM-008</span><span>C60</span></span>
@@ -666,7 +612,7 @@
       </li>
       <li class="slot cas-item" id="string-transformer">
         <button type="button" class="slot__case" aria-label="Put the tape in: String Transformer">
-        <span class="cspine jc--white ty--mono" style="--dx:-1px;--rot:-0.3deg;--fade:0.81" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--white ty--mono" style="--dx:-1px;--rot:-0.3deg;--fade:0.81;--chars:18" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">String Transformer</span><span class="cspine__sub">Text tool</span></span>
           <span class="cspine__code"><span>NM-009</span><span>C60</span></span>
@@ -730,7 +676,7 @@
       </li>
       <li class="slot cas-item" id="coac-analisis">
         <button type="button" class="slot__case" aria-label="Put the tape in: Gestor de comparsas">
-        <span class="cspine jc--red ty--cond" style="--dx:2px;--rot:-0.3deg;--fade:0.98" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--red ty--cond" style="--dx:2px;--rot:-0.3deg;--fade:0.98;--chars:19" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Gestor de comparsas</span><span class="cspine__sub">Data dashboard</span></span>
           <span class="cspine__code"><span>NM-010</span><span>C60</span></span>
@@ -794,7 +740,7 @@
       </li>
       <li class="slot cas-item" id="illo-loader">
         <button type="button" class="slot__case" aria-label="Put the tape in: illo-loader">
-        <span class="cspine jc--black ty--serif" style="--dx:-2px;--rot:-0.8999999999999999deg;--fade:0.77" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--black ty--serif" style="--dx:-2px;--rot:-0.8999999999999999deg;--fade:0.77;--chars:11" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">illo-loader</span><span class="cspine__sub">Web component</span></span>
           <span class="cspine__code"><span>NM-011</span><span>C60</span></span>
@@ -858,7 +804,7 @@
       </li>
       <li class="slot cas-item" id="js-subtype">
         <button type="button" class="slot__case" aria-label="Put the tape in: js-subtype">
-        <span class="cspine jc--fade ty--wide" style="--dx:4px;--rot:-0.75deg;--fade:0.69" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--fade ty--wide" style="--dx:4px;--rot:-0.75deg;--fade:0.69;--chars:10" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">js-subtype</span><span class="cspine__sub">npm library</span></span>
           <span class="cspine__code"><span>NM-012</span><span>C60</span></span>
@@ -922,7 +868,7 @@
       </li>
       <li class="slot slot--social">
         <a class="slot__case" href="https://github.com/nandovejer" rel="me noopener" aria-label="GitHub: nandovejer">
-        <span class="cspine jc--black ty--mono" style="--dx:-1px;--rot:0.15deg;--fade:0.83" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--black ty--mono" style="--dx:-1px;--rot:0.15deg;--fade:0.83;--chars:6" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">GitHub</span><span class="cspine__sub">nandovejer</span></span>
           <span class="cspine__code"><span>GITHUB</span><span>STEREO</span></span>
@@ -931,7 +877,7 @@
       </li>
       <li class="slot slot--social">
         <a class="slot__case" href="https://x.com/nandovejer" rel="me noopener" aria-label="X: @nandovejer">
-        <span class="cspine jc--white ty--wide" style="--dx:0px;--rot:-0.15deg;--fade:0.84" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--white ty--wide" style="--dx:0px;--rot:-0.15deg;--fade:0.84;--chars:1" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">X</span><span class="cspine__sub">@nandovejer</span></span>
           <span class="cspine__code"><span>X</span><span>STEREO</span></span>
@@ -940,7 +886,7 @@
       </li>
       <li class="slot slot--social">
         <a class="slot__case" href="https://soynando.com" rel="me noopener" aria-label="Blog: soynando.com">
-        <span class="cspine jc--yellow ty--script" style="--dx:3px;--rot:0.15deg;--fade:0.96" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--yellow ty--script" style="--dx:3px;--rot:0.15deg;--fade:0.96;--chars:4" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">Blog</span><span class="cspine__sub">soynando.com</span></span>
           <span class="cspine__code"><span>BLOG</span><span>STEREO</span></span>
@@ -949,16 +895,97 @@
       </li>
       <li class="slot slot--social">
         <a class="slot__case" href="https://www.linkedin.com/in/nandovejer" rel="me noopener" aria-label="LinkedIn: in/nandovejer">
-        <span class="cspine jc--sky ty--cond" style="--dx:-4px;--rot:0.3deg;--fade:0.99" aria-hidden="true"><span class="cspine__card">
+        <span class="cspine jc--sky ty--cond" style="--dx:-4px;--rot:0.3deg;--fade:0.99;--chars:8" aria-hidden="true"><span class="cspine__card">
           <span class="cspine__logo">NM</span>
           <span class="cspine__text"><span class="cspine__title">LinkedIn</span><span class="cspine__sub">in/nandovejer</span></span>
           <span class="cspine__code"><span>LINKEDIN</span><span>STEREO</span></span>
         </span></span>
         </a>
       </li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank" style="--dx:3px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C60</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank cspine--smoke" style="--dx:-3px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C90</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank" style="--dx:-2px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C60</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank" style="--dx:-1px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C90</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank cspine--smoke" style="--dx:0px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C60</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank" style="--dx:1px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C90</span>
+        </span></span></li>
+        <li class="slot slot--blank"><span class="cspine cspine--blank" style="--dx:2px;--fade:1" aria-hidden="true"><span class="cspine__card">
+          <span class="cspine__band"><b>NM</b></span>
+          <span class="cspine__lines"></span>
+          <span class="cspine__len">C60</span>
+        </span></span></li>
+        <li class="slot slot--empty"></li>
       </ol>
+    </section>
+  </div>
+  <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>Pick a tape from the shelf</b></p>
+  </div>
+  <article class="liner" id="liner" aria-label="Liner notes">
+    <div class="liner__out">
+          <div class="jcard">
+            <div class="jcard__band" aria-hidden="true">
+              <span class="jcard__brand"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
+    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
+    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
+  </svg><b>NM</b></span>
+              <span class="jcard__len">C90</span>
+              <span class="jcard__type">IEC I / TYPE I<br>NORMAL POSITION</span>
+            </div>
+            <p class="jcard__tagline" aria-hidden="true">Dynamic cassette · Low noise · High output</p>
+            <header class="notes__head">
+              <p class="notes__code">NM-000 · C90</p>
+              <h3 class="notes__title">Fernando Muñoz</h3>
+              <p class="notes__use">Frontend Tech Lead · Madrid</p>
+              <p class="notes__quote">“Memoirs of a coder who writes”</p>
+            </header>
+            <div class="jcard__spine" aria-hidden="true"><span class="jcard__spine-in"><span class="jcard__spine-len">C90</span><span class="jcard__spine-brand"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
+    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
+    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
+  </svg><b>NM</b></span></span></div>
+            <div class="jcard__inside">
+              <p class="notes__side"><b aria-hidden="true">A</b> Side A</p>
+              <ol class="tracks">
+              <li class="track" data-no="A1"><span class="track__no">A1</span><div class="track__body"><p>I am Fernando Muñoz, though almost everyone calls me Nando. I work as a Frontend Tech Lead in Madrid and spend my days between Adobe Experience Manager and Salesforce Commerce Cloud, two giants I am paid to bring order to.</p></div><span class="track__time">1:01</span></li>
+              <li class="track" data-no="A2"><span class="track__no">A2</span><div class="track__body"><p>I believe in HTML that works without JavaScript, in CSS that reads like a book and in zero-dependency tools that will still stand ten years from now. So I build lightweight design systems, demos that respect your privacy and the odd tribute to the Cádiz Carnival.</p></div><span class="track__time">1:06</span></li>
+              <li class="track" data-no="A3"><span class="track__no">A3</span><div class="track__body"><p>I code and I write. Sometimes it is hard to tell one from the other.</p></div><span class="track__time">0:39</span></li>
+              </ol>
+              <p class="notes__side"><b aria-hidden="true">B</b> Side B</p>
+              <ol class="tracks">
+              <li class="track" data-no="B1"><span class="track__no">B1</span><div class="track__body"><p class="track__title">Where to find me</p><ul class="socials"><li><a href="https://github.com/nandovejer" rel="me noopener"><span class="socials__label">GitHub</span> <span class="socials__handle">nandovejer</span></a></li><li><a href="https://x.com/nandovejer" rel="me noopener"><span class="socials__label">X</span> <span class="socials__handle">@nandovejer</span></a></li><li><a href="https://soynando.com" rel="me noopener"><span class="socials__label">Blog</span> <span class="socials__handle">soynando.com</span></a></li><li><a href="https://www.linkedin.com/in/nandovejer" rel="me noopener"><span class="socials__label">LinkedIn</span> <span class="socials__handle">in/nandovejer</span></a></li></ul></div><span class="track__time">1:30</span></li>
+              </ol>
+            </div>
+            <div class="jcard__foot" aria-hidden="true">
+              <span><b>B</b> Date/Time<br>Noise reduction ☐On ☐Off</span>
+              <span><b>A</b> Date/Time<br>Noise reduction ☐On ☐Off</span>
+            </div>
+          </div>
     </div>
-  </section>
+  </article>
   <div class="cas-bio" hidden>
     <div class="cas-item__tape"><span class="cassette sh--cream jc--red ty--cond" aria-hidden="true"><span class="cassette__body">
           <span class="cassette__label">

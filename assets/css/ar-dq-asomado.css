@@ -71,8 +71,13 @@
 .dq--asomado { container-type: inline-size; }
 .dq--asomado > * {
   --cols: 12;
-  --cell: calc(100cqi / var(--cols));
-  --pad: var(--cell);
+  /* the content is at most --max px wide (16 cells of 120px): past that the
+     cells stop growing, the content is centred and --rim fills each side.
+     The grid lines, the stripe and the backgrounds still run edge to edge. */
+  --max: 1920;
+  --rim: max(0px, (100cqi - var(--max) * 1px) / 2);
+  --cell: calc(min(100cqi, var(--max) * 1px) / var(--cols));
+  --pad: calc(var(--cell) + var(--rim));
   --deck: 10;   /* drive deck width, in cells */
   --m: 7;      /* cells of cover above the drive: floor(0.7034 × deck) */
   --box: 5;    /* disk box side, in cells (2 per row on mobile) */
@@ -88,12 +93,13 @@
     linear-gradient(90deg, var(--g-line) 1px, transparent 1px),
     linear-gradient(var(--g-line) 1px, transparent 1px);
   background-size: var(--cell) var(--cell);
+  background-position: var(--rim) 0;   /* lines on the content's cells */
 }
 
 /* ---------- station: screen | gap | deck, in cells ---------- */
 
 .dq--asomado .station {
-  padding: var(--cell);
+  padding: var(--cell) var(--pad);
   gap: var(--cell);
   align-items: start;
   background: transparent;
@@ -128,7 +134,7 @@
 
 .dq--asomado .shelf__list {
   gap: 0;
-  padding: var(--cell);
+  padding: var(--cell) var(--pad);
   grid-template-columns: repeat(auto-fill, calc(var(--cell) * var(--box)));
 }
 .dq--asomado .entry {

@@ -348,7 +348,8 @@ if (main) {
   const boxes = [screen, document.querySelector('.deck')].filter(Boolean);
   const snap = () => {
     const cols = parseFloat(getComputedStyle(main).getPropertyValue('--cols')) || 16;
-    const c = main.clientWidth / cols;
+    const max = parseFloat(getComputedStyle(main).getPropertyValue('--max')) || Infinity;
+    const c = Math.min(main.clientWidth, max) / cols;
     boxes.forEach((el) => { el.style.minHeight = ''; });
     const cells = boxes.map((el) => Math.ceil(el.getBoundingClientRect().height / c - 0.01));
     // side by side (two columns), both end on the same line: the taller one's

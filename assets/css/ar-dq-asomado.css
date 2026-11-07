@@ -52,7 +52,13 @@
 }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
-.masthead__title a:hover { text-decoration: underline; }
+/* the brand: the three squares and the name, together one link home */
+.dq--asomado .masthead { align-items: center; }
+.brand { display: inline-flex; align-items: center; gap: .7rem; }
+.brand__mark { width: 1.75rem; height: 1.75rem; flex: none; }
+.brand__name { font-size: 1rem; font-weight: 800; letter-spacing: .1em; }
+.brand:hover { text-decoration: none; }
+.brand:hover .brand__name { text-decoration: underline; text-underline-offset: .2em; }
 
 
 /* ==========================================================================

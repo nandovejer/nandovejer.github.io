@@ -290,6 +290,16 @@ const station = (u) => `
   </div>
 </section>`;
 
+/* ---------- the brand: three squares and the name ---------- */
+// One square inside another inside another, all sitting in the bottom right
+// corner, in three colours of the stripe under the masthead.
+const brandMark = `<svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect width="24" height="24" style="fill: var(--c-crimson)"/>
+    <rect x="8" y="8" width="16" height="16" style="fill: var(--c-orange)"/>
+    <rect x="16" y="16" width="8" height="8" style="fill: var(--c-teal)"/>
+  </svg>`;
+const brandName = `${site.nick} ${site.name.split(' ').slice(1).join(' ')}`.toUpperCase();
+
 /* ---------- the page ---------- */
 
 const page = (lang) => {
@@ -324,7 +334,7 @@ const page = (lang) => {
 <body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="masthead">
-  <h1 class="masthead__title"><a href="./" rel="home">${site.name} <span aria-hidden="true">/</span> ${t.kicker}</a></h1>
+  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__name">${brandName}</span><span class="visually-hidden">, ${t.kicker}</span></a></h1>
   <nav class="masthead__nav" aria-label="${u.nav}">
     <a href="#bio" data-go="bio">${u.navBio}</a>
     <a href="#${shelfId}" data-go="projects">${u.shelf}</a>

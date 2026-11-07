@@ -628,7 +628,6 @@ const CAS = {
 };
 const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 // A track's length from its words (a paragraph read aloud, more or less).
-const mmss = (sec) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
 // The cassette, face on (in the deck).
@@ -677,7 +676,7 @@ const blankSpine = (i) => {
 const notes = (o, c, { a, b }) => {
   const len = o.length ?? 'C60';
   const track = (side) => (x, i) => `
-              <li class="track" data-no="${side}${i + 1}"><span class="track__no">${side}${i + 1}</span><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div><span class="track__time">${mmss(x.sec)}</span></li>`;
+              <li class="track" data-no="${side}${i + 1}"><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div></li>`;
   const [, band, type] = casOf(o.id);
   return `
           <div class="jcard">

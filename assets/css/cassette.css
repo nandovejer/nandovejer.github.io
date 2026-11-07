@@ -593,17 +593,15 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
           mask: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px);
 }
 .track {
-  display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: .6rem; align-items: start;
-  padding: 0 .3rem 0 0;
+  padding: 0 .3rem;
   font: 400 1rem/var(--lh) var(--type); color: var(--pen);
   transition: background-color .25s ease;
 }
-.track__no, .track__time { font: 400 .92rem/var(--lh) var(--type); }
+/* a blank line between paragraphs, as typed: one turn of the platen */
+.track + .track { margin-top: var(--lh); }
 .track__body p + p { margin-top: 0; }
 .track__title { text-shadow: .045em 0 0 currentColor; }
 .track.is-current { background: color-mix(in srgb, var(--jc-c, #f5d43c) 32%, transparent); }
-.track.is-current .track__no { color: var(--text-accent); }
-.track.is-current .track__no::before { content: "▶"; display: inline-block; width: 0; translate: -1em 0; font-size: .6em; }
 /* the printed things on side B stay printed */
 .track .cells, .track .links { margin: .4rem 0 calc(var(--lh) - .4rem); font-family: var(--sans); }
 .track .cells { color: var(--print); }

@@ -670,7 +670,7 @@ const blankSpine = (i) => {
         </span></span>`;
 };
 
-// The liner notes: a blank J-card, written on by hand. The printed band (the
+// The liner notes: a blank J-card, typed on a manual typewriter. The band (the
 // brand, the length in a grey panel, the type in the tape's colour), the
 // title written under it, the spine printed upside down between two folds,
 // and inside the ruled lines with side A and side B as numbered tracks.
@@ -762,7 +762,7 @@ const cassettePage = (lang) => {
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
-  <link rel="preload" href="../../assets/fonts/caveat-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/cassette.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../../assets/js/cassette.js"></script>

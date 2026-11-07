@@ -11,10 +11,11 @@
   src: url("../fonts/pinyon-script-latin-400-normal.woff2") format("woff2");
   font-weight: 400; font-display: swap;
 }
+/* Special Elite (Astigmatic, Apache 2.0): a worn manual typewriter */
 @font-face {
-  font-family: "Caveat";
-  src: url("../fonts/caveat-latin-wght-normal.woff2") format("woff2");
-  font-weight: 400 700; font-display: swap;
+  font-family: "Special Elite";
+  src: url("../fonts/special-elite-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-display: swap;
 }
 @font-face {
   font-family: "Playfair Display";
@@ -510,17 +511,19 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
 }
 
-/* ---------- the liner notes: a blank J-card, written on by hand ----------
+/* ---------- the liner notes: a blank J-card, typed on a typewriter ----------
    Paper in any light (it is an object): a printed band, the title written
    under it, the spine upside down between two folds, ruled dotted lines
-   inside with the tracks in blue ballpoint, the A/B boxes upside down at
+   inside with the tracks typed on them, the A/B boxes upside down at
    the foot. The band's right panel takes the colour of the tape. */
 
 .liner {
   --paper: #f8f5ec; --pen: #22378a; --print: #1b1b1a;
   --ink: #1b1b1a; --ink-soft: #55534d; --text-accent: #c2311d;
   --rule: rgb(27 27 26 / .6); --hair: rgb(27 27 26 / .18);
-  --lh: 2.1rem;
+  --lh: 1.85rem;
+  --type: "Special Elite", "Courier New", Courier, monospace;
+  font-synthesis: none;
   color: var(--print);
   border-radius: .15rem;
   background: var(--tx-paper) 0 0 / 220px 220px, var(--paper);
@@ -558,9 +561,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* the title, written under the band */
 .notes__head { position: relative; padding: .6rem 1.4rem 1.2rem; color: var(--pen); }
 .notes__code { position: absolute; right: 1.4rem; top: .4rem; font: 600 .7rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft); }
-.notes__title { margin: .4rem 0 .1rem; font: 700 clamp(2.4rem, 1.6rem + 2.8vw, 3.6rem)/1 "Caveat", cursive; color: var(--pen); overflow-wrap: anywhere; rotate: -1.2deg; transform-origin: left; }
-.notes__use { font: 600 1.35rem/1.2 "Caveat", cursive; }
-.notes__quote { margin-top: .4rem; font: 500 1.45rem/1.25 "Caveat", cursive; }
+.notes__title { margin: .5rem 0 .3rem; font: 400 clamp(1.8rem, 1.2rem + 2vw, 2.7rem)/1.05 var(--type); color: var(--pen); overflow-wrap: anywhere; letter-spacing: -.02em; }
+.notes__use { font: 400 .95rem/1.5 var(--type); }
+.notes__quote { margin-top: .5rem; font: 400 1rem/1.5 var(--type); }
 
 /* the spine, printed upside down between two folds */
 .jcard__spine {
@@ -592,12 +595,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .track {
   display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: .6rem; align-items: start;
   padding: 0 .3rem 0 0;
-  font: 500 1.4rem/var(--lh) "Caveat", cursive; color: var(--pen);
+  font: 400 1rem/var(--lh) var(--type); color: var(--pen);
   transition: background-color .25s ease;
 }
-.track__no, .track__time { font: 600 1.25rem/var(--lh) "Caveat", cursive; }
+.track__no, .track__time { font: 400 .92rem/var(--lh) var(--type); }
 .track__body p + p { margin-top: 0; }
-.track__title { font-weight: 700; }
+.track__title { text-shadow: .045em 0 0 currentColor; }
 .track.is-current { background: color-mix(in srgb, var(--jc-c, #f5d43c) 32%, transparent); }
 .track.is-current .track__no { color: var(--text-accent); }
 .track.is-current .track__no::before { content: "▶"; display: inline-block; width: 0; translate: -1em 0; font-size: .6em; }

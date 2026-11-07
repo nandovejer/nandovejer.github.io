@@ -132,14 +132,32 @@ function render(entry) {
 /* ---------- the cover of the disk inside, sticking out of the slot ---------- */
 
 const ease = 'cubic-bezier(.45, 0, .25, 1)';
+// On one column (phone, tablet) there is no cover: the drive sits under the
+// screen and the screen itself sinks into the slot and rises out of it. It is
+// cut at its own bottom edge (the drive's top), so it never shows below it.
+const oneCol = matchMedia('(max-width: 63.999em)');
+const screenAt = (d) => ({ transform: `translateY(${d}px)`, clipPath: `inset(0 0 ${d}px 0)` });
+
 function showCover(entry, { animate = true } = {}) {
-  if (!now) return;
-  now.replaceChildren(entry.querySelector('.disk').cloneNode(true));
-  if (animate && !reduceMotion.matches) {
+  if (now) now.replaceChildren(entry.querySelector('.disk').cloneNode(true));
+  const go = animate && !reduceMotion.matches;
+  if (oneCol.matches) {
+    screen.getAnimations().forEach((a) => a.cancel());
+    if (go) screen.animate([screenAt(screen.offsetHeight), screenAt(0)], { duration: 650, easing: ease });
+    return;
+  }
+  if (now && go) {
     now.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], { duration: 650, easing: ease });
   }
 }
 async function sinkCover() {
+  if (oneCol.matches) {
+    if (!reduceMotion.matches && !screen.getAnimations().length) {
+      await screen.animate([screenAt(0), screenAt(screen.offsetHeight)], { duration: 480, easing: ease, fill: 'forwards' }).finished;
+    }
+    if (now) now.replaceChildren();
+    return;
+  }
   if (!now?.firstChild) return;
   if (!reduceMotion.matches) {
     await now.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }], { duration: 420, easing: ease, fill: 'forwards' }).finished;
@@ -147,6 +165,8 @@ async function sinkCover() {
   now.replaceChildren();
   now.getAnimations().forEach((a) => a.cancel());
 }
+// if the layout changes with the screen sunk, it comes back
+oneCol.addEventListener('change', () => screen.getAnimations().forEach((a) => a.cancel()));
 
 // No project inserted: the bio is the disk inside.
 function showDefault({ animate = true } = {}) {
@@ -196,7 +216,10 @@ async function insert(entry, { ghost, rect } = {}) {
   title?.focus({ preventScroll: true });
   // then take the reader to what was read (on small screens the screen is
   // below the drive; on wide ones it is beside it and already in view)
-  if (!topVisible(screen)) glideTo(screen, 'start');
+  // (on one column the screen is still rising out of the drive, so its box is
+  // moved: the station, which does not move, is what the page glides to)
+  if (oneCol.matches) glideTo(screen.closest('.station'), 'start');
+  else if (!topVisible(screen)) glideTo(screen, 'start');
   busy = false;
 }
 

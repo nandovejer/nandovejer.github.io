@@ -10,11 +10,8 @@
   .dq--asomado .station { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
   .dq--asomado .deck { position: sticky; top: 1rem; align-self: start; }
 }
-/* on small screens the drive (and its invitation) comes first */
-.dq--asomado .deck { order: -1; display: grid; gap: 1.25rem; }
-@media (min-width: 64em) { .dq--asomado .deck { order: 0; } }
+.dq--asomado .deck { display: grid; gap: 1.25rem; }
 
-.dq--asomado .drive { margin-top: 68%; }  /* room for the cover standing behind it (% of the drive width) */
 /* the drive sticks on wide screens: the invitation under it (its arrow is
    animated, so it has its own layer) scrolls behind it, never over it */
 .dq--asomado .drive { z-index: 2; }
@@ -83,7 +80,7 @@
   --g-line: color-mix(in srgb, var(--ink) 22%, transparent);
   --g-line-strong: color-mix(in srgb, var(--ink) 70%, transparent);
 }
-@media (min-width: 37.5em) { .dq--asomado > * { --cols: 16; --deck: 10; --m: 7; --box: 4; --hr: 2; } }
+@media (min-width: 37.5em) { .dq--asomado > * { --cols: 16; --deck: 14; --m: 7; --box: 4; --hr: 2; } }
 @media (min-width: 64em)   { .dq--asomado > * { --cols: 16; --deck: 5; --m: 3; --box: 3; --hr: 1; } }
 
 .dq--asomado main {
@@ -110,7 +107,7 @@
 .dq--asomado .cta { margin-top: calc(var(--cell) * .35); justify-content: flex-start; }
 
 /* the cover's top on a grid line, its foot behind the drive */
-.dq--asomado .drive { margin-top: calc(var(--cell) * var(--m)); }
+@media (min-width: 64em) { .dq--asomado .drive { margin-top: calc(var(--cell) * var(--m)); } }
 .dq--asomado .now-well {
   top: calc(var(--cell) * var(--m) * -1); bottom: auto;
   aspect-ratio: 1 / .7034;
@@ -152,3 +149,13 @@
 /* exactly 3 cells tall (+1px that the shared line takes back) */
 .dq--asomado .entry { aspect-ratio: auto; height: calc(var(--cell) * var(--box) + 1px); }
 .dq--asomado .entry .entry__disk { width: 96%; }
+
+/* ---------- one column (phone, tablet) ----------
+   No cover: the drive sits right under the screen, glued to it, and it is the
+   screen that sinks into the slot and rises out of it when the disk changes
+   (ar-disquetes.js). */
+@media (max-width: 63.999em) {
+  .dq--asomado .station { row-gap: 0; }
+  .dq--asomado .now-well { display: none; }
+  .dq--asomado .drive__bezel { border-radius: 0 0 .5rem .5rem; }
+}

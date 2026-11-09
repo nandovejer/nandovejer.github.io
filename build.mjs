@@ -362,7 +362,7 @@ const page = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const shelfId = lang === 'es' ? 'proyectos' : 'projects';
-  const url = `${site.baseUrl}/${lang}/`;
+  const url = `${site.baseUrl}/disquetes/${lang}/`;
   const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
   return `<!doctype html>
 <html lang="${lang}" class="no-js">
@@ -374,19 +374,19 @@ const page = (lang) => {
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/disquetes/${l}/">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead}">
   <meta property="og:description" content="${esc(t.metaDescription)}">
   <meta property="og:url" content="${url}">
-  <link rel="preload" href="../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../assets/css/archivo.css">
-  <link rel="stylesheet" href="../assets/css/chrome.css">
-  <link rel="stylesheet" href="../assets/css/ar-disquetes.css">
-  <link rel="stylesheet" href="../assets/css/ar-disks.css">
-  <link rel="stylesheet" href="../assets/css/ar-dq-asomado.css">
+  <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/chrome.css">
+  <link rel="stylesheet" href="../../assets/css/ar-disquetes.css">
+  <link rel="stylesheet" href="../../assets/css/ar-disks.css">
+  <link rel="stylesheet" href="../../assets/css/ar-dq-asomado.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
-  <script type="module" src="../assets/js/ar-disquetes.js"></script>
+  <script type="module" src="../../assets/js/ar-disquetes.js"></script>
 </head>
 <body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
@@ -416,7 +416,7 @@ ${station(u)}
   </ol>
 </section>
 </main>
-${colophon(t, u, { href: `../vhs/${lang}/`, code: u.vhsCode, label: u.vhsVersion })}
+${colophon(t, u, { href: `../../vhs/${lang}/`, code: u.vhsCode, label: u.vhsVersion })}
 </body>
 </html>
 `;
@@ -958,7 +958,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   </div>
 </section>
 </main>
-${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion }, voiceCredit(lang, c))}
+${colophon(t, u, { href: `../../disquetes/${lang}/`, code: u.diskCode, label: u.diskVersion }, voiceCredit(lang, c))}
 </body>
 </html>
 `;
@@ -1016,9 +1016,27 @@ const write = (path, html) => {
 const clear = (dir) => { if (!CHECK) rmSync(join(root, dir), { recursive: true, force: true }); };
 
 clear('archivo'); // old prototype paths
+// the Disquetes version, one of the alternatives, under /disquetes/
+clear('disquetes');
+for (const lang of LANGS) write(`disquetes/${lang}/index.html`, page(lang));
+write('disquetes/index.html', toLanguage('', '../assets/favicon.svg', 'disquetes/'));
+// /es/ and /en/ (where Disquetes used to live: old links, bookmarks and
+// cached front doors) now open the cassette in that language
+const toCassette = (lang) => `<!doctype html>
+<html lang="${lang}">
+<head>
+  <meta charset="utf-8">
+  <title>${site.name}</title>
+  <link rel="canonical" href="${site.baseUrl}/cassette/${lang}/">
+  <meta http-equiv="refresh" content="0; url=../cassette/${lang}/">
+  <script>location.replace('../cassette/${lang}/' + location.hash);</script>
+</head>
+<body><p><a href="../cassette/${lang}/">${site.name}</a></p></body>
+</html>
+`;
 for (const lang of LANGS) {
   clear(lang);
-  write(`${lang}/index.html`, page(lang));
+  write(`${lang}/index.html`, toCassette(lang));
 }
 // the site's front door opens the cassette version, in the visitor's language
 write('index.html', toLanguage('cassette/'));

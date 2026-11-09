@@ -892,7 +892,7 @@ body.has-minibar { padding-bottom: 4.2rem; }
 .lcd--deck { display: none; }
 @media (max-width: 29.99em) {
   .lcd--deck { display: block; grid-column: 1 / -1; margin-bottom: calc(3 * var(--u)); }
-  .lcd--deck .lcd__glass { height: calc(11 * var(--u)); padding-inline: calc(3 * var(--u)); }
+  .lcd--deck .lcd__glass { height: auto; gap: calc(1.2 * var(--u)); padding: calc(2.6 * var(--u)) calc(3.4 * var(--u)); }
   .lcd--deck .lcd__top { font-size: max(.5rem, calc(2.2 * var(--u))); }
   .lcd--deck .lcd__title { font-size: max(.7rem, calc(3.6 * var(--u))); }
 }

@@ -13,7 +13,7 @@
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
-const panel = bb.querySelector('.panel');
+const panel = bb.querySelector('.panels');
 const well = bb.querySelector('.tdeck__well');
 const liner = document.querySelector('.liner');
 const spineBox = document.querySelector('.studio__spine');

@@ -196,12 +196,14 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .cabinet::before, .cabinet::after { display: none; }
 
-/* the plate: the same matte plastic as the body, set a hair lower; engraved
-   lines between its sections; six pan-head screws */
+/* two plates, the same matte plastic as the body, set a hair lower, each
+   held by four pan-head screws: the upper one with the speaker, the meters and
+   the small keys; the lower one with the bay and the transport keys */
+.panels { display: grid; gap: calc(1.6 * var(--u)); }
 .panel {
   position: relative;
   display: grid; gap: calc(3.2 * var(--u));
-  padding: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(6.6 * var(--u));
+  padding: calc(4.6 * var(--u));
   border-radius: calc(1.2 * var(--u));
   color: var(--ink2);
   background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(170deg, #e6e5e0, #e0dfd9);
@@ -211,9 +213,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   content: ""; position: absolute; inset: calc(1.3 * var(--u)); pointer-events: none;
   background:
     var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
-    var(--screw) 0 50% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 50% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
     var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat;
 }
+.panel--deck { padding-bottom: calc(6.6 * var(--u)); }
 /* a groove engraved across the plate */
 .panel__meter { border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .85); padding-top: calc(2.2 * var(--u)); }
 

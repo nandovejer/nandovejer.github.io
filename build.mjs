@@ -157,8 +157,8 @@ const linkSocials = (text) => esc(text).replace(/\{(\w+)\}/g, (m, id) => {
 // The link to the other version is only a barcode that reads its name
 // (Code 128: a scanner gets the text back); the link is named for screen
 // readers with aria-label.
-const versionCode = (href, code, label) => `<p class="colophon__version"><a href="${href}" aria-label="${label}">
-${code128(code)}</a></p>`;
+const versionCode = (href, code, label) => `<p class="colophon__version"><a href="${href}">
+${code128(code)}<span class="visually-hidden">${label}</span></a></p>`;
 
 /* ---------- the disks ---------- */
 
@@ -354,7 +354,7 @@ const themeMode = (u) => {
 };
 const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
 const masthead = (lang, t, u, { bioHref, langHref }) => `<header class="masthead">
-  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
+  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name"><span class="visually-hidden">${site.name} · </span><span aria-hidden="true">${brandName}</span></span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
   <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
   <div class="masthead__drawer" id="masthead-drawer">
   <nav class="masthead__nav" aria-label="${u.nav}">
@@ -388,15 +388,14 @@ const page = (lang) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · ${t.runningHead}</title>
+  <title>${site.name} · ${t.title} · Disquetes</title>
   <meta name="description" content="${esc(t.metaDescription)}">
+  ${verifyMeta()}
   <meta name="color-scheme" content="light dark">
   ${THEME_INIT}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
-  <meta property="og:title" content="${site.name} · ${t.runningHead}">
-  <meta property="og:description" content="${esc(t.metaDescription)}">
-  <meta property="og:url" content="${url}">
+  ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">
@@ -536,14 +535,13 @@ const vhsPage = (lang) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · ${t.runningHead} · VHS</title>
+  <title>${site.name} · ${t.title} · VHS</title>
   <meta name="description" content="${esc(t.metaDescription)}">
+  ${verifyMeta()}
   <meta name="color-scheme" content="dark">
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
-  <meta property="og:title" content="${site.name} · ${t.runningHead} · VHS">
-  <meta property="og:description" content="${esc(t.metaDescription)}">
-  <meta property="og:url" content="${url}">
+  ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">
@@ -775,7 +773,7 @@ const notes = (o, c, lang, { a, b }) => {
             <p class="jcard__tagline" aria-hidden="true">${c.tagline}</p>
             <header class="notes__head">
               <p class="notes__code">${o.code} · ${len}</p>
-              <h3 class="notes__title">${esc(o.name)}</h3>
+              <h2 class="notes__title">${esc(o.name)}</h2>
               <p class="notes__use">${esc(o.use)}${o.year ? ` · ${o.year}` : ''}</p>
               ${o.quote ? `<p class="notes__quote">“${esc(o.quote)}”</p>` : ''}
             </header>
@@ -795,6 +793,32 @@ const notes = (o, c, lang, { a, b }) => {
           </div>`;
 };
 
+// The page's face on the networks: Open Graph and Twitter cards, with the image
+// made for it (tools/og-images.mjs, in assets/og/) when there is one.
+const ogImage = (lang, id) => (existsSync(join(root, `assets/og/${lang}/${id}.jpg`)) ? `${site.baseUrl}/assets/og/${lang}/${id}.jpg` : null);
+const socialMeta = ({ lang, title, description, url, image, type = 'website' }) => {
+  const other = LANGS.filter((l) => l !== lang).map((l) => site.i18n[l].locale);
+  return [
+    `<meta property="og:type" content="${type}">`,
+    `<meta property="og:site_name" content="${esc(site.name)}">`,
+    `<meta property="og:locale" content="${site.i18n[lang].locale}">`,
+    ...other.map((l) => `<meta property="og:locale:alternate" content="${l}">`),
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(description)}">`,
+    `<meta property="og:url" content="${url}">`,
+    ...(image ? [`<meta property="og:image" content="${image}">`, '<meta property="og:image:width" content="1200">', '<meta property="og:image:height" content="630">', `<meta property="og:image:alt" content="${esc(title)}">`] : []),
+    `<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">`,
+    `<meta name="twitter:title" content="${esc(title)}">`,
+    `<meta name="twitter:description" content="${esc(description)}">`,
+    ...(image ? [`<meta name="twitter:image" content="${image}">`] : [])
+  ].join('\n  ');
+};
+// Search Console and Bing verification, once the owner pastes the tokens in data/site.json
+const verifyMeta = () => [
+  site.verification?.google ? `<meta name="google-site-verification" content="${esc(site.verification.google)}">` : '',
+  site.verification?.bing ? `<meta name="msvalidate.01" content="${esc(site.verification.bing)}">` : ''
+].filter(Boolean).join('\n  ');
+
 // The cassette is the site: in Spanish it lives at the root (and at
 // /cassette/es/, which names the root as its canonical address); in English at
 // /cassette/en/.
@@ -808,7 +832,7 @@ const jsonLd = (lang, t, url) => {
   const person = { '@type': 'Person', '@id': `${base}/#person`, name: site.name, alternateName: site.nick, jobTitle: job, address: { '@type': 'PostalAddress', addressLocality: city }, url: `${base}/`, sameAs: site.socials.map((s) => s.url) };
   const graph = [
     { '@type': 'WebSite', '@id': `${base}/#website`, url: `${base}/`, name: site.name, inLanguage: LANGS, publisher: { '@id': `${base}/#person` } },
-    { '@type': 'ProfilePage', '@id': `${url}#profile`, url, name: `${site.name} · ${t.runningHead}`, description: t.metaDescription, inLanguage: lang, isPartOf: { '@id': `${base}/#website` }, mainEntity: { '@id': `${base}/#person` } },
+    { '@type': 'ProfilePage', '@id': `${url}#profile`, url, name: `${site.name} · ${t.title}`, description: t.metaDescription, inLanguage: lang, isPartOf: { '@id': `${base}/#website` }, mainEntity: { '@id': `${base}/#person` } },
     person,
     ...projects.map((p) => ({
       '@type': 'SoftwareSourceCode', '@id': `${base}/#project-${p.id}`, name: p.name, description: p[lang].kicker,
@@ -860,8 +884,9 @@ const cassettePage = (lang) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${site.name} · ${t.runningHead} · Cassette</title>
+  <title>${site.name} · ${t.title}</title>
   <meta name="description" content="${esc(t.metaDescription)}">
+  ${verifyMeta()}
   <meta name="color-scheme" content="light dark">
   ${THEME_INIT}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
@@ -869,9 +894,7 @@ const cassettePage = (lang) => {
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${cassetteUrl(l)}">`).join('\n  ')}
   <link rel="alternate" hreflang="x-default" href="${cassetteUrl('es')}">
   <script type="application/ld+json">${jsonLd(lang, t, url)}</script>
-  <meta property="og:title" content="${site.name} · ${t.runningHead} · Cassette">
-  <meta property="og:description" content="${esc(t.metaDescription)}">
-  <meta property="og:url" content="${url}">
+  ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/archivo.css">

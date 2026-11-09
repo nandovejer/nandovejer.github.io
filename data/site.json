@@ -109,7 +109,9 @@
       "zoomLabel": "Aumento",
       "loupeOn": "Cuentahílos",
       "loupeOff": "Guardar el cuentahílos",
-      "microHint": "Doble clic sobre la letra para acercarte · arrastra para recorrerla"
+      "microHint": "Doble clic sobre la letra para acercarte · arrastra para recorrerla",
+      "title": "Tech Lead Frontend en Madrid",
+      "locale": "es_ES"
     },
     "en": {
       "langName": "English",
@@ -190,7 +192,14 @@
       "zoomLabel": "Magnification",
       "loupeOn": "Linen tester",
       "loupeOff": "Put the linen tester away",
-      "microHint": "Double-click the letter to zoom in · drag to travel through it"
+      "microHint": "Double-click the letter to zoom in · drag to travel through it",
+      "title": "Frontend Tech Lead in Madrid",
+      "locale": "en_GB"
     }
+  },
+  "verification": {
+    "_": "Paste the content of the verification meta tag from Google Search Console and Bing Webmaster Tools here; the build writes the tags once they are filled.",
+    "google": "",
+    "bing": ""
   }
 }

@@ -707,34 +707,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .cspine__code { writing-mode: vertical-rl; display: flex; gap: 4cqw; font: 600 max(.28rem, 18cqw)/1 var(--tech); letter-spacing: .04em; }
 /* the shelf above throws its shade on the top of each case in the rack */
 .slot .cspine__card { --shade: linear-gradient(rgb(0 0 0 / .55), rgb(0 0 0 / .2) 12%, transparent 26%); }
-/* a case that is in the deck or in the tower leaves its slot empty */
+/* a case that is in the deck leaves its slot empty */
 .cas-item.is-out .cspine { visibility: hidden; }
-
-/* ---------- the tower under the deck ----------
-   A narrow oak case of shelves, one case lying on its side on each, spine
-   out: where the tapes go when they come out of the deck. Each shelf's bed
-   is a case's size (as long as the cassette in the deck is wide). */
-.tower { margin-top: 1.5rem; }
-/* only as wide as a case lying on its side, centred under the recorder */
-.tower__cabinet { width: fit-content; margin-inline: auto; }
-.tower__slots { display: grid; gap: calc(2.4 * var(--u)); margin: 0; padding: 0; list-style: none; }
-.tower__slot {
-  display: grid; place-items: center; padding: calc(1.6 * var(--u)) calc(.8 * var(--u)) calc(.6 * var(--u));
-  background: linear-gradient(#0c0805, #231a10 32%, #1a130b);
-  box-shadow:
-    inset 0 calc(2 * var(--u)) calc(2 * var(--u)) rgb(0 0 0 / .85), inset calc(.9 * var(--u)) 0 calc(.9 * var(--u)) rgb(0 0 0 / .6), inset calc(-.6 * var(--u)) 0 calc(.7 * var(--u)) rgb(0 0 0 / .4),
-    0 1px 0 rgb(255 245 225 / .5), 0 -1px 0 rgb(0 0 0 / .45);
-}
-.tower__bed { position: relative; display: block; width: calc(70.85 * var(--u)); height: calc(11.05 * var(--u)); }
-.tower__case { all: unset; box-sizing: border-box; position: absolute; inset: 0; cursor: pointer; }
-.tower__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-/* the case turned on its side: its top to the left, its spine reading across */
-.tower__case .cspine {
-  position: absolute; left: 50%; top: 50%; width: calc(11.05 * var(--u)); translate: none;
-  transform: translate(-50%, -50%) rotate(-90deg);
-}
-.tower__case .cspine__card { --shade: linear-gradient(270deg, rgb(0 0 0 / .5), rgb(0 0 0 / .15) 14%, transparent 30%); }
-.tower__case:hover .cspine__card { filter: brightness(1.12); }
 
 /* virgin tapes: a blank J-card, nothing written on it */
 .cspine--blank .cspine__card { --jc: #f4f2ea; --jc-ink: #1b1b1a; grid-template-rows: auto 1fr auto; padding: 0 0 7cqw; gap: 6cqw; }

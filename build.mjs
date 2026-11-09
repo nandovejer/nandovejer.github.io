@@ -642,9 +642,6 @@ const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9
 // two red, the next four orange, the rest green.
 const VU_SCALE = ['OVER', '10', '7', '4', '2', '1', '0', '−1', '−2', '−3', '−5', '−7', '−10', '−15', '−24'];
 const VU_COL = `<span class="vu__col">${'<i></i>'.repeat(VU_SCALE.length)}</span>`;
-// The tower under the deck: the tapes picked from the rack, and those that
-// come out of the deck, lie there on their sides, one per shelf.
-const TOWER = 4;
 // A fader on the band: a slider up and down a black slot, a scale 0–10 beside it.
 const fader = (key, label, name, value) => `<label class="fader"><input class="fader__input" type="range" data-fader="${key}" min="0" max="10" step="1" value="${value}" aria-label="${esc(name)}"><span class="fader__scale" aria-hidden="true">${[10, 5, 0].map((n) => `<b>${n}</b>`).join('')}</span><small aria-hidden="true">${esc(label)}</small></label>`;
 // the scales printed either side of the bars, top to bottom
@@ -797,8 +794,8 @@ const cassettePage = (lang) => {
     b: [{ title: c.socials, body: socials(), sec: 90 }]
   });
   const projectSlot = (o) => `
-      <li class="slot cas-item" id="${o.id}" data-name="${esc(o.name)}">
-        <button type="button" class="slot__case" aria-label="${c.shelve}: ${esc(o.name)}">
+      <li class="slot cas-item" id="${o.id}">
+        <button type="button" class="slot__case" aria-label="${c.insert}: ${esc(o.name)}">
         ${caseSpine(o)}
         </button>
         <div class="cas-item__tape" hidden>${cassette(o)}</div>
@@ -894,9 +891,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
   </div>
-  <section class="tower" aria-label="${c.tower}" data-insert="${c.insert}">
-    <div class="rack__cabinet tower__cabinet"><ol class="tower__slots">${'<li class="tower__slot"><span class="tower__bed"></span></li>'.repeat(TOWER)}</ol></div>
-  </section>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}

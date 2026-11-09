@@ -641,6 +641,57 @@ const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9
 const EQ_BANDS = ['60', '150', '400', '1K', '2.4K', '6K', '15K'];
 const EQ_LEDS = 12;
 
+// The works in the bay, seen when the tape is out (after a Panasonic deck):
+// a black moulded bed with a fine grain, the two spindles with their springs
+// where the hubs go, a bright plate between them, a screw, the step down to
+// the head and, in the cut-out along the foot, the head, the capstan, the
+// pinch roller, the guide posts and a glimpse of the brass works.
+const spindle = (x, y) => `<g transform="translate(${x} ${y})">
+      <circle r="60" fill="#050505"/><circle r="60" fill="none" stroke="#3a3a38" stroke-width="2" transform="translate(1.5 2.5)" opacity=".7"/>
+      ${[48, 42, 36, 30].map((r, i) => `<circle r="${r}" fill="none" stroke="url(#tw-steel)" stroke-width="3.6" opacity="${1 - i * .1}"/><circle r="${r - 2}" fill="none" stroke="#000" stroke-width="1.2" opacity=".6"/>`).join('')}
+      <g fill="#1b1b1a" stroke="#000" stroke-width="1">${[0, 60, 120, 180, 240, 300].map((a) => `<rect x="-5" y="-28" width="10" height="12" rx="2" transform="rotate(${a})"/>`).join('')}</g>
+      <circle r="20" fill="url(#tw-knob)" stroke="#000" stroke-width="1.5"/>
+      <circle r="7" fill="url(#tw-steel)" stroke="#2a2a28"/><circle r="2" cx="-1.5" cy="-1.5" fill="#fff" opacity=".8"/>
+    </g>`;
+const post = (x, y, r = 11) => `<g transform="translate(${x} ${y})"><circle r="${r + 5}" fill="#000" opacity=".55" transform="translate(3 4)"/><circle r="${r}" fill="url(#tw-knob)" stroke="#000"/><ellipse rx="${r * .45}" ry="${r * .3}" cx="${-r * .3}" cy="${-r * .4}" fill="#fff" opacity=".18"/></g>`;
+const WORKS = `<svg class="tdeck__works" viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="tw-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 -.18"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+      <linearGradient id="tw-bed" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#2b2b2a"/><stop offset=".6" stop-color="#1e1e1d"/><stop offset="1" stop-color="#161615"/></linearGradient>
+      <linearGradient id="tw-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f4f1"/><stop offset=".45" stop-color="#9a9c99"/><stop offset=".7" stop-color="#d9dad6"/><stop offset="1" stop-color="#6c6e6b"/></linearGradient>
+      <linearGradient id="tw-plate" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3e4e0"/><stop offset=".38" stop-color="#c3c5c1"/><stop offset=".42" stop-color="#d8d9d5"/><stop offset="1" stop-color="#a3a5a1"/></linearGradient>
+      <linearGradient id="tw-brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d8bf74"/><stop offset=".5" stop-color="#9c7f34"/><stop offset="1" stop-color="#6e5822"/></linearGradient>
+      <radialGradient id="tw-knob" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#4a4a48"/><stop offset=".55" stop-color="#1c1c1b"/><stop offset="1" stop-color="#0a0a0a"/></radialGradient>
+    </defs>
+    <rect width="1000" height="650" fill="#0c0c0c"/>
+    <path d="M28 40 H330 l18 22 H652 l18 -22 H972 V626 H700 V500 H300 V626 H28 Z" fill="url(#tw-bed)"/>
+    <rect width="1000" height="650" fill="#fff" filter="url(#tw-grain)" opacity=".16"/>
+    <path d="M28 40 H330 l18 22 H652 l18 -22 H972" fill="none" stroke="#5a5a57" stroke-width="2.5"/>
+    <path d="M28 40 V626 H300 V500 H700 V626 H972 V40" fill="none" stroke="#000" stroke-width="3" opacity=".6"/>
+    <path d="M300 626 V500 H700" fill="none" stroke="#4a4a47" stroke-width="2" transform="translate(-2 -2)"/>
+    <path d="M60 438 H940" stroke="#000" stroke-width="5" opacity=".8"/><path d="M60 443 H940" stroke="#4a4a47" stroke-width="2"/>
+    <path d="M60 443 H940 V626 H60 Z" fill="#000" opacity=".14"/>
+    <rect x="420" y="222" width="160" height="96" rx="7" fill="url(#tw-plate)" stroke="#6f716d" stroke-width="2"/>
+    <path d="M432 232 H520 L470 308 H432 Z" fill="#fff" opacity=".22"/>
+    ${spindle(282, 270)}
+    ${spindle(718, 270)}
+    <g transform="translate(500 388)"><circle r="17" fill="#000" opacity=".6"/><circle r="13" fill="url(#tw-steel)" stroke="#1a1a19" stroke-width="1.5"/><path d="M-7 0 H7 M0 -7 V7" stroke="#2a2a28" stroke-width="3.2" stroke-linecap="round"/></g>
+    ${post(190, 560, 13)}
+    ${post(810, 560, 13)}
+    <rect x="300" y="500" width="400" height="150" fill="#070707"/>
+    <path d="M318 650 V566 h70 l20 -26 h120 V650 Z" fill="url(#tw-brass)" opacity=".8"/>
+    <path d="M560 650 V590 h120 V650 Z" fill="url(#tw-brass)" opacity=".55"/>
+    <rect x="440" y="600" width="36" height="50" fill="#d8d9d5" opacity=".75"/>
+    <path d="M330 640 h340" stroke="#000" stroke-width="10" opacity=".35"/>
+    <rect x="404" y="540" width="26" height="40" rx="4" fill="url(#tw-steel)" stroke="#2d2d2b"/>
+    <g transform="translate(500 548)"><rect x="-44" y="-26" width="88" height="58" rx="10" fill="url(#tw-steel)" stroke="#2d2d2b" stroke-width="2"/><rect x="-36" y="-20" width="72" height="16" rx="5" fill="#bfc1bd" stroke="#6a6c69"/><path d="M0 -20 V-4" stroke="#1d1d1c" stroke-width="2"/><circle cx="-30" cy="18" r="4" fill="#3a3a38"/><circle cx="30" cy="18" r="4" fill="#3a3a38"/></g>
+    <g transform="translate(626 540)"><circle r="26" fill="url(#tw-knob)" stroke="#000" stroke-width="2"/><circle r="9" fill="#2b2b2a" stroke="#000"/></g>
+    <g transform="translate(672 520)"><circle r="7" fill="url(#tw-steel)" stroke="#2a2a28"/></g>
+    ${post(354, 520, 9)}
+    ${post(660, 600, 9)}
+    <path d="M300 500 H700" stroke="#000" stroke-width="4"/>
+  </svg>`;
+
 // The cassette, face on (in the deck).
 const cassette = (o) => {
   const [shell, band, type] = casOf(o.id);
@@ -804,6 +855,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       </div>
       <div class="tdeck">
         <div class="tdeck__bay">
+          ${WORKS}
           <div class="tdeck__well">${cassette(bio)}</div>
         </div>
       </div>

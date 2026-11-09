@@ -415,6 +415,37 @@ addEventListener('keydown', async (e) => {
   busy = true; await eject(); busy = false;
 });
 
+/* ---------- the racks' last row ----------
+   The slots the tapes leave at the end of a rack's last row are still slots
+   (empty ones), as in a real cabinet — on phones, where the rows run the width
+   of the page, and on wider screens only when a rack runs to more than one
+   row (a rack whose tapes fit in one row is only as long as they are). */
+function fillRack(slots) {
+  slots.querySelectorAll('.slot--fill').forEach((s) => s.remove());
+  const all = [...slots.children];
+  if (!all.length) return;
+  // a full-width grid (phones): its columns; a rack as long as its tapes: the
+  // tapes in its first row, and a single row needs nothing
+  const grid = getComputedStyle(slots).display === 'grid';
+  const cols = grid ? getComputedStyle(slots).gridTemplateColumns.split(' ').length
+    : all.filter((s) => s.offsetTop === all[0].offsetTop).length;
+  if (!grid && all.length <= cols) return;
+  const rest = (cols - (all.length % cols)) % cols;
+  for (let i = 0; i < rest; i++) {
+    const li = document.createElement('li');
+    li.className = 'slot slot--empty slot--fill';
+    li.setAttribute('aria-hidden', 'true');
+    slots.append(li);
+  }
+}
+document.querySelectorAll('.rack__slots').forEach((slots) => {
+  let w = 0;
+  new ResizeObserver(([e]) => {
+    const now = Math.round(e.contentRect.width);
+    if (now !== w) { w = now; fillRack(slots); }
+  }).observe(slots.closest('.rack'));
+});
+
 /* ---------- header links ---------- */
 // Bio: the house tape (ejecting the project if one is in) and its notes.
 // Projects: the rack.

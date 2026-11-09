@@ -29,6 +29,15 @@
       "url": "https://www.linkedin.com/in/nandovejer"
     }
   ],
+  "extraSocials": [
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "handle": "nandovejer",
+      "url": "https://www.facebook.com/nandovejer"
+    }
+  ],
+  "blogUrl": "https://soynando.com/blog/",
   "i18n": {
     "es": {
       "langName": "Español",
@@ -55,8 +64,8 @@
       "demo": "Ver demo",
       "repo": "Ver código",
       "socialsTitle": "Correspondencia",
-      "colophonTitle": "Colofón",
-      "colophon": "¿Hablamos? Estoy en {github}, {x} y {linkedin}, y escribo en {blog}.",
+      "contactTitle": "Escríbeme",
+      "contactText": "Si algo de lo que lees aquí te sirve, o te chirría, cuéntamelo en redes.",
       "prevPage": "Página anterior",
       "nextPage": "Página siguiente",
       "pageOf": "de",
@@ -138,8 +147,8 @@
       "demo": "View demo",
       "repo": "View code",
       "socialsTitle": "Correspondence",
-      "colophonTitle": "Colophon",
-      "colophon": "Let's talk: I'm on {github}, {x} and {linkedin}, and I write at {blog}.",
+      "contactTitle": "Write to me",
+      "contactText": "If anything you read here is of use, or grates on you, tell me about it on social media.",
       "prevPage": "Previous page",
       "nextPage": "Next page",
       "pageOf": "of",

@@ -20,6 +20,7 @@
     "themeMode": "Modo de color",
     "themeAuto": "Automático",
     "navBio": "Bio",
+    "navBlog": "Blog",
     "reading": "Leyendo",
     "ctaShelf": "Inserta el disquete de un proyecto",
     "today": "Hoy",
@@ -94,6 +95,16 @@
       "repeatKey": "Repetir",
       "mute": "Silenciar la voz",
       "voiceCredit": "La voz que lee las cintas es {voice} (CC0), sintetizada con {piper}."
+    },
+    "project": {
+      "crumbs": "Ruta",
+      "home": "Portafolio",
+      "onCassette": "Ver en el casete",
+      "more": "Más cintas",
+      "moreLead": "Otros proyectos del portafolio",
+      "page": "Página del proyecto",
+      "slug": "proyectos",
+      "by": "por"
     }
   },
   "en": {
@@ -117,6 +128,7 @@
     "themeMode": "Colour mode",
     "themeAuto": "Auto",
     "navBio": "Bio",
+    "navBlog": "Blog",
     "reading": "Reading",
     "ctaShelf": "Insert a project's disk",
     "today": "Today",
@@ -191,6 +203,16 @@
       "repeatKey": "Repeat",
       "mute": "Mute the voice",
       "voiceCredit": "The voice reading the tapes is {voice} (CC0), synthesised with {piper}."
+    },
+    "project": {
+      "crumbs": "Breadcrumb",
+      "home": "Portfolio",
+      "onCassette": "See it on the cassette",
+      "more": "More tapes",
+      "moreLead": "Other projects in the portfolio",
+      "page": "Project page",
+      "slug": "projects",
+      "by": "by"
     }
   }
 }

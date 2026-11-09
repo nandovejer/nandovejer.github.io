@@ -137,22 +137,39 @@ const icon = {
   // a window with an arrow out of it: opens the live site
   demo: '<svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   // angle brackets: the source code
+  // a sheet with lines: the project's own page
+  page: '<svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   repo: '<svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
-const links = (o, t) => `<ul class="links">
+const links = (o, t, page = null) => `<ul class="links">
   ${o.demo ? `<li><a class="btn btn--demo" href="${o.demo}" title="${pretty(o.demo)}">${icon.demo}<span>${t.demo}</span></a></li>` : ''}
-  <li><a class="btn btn--repo" href="${o.repo}" title="${pretty(o.repo)}">${icon.repo}<span>${t.repo}</span></a></li>
+  <li><a class="btn btn--repo" href="${o.repo}" title="${pretty(o.repo)}">${icon.repo}<span>${t.repo}</span></a></li>${page ? `
+  <li><a class="btn btn--page" href="${page.href}">${icon.page}<span>${page.label}</span></a></li>` : ''}
 </ul>`;
 
 const socials = () => `<ul class="socials">${site.socials.map((s) =>
   `<li><a href="${s.url}" rel="me noopener"><span class="socials__label">${s.label}</span> <span class="socials__handle">${esc(s.handle)}</span></a></li>`).join('')}</ul>`;
 
-// "{github}" in a text becomes a link to that social profile (the blog shows
-// its address, the rest their name).
-const linkSocials = (text) => esc(text).replace(/\{(\w+)\}/g, (m, id) => {
-  const s = site.socials.find((x) => x.id === id);
-  return s ? `<a href="${s.url}" rel="me noopener">${esc(id === 'blog' ? s.handle : s.label)}</a>` : m;
-});
+// The footer's contact icons: the logos of soynando.com's contact section
+// (WordPress's social-icons set, 24 × 24, filled), in that order, then the blog.
+// Logos only: each link is named for screen readers and as a tooltip.
+const LOGO = {
+  github: 'M12,2C6.477,2,2,6.477,2,12c0,4.419,2.865,8.166,6.839,9.489c0.5,0.09,0.682-0.218,0.682-0.484 c0-0.236-0.009-0.866-0.014-1.699c-2.782,0.602-3.369-1.34-3.369-1.34c-0.455-1.157-1.11-1.465-1.11-1.465 c-0.909-0.62,0.069-0.608,0.069-0.608c1.004,0.071,1.532,1.03,1.532,1.03c0.891,1.529,2.341,1.089,2.91,0.833 c0.091-0.647,0.349-1.086,0.635-1.337c-2.22-0.251-4.555-1.111-4.555-4.943c0-1.091,0.39-1.984,1.03-2.682 C6.546,8.54,6.202,7.524,6.746,6.148c0,0,0.84-0.269,2.75,1.025C10.295,6.95,11.15,6.84,12,6.836 c0.85,0.004,1.705,0.114,2.504,0.336c1.909-1.294,2.748-1.025,2.748-1.025c0.546,1.376,0.202,2.394,0.1,2.646 c0.64,0.699,1.026,1.591,1.026,2.682c0,3.841-2.337,4.687-4.565,4.935c0.359,0.307,0.679,0.917,0.679,1.852 c0,1.335-0.012,2.415-0.012,2.741c0,0.269,0.18,0.579,0.688,0.481C19.138,20.161,22,16.416,22,12C22,6.477,17.523,2,12,2z',
+  linkedin: 'M19.7,3H4.3C3.582,3,3,3.582,3,4.3v15.4C3,20.418,3.582,21,4.3,21h15.4c0.718,0,1.3-0.582,1.3-1.3V4.3 C21,3.582,20.418,3,19.7,3z M8.339,18.338H5.667v-8.59h2.672V18.338z M7.004,8.574c-0.857,0-1.549-0.694-1.549-1.548 c0-0.855,0.691-1.548,1.549-1.548c0.854,0,1.547,0.694,1.547,1.548C8.551,7.881,7.858,8.574,7.004,8.574z M18.339,18.338h-2.669 v-4.177c0-0.996-0.017-2.278-1.387-2.278c-1.389,0-1.601,1.086-1.601,2.206v4.249h-2.667v-8.59h2.559v1.174h0.037 c0.356-0.675,1.227-1.387,2.526-1.387c2.703,0,3.203,1.779,3.203,4.092V18.338z',
+  x: 'M13.982 10.622 20.54 3h-1.554l-5.693 6.618L8.745 3H3.5l6.876 10.007L3.5 21h1.554l6.012-6.989L15.868 21h5.245l-7.131-10.378Zm-2.128 2.474-.697-.997-5.543-7.93H8l4.474 6.4.697.996 5.815 8.318h-2.387l-4.745-6.787Z',
+  facebook: 'M12 2C6.5 2 2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12c0-5.5-4.5-10-10-10z',
+  blog: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+};
+const CONTACT = ['github', 'linkedin', 'x', 'facebook', 'blog'];
+const contactLinks = () => {
+  const all = [...site.socials, ...site.extraSocials];
+  return `<ul class="colophon__links">${CONTACT.map((id) => {
+    const s = all.find((x) => x.id === id);
+    const url = id === 'blog' ? site.blogUrl : s.url;
+    const name = `${s.label} · ${s.handle}`;
+    return `<li><a class="colophon__link" href="${url}" rel="me noopener" aria-label="${esc(name)}" title="${esc(name)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${LOGO[id]}"/></svg></a></li>`;
+  }).join('')}</ul>`;
+};
 
 // The link to the other version is only a barcode that reads its name
 // (Code 128: a scanner gets the text back); the link is named for screen
@@ -353,25 +370,31 @@ const themeMode = (u) => {
   ].join('')}</fieldset></div>`;
 };
 const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
-const masthead = (lang, t, u, { bioHref, langHref }) => `<header class="masthead">
-  <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name"><span class="visually-hidden">${site.name} · </span><span aria-hidden="true">${brandName}</span></span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
+const masthead = (lang, t, u, { bioHref, langHref, home = './', shelfHref = `#${lang === 'es' ? 'proyectos' : 'projects'}`, tag = 'h1' }) => `<header class="masthead">
+  <${tag} class="masthead__title"><a class="brand" href="${home}" rel="home">${brandMark}<span class="brand__text"><span class="brand__name"><span class="visually-hidden">${site.name} · </span><span aria-hidden="true">${brandName}</span></span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></${tag}>
   <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
   <div class="masthead__drawer" id="masthead-drawer">
   <nav class="masthead__nav" aria-label="${u.nav}">
     <a href="${bioHref}" data-go="bio">${u.navBio}</a>
-    <a href="#${lang === 'es' ? 'proyectos' : 'projects'}" data-go="projects">${u.shelf}</a>
+    <a href="${shelfHref}" data-go="projects">${u.shelf}</a>
+    <a href="${site.blogUrl}" rel="noopener" data-external>${u.navBlog}</a>
   </nav>
   ${langSwitch(lang, langHref)}
   </div>
 </header>`;
 const colophon = (t, u, version, extra = '', { theme = true } = {}) => `<footer class="colophon">
+  <section class="colophon__contact" aria-labelledby="contact-title">
+    <h2 class="colophon__title" id="contact-title">${esc(t.contactTitle)}</h2>
+    <p class="colophon__text">${esc(t.contactText)}</p>
+    ${contactLinks()}
+  </section>
   <div class="colophon__doc">
     <p class="label">${u.today}</p>
     <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
     ${theme ? themeMode(u) : ''}
   </div>
-  <p class="colophon__text">${linkSocials(t.colophon)}${extra ? ` ${extra}` : ''}</p>
-  ${versionCode(version.href, version.code, version.label)}
+  ${versionCode(version.href, version.code, version.label)}${extra ? `
+  <p class="colophon__extra">${extra}</p>` : ''}
 </footer>`;
 
 /* ---------- the page ---------- */
@@ -823,20 +846,27 @@ const verifyMeta = () => [
 // /cassette/es/, which names the root as its canonical address); in English at
 // /cassette/en/.
 const cassetteUrl = (l) => (l === 'es' ? `${site.baseUrl}/` : `${site.baseUrl}/cassette/${l}/`);
+// Each project has its own page, the one a search engine can index and a link
+// can point to (the cassette only shows a project by its hash): /proyectos/luz/,
+// /projects/luz/.
+const projectUrl = (l, id) => `${site.baseUrl}/${ui[l].project.slug}/${id}/`;
 // Structured data (schema.org, JSON-LD): the site, the person (the profile page's
 // main entity, with his networks) and each project as source code with its
 // repository — all of it from the data files, nothing written by hand.
+const personNode = (t) => {
+  const [job, city] = t.kicker.split('·').map((x) => x.trim());
+  return { '@type': 'Person', '@id': `${site.baseUrl}/#person`, name: site.name, alternateName: site.nick, jobTitle: job, address: { '@type': 'PostalAddress', addressLocality: city }, url: `${site.baseUrl}/`, sameAs: [...site.socials, ...site.extraSocials].map((s) => s.url) };
+};
 const jsonLd = (lang, t, url) => {
   const base = site.baseUrl;
-  const [job, city] = t.kicker.split('·').map((x) => x.trim());
-  const person = { '@type': 'Person', '@id': `${base}/#person`, name: site.name, alternateName: site.nick, jobTitle: job, address: { '@type': 'PostalAddress', addressLocality: city }, url: `${base}/`, sameAs: site.socials.map((s) => s.url) };
+  const person = personNode(t);
   const graph = [
     { '@type': 'WebSite', '@id': `${base}/#website`, url: `${base}/`, name: site.name, inLanguage: LANGS, publisher: { '@id': `${base}/#person` } },
     { '@type': 'ProfilePage', '@id': `${url}#profile`, url, name: `${site.name} · ${t.title}`, description: t.metaDescription, inLanguage: lang, isPartOf: { '@id': `${base}/#website` }, mainEntity: { '@id': `${base}/#person` } },
     person,
     ...projects.map((p) => ({
       '@type': 'SoftwareSourceCode', '@id': `${base}/#project-${p.id}`, name: p.name, description: p[lang].kicker,
-      codeRepository: p.repo, url: p.demo || p.repo, keywords: p.tech.join(', '), dateCreated: String(p.year),
+      codeRepository: p.repo, url: p.demo || p.repo, mainEntityOfPage: projectUrl(lang, p.id), keywords: p.tech.join(', '), dateCreated: String(p.year),
       author: { '@id': `${base}/#person` }, inLanguage: lang
     }))
   ];
@@ -868,7 +898,7 @@ const cassettePage = (lang) => {
           a: o.body.map((p) => ({ body: `<p>${esc(p)}</p>`, sec: trackLen(p) })),
           b: [
             { title: c.facts, body: cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3'), sec: 75 },
-            { title: c.links, body: links(o, t), sec: 40 }
+            { title: c.links, body: links(o, t, { href: `../../${u.project.slug}/${o.id}/`, label: u.project.page }), sec: 40 }
           ]
         })}
         </div>
@@ -1032,6 +1062,105 @@ ${colophon(t, u, { href: `../../disquetes/${lang}/`, code: u.diskCode, label: u.
 `;
 };
 
+// A project's own page: its liner notes (the same card the cassette opens, the
+// same voice clips) on the cassette's wall, with a way back to the rack and the
+// other tapes as links. Its title, description, canonical, language pair and
+// structured data are the project's own.
+const sentences = (text, max = 158) => {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max + 1);
+  const stop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
+  return stop > 80 ? cut.slice(0, stop + 1) : `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:\s]+$/, '')}…`;
+};
+const projectPage = (lang, p, i) => {
+  const t = { ...site.i18n[lang], lang };
+  const u = ui[lang];
+  const c = u.cassette;
+  const o = { ...objectOf(p, i, t, u) };
+  const total = o.body.reduce((n, b) => n + trackLen(b), 0);
+  o.length = total > 15 * 60 ? 'C90' : 'C60';
+  const url = projectUrl(lang, p.id);
+  const home = lang === 'es' ? '../../' : '../../cassette/en/';
+  const title = `${p.name} · ${o.use} · ${site.name}`;
+  const description = sentences(o.body[0]);
+  const card = notes(o, c, lang, {
+    a: o.body.map((x) => ({ body: `<p>${esc(x)}</p>`, sec: trackLen(x) })),
+    b: [
+      { title: c.facts, body: cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3'), sec: 75 },
+      { title: c.links, body: links(o, t), sec: 40 }
+    ]
+  }).replace('<h2 class="notes__title">', '<h1 class="notes__title">').replace('</h2>\n              <p class="notes__use">', '</h1>\n              <p class="notes__use">');
+  const others = projects.filter((x) => x.id !== p.id);
+  const graph = [
+    { '@type': 'WebSite', '@id': `${site.baseUrl}/#website`, url: `${site.baseUrl}/`, name: site.name, inLanguage: LANGS, publisher: { '@id': `${site.baseUrl}/#person` } },
+    {
+      '@type': 'SoftwareSourceCode', '@id': `${url}#project`, name: p.name, description: o.use,
+      codeRepository: p.repo, url: p.demo || p.repo, mainEntityOfPage: url, keywords: p.tech.join(', '), dateCreated: String(p.year),
+      programmingLanguage: p.tech.slice(0, 1), author: { '@id': `${site.baseUrl}/#person` }, inLanguage: lang
+    },
+    {
+      '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: u.project.home, item: cassetteUrl(lang) },
+        { '@type': 'ListItem', position: 2, name: u.shelf, item: `${cassetteUrl(lang)}#${lang === 'es' ? 'proyectos' : 'projects'}` },
+        { '@type': 'ListItem', position: 3, name: p.name, item: url }
+      ]
+    },
+    personNode(t)
+  ];
+  return `<!doctype html>
+<html lang="${lang}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(description)}">
+  ${verifyMeta()}
+  <meta name="color-scheme" content="light dark">
+  ${THEME_INIT}
+  <link rel="icon" href="${ICON}" type="image/svg+xml">
+  <link rel="canonical" href="${url}">
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${projectUrl(l, p.id)}">`).join('\n  ')}
+  <link rel="alternate" hreflang="x-default" href="${projectUrl('es', p.id)}">
+  <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')}</script>
+  ${socialMeta({ lang, title: `${p.name} · ${o.use}`, description, url, image: ogImage(lang, p.id) })}
+  <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/archivo.css">
+  <link rel="stylesheet" href="../../assets/css/chrome.css">
+  <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/cassette.css">
+  <script type="module" src="../../assets/js/chrome.js"></script>
+</head>
+<body class="cas">
+<a class="skip" href="#main">${t.skip}</a>
+${masthead(lang, t, u, { bioHref: home, home, shelfHref: `${home}#${lang === 'es' ? 'proyectos' : 'projects'}`, tag: 'p', langHref: (k) => `../../${ui[k].project.slug}/${p.id}/` })}
+<main id="main" class="project">
+  <nav class="crumbs" aria-label="${u.project.crumbs}">
+    <ol>
+      <li><a href="${home}">${u.project.home}</a></li>
+      <li><a href="${home}#${lang === 'es' ? 'proyectos' : 'projects'}">${u.shelf}</a></li>
+      <li><span aria-current="page">${esc(p.name)}</span></li>
+    </ol>
+  </nav>
+  <article class="liner" aria-label="${c.liner}">
+    <div class="liner__out">${card}
+    </div>
+  </article>
+  <p class="project__back"><a class="project__cassette" href="${home}#${p.id}">${u.project.onCassette}</a></p>
+  <section class="project__more" aria-labelledby="more-title">
+    <h2 id="more-title">${u.project.more}</h2>
+    <p>${u.project.moreLead}</p>
+    <ul>${others.map((x) => `
+      <li><a href="../../${u.project.slug}/${x.id}/"><b>${esc(x.name)}</b> <span>${esc(x[lang].kicker)}</span></a></li>`).join('')}
+    </ul>
+  </section>
+</main>
+${colophon(t, u, { href: `../../disquetes/${lang}/`, code: u.diskCode, label: u.diskVersion })}
+</body>
+</html>
+`;
+};
+
 // Who reads the tapes (the voices are CC0; credit given all the same).
 const voiceCredit = (lang, c) => {
   const [locale, name, quality] = VOICES[lang].model.split('-'); // es_ES-davefx-medium
@@ -1116,6 +1245,11 @@ write('vhs/index.html', toLanguage('', '../assets/favicon.svg'));
 clear('cassette');
 for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
 write('cassette/index.html', toLanguage('', '../assets/favicon.svg'));
+// a page for every project, in each language
+for (const lang of LANGS) {
+  clear(ui[lang].project.slug);
+  projects.forEach((p, i) => write(`${ui[lang].project.slug}/${p.id}/index.html`, projectPage(lang, p, i)));
+}
 
 /* ---------- for the crawlers: robots.txt, sitemap.xml, 404.html ---------- */
 // Only the canonical addresses are listed (the Spanish cassette at the root, the
@@ -1129,6 +1263,11 @@ ${LANGS.map((l) => `  <url>
 ${LANGS.map((a) => `    <xhtml:link rel="alternate" hreflang="${a}" href="${cassetteUrl(a)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${cassetteUrl('es')}"/>
   </url>`).join('\n')}
+${projects.map((p) => LANGS.map((l) => `  <url>
+    <loc>${projectUrl(l, p.id)}</loc>
+${LANGS.map((a) => `    <xhtml:link rel="alternate" hreflang="${a}" href="${projectUrl(a, p.id)}"/>`).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${projectUrl('es', p.id)}"/>
+  </url>`).join('\n')).join('\n')}
 </urlset>
 `);
 // GitHub Pages serves this for any address that does not exist, at any depth:

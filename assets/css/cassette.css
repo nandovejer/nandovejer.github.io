@@ -972,3 +972,26 @@ body.has-minibar { padding-bottom: 4.2rem; }
 .jcard .btn:focus-visible { -webkit-mask: none; mask: none; outline: 2px solid var(--print); outline-offset: 4px; }
 .jcard .btn__icon { stroke-width: 2.6; }
 .jcard { --stamp-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -22 0 0 0 14.8'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ---------- a project's own page (/proyectos/luz/): the liner notes on the wall ---------- */
+
+.project { max-width: 56rem; margin-inline: auto; padding: clamp(1.25rem, 3vw, 2.5rem) var(--pad) 3rem; }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: .25rem .6rem; margin: 0 0 1.5rem; padding: 0; list-style: none; font: 600 .78rem/1.2 var(--tech); letter-spacing: .08em; text-transform: uppercase; }
+.crumbs li + li::before { content: "›"; margin-right: .6rem; color: var(--ink-soft); }
+.crumbs a { color: var(--ink); text-underline-offset: .3em; }
+.crumbs [aria-current] { color: var(--text-accent); }
+.project .liner { grid-area: auto; }
+.project__back { margin: 2rem 0 0; }
+.project__cassette {
+  display: inline-block; padding: .8rem 1.3rem; border: 2px solid var(--ink); border-radius: .3rem;
+  color: var(--ink); text-decoration: none; font: 700 .85rem/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
+}
+.project__cassette:hover { background: var(--ink); color: var(--bg); }
+.project__more { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--hair); }
+.project__more h2 { margin: 0; font: 700 1.1rem/1.2 var(--tech); letter-spacing: .1em; text-transform: uppercase; }
+.project__more p { margin: .4rem 0 1rem; color: var(--ink-soft); }
+.project__more ul { display: grid; gap: .1rem 2rem; margin: 0; padding: 0; list-style: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.project__more a { display: block; padding: .55rem 0; border-bottom: 1px solid var(--hair); color: var(--ink); text-decoration: none; }
+.project__more a:hover b { text-decoration: underline; text-underline-offset: .25em; }
+.project__more span { display: block; color: var(--ink-soft); font-size: .88rem; }
+.jcard .btn--page { --ink-c: #1b1b1a; rotate: -.5deg; }

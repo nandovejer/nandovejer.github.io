@@ -465,6 +465,18 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(3.2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
+/* each key stands in its own hole in the plate: a dark recess a hair bigger
+   than the key, its lower lip catching the light; pressed, the key sinks into
+   it — its face drops, the plate's edge shades its top, it darkens a touch and
+   stops throwing a shadow, while its foot stays where it was */
+.vkey::before, .key::before {
+  content: ""; grid-area: 1 / 1; justify-self: stretch; align-self: stretch;
+  margin: calc(-.35 * var(--u)); border-radius: calc(var(--r) + .3 * var(--u));
+  background: linear-gradient(#1c1d1e, #2c2d2f);
+  box-shadow: inset 0 calc(.35 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .75), 0 1px 0 rgb(255 255 255 / .9), 0 -1px 0 rgb(0 0 0 / .12);
+}
+.vkey__cap, .key__cap { grid-area: 1 / 1; position: relative; z-index: 1; }
+.vkey small, .key__label { grid-row: 2; }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in
    the body colour standing on a darker side, the whole key sinking when pressed */
 .vkey__cap, .key__cap {
@@ -473,7 +485,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   border: 0; border-bottom: calc(1.4 * var(--u)) solid var(--edge); border-radius: var(--r);
   background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(var(--c1), var(--c2));
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .1), 0 0 0 1px rgb(0 0 0 / .25), 0 calc(.9 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .3);
-  transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
+  transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease, filter .09s ease;
 }
 .vkey__cap { width: calc(8 * var(--u)); height: calc(8 * var(--u)); }
 .vkey svg { width: 60%; height: 60%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
@@ -482,7 +494,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap,
 .key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
   transform: translateY(calc(1 * var(--u))); border-bottom-width: calc(.4 * var(--u));
-  box-shadow: inset 0 1px 2px rgb(0 0 0 / .2), inset 0 -1px 0 rgb(255 255 255 / .4), 0 0 0 1px rgb(0 0 0 / .28), 0 calc(.15 * var(--u)) calc(.2 * var(--u)) rgb(0 0 0 / .3);
+  filter: brightness(.93);
+  box-shadow: inset 0 calc(.6 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .28), inset 0 -1px 0 rgb(255 255 255 / .35), 0 0 0 1px rgb(0 0 0 / .35);
 }
 .vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
@@ -835,9 +848,9 @@ body.has-minibar { padding-bottom: 4rem; }
   all: unset; box-sizing: border-box; cursor: pointer; display: grid; place-items: center;
   width: clamp(1.75rem, 7.6vw, 2.3rem); height: 2.1rem; border-radius: .3rem; border-bottom: .3rem solid #9d9b94;
   background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4e3dd, #d0cec8);
-  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgb(0 0 0 / .25), 0 .2rem .3rem rgb(0 0 0 / .25);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgb(0 0 0 / .3), 0 0 0 .14rem #26272a, 0 .16rem 0 .14rem rgb(255 255 255 / .7);
   font: 600 .72rem/1 var(--tech); letter-spacing: -.12em; color: #2a2a28;
-  transition: transform .09s ease, border-bottom-width .09s ease;
+  transition: transform .09s ease, border-bottom-width .09s ease, box-shadow .09s ease, filter .09s ease;
 }
 .mkey i { font-style: normal; }
 .mkey svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
@@ -851,7 +864,7 @@ body.has-minibar { padding-bottom: 4rem; }
 /* playing, the key reads ❚❚ and turns charcoal-grey like the others */
 .mkey--play.is-playing { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4e3dd, #d0cec8); border-bottom-color: #9d9b94; color: #2a2a28; }
 .mkey--eject { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4584c, #cf3d31); border-bottom-color: #7a221a; color: #fff; }
-.mkey:active, .mkey[aria-pressed="true"] { transform: translateY(.2rem); border-bottom-width: .1rem; }
+.mkey:active, .mkey[aria-pressed="true"] { transform: translateY(.2rem); border-bottom-width: .1rem; filter: brightness(.93); box-shadow: inset 0 .25rem .3rem rgb(0 0 0 / .28), 0 0 0 1px rgb(0 0 0 / .35), 0 -.06rem 0 .14rem #141516, 0 .1rem 0 .14rem rgb(255 255 255 / .7); }
 .mkey[aria-disabled="true"] { opacity: .45; cursor: default; }
 .mkey:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; }
 /* narrow phones: the display without the tape's code */

@@ -180,12 +180,17 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
           mask: linear-gradient(#000 0 calc(5 * var(--u)), transparent calc(5 * var(--u)) calc(100% - calc(5 * var(--u))), #000 calc(100% - calc(5 * var(--u))));
 }
 
-/* the recorder has no wooden case: one warm off-white matte body, its
-   rounded edge catching the light from the top left, a soft shadow on the wall */
+/* the recorder has no wooden case: two units, one over the other, each in its
+   own warm off-white matte body, its rounded edge catching the light from the
+   top left, a soft shadow on the wall */
 .cabinet {
   --r: calc(.6 * var(--u));   /* the one radius for caps, slots and windows */
   --lab: #5b5b57;             /* the grey of all the labels */
   --ink2: #2a2a28;            /* icons and signs on the caps */
+  padding: 0; border-radius: 0; background: none; box-shadow: none;
+}
+.unit {
+  position: relative;
   padding: calc(1.6 * var(--u));
   border-radius: calc(1.8 * var(--u));
   background: linear-gradient(170deg, #f2f1ec, #e6e5e0 60%, #dddbd5);
@@ -196,10 +201,10 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .cabinet::before, .cabinet::after { display: none; }
 
-/* two plates, the same matte plastic as the body, set a hair lower, each
+/* in each unit a plate, the same matte plastic as the body, set a hair lower,
    held by four pan-head screws: the upper one with the speaker, the meters and
    the small keys; the lower one with the bay and the transport keys */
-.panels { display: grid; gap: calc(1.6 * var(--u)); }
+.panels { display: grid; gap: calc(4 * var(--u)); }
 .panel {
   position: relative;
   display: grid; gap: calc(3.2 * var(--u));

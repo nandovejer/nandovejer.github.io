@@ -842,7 +842,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}" data-copied="${c.copied}">
     <section class="panels" aria-label="${c.deck}">
-      <div class="panel panel--top">
+      <div class="unit"><div class="panel panel--top">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>
       </div>
@@ -883,8 +883,8 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         </button>
         </span>
       </div>
-      </div>
-      <div class="panel panel--deck">
+      </div></div>
+      <div class="unit"><div class="panel panel--deck">
       <div class="tdeck">
         <div class="tdeck__bay">
           ${WORKS}
@@ -899,7 +899,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">STOP</span><span class="key__cap" aria-hidden="true"><i>■</i></span></button>
           <button type="button" class="key" data-key="pause" aria-label="${c.pause}" title="${c.pause}" aria-pressed="false"><span class="key__label" aria-hidden="true">PAUSE</span><span class="key__cap" aria-hidden="true"><i>❚❚</i></span></button>
       </div>
-      </div>
+      </div></div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
   </div>

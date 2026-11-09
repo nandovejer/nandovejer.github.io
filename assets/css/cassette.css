@@ -129,10 +129,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
 /* ---------- the oak cabinets ----------
-   After the photo: on the wall, a brushed aluminium plate in an oak case (a
-   little CRT with a blue trace, the deck with the tape behind its smoked
-   door, two perforated speakers, four aluminium keys and an orange one, two
-   knobs, LEDs and a lit strip naming the tape) and, under it, a second oak
+   On the wall, a silver portable recorder in an oak case, after an old
+   program recorder (the speaker on top with a graphic equaliser beside it,
+   the tape in an open bay, a red band with the voice key, three red lights
+   and two knobs, black piano keys with a red EJECT and a green PLAY) and,
+   under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
 
@@ -206,35 +207,52 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* a groove engraved across the plate */
 .panel__meter, .panel__plate { border-top: 1px solid rgb(0 0 0 / .24); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6); padding-top: calc(2.2 * var(--u)); }
 
-/* the top: the little CRT and the speaker beside it */
-.panel__top { display: grid; grid-template-columns: 1fr 1fr; gap: calc(3 * var(--u)); align-items: stretch; }
-.crt { display: grid; padding: calc(1.4 * var(--u)); border-radius: calc(4.5 * var(--u)); background: linear-gradient(170deg, #f8f8f6, #cbccc8 55%, #a8aaa6); box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .4), inset 0 calc(-.25 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .15), 0 calc(.15 * var(--u)) calc(.25 * var(--u)) rgb(0 0 0 / .3), 0 calc(.6 * var(--u)) calc(1 * var(--u)) calc(-.1 * var(--u)) rgb(0 0 0 / .4); }
-.crt__glass {
-  position: relative; overflow: hidden; min-height: calc(32 * var(--u));
-  border-radius: calc(5 * var(--u)) / calc(4.2 * var(--u));
-  background: radial-gradient(ellipse 75% 65% at 50% 48%, #1a2129, #0b0f14 65%, #030405);
-  box-shadow: inset 0 0 0 calc(.55 * var(--u)) #111, inset 0 0 0 calc(.7 * var(--u)) #2b2b2b, inset 0 calc(.5 * var(--u)) calc(2.5 * var(--u)) calc(.5 * var(--u)) #000, inset 0 0 calc(4 * var(--u)) rgb(0 0 0 / .8);
+/* the top: the speaker and, beside it, a graphic equaliser: a column of LEDs
+   per band behind smoked glass (green, then amber, red at the top) that
+   dances with the sound; the mode and the track lit above, the tape's name
+   below */
+.panel__top { display: grid; grid-template-columns: 1.15fr 1fr; gap: calc(3 * var(--u)); align-items: stretch; }
+.eq {
+  display: grid; padding: calc(1.2 * var(--u)); border-radius: calc(1.4 * var(--u));
+  background: linear-gradient(170deg, #f4f4f1, #c7c8c4 55%, #a8aaa6);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .4), 0 calc(.15 * var(--u)) calc(.25 * var(--u)) rgb(0 0 0 / .3), 0 calc(.6 * var(--u)) calc(1 * var(--u)) calc(-.1 * var(--u)) rgb(0 0 0 / .4);
 }
-.crt__glass::after {
+.eq__win {
+  position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto auto; gap: calc(1 * var(--u));
+  min-height: calc(32 * var(--u)); padding: calc(1.8 * var(--u)) calc(1.8 * var(--u)) calc(1.4 * var(--u));
+  border-radius: calc(.8 * var(--u));
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, #161a1c, #080a0b 70%);
+  box-shadow: inset 0 0 0 calc(.45 * var(--u)) #111, inset 0 0 0 calc(.6 * var(--u)) #2b2b2b, inset 0 calc(.6 * var(--u)) calc(1.8 * var(--u)) #000;
+}
+/* the smoked glass over it */
+.eq__win::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
   background:
-    repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / .16) 2px 3px),
-    radial-gradient(ellipse 50% 36% at 27% 15%, rgb(255 255 255 / .2), rgb(255 255 255 / .06) 45%, transparent 68%),
-    radial-gradient(ellipse 30% 20% at 78% 85%, rgb(255 255 255 / .05), transparent 70%),
-    linear-gradient(165deg, rgb(255 255 255 / .07), transparent 40%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 52%, rgb(0 0 0 / .65));
+    linear-gradient(160deg, rgb(255 255 255 / .12), rgb(255 255 255 / .03) 35%, transparent 50%),
+    linear-gradient(105deg, transparent 0 58%, rgb(255 255 255 / .05) 58% 66%, transparent 66%);
 }
-.crt__wave { position: absolute; inset: 0; width: 100%; height: 100%; }
-.crt__osd {
-  position: absolute; left: 7%; right: 7%; margin: 0;
-  display: flex; justify-content: space-between; gap: calc(1 * var(--u)); white-space: nowrap;
-  font: 600 max(.5rem, calc(2.4 * var(--u)))/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
-  color: rgb(150 205 255 / .8); text-shadow: 0 0 calc(.6 * var(--u)) rgb(90 170 255 / .7), 0 0 2px rgb(140 200 255 / .5);
+.eq__osd {
+  margin: 0; display: flex; justify-content: space-between; gap: calc(1 * var(--u)); white-space: nowrap;
+  font: 600 max(.45rem, calc(2 * var(--u)))/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
+  color: rgb(255 180 70 / .9); text-shadow: 0 0 calc(.6 * var(--u)) rgb(255 150 40 / .6);
 }
-.crt__osd--top { top: 9%; }
-.crt__osd--bottom { bottom: 9%; }
+.eq__osd--title { justify-content: center; }
 .osd__title { overflow: hidden; text-overflow: ellipsis; }
-.cabinet.is-playing .osd__mode { color: rgb(160 255 190 / .85); text-shadow: 0 0 calc(.6 * var(--u)) rgb(90 255 150 / .6); }
+.cabinet.is-playing .osd__mode { color: rgb(150 255 170 / .9); text-shadow: 0 0 calc(.6 * var(--u)) rgb(80 255 130 / .6); }
+.eq__bands { display: grid; grid-template-columns: repeat(7, 1fr); gap: calc(.8 * var(--u)); }
+.eq__band { display: flex; flex-direction: column-reverse; gap: calc(.4 * var(--u)); }
+.eq__band i {
+  --c: #3ddc6e; flex: 1; min-height: 2px; border-radius: 1px;
+  background: color-mix(in srgb, var(--c) 13%, #0b0d0c);
+  transition: background-color .12s linear, box-shadow .12s linear;
+}
+.eq__band i:nth-child(n+8) { --c: #f5c531; }
+.eq__band i:nth-child(n+11) { --c: #ff3b2a; }
+.eq__band i:is(.on, .pk) { background: var(--c); box-shadow: 0 0 calc(.7 * var(--u)) color-mix(in srgb, var(--c) 70%, transparent); transition: none; }
+.eq__hz {
+  display: grid; grid-template-columns: repeat(7, 1fr); margin: 0; text-align: center;
+  font: 600 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: rgb(255 255 255 / .45);
+}
 
 /* the speaker: rows of holes punched through the plate, each lower lip lit */
 .grille {
@@ -278,43 +296,47 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .strip__led { width: calc(1.4 * var(--u)); min-width: 4px; aspect-ratio: 1; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .5), transparent 45%), #5a1b14; }
 .cabinet.is-playing .strip__led { background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .6), transparent 45%), #ff3b24; box-shadow: 0 0 calc(1 * var(--u)) #ff3b24; }
 
-/* the deck: a recess in the plate, the smoked door over the tape */
+/* the deck: an open bay in the plate, no door; the tape slides straight in
+   and out. With the tape out, the works show: the two spindles and the
+   head's orange pad */
 .tdeck {
-  width: calc(78 * var(--u)); margin-inline: auto; perspective: calc(90 * var(--u));
+  width: calc(78 * var(--u)); margin-inline: auto;
   padding: calc(1.6 * var(--u)); border-radius: calc(1.6 * var(--u));
   background: linear-gradient(#b4b5b1, #a5a6a2);
   box-shadow: inset 0 2px 3px rgb(0 0 0 / .45), inset 0 -1px 0 rgb(255 255 255 / .55), inset 1px 0 1px rgb(0 0 0 / .2), 0 1px 0 rgb(255 255 255 / .65);
 }
-.tdeck__door {
-  position: relative; padding: calc(1.8 * var(--u)) calc(2 * var(--u)); border-radius: calc(1.2 * var(--u));
-  background: linear-gradient(#262626, #121212);
-  box-shadow: inset 0 0 0 calc(.3 * var(--u)) #3a3a3a, inset 0 0 0 calc(calc(.3 * var(--u)) + 1px) rgb(255 255 255 / .12), inset 0 calc(.6 * var(--u)) calc(1 * var(--u)) rgb(0 0 0 / .7), 0 calc(.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .35);
-  transform-origin: 50% 100%; transition: transform .35s cubic-bezier(.3, .7, .3, 1);
-}
-.tdeck__door.is-open { transform: rotateX(-30deg); }
-.tdeck__door::after {
-  content: ""; position: absolute; left: 12%; right: 12%; bottom: calc(.5 * var(--u)); height: 2px; pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / .28) 30% 70%, transparent);
-}
-.tdeck__well { position: relative; }
-.tdeck__well .cassette { filter: brightness(.82) contrast(.96); }
-.tdeck__glass {
-  position: absolute; inset: calc(1.8 * var(--u)) calc(2 * var(--u)); border-radius: calc(.8 * var(--u)); pointer-events: none;
+.tdeck__bay {
+  position: relative; overflow: hidden; padding: calc(1.8 * var(--u)) calc(2 * var(--u)); border-radius: calc(1.2 * var(--u));
   background:
-    linear-gradient(115deg, transparent 0 18%, rgb(255 255 255 / .16) 19% 27%, rgb(255 255 255 / .04) 28%, transparent 36%),
-    linear-gradient(rgb(255 255 255 / .16), rgb(255 255 255 / .03) 30%, transparent 45%, rgb(0 0 0 / .1)),
-    rgb(26 28 32 / .22);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 0 calc(1.2 * var(--u)) rgb(0 0 0 / .4);
+    radial-gradient(circle calc(4 * var(--u)) at 34% 46%, #111 60%, #3a3b39 64%, transparent 68%),
+    radial-gradient(circle calc(4 * var(--u)) at 66% 46%, #111 60%, #3a3b39 64%, transparent 68%),
+    linear-gradient(#e9a13c, #d98a26) 50% 47% / calc(11 * var(--u)) calc(6 * var(--u)) no-repeat,
+    linear-gradient(rgb(0 0 0 / .25), rgb(0 0 0 / .25)) 50% 84% / 64% calc(7 * var(--u)) no-repeat,
+    var(--tx-grain) 0 0 / 160px 160px,
+    linear-gradient(#8f908c, #a9aaa6 40%, #9a9b97);
+  box-shadow: inset 0 0 0 calc(.3 * var(--u)) #4a4b48, inset 0 calc(1.2 * var(--u)) calc(1.6 * var(--u)) rgb(0 0 0 / .7), inset 0 calc(-.4 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .3);
 }
+/* the lip of the slot shading the top of the tape */
+.tdeck__bay::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(2.4 * var(--u)); z-index: 2; pointer-events: none;
+  background: linear-gradient(rgb(0 0 0 / .55), transparent);
+}
+.tdeck__well { position: relative; z-index: 1; }
+.tdeck__well .cassette { filter: brightness(.92); }
 
-/* the plate under the door: the wordmark, the voice key, the level LEDs, two knobs */
-.panel__plate { display: flex; align-items: center; gap: calc(3 * var(--u)); padding-bottom: calc(1 * var(--u)); }
-.plate__brand { display: grid; gap: calc(.4 * var(--u)); margin-right: auto; color: #1f201e; }
-.plate__brand b { font: 900 max(.6rem, calc(3.3 * var(--u)))/1 var(--sans); font-stretch: 75%; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
-.plate__brand small, .mute small, .leds small, .knob small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3c39; white-space: nowrap; }
+/* the band under the bay, red as on the old program recorders: the voice key
+   on the left, the three red lights in the middle, the knobs on the right */
+.panel__plate {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(3 * var(--u));
+  margin-inline: calc(-1 * var(--u)); padding: calc(2 * var(--u)) calc(3 * var(--u)) calc(4.4 * var(--u));
+  border: 0; border-radius: calc(.6 * var(--u));
+  background: var(--tx-grain) 0 0 / 160px 160px, linear-gradient(#b5322e, #9b2623);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .28), inset 0 -1px 0 rgb(0 0 0 / .35), 0 0 0 1px rgb(70 12 10 / .55), 0 1px 0 rgb(255 255 255 / .6);
+}
+.mute small, .leds small, .knob small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: rgb(255 238 228 / .92); white-space: nowrap; }
 /* the voice key: a small square push button with a speaker printed on it;
    it latches down when the voice is muted, and its speaker shows a cross */
-.mute { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(0.6 * var(--u)); }
+.mute { all: unset; box-sizing: border-box; cursor: pointer; justify-self: start; display: grid; justify-items: center; gap: calc(0.6 * var(--u)); }
 .mute__cap {
   display: grid; place-items: center; width: calc(5.6 * var(--u)); aspect-ratio: 1; border-radius: calc(0.6 * var(--u));
   background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
@@ -330,32 +352,38 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
-.mute:focus-visible .mute__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
+.mute:focus-visible .mute__cap { outline: 3px solid #fbe6b4; outline-offset: 2px; }
 .mute[hidden] { display: none; }
-.leds { display: grid; grid-template-columns: repeat(4, auto); justify-items: center; gap: calc(.6 * var(--u)) calc(1.1 * var(--u)); }
+/* three red lights in a black bezel, lit while it plays */
+.leds {
+  display: grid; grid-template-columns: repeat(3, auto); justify-items: center; gap: calc(.8 * var(--u)) calc(1.4 * var(--u));
+  padding: calc(1.2 * var(--u)) calc(1.8 * var(--u)) calc(1 * var(--u)); border-radius: calc(.6 * var(--u));
+  background: linear-gradient(#1c1414, #120c0c);
+  box-shadow: inset 0 calc(.3 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .9), 0 1px 0 rgb(255 255 255 / .25);
+}
 .leds small { grid-column: 1 / -1; }
 .leds i {
-  --led: #6a1510;
-  width: calc(2.2 * var(--u)); aspect-ratio: 1; border-radius: 50%;
+  --led: #5a120e;
+  width: calc(2.4 * var(--u)); aspect-ratio: 1; border-radius: 50%;
   background:
-    radial-gradient(circle at 38% 30%, rgb(255 255 255 / .8), rgb(255 255 255 / .12) 32%, transparent 48%),
+    radial-gradient(circle at 38% 30%, rgb(255 255 255 / .7), rgb(255 255 255 / .1) 32%, transparent 48%),
     radial-gradient(circle at 50% 60%, var(--led), color-mix(in srgb, var(--led) 65%, #000));
-  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .5), 0 0 0 1px rgb(0 0 0 / .35), 0 1px 0 rgb(255 255 255 / .5);
+  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .5), 0 0 0 1px rgb(0 0 0 / .6);
 }
 .cabinet.is-playing .leds i {
   --led: #ff3a2a;
-  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .3), 0 0 0 1px rgb(0 0 0 / .35), 0 0 calc(1.2 * var(--u)) rgb(255 60 40 / .85);
+  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .3), 0 0 0 1px rgb(0 0 0 / .6), 0 0 calc(1.3 * var(--u)) rgb(255 60 40 / .9);
   animation: vu .8s steps(1) infinite;
 }
-.cabinet.is-playing .leds i:nth-child(2) { animation-duration: 1.1s; animation-delay: -.4s; }
-.cabinet.is-playing .leds i:nth-child(3) { animation-duration: .7s; animation-delay: -.2s; animation-name: vu-mid; }
-.cabinet.is-playing .leds i:nth-child(4) { animation-duration: 1.7s; animation-name: vu-peak; }
-@keyframes vu { 0%, 78% { filter: none; } 79%, 100% { filter: brightness(.35); } }
-@keyframes vu-mid { 0%, 45% { filter: none; } 46%, 100% { filter: brightness(.35); } }
-@keyframes vu-peak { 0%, 10% { filter: none; } 11%, 100% { filter: brightness(.3); } }
+.cabinet.is-playing .leds i:nth-child(2) { animation-duration: 1.1s; animation-delay: -.4s; animation-name: vu-mid; }
+.cabinet.is-playing .leds i:nth-child(3) { animation-duration: 1.7s; animation-name: vu-peak; }
+@keyframes vu { 0%, 78% { filter: none; } 79%, 100% { filter: brightness(.45); } }
+@keyframes vu-mid { 0%, 55% { filter: none; } 56%, 100% { filter: brightness(.45); } }
+@keyframes vu-peak { 0%, 30% { filter: none; } 31%, 100% { filter: brightness(.45); } }
 /* knurled knobs, a pointer on the flat top; the tone one turned a little */
+.knobs { justify-self: end; display: flex; gap: calc(2.6 * var(--u)); }
 .knob {
-  position: relative; width: calc(7.2 * var(--u)); aspect-ratio: 1; flex: none; border-radius: 50%; margin-bottom: calc(2.4 * var(--u));
+  position: relative; width: calc(6.6 * var(--u)); aspect-ratio: 1; flex: none; border-radius: 50%;
   background:
     radial-gradient(circle, #ebece8 0 60%, #c3c4c0 61% 64%, transparent 65%),
     repeating-conic-gradient(#f3f3f1 0 4deg, #8e908c 4deg 8deg);
@@ -366,38 +394,49 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   background: linear-gradient(#1d1e1c, #1d1e1c) 50% 13% / calc(.7 * var(--u)) 30% no-repeat;
 }
 .knob--tone::before { rotate: 38deg; }
-.knob small { position: absolute; top: 100%; left: 50%; translate: -50% calc(.5 * var(--u)); }
+.knob small { position: absolute; top: 100%; left: 50%; translate: -50% calc(.7 * var(--u)); }
 
-/* the piano keys along the foot of the plate: the names printed on the plate
-   above, the caps in a slot below; PLAY and PAUSE stay down while pressed */
+/* the piano keys along the foot: their names printed white on a black strip,
+   black caps with a dished square, EJECT red (where a recorder has RECORD),
+   PLAY green; PLAY and PAUSE stay down while pressed */
 .keys {
-  position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(1.2 * var(--u));
+  position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(1.2 * var(--u));
   margin-inline: calc(-1 * var(--u));
 }
+.keys::before, .keys::after { content: ""; position: absolute; left: 0; right: 0; z-index: -1; }
 .keys::before {
-  content: ""; position: absolute; left: 0; right: 0; bottom: calc(-.9 * var(--u)); height: calc(11 * var(--u)); border-radius: calc(.8 * var(--u));
+  bottom: calc(-.9 * var(--u)); height: calc(11 * var(--u)); border-radius: calc(.8 * var(--u));
   background: linear-gradient(#0f0f0f, #1f1f1f);
   box-shadow: inset 0 calc(.5 * var(--u)) calc(.8 * var(--u)) rgb(0 0 0 / .9), inset 0 -1px 0 rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .6);
 }
-.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(1.4 * var(--u)); justify-items: center; }
-.key__label { display: grid; justify-items: center; gap: calc(.3 * var(--u)); font: 700 max(.45rem, calc(2 * var(--u)))/1 var(--tech); color: #2b2c2a; text-shadow: 0 1px 0 rgb(255 255 255 / .6); }
+.keys::after {
+  top: calc(-1.2 * var(--u)); height: calc(6 * var(--u)); border-radius: calc(.5 * var(--u));
+  background: linear-gradient(#1d1d1d, #121212);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .1), 0 1px 0 rgb(255 255 255 / .55);
+}
+.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(1.6 * var(--u)); justify-items: center; }
+.key__label { display: grid; justify-items: center; gap: calc(.3 * var(--u)); font: 700 max(.45rem, calc(2 * var(--u)))/1 var(--tech); color: #f2f1ec; }
 .key__label small { font-size: max(.36rem, calc(1.3 * var(--u))); letter-spacing: .1em; }
 .key__cap {
+  --c1: #3c3c3b; --c2: #262626; --c3: #1b1b1b; --edge: #050505;
   display: block; width: 100%; height: calc(9 * var(--u));
-  border-radius: calc(.9 * var(--u)) calc(.9 * var(--u)) calc(.6 * var(--u)) calc(.6 * var(--u));
-  border-bottom: calc(2.6 * var(--u)) solid #8b8d89;
+  border-radius: calc(.7 * var(--u)) calc(.7 * var(--u)) calc(.5 * var(--u)) calc(.5 * var(--u));
+  border-bottom: calc(2.6 * var(--u)) solid var(--edge);
   background:
-    repeating-linear-gradient(rgb(255 255 255 / .32) 0 1px, transparent 1px 3px),
+    linear-gradient(rgb(0 0 0 / .28), rgb(255 255 255 / .06)) 50% 58% / 66% 50% no-repeat,
+    repeating-linear-gradient(rgb(255 255 255 / .05) 0 1px, transparent 1px 3px),
     var(--tx-grain) 0 0 / 160px 160px,
-    linear-gradient(170deg, #e6e7e3, #cbccc8 60%, #b7b8b4);
-  box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .55), inset -1px 0 0 rgb(0 0 0 / .12), 0 1px 0 #555753, 0 calc(.8 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .5);
+    linear-gradient(170deg, var(--c1), var(--c2) 60%, var(--c3));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .28), inset 1px 0 0 rgb(255 255 255 / .1), inset -1px 0 0 rgb(0 0 0 / .3), 0 1px 0 #000, 0 calc(.8 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .5);
   transition: transform .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
 }
+.key--eject .key__cap { --c1: #df4a40; --c2: #bf3129; --c3: #a02620; --edge: #5c1512; }
+.key--play .key__cap { --c1: #6bae79; --c2: #46905a; --c3: #357646; --edge: #1d4428; }
 .key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
   transform: translateY(calc(2 * var(--u))); border-bottom-width: calc(.7 * var(--u));
-  box-shadow: inset 0 1px 0 #fff, inset -1px 0 0 rgb(0 0 0 / .12), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), inset -1px 0 0 rgb(0 0 0 / .3), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
 }
-.key[aria-pressed="true"] .key__label { color: #1f8a3a; }
+.key[aria-pressed="true"] .key__label { color: #8fe39d; }
 .key[aria-disabled="true"] { cursor: default; }
 .key[aria-disabled="true"] .key__label { opacity: .45; }
 .key:focus-visible .key__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
@@ -687,7 +726,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* Taken off, their space kept: the counter and the tape-name strip, the maker's
    name on the plate, the J-card's tagline and the upside-down spine's contents. */
-.counter, .strip, .plate__brand, .jcard__tagline, .jcard__spine-in { visibility: hidden; }
+.counter, .strip, .jcard__tagline, .jcard__spine-in { visibility: hidden; }
 
 /* Demo and code, inked on the paper like rubber stamps: no fill, no shadow, a
    double frame, ink that took unevenly (a noise mask eats a few specks), each a

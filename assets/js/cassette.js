@@ -1,7 +1,7 @@
 // Cassette version — press a case standing in the oak rack: it rises out of
 // its slot, turns on its side and flies into the deck on the cabinet's
-// aluminium plate; the door opens and the tape goes in; the reels turn, the
-// trace on the little CRT moves and the liner notes beside it are that tape's: side A the
+// silver recorder; the tape slides into the open bay; the reels turn, the
+// equaliser beside the speaker lights up and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape back to its slot. With no
 // project in, the house tape (the bio) is in the deck. While it plays, a
@@ -11,7 +11,6 @@ import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
 const panel = bb.querySelector('.panel');
-const door = bb.querySelector('.tdeck__door');
 const well = bb.querySelector('.tdeck__well');
 const liner = document.querySelector('.liner');
 const out = liner.querySelector('.liner__out');
@@ -69,39 +68,38 @@ function setTrack(i) {
   keys.ff.setAttribute('aria-disabled', String(track === tracks.length - 1));
 }
 
-/* ---------- the trace in the dial ----------
-   A blue oscilloscope line, as on the cabinet's little CRT: flat (a quiver)
-   when stopped, a moving wave while it plays, fast while it winds. */
-const wave = bb.querySelector('.crt__wave');
-const wctx = wave.getContext('2d');
+/* ---------- the equaliser beside the speaker ----------
+   A column of LEDs per band: dark when stopped; while it plays each band
+   jumps about its own level (more in the bass), the highest LED it reached
+   held a moment before it falls; while it winds they all race; when it stops
+   they fall back to nothing. */
+const bands = [...bb.querySelectorAll('.eq__band')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
 let wframe = 0;
+let wlast = -1e9;
 function trace(now = 0) {
-  const { width: w, height: h } = wave;
   const fast = bb.classList.contains('is-ff') || bb.classList.contains('is-rew');
-  const amp = playing || fast ? h * .32 : h * .03;
-  const speed = fast ? .02 : .004;
-  wctx.clearRect(0, 0, w, h);
-  wctx.beginPath();
-  for (let x = 0; x <= w; x += 3) {
-    const t = x / w * Math.PI * 2;
-    const y = h / 2 + amp * (Math.sin(t * 3 + now * speed) * .6 + Math.sin(t * 7.3 - now * speed * 1.7) * .3 + Math.sin(t * 13 + now * speed * .6) * .1)
-      + (playing ? 0 : (Math.random() - .5) * 1.2);
-    x ? wctx.lineTo(x, y) : wctx.moveTo(x, y);
+  const on = playing || fast;
+  if (now - wlast >= 70) {
+    wlast = now;
+    bands.forEach((b, i) => {
+      const n = b.leds.length;
+      const base = fast ? .78 : .64 - i * .05;
+      let to = 0;
+      if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .5 : .75) + Math.sin(now / 260 + i * 1.3) * .12;
+      to = Math.round(n * Math.min(1, Math.max(0, to)));
+      b.lvl = to >= b.lvl || reduceMotion.matches ? to : b.lvl - 1;
+      if (b.lvl >= b.peak) { b.peak = b.lvl; b.hold = 8; } else if (b.hold > 0) b.hold--; else b.peak--;
+      if (reduceMotion.matches) b.peak = b.lvl;
+      b.leds.forEach((l, k) => {
+        l.classList.toggle('on', k < b.lvl);
+        l.classList.toggle('pk', k === b.peak - 1 && b.peak > b.lvl);
+      });
+    });
   }
-  // the phosphor: a wide soft halo, then the bright core of the line
-  wctx.lineJoin = 'round';
-  wctx.shadowColor = 'rgb(70 160 255 / .9)';
-  wctx.shadowBlur = 18;
-  wctx.lineWidth = 7;
-  wctx.strokeStyle = 'rgb(60 150 255 / .22)';
-  wctx.stroke();
-  wctx.shadowBlur = 6;
-  wctx.lineWidth = 2;
-  wctx.strokeStyle = '#bfe3ff';
-  wctx.stroke();
-  if ((playing || fast) && !reduceMotion.matches) wframe = requestAnimationFrame(trace);
+  const moving = on || bands.some((b) => b.lvl || b.peak);
+  if (moving && !reduceMotion.matches) wframe = requestAnimationFrame(trace);
 }
-const retrace = () => { cancelAnimationFrame(wframe); trace(performance.now()); };
+const retrace = () => { cancelAnimationFrame(wframe); wlast = -1e9; trace(performance.now()); };
 
 /* ---------- the voice ----------
    Every part of a card that is read aloud carries its clip in data-say (the
@@ -229,10 +227,12 @@ keys.eject.addEventListener('click', async () => {
   press(keys.eject);
   if (busy) return;
   if (loaded) { eject(); return; }
-  // the house tape stays: the door only opens and closes
-  door.classList.add('is-open');
-  await sleep(380);
-  door.classList.remove('is-open');
+  // the house tape stays: it only pops up a little and settles back
+  const tape = well.firstElementChild;
+  if (!tape || reduceMotion.matches) return;
+  busy = true;
+  await tape.animate([{ transform: 'none' }, { transform: 'translateY(-14%)', offset: .35 }, { transform: 'none' }], { duration: 520, easing: 'ease-out' }).finished;
+  busy = false;
 });
 
 /* ---------- the case in flight ---------- */
@@ -282,10 +282,11 @@ function arc(r, t) {
 const fade = (el, out) => (reduceMotion.matches || !el ? Promise.resolve()
   : el.animate([{ opacity: out ? 1 : 0 }, { opacity: out ? 0 : 1 }], { duration: 160, easing: 'ease', fill: 'forwards' }).finished);
 
+// No door: the tape slides up out of the bay's slot, and down into it.
 const lift = (el) => (reduceMotion.matches || !el ? Promise.resolve()
-  : el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(-35%)', opacity: 0 }], { duration: 320, easing: 'ease-in', fill: 'forwards' }).finished);
+  : el.animate([{ transform: 'none' }, { transform: 'translateY(-118%)' }], { duration: 360, easing: 'ease-in', fill: 'forwards' }).finished);
 const drop = (el) => (reduceMotion.matches || !el ? Promise.resolve()
-  : el.animate([{ transform: 'translateY(-35%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 380, easing: 'cubic-bezier(.2, .8, .2, 1)' }).finished);
+  : el.animate([{ transform: 'translateY(-118%)' }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.2, .8, .2, 1)' }).finished);
 
 // How far the page must scroll to show the top of the liner notes under the
 // header (0 if the spine along its top is already in view).
@@ -315,7 +316,6 @@ async function insert(item) {
   item.classList.add('is-out');
   const dy = linerScroll();
   scrollAlong(dy, 700);
-  door.classList.add('is-open');
   const gone = lift(well.firstElementChild);
   if (!reduceMotion.matches) {
     await g.animate(arc(r, rectAt(spineOf(), dy)), { duration: 1300, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
@@ -326,7 +326,6 @@ async function insert(item) {
   await fade(g, true);
   g.remove();
   await drop(well.firstElementChild);
-  door.classList.remove('is-open');
   loaded = item;
   await sleep(250);
   play(true);
@@ -342,7 +341,6 @@ async function eject({ quiet = false } = {}) {
   loaded = null;
   play(false);
   osdMode.textContent = '⏏ EJECT';
-  door.classList.add('is-open');
   const gone = lift(well.firstElementChild);
   // the case lifts off the card and goes back to its slot
   const spine = item.querySelector('.cspine');
@@ -363,7 +361,6 @@ async function eject({ quiet = false } = {}) {
   if (quiet) return;
   if (reduceMotion.matches) load(house);
   await drop(well.firstElementChild);
-  door.classList.remove('is-open');
   cta.hidden = false;
   state.textContent = L.ejected;
   item.querySelector('.slot__case').focus({ preventScroll: true });

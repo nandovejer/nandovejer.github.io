@@ -637,6 +637,10 @@ const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 // A track's length from its words (a paragraph read aloud, more or less).
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
+// The graphic equaliser beside the speaker: a column of LEDs per band.
+const EQ_BANDS = ['60', '150', '400', '1K', '2.4K', '6K', '15K'];
+const EQ_LEDS = 12;
+
 // The cassette, face on (in the deck).
 const cassette = (o) => {
   const [shell, band, type] = casOf(o.id);
@@ -784,40 +788,39 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
     <section class="panel" aria-label="${c.deck}">
       <div class="panel__top">
-        <div class="crt" aria-hidden="true">
-          <div class="crt__glass">
-            <canvas class="crt__wave" width="400" height="300"></canvas>
-            <p class="crt__osd crt__osd--top"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-            <p class="crt__osd crt__osd--bottom"><span class="osd__title">${esc(site.name)}</span></p>
+        <span class="grille" aria-hidden="true"></span>
+        <div class="eq" aria-hidden="true">
+          <div class="eq__win">
+            <p class="eq__osd"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
+            <div class="eq__bands">${EQ_BANDS.map(() => `<span class="eq__band">${'<i></i>'.repeat(EQ_LEDS)}</span>`).join('')}</div>
+            <p class="eq__hz">${EQ_BANDS.map((b) => `<span>${b}</span>`).join('')}</p>
+            <p class="eq__osd eq__osd--title"><span class="osd__title">${esc(site.name)}</span></p>
           </div>
         </div>
-        <span class="grille" aria-hidden="true"></span>
       </div>
       <div class="panel__meter" aria-hidden="true">
         <span class="counter"><span class="counter__label">${c.counter}</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
         <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
       </div>
       <div class="tdeck">
-        <div class="tdeck__door">
+        <div class="tdeck__bay">
           <div class="tdeck__well">${cassette(bio)}</div>
-          <span class="tdeck__glass" aria-hidden="true"></span>
         </div>
       </div>
       <div class="panel__plate">
-        <span class="plate__brand" aria-hidden="true"><b>${esc(site.name)}</b><small>NM-110 AT · STEREO</small></span>
         <button type="button" class="mute" aria-pressed="false" aria-label="${c.mute}" title="${c.mute}">
           <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
           <small aria-hidden="true">${c.voice}</small>
         </button>
-        <span class="leds" aria-hidden="true"><i></i><i></i><i></i><i></i><small>${c.level}</small></span>
-        <span class="knob" aria-hidden="true"><small>VOL</small></span><span class="knob knob--tone" aria-hidden="true"><small>${c.tone}</small></span>
+        <span class="leds" aria-hidden="true"><i></i><i></i><i></i><small>${c.level}</small></span>
+        <span class="knobs" aria-hidden="true"><span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>${c.tone}</small></span></span>
       </div>
       <div class="keys">
-          <button type="button" class="key" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">■<small>STOP</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span class="key__label" aria-hidden="true">▶<small>PLAY</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key key--play" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span class="key__label" aria-hidden="true">▶<small>PLAY</small></span><span class="key__cap" aria-hidden="true"></span></button>
           <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span class="key__label" aria-hidden="true">◀◀<small>REW</small></span><span class="key__cap" aria-hidden="true"></span></button>
           <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span class="key__label" aria-hidden="true">▶▶<small>F.FWD</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">■<small>STOP</small></span><span class="key__cap" aria-hidden="true"></span></button>
           <button type="button" class="key" data-key="pause" aria-label="${c.pause}" title="${c.pause}" aria-pressed="false"><span class="key__label" aria-hidden="true">❚❚<small>PAUSE</small></span><span class="key__cap" aria-hidden="true"></span></button>
       </div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>

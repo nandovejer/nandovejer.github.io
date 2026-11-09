@@ -464,7 +464,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    of the tape) and LINK (copies this tape's address) spring back */
 .vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(3.2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
-.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
+.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(7 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 .vkey__cap, .key__cap { grid-area: 1 / 1; position: relative; z-index: 1; }
 .vkey small, .key__label { grid-row: 2; }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in
@@ -477,8 +477,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .1), 0 0 0 1px rgb(0 0 0 / .25), 0 calc(.9 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .3);
   transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease, filter .09s ease;
 }
-.vkey__cap { width: calc(8 * var(--u)); height: calc(8 * var(--u)); }
-.vkey svg { width: 60%; height: 60%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+/* the small keys wider than tall, like a deck's function keys */
+.vkey__cap { width: calc(11.5 * var(--u)); height: calc(7 * var(--u)); }
+.vkey svg { width: auto; height: 62%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .mute__cone { fill: var(--ink2); }
 .mute__x { display: none; stroke: #c2311d; }
 .vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap,
@@ -487,7 +488,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   filter: brightness(.93);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), 0 0 0 1px rgb(0 0 0 / .3), 0 calc(.15 * var(--u)) calc(.2 * var(--u)) rgb(0 0 0 / .25);
 }
-.vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
+.vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(6 * var(--u)); }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
 .vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: var(--ink2); letter-spacing: -.02em; }
@@ -676,6 +677,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* the spine of the case, laid along the top: the J-card's spine seen through
    the clear plastic, the black of the case above and below */
+/* (hidden for now at every width — the owner may want it back: remove this
+   rule to show it again; the flying case's target falls back to the deck) */
+.hspine, .studio__spine { display: none !important; }
 .hspine {
   position: relative; overflow: hidden;
   display: flex; align-items: center; gap: 1rem;
@@ -893,6 +897,14 @@ body.has-minibar { padding-bottom: 4.2rem; }
 @media (max-width: 29.99em) {
   .lcd--deck { display: block; grid-column: 1 / -1; margin-bottom: calc(3 * var(--u)); }
   .lcd--deck .lcd__glass { height: auto; gap: calc(1.2 * var(--u)); padding: calc(2.6 * var(--u)) calc(3.4 * var(--u)); }
+  /* the deck drawn at the full width of the column (and the rack in step), so
+     its plate is always 100 units wide */
+  .cabinet, .rack__cabinet { --u: calc(100cqi / 100); }
+  /* the tape's window as wide as the display above it */
+  .tdeck { width: auto; margin-inline: 0; justify-self: stretch; }
+  /* the rack's cases stay as long as the (wider) tape is wide */
+  .slot__case { width: calc(12.6 * var(--u)); }
+  .rack__slots { grid-template-columns: repeat(auto-fill, minmax(calc(13.6 * var(--u)), 1fr)); }
   .lcd--deck .lcd__top { font-size: max(.5rem, calc(2.2 * var(--u))); }
   .lcd--deck .lcd__title { font-size: max(.7rem, calc(3.6 * var(--u))); }
 }

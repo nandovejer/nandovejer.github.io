@@ -313,11 +313,13 @@ async function swap(src) {
 // (in one column, the spine heading the page above the deck)
 const spineOf = () => spineBox.querySelector('.hspine') ?? liner.querySelector('.hspine');
 function linerScroll() {
-  const r = spineOf().getBoundingClientRect();
+  // the spine if it is shown; else, in one column the deck, in two the notes
+  const shown = spineOf()?.offsetParent ? spineOf() : null;
+  const r = (shown ?? (oneColumn.matches ? panel : liner)).getBoundingClientRect();
   const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 0;
   if (r.top >= head && r.bottom <= innerHeight) return 0;
   const max = document.documentElement.scrollHeight - innerHeight;
-  const top = (oneColumn.matches ? spineBox : liner).getBoundingClientRect().top;
+  const top = (shown ? (oneColumn.matches ? spineBox : liner) : (oneColumn.matches ? panel : liner)).getBoundingClientRect().top;
   const to = Math.max(0, Math.min(max, scrollY + top - head - 24));
   return Math.round(to - scrollY);
 }

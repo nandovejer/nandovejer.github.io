@@ -974,7 +974,8 @@ const voiceCredit = (lang, c) => {
 };
 
 // Sends visitors to their language; without JS, offers both.
-const toLanguage = (prefix, icon = 'assets/favicon.svg') => `<!doctype html>
+// prefix: where the language folders are from this page; path: the same from the site's root (for the alternates)
+const toLanguage = (prefix, icon = 'assets/favicon.svg', path = prefix) => `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -982,8 +983,8 @@ const toLanguage = (prefix, icon = 'assets/favicon.svg') => `<!doctype html>
   <title>${site.name}</title>
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="${icon}" type="image/svg+xml">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${l}/">`).join('\n  ')}
-  <link rel="alternate" hreflang="x-default" href="${site.baseUrl}/">
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/${path}${l}/">`).join('\n  ')}
+  <link rel="alternate" hreflang="x-default" href="${site.baseUrl}/${path}">
   <script>
     (function () {
       var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
@@ -1019,13 +1020,14 @@ for (const lang of LANGS) {
   clear(lang);
   write(`${lang}/index.html`, page(lang));
 }
-write('index.html', toLanguage(''));
+// the site's front door opens the cassette version, in the visitor's language
+write('index.html', toLanguage('cassette/'));
 clear('vhs');
 for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
-write('vhs/index.html', toLanguage('', '../assets/favicon.svg'));
+write('vhs/index.html', toLanguage('', '../assets/favicon.svg', 'vhs/'));
 clear('cassette');
 for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
-write('cassette/index.html', toLanguage('', '../assets/favicon.svg'));
+write('cassette/index.html', toLanguage('', '../assets/favicon.svg', 'cassette/'));
 if (techMissing.size) console.warn(`! no link in data/tech.json for: ${[...techMissing].join(', ')}`);
 
 /* ---------- the voice ---------- */

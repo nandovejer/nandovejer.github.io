@@ -322,9 +322,14 @@ function linerScroll() {
 /* ---------- insert and eject ---------- */
 
 
+// The address shows the tape in the deck (#id), so it can be shared or
+// bookmarked; with the house tape in, no hash.
+const mark = (item) => history.replaceState(null, '', `${location.pathname}${location.search}${item ? `#${item.id}` : ''}`);
+
 async function insert(item) {
   if (busy || item === loaded || item === house) return;
   busy = true;
+  mark(item);
   play(false);
   // the house tape leaves the deck: its case fades back into its slot
   if (!loaded) { house.classList.remove('is-out'); fade(house.querySelector('.cspine'), false); }
@@ -357,6 +362,7 @@ async function eject({ quiet = false } = {}) {
   osdMode.textContent = '⏏ EJECT';
   const spine = item.querySelector('.cspine');
   item.classList.remove('is-out');
+  if (!quiet) mark(null);
   const back = fade(spine, false);
   if (quiet) { await back; return; }
   // the house tape goes back in: its case fades out of its slot
@@ -395,7 +401,7 @@ acts.link.addEventListener('click', async () => {
   press(acts.link);
   const url = `${location.origin}${location.pathname}${loaded ? `#${loaded.id}` : ''}`;
   const label = acts.link.querySelector('small');
-  try { await navigator.clipboard.writeText(url); } catch { history.replaceState(null, '', url); }
+  try { await navigator.clipboard.writeText(url); } catch { /* the address bar already shows it */ }
   label.textContent = L.copied;
   clearTimeout(acts.link.timer);
   acts.link.timer = setTimeout(() => { label.textContent = label.dataset.label; }, 1600);

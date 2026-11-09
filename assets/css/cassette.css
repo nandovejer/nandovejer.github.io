@@ -113,8 +113,14 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .studio__deck { grid-area: deck; container-type: inline-size; }
 .liner { grid-area: liner; }
+/* two columns from tablet width up: the deck on the left, the liner notes
+   beside it (on a tablet the deck a little narrower, the spine without its line) */
+@media (min-width: 48em) {
+  .studio { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); grid-template-areas: "deck liner"; align-items: start; }
+}
+@media (min-width: 48em) and (max-width: 63.99em) { .hspine__sub { display: none; } }
 @media (min-width: 64em) {
-  .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 46rem); grid-template-areas: "deck liner"; align-items: start; justify-content: center; }
+  .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 46rem); justify-content: center; }
 }
 
 .studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; margin: 2.5rem var(--pad) 0; }
@@ -227,9 +233,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* the speaker across the top */
 .panel__top { display: grid; }
 .panel__top .grille { height: calc(40 * var(--u)); }
-/* one column (phones, tablets): no speaker and no meters, the upper unit is
-   just the line of small keys */
-@media (max-width: 63.99em) {
+/* phones (one column): no speaker and no meters, the upper unit is just the
+   line of small keys */
+@media (max-width: 47.99em) {
   .panel__top, .panel__plate .vu { display: none; }
   .vkeys { border-top: 0; box-shadow: none; }
 }

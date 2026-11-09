@@ -296,7 +296,7 @@ function linerScroll() {
 
 /* ---------- insert and eject ---------- */
 
-const oneColumn = matchMedia('(max-width: 63.99em)');
+const oneColumn = matchMedia('(max-width: 47.99em)');
 
 async function insert(item) {
   if (busy || item === loaded) return;

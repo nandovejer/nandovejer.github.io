@@ -227,6 +227,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* the speaker across the top */
 .panel__top { display: grid; }
 .panel__top .grille { height: calc(40 * var(--u)); }
+/* one column (phones, tablets): no speaker and no meters, the upper unit is
+   just the line of small keys */
+@media (max-width: 63.99em) {
+  .panel__top, .panel__plate .vu { display: none; }
+  .vkeys { border-top: 0; box-shadow: none; }
+}
 
 /* the level meters, after a mixer's master meter: columns of small rounded
    LEDs in dark slots, green, then orange, red at the top, unlit ones still

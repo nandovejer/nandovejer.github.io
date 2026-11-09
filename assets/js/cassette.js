@@ -421,7 +421,8 @@ document.querySelectorAll('.rack__slots').forEach((slots) => {
 document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   a.addEventListener('click', async (e) => {
     e.preventDefault();
-    if (a.dataset.go === 'projects') { glideTo(document.querySelector('.rack'), 'center'); return; }
+    // the rack's heading lands just under the masthead (html's scroll-padding in chrome.css)
+    if (a.dataset.go === 'projects') { glideTo(document.querySelector('.rack'), 'start'); return; }
     await glideTo(oneColumn.matches ? panel : document.querySelector('.studio'), 'start');
     if (loaded && !busy) { busy = true; await eject(); busy = false; }
   });

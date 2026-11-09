@@ -3,7 +3,9 @@
 // meter under the speaker lights up and the liner notes beside it are that
 // tape's: side A the text, a track per paragraph; side B the facts and links.
 // ◀◀ / ▶▶ move between tracks, ■ stops, ⏏ sends the tape back to its slot.
-// With no project in, the house tape (the bio) is in the deck. While it
+// With no project in, the house tape (the bio, "Sobre mí") is in the deck; it
+// stands first in the rack and its slot is empty while it plays. ⏏ takes the
+// page down to the rack. While it
 // plays, a voice reads the tape aloud (clips made at build time, see
 // src/speech.mjs): the title and its line, then track after track; the VOZ
 // key mutes it, 2× doubles its speed, SHUFFLE puts in a tape at random,
@@ -28,6 +30,11 @@ const cta = document.querySelector('.studio__cta');
 const keys = Object.fromEntries([...bb.querySelectorAll('[data-key]')].map((b) => [b.dataset.key, b]));
 const house = document.querySelector('.cas-bio');
 const items = [...document.querySelectorAll('.cas-item')];
+const tapes = items.filter((it) => it !== house);   // the projects
+// down to the rack: the line asking to pick a tape whole just under the
+// masthead (html's scroll-padding in chrome.css), the rack's heading under
+// it; with a project in (the line hidden), the heading
+const toRack = () => glideTo(cta.hidden ? document.querySelector('.rack') : cta, 'start');
 const L = bb.dataset;
 
 let loaded = null;   // the project in the deck (null: the house tape)
@@ -272,13 +279,15 @@ keys.rew.addEventListener('click', () => { press(keys.rew); wind(-1); });
 keys.eject.addEventListener('click', async () => {
   press(keys.eject);
   if (busy) return;
-  if (loaded) { busy = true; await eject(); busy = false; return; }
-  // the house tape stays: it only pops up a little and settles back
-  const tape = well.firstElementChild;
-  if (!tape || reduceMotion.matches) return;
   busy = true;
-  await tape.animate([{ transform: 'none' }, { transform: 'translateY(-14%)', offset: .35 }, { transform: 'none' }], { duration: 520, easing: 'ease-out' }).finished;
+  if (loaded) await eject();
+  else if (!reduceMotion.matches && well.firstElementChild) {
+    // the house tape stays: it only pops up a little and settles back
+    await well.firstElementChild.animate([{ transform: 'none' }, { transform: 'translateY(-14%)', offset: .35 }, { transform: 'none' }], { duration: 520, easing: 'ease-out' }).finished;
+  }
   busy = false;
+  // and the page goes down to the rack, to pick another
+  toRack();
 });
 
 /* ---------- the change of tape ----------
@@ -314,9 +323,11 @@ function linerScroll() {
 
 
 async function insert(item) {
-  if (busy || item === loaded) return;
+  if (busy || item === loaded || item === house) return;
   busy = true;
   play(false);
+  // the house tape leaves the deck: its case fades back into its slot
+  if (!loaded) { house.classList.remove('is-out'); fade(house.querySelector('.cspine'), false); }
   if (loaded) await eject({ quiet: true });
   cta.hidden = true;
   // the case fades out of its slot; the page goes up to the deck
@@ -348,7 +359,9 @@ async function eject({ quiet = false } = {}) {
   item.classList.remove('is-out');
   const back = fade(spine, false);
   if (quiet) { await back; return; }
-  await Promise.all([back, swap(house)]);
+  // the house tape goes back in: its case fades out of its slot
+  const home = fade(house.querySelector('.cspine'), true).then(() => house.classList.add('is-out'));
+  await Promise.all([back, home, swap(house)]);
   cta.hidden = false;
   state.textContent = L.ejected;
   item.querySelector('.slot__case').focus({ preventScroll: true });
@@ -357,7 +370,8 @@ async function eject({ quiet = false } = {}) {
 items.forEach((item) => {
   item.querySelector('.slot__case').addEventListener('click', async () => {
     if (busy) return;
-    if (item === loaded) { busy = true; await eject(); busy = false; } else insert(item);
+    // the project in the deck, or the house tape while a project plays: out it comes
+    if (item === loaded || (item === house && loaded)) { busy = true; await eject(); busy = false; } else insert(item);
   });
 });
 
@@ -365,7 +379,7 @@ items.forEach((item) => {
 const acts = Object.fromEntries([...bb.querySelectorAll('[data-act]')].map((k) => [k.dataset.act, k]));
 acts.shuffle.addEventListener('click', () => {
   press(acts.shuffle);
-  const pool = items.filter((it) => it !== loaded);
+  const pool = tapes.filter((it) => it !== loaded);
   if (pool.length && !busy) insert(pool[Math.floor(Math.random() * pool.length)]);
 });
 // SIDE: from side A to the first track of side B, and back to the start of A
@@ -421,10 +435,7 @@ document.querySelectorAll('.rack__slots').forEach((slots) => {
 document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   a.addEventListener('click', async (e) => {
     e.preventDefault();
-    // just under the masthead (html's scroll-padding in chrome.css): the line
-    // asking to pick a tape, whole, with the rack's heading under it; with a
-    // tape in (the line hidden), the heading
-    if (a.dataset.go === 'projects') { glideTo(cta.hidden ? document.querySelector('.rack') : cta, 'start'); return; }
+    if (a.dataset.go === 'projects') { toRack(); return; }
     await glideTo(oneColumn.matches ? panel : document.querySelector('.studio'), 'start');
     if (loaded && !busy) { busy = true; await eject(); busy = false; }
   });
@@ -432,6 +443,7 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
 
 /* ---------- switch on ---------- */
 load(house);
+house.classList.add('is-out');
 retrace();
 // a link to a tape (#id) puts it in
 const asked = document.getElementById(decodeURIComponent(location.hash.slice(1)));

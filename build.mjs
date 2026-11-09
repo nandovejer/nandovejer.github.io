@@ -792,8 +792,10 @@ const cassettePage = (lang) => {
   const c = u.cassette;
   const shelfId = lang === 'es' ? 'proyectos' : 'projects';
   const url = `${site.baseUrl}/cassette/${lang}/`;
+  // the house tape, the bio: titled "Sobre mí" / "About me"; it stands first in
+  // the rack and is in the deck whenever no project is
   const bio = {
-    id: 'bio', code: 'NM-000', name: site.name, use: t.kicker, year: null, length: 'C90',
+    id: 'bio', code: 'NM-000', name: c.about, use: t.kicker, year: null, length: 'C90',
     quote: plain(t.deck).replace(/^“|”$/g, '')
   };
   const bioNotes = notes(bio, c, lang, {
@@ -919,20 +921,23 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     <div class="liner__out">${bioNotes}
     </div>
   </article>
-  <div class="cas-bio" hidden>
-    <div class="cas-item__tape">${cassette(bio)}</div>
-    <div class="cas-item__notes">${bioNotes}
-    </div>
-  </div>
 </div>
 <p class="studio__cta"><span class="studio__arrow" aria-hidden="true">↓</span> <b>${c.cta}</b></p>
 <section class="rack" id="${shelfId}" aria-labelledby="shelf-title">
   <header class="section-head">
     <h2 id="shelf-title">${u.shelf}</h2>
-    <p class="section-head__count">${num(projects.length)} ${c.tapes}</p>
+    <p class="section-head__count">${num(projects.length + 1)} ${c.tapes}</p>
   </header>
   <div class="rack__cabinet">
-    <ol class="rack__slots">${projects.map((p, i) => {
+    <ol class="rack__slots">
+      <li class="slot cas-item cas-bio" id="bio">
+        <button type="button" class="slot__case" aria-label="${c.insert}: ${esc(bio.name)}">
+        ${caseSpine(bio)}
+        </button>
+        <div class="cas-item__tape" hidden>${cassette(bio)}</div>
+        <div class="cas-item__notes" hidden>${bioNotes}
+        </div>
+      </li>${projects.map((p, i) => {
       const o = objectOf(p, i, t, u);
       const total = o.body.reduce((n, b) => n + trackLen(b), 0);
       return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });

@@ -131,8 +131,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* ---------- the oak cabinets ----------
    On the wall, a silver portable recorder in an oak case, after an old
    program recorder (the speaker on top with a graphic equaliser beside it,
-   the tape in an open bay, a red band with the voice key, three red lights
-   and two knobs, charcoal keys with a red EJECT and a green PLAY) and,
+   the tape in an open bay, a brushed metal band with the voice key, three red lights
+   and two faders, charcoal keys with a red EJECT and a green PLAY) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
@@ -335,21 +335,25 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the band under the bay, red as on the old program recorders: the voice key
-   on the left, the three red lights in the middle, the knobs on the right */
+/* the band under the bay, in a darker brushed metal than the plate: the voice
+   key on the left, the three red lights in the middle, the faders (volume and
+   reading speed) on the right */
 .panel__plate {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(3 * var(--u));
   margin-inline: calc(-1 * var(--u)); padding: calc(2 * var(--u)) calc(3 * var(--u)) calc(4.4 * var(--u));
   border: 0; border-radius: calc(.6 * var(--u));
-  background: var(--tx-grain) 0 0 / 160px 160px, linear-gradient(#b5322e, #9b2623);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .28), inset 0 -1px 0 rgb(0 0 0 / .35), 0 0 0 1px rgb(70 12 10 / .55), 0 1px 0 rgb(255 255 255 / .6);
+  background:
+    repeating-linear-gradient(rgb(255 255 255 / .05) 0 1px, transparent 1px 2px, rgb(0 0 0 / .04) 2px 3px),
+    var(--tx-grain) 0 0 / 160px 160px,
+    linear-gradient(#80858b, #6c7177 55%, #5e6369);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .35), inset 0 -1px 0 rgb(0 0 0 / .35), 0 0 0 1px rgb(30 33 37 / .6), 0 1px 0 rgb(255 255 255 / .6);
 }
-.mute small, .leds small, .knob small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: rgb(255 238 228 / .92); white-space: nowrap; }
-/* the voice key: a small square push button with a speaker printed on it;
+.mute small, .leds small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #eef0f2; white-space: nowrap; }
+/* the voice key: a square push button with a speaker printed on it;
    it latches down when the voice is muted, and its speaker shows a cross */
 .mute { all: unset; box-sizing: border-box; cursor: pointer; justify-self: start; display: grid; justify-items: center; gap: calc(0.6 * var(--u)); }
 .mute__cap {
-  display: grid; place-items: center; width: calc(5.6 * var(--u)); aspect-ratio: 1; border-radius: calc(0.6 * var(--u));
+  display: grid; place-items: center; width: calc(8 * var(--u)); aspect-ratio: 1; border-radius: calc(0.8 * var(--u));
   background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.55 * var(--u)) 0 #8b8d89, 0 calc(0.55 * var(--u)) 0 1px #4f514d, 0 calc(0.9 * var(--u)) calc(0.7 * var(--u)) rgb(0 0 0 / .45);
   transition: transform .09s ease, box-shadow .09s ease;
@@ -391,21 +395,37 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @keyframes vu { 0%, 78% { filter: none; } 79%, 100% { filter: brightness(.45); } }
 @keyframes vu-mid { 0%, 55% { filter: none; } 56%, 100% { filter: brightness(.45); } }
 @keyframes vu-peak { 0%, 30% { filter: none; } 31%, 100% { filter: brightness(.45); } }
-/* knurled knobs, a pointer on the flat top; the tone one turned a little */
-.knobs { justify-self: end; display: flex; gap: calc(2.6 * var(--u)); }
-.knob {
-  position: relative; width: calc(6.6 * var(--u)); aspect-ratio: 1; flex: none; border-radius: 50%;
-  background:
-    radial-gradient(circle, #ebece8 0 60%, #c3c4c0 61% 64%, transparent 65%),
-    repeating-conic-gradient(#f3f3f1 0 4deg, #8e908c 4deg 8deg);
-  box-shadow: 0 calc(.25 * var(--u)) 0 #6f716d, 0 calc(.8 * var(--u)) calc(.9 * var(--u)) rgb(0 0 0 / .45), inset 0 1px 1px rgb(255 255 255 / .85);
+/* the faders: a black cap with a light line across, sliding up and down a
+   thin black slot, ticks and 0 · 5 · 10 printed beside it */
+.faders { justify-self: end; display: flex; gap: calc(2.4 * var(--u)); }
+.fader { display: grid; grid-template-columns: auto auto; justify-items: center; row-gap: calc(.8 * var(--u)); column-gap: calc(.3 * var(--u)); cursor: ns-resize; }
+.fader small { grid-column: 1 / -1; }
+.fader__input {
+  -webkit-appearance: none; appearance: none; writing-mode: vertical-lr; direction: rtl;
+  width: calc(5.4 * var(--u)); height: calc(17 * var(--u)); margin: 0; padding: 0; background: transparent; cursor: ns-resize;
+  --slot: linear-gradient(90deg, transparent calc(50% - .35 * var(--u)), #0e0f10 calc(50% - .35 * var(--u)) calc(50% + .35 * var(--u)), transparent calc(50% + .35 * var(--u)));
 }
-.knob::before {
-  content: ""; position: absolute; inset: 0; border-radius: 50%;
-  background: linear-gradient(#1d1e1c, #1d1e1c) 50% 13% / calc(.7 * var(--u)) 30% no-repeat;
+.fader__input::-webkit-slider-runnable-track { width: 100%; height: 100%; border-radius: calc(.4 * var(--u)); background: var(--slot); }
+.fader__input::-moz-range-track { width: 100%; height: 100%; border-radius: calc(.4 * var(--u)); background: var(--slot); }
+.fader__input::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: calc(5.4 * var(--u)); height: calc(2.4 * var(--u)); border: 0; border-radius: calc(.3 * var(--u));
+  background: linear-gradient(transparent calc(50% - .5px), #d9dcdf calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px)), linear-gradient(#3b3d40, #17181a 55%, #0c0d0e);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 calc(.5 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .5);
 }
-.knob--tone::before { rotate: 38deg; }
-.knob small { position: absolute; top: 100%; left: 50%; translate: -50% calc(.7 * var(--u)); }
+.fader__input::-moz-range-thumb {
+  width: calc(5.4 * var(--u)); height: calc(2.4 * var(--u)); border: 0; border-radius: calc(.3 * var(--u));
+  background: linear-gradient(transparent calc(50% - .5px), #d9dcdf calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px)), linear-gradient(#3b3d40, #17181a 55%, #0c0d0e);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 calc(.5 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .5);
+}
+.fader__input:focus-visible { outline: 3px solid #fbe6b4; outline-offset: 2px; }
+/* the scale: eleven ticks, the half and the ends numbered */
+.fader__scale {
+  display: flex; flex-direction: column; justify-content: space-between; align-self: stretch;
+  padding: calc(1.2 * var(--u)) 0 calc(1.2 * var(--u)) calc(1.6 * var(--u)); margin-block: calc(-.5 * var(--u));
+  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: #e6e9ec;
+  background: linear-gradient(rgb(240 243 245 / .75) 0 1px, transparent 1px) 0 calc(1.7 * var(--u)) / calc(1.1 * var(--u)) calc((100% - 3.4 * var(--u)) / 10) repeat-y;
+}
+.fader__scale b { font-weight: inherit; }
 
 /* the piano keys along the foot, after the old program recorders: their
    names printed dark on the panel above, square charcoal caps with the
@@ -451,7 +471,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .key:focus-visible .key__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* the reels turn as it plays, fast on ◀◀ / ▶▶ */
-.cabinet.is-playing .tdeck__well .reel { animation: reel 1.8s linear infinite; }
+.cabinet.is-playing .tdeck__well .reel { animation: reel calc(1.8s / var(--rate, 1)) linear infinite; }
 .cabinet.is-ff .tdeck__well .reel { animation: reel .35s linear infinite; }
 .cabinet.is-rew .tdeck__well .reel { animation: reel .35s linear infinite reverse; }
 @keyframes reel { to { rotate: 1turn; } }

@@ -8,7 +8,8 @@
 // longest ago goes back to its slot in the rack). With no
 // project in, the house tape (the bio) is in the deck. While it plays, a
 // voice reads the tape aloud (clips made at build time, see src/speech.mjs):
-// the title and its line, then track after track; the VOZ key mutes it.
+// the title and its line, then track after track; the VOZ key mutes it,
+// the faders set its volume and its speed.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
@@ -173,6 +174,26 @@ function setMuted(on) {
 }
 muteKey.setAttribute('aria-pressed', String(muted));
 muteKey.addEventListener('click', () => setMuted(!muted));
+
+// The faders: the voice's volume and its reading speed (0–10, 5 the voice's
+// own pace, from .7× to 1.3×; the reels turn with it). Remembered in this
+// browser.
+const faders = Object.fromEntries([...bb.querySelectorAll('[data-fader]')].map((f) => [f.dataset.fader, f]));
+function tune() {
+  const rate = .7 + faders.speed.value * .06;
+  voice.volume = faders.vol.value / 10;
+  voice.defaultPlaybackRate = rate;
+  voice.playbackRate = rate;
+  bb.style.setProperty('--rate', rate.toFixed(2));
+}
+Object.entries(faders).forEach(([k, f]) => {
+  try { const v = localStorage.getItem(`cassette-${k}`); if (v !== null) f.value = v; } catch { /* storage off */ }
+  f.addEventListener('input', () => {
+    tune();
+    try { localStorage.setItem(`cassette-${k}`, f.value); } catch { /* storage off */ }
+  });
+});
+tune();
 addEventListener('pagehide', hush);
 
 const drums = [...bb.querySelectorAll('.counter__win b')];

@@ -615,7 +615,7 @@ ${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label:
    After a photo of an oak wall cabinet on a sage wall: on top a brushed
    aluminium panel with a small CRT showing a blue waveform, a cassette deck
    with the tape seen through its door, two round speakers, the keys (four
-   silver, the eject orange), two knobs and a lit strip naming the tape in;
+   silver, the eject orange), two faders and a lit strip naming the tape in;
    below, oak slots with the cassettes spine out. The projects (and the
    socials) are the tapes; one goes into the deck and plays. Beside the
    cabinet, the liner notes (J-card) of the tape in: side A is the text, a
@@ -643,6 +643,8 @@ const EQ_LEDS = 16;
 // The tower under the deck: the tapes that come out of it lie there on their
 // sides, one per shelf.
 const TOWER = 4;
+// A fader on the band: a slider up and down a black slot, a scale 0–10 beside it.
+const fader = (key, label, name, value) => `<label class="fader"><input class="fader__input" type="range" data-fader="${key}" min="0" max="10" step="1" value="${value}" aria-label="${esc(name)}"><span class="fader__scale" aria-hidden="true">${[10, 5, 0].map((n) => `<b>${n}</b>`).join('')}</span><small aria-hidden="true">${esc(label)}</small></label>`;
 // the scales printed either side of the bars, top to bottom
 const EQ_SCALE_L = ['10', '·', '·', '+', '0', '−', '·', '·', '10'];
 const EQ_SCALE_R = ['10', '·', '·', '·', '5', '·', '·', '·', '0'];
@@ -871,7 +873,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <small aria-hidden="true">${c.voice}</small>
         </button>
         <span class="leds" aria-hidden="true"><i></i><i></i><i></i><small>${c.level}</small></span>
-        <span class="knobs" aria-hidden="true"><span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>${c.tone}</small></span></span>
+        <span class="faders">${fader('vol', 'VOL', c.volume, 8)}${fader('speed', c.speedKey, c.speed, 5)}</span>
       </div>
       <div class="keys">
           <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">EJECT</span><span class="key__cap" aria-hidden="true"><i>⏏</i></span></button>

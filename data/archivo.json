@@ -75,7 +75,9 @@
       "pause": "Pausa",
       "counter": "Contador",
       "level": "Nivel",
-      "tone": "Tono",
+      "volume": "Volumen de la voz",
+      "speed": "Velocidad de lectura",
+      "speedKey": "Vel.",
       "voice": "Voz",
       "mute": "Silenciar la voz",
       "voiceCredit": "La voz que lee las cintas es {voice} (CC0), sintetizada con {piper}."
@@ -157,7 +159,9 @@
       "pause": "Pause",
       "counter": "Counter",
       "level": "Level",
-      "tone": "Tone",
+      "volume": "Voice volume",
+      "speed": "Reading speed",
+      "speedKey": "Speed",
       "voice": "Voice",
       "mute": "Mute the voice",
       "voiceCredit": "The voice reading the tapes is {voice} (CC0), synthesised with {piper}."

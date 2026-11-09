@@ -1,6 +1,5 @@
-// Cassette version — press a case standing in the oak rack: it rises out of
-// its slot, turns on its side and flies into the deck on the silver
-// recorder; the tape slides into the open bay; the reels turn, the level
+// Cassette version — press a case standing in the oak rack: it fades out of
+// its slot and its tape fades into the deck; the reels turn, the level
 // meter under the speaker lights up and the liner notes beside it are that
 // tape's: side A the text, a track per paragraph; side B the facts and links.
 // ◀◀ / ▶▶ move between tracks, ■ stops, ⏏ sends the tape back to its slot.
@@ -268,64 +267,20 @@ keys.eject.addEventListener('click', async () => {
   busy = false;
 });
 
-/* ---------- the case in flight ---------- */
+/* ---------- the change of tape ----------
+   No flight: the case fades out of its slot in the rack (and back into it
+   when it comes out), and the tape in the deck and the liner notes beside it
+   fade out and in again as the tape changes. */
 
-// Transforms about the centre of the copy (w × h), placed with its centre at (cx, cy).
-// k: one scale, or [across, along] the case (applied in its own frame, after the turn)
-const at = (cx, cy, w, h, deg, k) => `translate(${cx - w / 2}px, ${cy - h / 2}px) rotate(${deg}deg) scale(${[].concat(k).join(', ')})`;
+const fade = (el, out, ms = 260) => (reduceMotion.matches || !el ? Promise.resolve()
+  : el.animate([{ opacity: out ? 1 : 0 }, { opacity: out ? 0 : 1 }], { duration: ms, easing: 'ease', fill: 'forwards' }).finished);
 
-// Where a case is: its centre, its size standing up (w × h) and how far it is
-// turned (0 standing in the rack).
-const placeIn = (r, deg = 0) => (deg
-  ? { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: r.height, h: r.width, deg, top: r.top, bottom: r.bottom }
-  : { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: r.width, h: r.height, deg, top: r.top, bottom: r.bottom });
-
-// A fixed copy of a case's spine, at a place.
-function ghostOf(spine, p) {
-  const g = spine.cloneNode(true);
-  g.classList.add('ghost');
-  Object.assign(g.style, { width: `${p.w}px`, height: `${p.h}px`, transform: at(p.cx, p.cy, p.w, p.h, p.deg, 1) });
-  document.body.append(g);
-  return g;
+// The tape in the deck and the notes beside it: out, changed, in again.
+async function swap(src) {
+  await Promise.all([fade(well, true), fade(out, true)]);
+  load(src);
+  await Promise.all([fade(well, false, 340), fade(out, false, 340)]);
 }
-
-// Where an element will be once the page has scrolled by dy (measured there
-// and back before the next paint, so nothing is seen).
-function rectAt(el, dy = 0) {
-  const y0 = scrollY;
-  if (dy) scrollTo({ top: y0 + dy, behavior: 'instant' });
-  const r = el.getBoundingClientRect();
-  if (dy) scrollTo({ top: y0, behavior: 'instant' });
-  return r;
-}
-
-// From its slot in the rack (p) onto the spine along the top of the liner notes
-// along the top of the liner notes (t): up out of its slot, over in an arc,
-// turning on its side, and down onto the spine, stretched to its size (as long
-// as the card is wide, as tall as the spine is).
-function arc(p, t) {
-  const { w, h, deg } = p;
-  const k = [t.height / w, t.width / h];
-  const a = [p.cx, p.cy];
-  const b = [t.left + t.width / 2, t.top + t.height / 2];
-  const up = a[1] - (p.bottom - p.top) * .35;
-  const top = Math.min(up, b[1]) - Math.min(120, innerHeight * .12);
-  return [
-    { transform: at(a[0], a[1], w, h, deg, 1), opacity: 1, offset: 0 },
-    { transform: at(a[0], up, w, h, deg, 1), opacity: 1, offset: .16 },
-    { transform: at((a[0] + b[0]) / 2, top, w, h, (deg - 90) / 2 - 5, [(1 + k[0]) / 2, (1 + k[1]) / 2]), opacity: 1, offset: .5 },
-    { transform: at(b[0], b[1] - t.height * .6, w, h, -90, k), opacity: 1, offset: .8 },
-    { transform: at(b[0], b[1], w, h, -90, k), opacity: 1, offset: 1 }
-  ];
-}
-const fade = (el, out) => (reduceMotion.matches || !el ? Promise.resolve()
-  : el.animate([{ opacity: out ? 1 : 0 }, { opacity: out ? 0 : 1 }], { duration: 160, easing: 'ease', fill: 'forwards' }).finished);
-
-// No door: the tape slides up out of the bay's slot, and down into it.
-const lift = (el) => (reduceMotion.matches || !el ? Promise.resolve()
-  : el.animate([{ transform: 'none' }, { transform: 'translateY(-118%)' }], { duration: 360, easing: 'ease-in', fill: 'forwards' }).finished);
-const drop = (el) => (reduceMotion.matches || !el ? Promise.resolve()
-  : el.animate([{ transform: 'translateY(-118%)' }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.2, .8, .2, 1)' }).finished);
 
 // How far the page must scroll to show the top of the liner notes under the
 // header (0 if the spine along its top is already in view).
@@ -343,32 +298,19 @@ function linerScroll() {
 
 const oneColumn = matchMedia('(max-width: 63.99em)');
 
-const seen = (p) => p.bottom > 0 && p.top < innerHeight;
-
 async function insert(item) {
   if (busy || item === loaded) return;
   busy = true;
   play(false);
   if (loaded) await eject({ quiet: true });
   cta.hidden = true;
-  const spine = item.querySelector('.cspine');
-  const p = placeIn(spine.getBoundingClientRect());
-  const g = ghostOf(spine, p);
+  // the case fades out of its slot; the page goes up to the deck
+  await fade(item.querySelector('.cspine'), true);
   item.classList.add('is-out');
-  const dy = linerScroll();
-  scrollAlong(dy, 700);
-  const gone = lift(well.firstElementChild);
-  if (!reduceMotion.matches) {
-    await g.animate(arc(p, rectAt(spineOf(), dy)), { duration: 1300, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
-  }
-  await gone;
-  // the case lands on the card: its spine is now the card's
-  load(item);
-  await fade(g, true);
-  g.remove();
-  await drop(well.firstElementChild);
+  scrollAlong(linerScroll(), 600);
+  await swap(item);
   loaded = item;
-  await sleep(250);
+  await sleep(150);
   play(true);
   state.textContent = `${L.playing}: ${dialTitle.textContent}`;
   busy = false;
@@ -376,32 +318,19 @@ async function insert(item) {
   if (oneColumn.matches) { await sleep(600); glideTo(liner, 'start'); }
 }
 
-// The tape comes out of the deck and its case lifts off the card and goes
-// back to its slot in the rack (or, with the rack out of sight, fades away).
+// The tape comes out of the deck: its case fades back into its slot in the
+// rack and the house tape fades into the deck (unless another tape is going in).
 async function eject({ quiet = false } = {}) {
   if (!loaded) return;
   const item = loaded;
   loaded = null;
   play(false);
   osdMode.textContent = '⏏ EJECT';
-  const gone = lift(well.firstElementChild);
-  if (!reduceMotion.matches) {
-    const spine = item.querySelector('.cspine');
-    const p = placeIn(spine.getBoundingClientRect());
-    const t = spineOf().getBoundingClientRect();
-    const g = ghostOf(spine, p);
-    const frames = arc(p, t).reverse().map((f) => ({ ...f, offset: 1 - f.offset }));
-    if (!seen(p)) frames.splice(2, frames.length, { ...frames[1], opacity: 0, offset: 1 });
-    const flight = g.animate(frames, { duration: 1100, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
-    if (!quiet) load(house);
-    await flight;
-    g.remove();
-  }
-  await gone;
+  const spine = item.querySelector('.cspine');
   item.classList.remove('is-out');
-  if (quiet) return;
-  if (reduceMotion.matches) load(house);
-  await drop(well.firstElementChild);
+  const back = fade(spine, false);
+  if (quiet) { await back; return; }
+  await Promise.all([back, swap(house)]);
   cta.hidden = false;
   state.textContent = L.ejected;
   item.querySelector('.slot__case').focus({ preventScroll: true });

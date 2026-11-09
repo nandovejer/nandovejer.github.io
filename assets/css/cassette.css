@@ -130,8 +130,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* ---------- the oak cabinets ----------
    On the wall, a desk recorder in one warm off-white matte body, after
-   Rams (the speaker on top, under it a row with the voice keys, a stereo
-   level meter and a voice-and-tape meter, then the tape in an open bay, and a row of
+   Rams (the speaker on top, under it four meters over a line of six keys: a stereo
+   level meter, a voice-and-tape meter and two band meters, then the tape in an open bay, and a row of
    keys, EJECT red and PLAY green the only colour) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
@@ -227,9 +227,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    (L dB R, then the voice and the tape) */
 .vu {
   --led-gap: calc(.4 * var(--u));
-  display: grid; grid-template-columns: auto auto auto; column-gap: calc(1.2 * var(--u)); row-gap: calc(1.2 * var(--u)); align-content: end;
-  border-left: 1px solid rgb(0 0 0 / .14); box-shadow: inset 1px 0 0 rgb(255 255 255 / .8);
+  display: grid; grid-template-columns: auto auto auto; column-gap: calc(1 * var(--u)); row-gap: calc(1.2 * var(--u)); align-content: end; justify-content: center;
 }
+.vu + .vu { border-left: 1px solid rgb(0 0 0 / .14); box-shadow: inset 1px 0 0 rgb(255 255 255 / .8); }
 .vu__col {
   box-sizing: border-box; height: var(--slot-h);
   display: flex; flex-direction: column-reverse; gap: var(--led-gap); padding: calc(.5 * var(--u));
@@ -238,7 +238,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .vu__col i {
   --c: #7cdc2c;
-  display: block; flex: 1; width: calc(2.8 * var(--u)); border-radius: calc(.3 * var(--u));
+  display: block; flex: 1; width: calc(2.6 * var(--u)); border-radius: calc(.3 * var(--u));
   background: color-mix(in srgb, var(--c) 22%, #232527);
   transition: background-color .12s linear, box-shadow .12s linear;
 }
@@ -327,18 +327,18 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the row under the speaker: one shallow field sunk into the plate, divided
-   by hairlines into three compartments (the voice keys · the L/R level meter ·
-   the voice and tape meter), everything standing on the same baseline, the
-   labels in one line */
+/* the field under the speaker: one shallow field sunk into the plate; along
+   the top four level meters side by side, divided by hairlines (L/R · voice
+   and tape · two pairs of frequency bands); under them, in one line, the six
+   small keys */
 .panel__plate {
-  --slot-h: calc(24 * var(--u));
-  display: grid; grid-template-columns: 1fr auto auto; align-items: stretch;
+  --slot-h: calc(22 * var(--u));
+  display: grid; grid-template-columns: repeat(4, 1fr); align-items: stretch;
   margin-top: calc(.6 * var(--u)); border-top: 0; border-radius: calc(1.2 * var(--u));
   background: linear-gradient(#dcdad4, #d6d4ce);
   box-shadow: inset 0 1px 2px rgb(0 0 0 / .22), inset 0 0 0 1px rgb(0 0 0 / .12), 0 1px 0 rgb(255 255 255 / .9);
 }
-.vkeys, .vu { padding: calc(2 * var(--u)) calc(2.2 * var(--u)) calc(1.4 * var(--u)); }
+.vu { padding: calc(2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); }
 /* one label system: a small grey letter-spaced sans, always under its control */
 .vkey small, .key__label { font: 700 max(.36rem, calc(1.45 * var(--u)))/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--lab); white-space: nowrap; text-shadow: none; }
 /* the keys on the left, square push buttons in two rows of three: VOZ (a
@@ -346,7 +346,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    reads at double speed) and REPEAT (the tape starts again when it ends)
    latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
    of the tape) and LINK (copies this tape's address) spring back */
-.vkeys { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; align-content: end; gap: calc(2 * var(--u)) calc(1.4 * var(--u)); }
+.vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in

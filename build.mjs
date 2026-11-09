@@ -637,11 +637,14 @@ const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 // A track's length from its words (a paragraph read aloud, more or less).
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
-// The level meter under the speaker, after a mixer's master meter: two columns
-// of LEDs (left and right), the scale between them, top to bottom; the top
-// two red, the next four orange, the rest green.
+// The level meters under the speaker, after a mixer's master meter: pairs of
+// LED columns (left and right, the voice and the tape, two pairs of frequency
+// bands) with the scale between them, top to bottom; the top two red, the
+// next four orange, the rest green.
 const VU_SCALE = ['OVER', '10', '7', '4', '2', '1', '0', '−1', '−2', '−3', '−5', '−7', '−10', '−15', '−24'];
 const VU_COL = `<span class="vu__col">${'<i></i>'.repeat(VU_SCALE.length)}</span>`;
+// A meter: two columns with the scale between them and their names below.
+const vu = (foot, cls) => `<div class="vu${cls}" aria-hidden="true">${VU_COL}<span class="vu__scale">${VU_SCALE.map((t) => `<b>${t}</b>`).join('')}</span>${VU_COL}<span class="vu__foot">${foot}</span></div>`;
 // The works in the bay, seen when the tape is out (after a Panasonic deck):
 // a black moulded bed with a fine grain, the two spindles with their springs
 // where the hubs go, a bright plate between them, a screw, the step down to
@@ -847,6 +850,11 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
       </div>
       <div class="panel__plate">
+        ${vu('<b>L</b><b>dB</b><b>R</b>', '')}
+        ${vu(`<b>${c.voice}</b><b></b><b>${c.tape}</b>`, ' vu--src')}
+        ${vu('<b>60</b><b>Hz</b><b>250</b>', ' vu--band')}
+        ${vu('<b>1K</b><b>Hz</b><b>8K</b>', ' vu--band')}
+        <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
         <span class="vkeys">
         <button type="button" class="vkey mute" aria-pressed="false" aria-label="${c.mute}" title="${c.mute}">
           <span class="vkey__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
@@ -873,15 +881,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <small aria-hidden="true" data-label="${c.linkKey}">${c.linkKey}</small>
         </button>
         </span>
-        <div class="vu" aria-hidden="true">
-          ${VU_COL}<span class="vu__scale">${VU_SCALE.map((t) => `<b>${t}</b>`).join('')}</span>${VU_COL}
-          <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
-          <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
-        </div>
-        <div class="vu vu--src" aria-hidden="true">
-          ${VU_COL}<span class="vu__scale">${VU_SCALE.map((t) => `<b>${t}</b>`).join('')}</span>${VU_COL}
-          <span class="vu__foot"><b>${c.voice}</b><b></b><b>${c.tape}</b></span>
-        </div>
       </div>
       <div class="tdeck">
         <div class="tdeck__bay">

@@ -74,12 +74,13 @@ function setTrack(i) {
 }
 
 /* ---------- the level meter under the speaker ----------
-   Four columns of LEDs: the left and right channels, then the voice and the
-   tape. Dark when stopped; while it plays each jumps about its own level (the
+   Eight columns of LEDs: the left and right channels, the voice and the
+   tape, then four frequency bands (the bass high and slow, the treble low
+   and nervous). Dark when stopped; while it plays each jumps about its own level (the
    voice column lively, and dark while the voice is silent; the tape steady),
    the highest LED it reached held a moment before it falls; while it winds
    they race; when it stops they fall back to nothing. */
-const PROFILE = [[.62, .5], [.62, .5], [.5, .8], [.56, .3]];   // [level, how much it jumps] per column
+const PROFILE = [[.62, .5], [.62, .5], [.5, .8], [.56, .3], [.72, .3], [.6, .45], [.5, .6], [.4, .7]];   // [level, how much it jumps] per column
 const bands = [...bb.querySelectorAll('.vu__col')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
 let wframe = 0;
 let wlast = -1e9;

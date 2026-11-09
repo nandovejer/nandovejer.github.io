@@ -917,7 +917,9 @@ body.has-minibar { padding-bottom: 4.2rem; }
   /* the rack's cases at their real size beside the (wider) tape: a case is
      1287 px long at 300 DPI against the cassette's 1181 (100 mm), 9% longer */
   .slot__case { width: calc(12.93 * var(--u)); }
-  .rack__slots { grid-template-columns: repeat(auto-fill, minmax(calc(13.93 * var(--u)), 1fr)); }
+  /* the slots at their real width, a case (16 mm) and a millimetre either side,
+     as many to a row as fit and the row centred (what is left over is wood) */
+  .rack__slots { grid-template-columns: repeat(auto-fill, calc(14.47 * var(--u))); justify-content: center; }
   .lcd--deck .lcd__top { font-size: max(.58rem, calc(2.6 * var(--u))); }
   .lcd--deck .lcd__title { font-size: max(.85rem, calc(4.6 * var(--u))); }
 }

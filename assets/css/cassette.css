@@ -188,7 +188,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
    Both cases are drawn in one unit, --u: a hundredth of the width of the
    deck's cabinet (24rem at most), so the slots, the cases in them and the
-   cassette in the door keep their real proportions (a case is 17 × 109 mm,
+   cassette in the door keep their real proportions (a case is 1287 × 189 px at 300 DPI, 109 × 16 mm,
    the cassette 100 mm wide) whatever the width of the rack. */
 
 .cabinet, .rack__cabinet {
@@ -208,7 +208,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
 /* on a tablet (two columns, 48–64em) the rack's cases follow the deck's 20rem
-   unit, so they stay as long as the tape is wide */
+   unit, so they keep their real size beside the tape (a case 9% longer than the cassette) */
 @media (min-width: 48em) and (max-width: 63.99em) {
   .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
 }
@@ -524,7 +524,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .rack { padding: 1rem var(--pad) 3rem; container-type: inline-size; }
 .rack .section-head { margin-bottom: 1.25rem; }
 .rack__slots {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(13.54 * var(--u)), 1fr)); gap: calc(5 * var(--u)) calc(1.5 * var(--u));
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(13.85 * var(--u)), 1fr)); gap: calc(5 * var(--u)) calc(1.5 * var(--u));
   margin: 0; padding: 0; list-style: none;
 }
 /* from tablet width up the rack is only as long as its tapes (it grows as
@@ -532,7 +532,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @media (min-width: 48em) {
   .rack__cabinet { width: fit-content; max-width: 100%; box-sizing: border-box; }
   .rack__slots { display: flex; flex-wrap: wrap; }
-  .rack__slots > .slot { flex: none; width: calc(13.54 * var(--u)); box-sizing: border-box; }
+  .rack__slots > .slot { flex: none; width: calc(13.85 * var(--u)); box-sizing: border-box; }
 }
 /* each slot a recess in the oak: dark at the back, the shelf above throwing
    its shade in, the lit edge of the shelf below */
@@ -544,7 +544,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     inset 0 calc(2.4 * var(--u)) calc(2 * var(--u)) rgb(0 0 0 / .85), inset calc(.9 * var(--u)) 0 calc(.9 * var(--u)) rgb(0 0 0 / .6), inset calc(-.6 * var(--u)) 0 calc(.7 * var(--u)) rgb(0 0 0 / .4),
     0 1px 0 rgb(255 245 225 / .5), 0 -1px 0 rgb(0 0 0 / .45);
 }
-.slot__case { all: unset; box-sizing: border-box; display: block; width: calc(12.04 * var(--u)); max-width: 100%; cursor: pointer; }
+.slot__case { all: unset; box-sizing: border-box; display: block; width: calc(12.35 * var(--u)); max-width: 100%; cursor: pointer; }
 .slot__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .slot__case:hover .cspine__card { transform: translateY(calc(-4 * var(--u))); }
 
@@ -764,10 +764,10 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .jcard__foot b { grid-row: span 2; display: inline-grid; place-items: center; width: 1.1rem; height: 1.1rem; border: 1.5px solid currentColor; }
 
 /* ---------- a case standing spine out ----------
-   17 × 109 mm. The J-card's spine shows through the clear back of the case:
+   1287 × 189 px at 300 DPI (109 × 16 mm). The J-card's spine shows through the clear back of the case:
    the NM logo at the top, the title down the spine, the number at the foot. */
 
-.cspine { display: block; width: 100%; aspect-ratio: 17 / 109; container-type: size; translate: 0 calc(var(--dx, 0px) * .4); filter: saturate(var(--fade, 1)); }
+.cspine { display: block; width: 100%; aspect-ratio: 189 / 1287; container-type: size; translate: 0 calc(var(--dx, 0px) * .4); filter: saturate(var(--fade, 1)); }
 .cspine__card {
   position: relative; height: 100%;
   display: grid; grid-template-rows: auto minmax(0, 1fr) auto; justify-items: center; gap: 4cqw;
@@ -914,9 +914,10 @@ body.has-minibar { padding-bottom: 4.2rem; }
   .panels { width: calc(100 * var(--u)); margin-inline: auto; }
   /* the tape's window as wide as the display above it */
   .tdeck { width: auto; margin-inline: 0; justify-self: stretch; }
-  /* the rack's cases stay as long as the (wider) tape is wide */
-  .slot__case { width: calc(12.6 * var(--u)); }
-  .rack__slots { grid-template-columns: repeat(auto-fill, minmax(calc(13.6 * var(--u)), 1fr)); }
+  /* the rack's cases at their real size beside the (wider) tape: a case is
+     1287 px long at 300 DPI against the cassette's 1181 (100 mm), 9% longer */
+  .slot__case { width: calc(12.93 * var(--u)); }
+  .rack__slots { grid-template-columns: repeat(auto-fill, minmax(calc(13.93 * var(--u)), 1fr)); }
   .lcd--deck .lcd__top { font-size: max(.58rem, calc(2.6 * var(--u))); }
   .lcd--deck .lcd__title { font-size: max(.85rem, calc(4.6 * var(--u))); }
 }

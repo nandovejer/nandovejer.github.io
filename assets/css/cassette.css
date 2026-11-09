@@ -175,8 +175,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panels { grid-template-columns: calc(100 * var(--u)) auto; justify-content: center; align-items: stretch; column-gap: calc(3 * var(--u)); }
   .panels > .unit:first-child { order: 2; }
   .unit { display: grid; }
-  .panel--top .panel__plate { grid-template-columns: auto; }
-  .vkeys { flex-direction: column; justify-content: space-evenly; gap: calc(2 * var(--u)); height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: calc(2 * var(--u)) calc(2.4 * var(--u)); }
+  .panel--top .panel__plate { grid-template-columns: auto; margin: 0; }
+  .panel--top .vkeys { flex-direction: column; justify-content: space-evenly; gap: calc(2 * var(--u)); height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: calc(2 * var(--u)) calc(2.4 * var(--u)); }
 }
 @media (min-width: 48em) and (max-width: 63.99em) {
   .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
@@ -254,7 +254,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    line of small keys */
 @media (max-width: 47.99em) {
   .panel__top, .panel__plate .vu { display: none; }
-  .vkeys { border-top: 0; box-shadow: none; }
+  .panel--top .vkeys { border-top: 0; box-shadow: none; }
 }
 
 /* the level meters, after a mixer's master meter: columns of small rounded
@@ -363,16 +363,14 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the field under the speaker: one shallow field sunk into the plate; along
-   the top four level meters side by side, divided by hairlines (L/R · voice
+/* under the speaker, straight on the plate: along the top four level meters
+   side by side, divided by hairlines (L/R · voice
    and tape · two pairs of frequency bands); under them, in one line, the six
    small keys */
 .panel__plate {
   --slot-h: calc(22 * var(--u));
   display: grid; grid-template-columns: repeat(4, 1fr); align-items: stretch;
-  margin-top: calc(.6 * var(--u)); border-top: 0; border-radius: calc(1.2 * var(--u));
-  background: linear-gradient(#dcdad4, #d6d4ce);
-  box-shadow: inset 0 1px 2px rgb(0 0 0 / .22), inset 0 0 0 1px rgb(0 0 0 / .12), 0 1px 0 rgb(255 255 255 / .9);
+  margin-top: calc(.6 * var(--u)); border-top: 0;
 }
 .vu { padding: calc(4 * var(--u)) calc(2 * var(--u)) calc(1.6 * var(--u)); }
 /* one label system: a small grey letter-spaced sans, always under its control */

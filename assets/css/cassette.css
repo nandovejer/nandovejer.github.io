@@ -304,9 +304,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .unit { padding: 0; border-radius: 0; background: none; box-shadow: none; }
   .panel--top, .panel--deck { background: var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px, linear-gradient(105deg, transparent 8%, rgb(255 255 255 / .3) 30%, transparent 50%), #eceef0; box-shadow: inset 0 1px 0 rgb(255 255 255 / .9); }
 }
+@media (max-width: 29.99em) { .panel--top .vkeys { padding: 0; } }
 @media (max-width: 29.99em), (min-width: 48em) {
   .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(2.3 * var(--u)); }
-  .panel--top .vkeys { padding: 0; }
   .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(4.6 * var(--u)); box-shadow: none; }
   .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
@@ -434,7 +434,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   display: grid; grid-template-columns: repeat(4, 1fr); align-items: stretch;
   margin-top: calc(.6 * var(--u)); border-top: 0;
 }
-.vu { padding: calc(4 * var(--u)) calc(2 * var(--u)) calc(1.6 * var(--u)); }
+.vu { padding: calc(4 * var(--u)) calc(2 * var(--u)) calc(2.8 * var(--u)); }
 /* one label system: a small grey letter-spaced sans, always under its control */
 .vkey small, .key__label { font: 700 max(.36rem, calc(1.45 * var(--u)))/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--lab); white-space: nowrap; text-shadow: none; }
 /* the keys on the left, square push buttons in two rows of three: VOZ (a
@@ -442,7 +442,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    reads at double speed) and REPEAT (the tape starts again when it ends)
    latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
    of the tape) and LINK (copies this tape's address) spring back */
-.vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
+.vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(3.2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in

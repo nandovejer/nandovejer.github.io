@@ -43,15 +43,17 @@
     var(--c-crimson) 0 10%, var(--c-red) 0 20%, var(--c-orange) 0 30%, var(--c-apricot) 0 40%, var(--c-sand) 0 50%,
     var(--c-mist) 0 60%, var(--c-teal) 0 70%, var(--c-steel) 0 80%, var(--c-blue) 0 90%, var(--c-navy) 0 100%);
 
-  --bg: #fbe6b4;          /* cream */
-  --panel: #fdf1d2;       /* lighter cream */
-  --panel-2: #f5e3c3;
-  --ink: #0d3249;         /* navy */
-  --ink-soft: #29557c;
-  --ghost: #e6c98c;       /* decorative digits only */
-  --accent: #c8172a;      /* crimson: a fill, with cream text on it */
-  --on-accent: #fbe6b4;
-  --text-accent: #c8172a; /* crimson: may be text on cream */
+  /* the colours are LUZ's semantic tokens (--luz-*), set by the version's theme
+     (themes/*.css, loaded before this sheet); these are the short names the
+     CSS reads. --ghost, decorative digits only, is the theme's own. */
+  --bg: var(--luz-surface-page);
+  --panel: var(--luz-surface);
+  --panel-2: var(--luz-surface-muted);
+  --ink: var(--luz-text-primary);
+  --ink-soft: var(--luz-text-secondary);
+  --accent: var(--luz-brand-fill);          /* a fill, with --on-accent text on it */
+  --on-accent: var(--luz-text-on-fill);
+  --text-accent: var(--luz-brand-primary);  /* may be text on the page */
   --rule: color-mix(in srgb, var(--ink) 70%, transparent);
   --hair: color-mix(in srgb, var(--ink) 25%, transparent);
 
@@ -61,33 +63,10 @@
   --pad: clamp(1rem, 3.5vw, 4rem);
   --gap: clamp(1rem, 2vw, 2rem);
 }
-/* the dark palette: the system's, unless the visitor chose the light one by hand
-   (data-theme on <html>, set by the masthead's switch); or the dark one by hand */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
-    --bg: #0b2a3e;
-    --panel: #0d3249;
-    --panel-2: #123d58;
-    --ink: #fbe6b4;
-    --ink-soft: #93bcc0;
-    --ghost: #29557c;
-    --accent: #c8172a;
-    --on-accent: #fbe6b4;
-    --text-accent: #f9b874;
-  }
-}
-:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
-  color-scheme: dark;
-  --bg: #0b2a3e;
-  --panel: #0d3249;
-  --panel-2: #123d58;
-  --ink: #fbe6b4;
-  --ink-soft: #93bcc0;
-  --ghost: #29557c;
-  --accent: #c8172a;
-  --on-accent: #fbe6b4;
-  --text-accent: #f9b874;
-}
+/* the colour scheme (form controls, scrollbars) follows the palette: the system's,
+   unless the visitor chose by hand (data-theme on <html>, set by the masthead's
+   switch); the palettes themselves are in themes/*.css */
+:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) { color-scheme: dark; }
 :root[data-theme="light"], :root:not([data-theme]):has(.theme-mode__input[value="light"]:checked) { color-scheme: light; }
 
 *, *::before, *::after { box-sizing: border-box; }

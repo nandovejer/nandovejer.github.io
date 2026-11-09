@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Theme: Disquetes — a LUZ theme (see themes/_template.css in @luz-ds/core).
+   Cream paper and navy ink; crimson as a fill, with cream text on it. Navy
+   paper and cream ink in the dark. It sets LUZ's semantic tokens (--luz-*) and
+   nothing else of LUZ's; the short names the CSS reads (--bg, --ink…) are
+   aliases of them in archivo.css. Also the palette of the pages that have no
+   version of their own (404). Load it after tokens.min.css, before archivo.css.
+
+   The dark palette is the system's, unless the visitor chose the light one by
+   hand (data-theme on <html>); or the dark one by hand. Contrast: navy on
+   cream 10.9:1; crimson may be text on cream (4.7:1); orange is never text on
+   cream (2.1:1).
+   ========================================================================== */
+
+:root {
+  --luz-surface-page: #fbe6b4;   /* cream */
+  --luz-surface: #fdf1d2;        /* lighter cream */
+  --luz-surface-muted: #f5e3c3;
+  --luz-text-primary: #0d3249;   /* navy */
+  --luz-text-secondary: #29557c;
+  --luz-brand-fill: #c8172a;     /* crimson: a fill, with cream text on it */
+  --luz-text-on-fill: #fbe6b4;
+  --luz-brand-primary: #c8172a;  /* crimson: may be text on cream */
+  --ghost: #e6c98c;              /* decorative digits only */
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
+    --luz-surface-page: #0b2a3e;
+    --luz-surface: #0d3249;
+    --luz-surface-muted: #123d58;
+    --luz-text-primary: #fbe6b4;
+    --luz-text-secondary: #93bcc0;
+    --luz-brand-fill: #c8172a;
+    --luz-text-on-fill: #fbe6b4;
+    --luz-brand-primary: #f9b874;
+    --ghost: #29557c;
+  }
+}
+:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
+  --luz-surface-page: #0b2a3e;
+  --luz-surface: #0d3249;
+  --luz-surface-muted: #123d58;
+  --luz-text-primary: #fbe6b4;
+  --luz-text-secondary: #93bcc0;
+  --luz-brand-fill: #c8172a;
+  --luz-text-on-fill: #fbe6b4;
+  --luz-brand-primary: #f9b874;
+  --ghost: #29557c;
+}

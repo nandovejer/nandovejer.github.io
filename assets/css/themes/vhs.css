@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Theme: VHS — a LUZ theme (see themes/_template.css in @luz-ds/core).
+   A slate-blue wall, a 90s yellow TV, cream ink and a yellow fill with dark
+   text. One mode: the room is always dark. It sets LUZ's semantic tokens
+   (--luz-*) and nothing else of LUZ's; the short names the CSS reads (--bg,
+   --ink…) are aliases of them in archivo.css. Load it after tokens.min.css,
+   before archivo.css.
+   ========================================================================== */
+
+:root {
+  --luz-surface-page: #3a4651;   /* the wall */
+  --luz-surface: #1f262d;
+  --luz-surface-muted: #2a333b;
+  --luz-text-primary: #f1e6cc;   /* cream: 8.6:1 on the wall */
+  --luz-text-secondary: #c3ccd1;
+  --luz-brand-fill: #e9cf4f;     /* a yellow fill with dark text */
+  --luz-text-on-fill: #1b1b1b;
+  --luz-brand-primary: #f0c94a;
+  --ghost: #5d6a75;
+}
+
+/* In a dark system the page has always taken the dark palette of Disquetes (the
+   sheet that set it was stronger than the room's): headings in its cream, the
+   counts' leading zeros in its navy. Kept as it was; to give VHS its own colours
+   in a dark system too, delete this block (it changes how the page looks). */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --luz-surface-page: #0b2a3e;
+    --luz-surface: #0d3249;
+    --luz-surface-muted: #123d58;
+    --luz-text-primary: #fbe6b4;
+    --luz-text-secondary: #93bcc0;
+    --luz-brand-fill: #c8172a;
+    --luz-text-on-fill: #fbe6b4;
+    --luz-brand-primary: #f9b874;
+    --ghost: #29557c;
+  }
+}

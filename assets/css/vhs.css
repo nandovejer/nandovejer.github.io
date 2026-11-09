@@ -20,15 +20,7 @@
 
 html:root {
   color-scheme: dark;
-  --bg: #3a4651;          /* the wall */
-  --panel: #1f262d;
-  --panel-2: #2a333b;
-  --ink: #f1e6cc;         /* cream: 8.6:1 on the wall */
-  --ink-soft: #c3ccd1;
-  --ghost: #5d6a75;
-  --accent: #e9cf4f;      /* a yellow fill with dark text */
-  --on-accent: #1b1b1b;
-  --text-accent: #f0c94a;
+  /* the colours are in themes/vhs.css */
   --rule: color-mix(in srgb, var(--ink) 50%, transparent);
   --hair: color-mix(in srgb, var(--ink) 22%, transparent);
 

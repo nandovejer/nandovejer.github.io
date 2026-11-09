@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Theme: Cassette — a LUZ theme (see themes/_template.css in @luz-ds/core).
+   The wall: sage green, as behind the oak cabinet, with cream ink and red
+   (as on the spines); in the dark, the same wall darker, with the navy panels
+   and crimson of the other versions. It sets LUZ's semantic tokens (--luz-*)
+   and nothing else of LUZ's; the short names the CSS reads (--bg, --ink…) are
+   aliases of them in archivo.css. Load it after tokens.min.css, before
+   archivo.css.
+   ========================================================================== */
+
+:root {
+  --luz-surface-page: #5c6b56;   /* the wall */
+  --luz-surface: #f9f8f3;
+  --luz-surface-muted: #f5e3c3;
+  --luz-text-primary: #f4f0e4;   /* cream on the wall: 5:1 */
+  --luz-text-secondary: #dcd8c8;
+  --luz-brand-fill: #e3412b;     /* red, as on the spines */
+  --luz-text-on-fill: #ffffff;
+  --luz-brand-primary: #ffd2a8;
+  --ghost: #8d9a86;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
+    --luz-surface-page: #263024;
+    --luz-surface: #0d3249;
+    --luz-surface-muted: #123d58;
+    --luz-text-primary: #eeeadf;
+    --luz-text-secondary: #c3c0b3;
+    --luz-brand-fill: #c8172a;
+    --luz-text-on-fill: #fbe6b4;
+    --luz-brand-primary: #f9b874;
+    --ghost: #4b5747;
+  }
+}
+:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
+  --luz-surface-page: #263024;
+  --luz-surface: #0d3249;
+  --luz-surface-muted: #123d58;
+  --luz-text-primary: #eeeadf;
+  --luz-text-secondary: #c3c0b3;
+  --luz-brand-fill: #c8172a;
+  --luz-text-on-fill: #fbe6b4;
+  --luz-brand-primary: #f9b874;
+  --ghost: #4b5747;
+}
+
+/* the masthead and footer in the light theme: brushed-aluminium silver, like
+   the radio, in place of the cream of chrome.css (the dark theme keeps its
+   navy: those selectors are stronger) */
+body.cas :is(.masthead, .colophon) {
+  --luz-surface-page: #e6e9e6;
+  --luz-surface: #f3f5f2;
+  --luz-text-on-fill: #ffffff;
+}

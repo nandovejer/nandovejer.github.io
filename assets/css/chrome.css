@@ -8,29 +8,40 @@
    version's content.
    ========================================================================== */
 
+/* The palette of the masthead and the footer is its own, whatever version they
+   are in: cream paper, navy ink, crimson (navy paper and cream ink in the dark).
+   It is LUZ's semantic tokens, set in this scope, and the short names the CSS
+   reads are re-aliased here so they follow it; a theme can change them (the
+   Cassette's light masthead is silver: themes/cassette.css). */
 .masthead, .colophon {
-  --bg: #fbe6b4;
-  --panel: #fdf1d2;
-  --ink: #0d3249;
-  --ink-soft: #29557c;
-  --accent: #c8172a;
-  --on-accent: #fbe6b4;
+  --luz-surface-page: #fbe6b4;
+  --luz-surface: #fdf1d2;
+  --luz-text-primary: #0d3249;
+  --luz-text-secondary: #29557c;
+  --luz-brand-fill: #c8172a;
+  --luz-text-on-fill: #fbe6b4;
+  --bg: var(--luz-surface-page);
+  --panel: var(--luz-surface);
+  --ink: var(--luz-text-primary);
+  --ink-soft: var(--luz-text-secondary);
+  --accent: var(--luz-brand-fill);
+  --on-accent: var(--luz-text-on-fill);
   --rule: color-mix(in srgb, var(--ink) 70%, transparent);
   color: var(--ink);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) :is(.masthead, .colophon) {
-    --bg: #0b2a3e;
-    --panel: #0d3249;
-    --ink: #fbe6b4;
-    --ink-soft: #93bcc0;
+    --luz-surface-page: #0b2a3e;
+    --luz-surface: #0d3249;
+    --luz-text-primary: #fbe6b4;
+    --luz-text-secondary: #93bcc0;
   }
 }
 :root[data-theme="dark"] :is(.masthead, .colophon), :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) :is(.masthead, .colophon) {
-  --bg: #0b2a3e;
-  --panel: #0d3249;
-  --ink: #fbe6b4;
-  --ink-soft: #93bcc0;
+  --luz-surface-page: #0b2a3e;
+  --luz-surface: #0d3249;
+  --luz-text-primary: #fbe6b4;
+  --luz-text-secondary: #93bcc0;
 }
 
 /* ---------- the masthead: a magazine cover's ----------

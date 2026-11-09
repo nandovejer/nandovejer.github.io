@@ -30,14 +30,8 @@
 
 html:root {
   color-scheme: light dark;
-  --bg: #5c6b56;          /* the wall: sage green, as behind the oak cabinet */
-  --panel: #f9f8f3;
-  --ink: #f4f0e4;         /* cream on the wall: 5:1 */
-  --ink-soft: #dcd8c8;
-  --ghost: #8d9a86;
-  --accent: #e3412b;      /* red, as on the spines */
-  --on-accent: #ffffff;
-  --text-accent: #ffd2a8;
+  /* the colours (the wall, sage green as behind the oak cabinet; the red of the
+     spines) are in themes/cassette.css */
   --rule: color-mix(in srgb, var(--ink) 60%, transparent);
   --hair: color-mix(in srgb, var(--ink) 18%, transparent);
   --case: #232323;        /* the plastic of the cases */
@@ -82,29 +76,8 @@ html:root {
     linear-gradient(90deg, rgb(255 245 225 / .2), transparent 12%, transparent 88%, rgb(0 0 0 / .12)),
     linear-gradient(0deg, #b9895a, #cfa36c 14%, #c2945e 30%, #d4aa74 46%, #be8f5a 62%, #d0a66f 80%, #bb8c57);
 }
-@media (prefers-color-scheme: dark) {
-  html:root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
-    --bg: #263024;
-    --ink: #eeeadf;
-    --ink-soft: #c3c0b3;
-    --ghost: #4b5747;
-  }
-}
-html:root[data-theme="dark"], html:root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
-  color-scheme: dark;
-  --bg: #263024;
-  --ink: #eeeadf;
-  --ink-soft: #c3c0b3;
-  --ghost: #4b5747;
-}
+html:root[data-theme="dark"], html:root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) { color-scheme: dark; }
 html:root[data-theme="light"], html:root:not([data-theme]):has(.theme-mode__input[value="light"]:checked) { color-scheme: light; }
-/* the masthead and footer in the light theme: brushed-aluminium silver, like the radio,
-   in place of chrome.css's cream (the dark theme keeps chrome.css's navy: its selectors are stronger) */
-body.cas :is(.masthead, .colophon) {
-  --bg: #e6e9e6;
-  --panel: #f3f5f2;
-  --on-accent: #ffffff;
-}
 body.cas {
   background:
     var(--tx-plaster) 0 0 / 300px 300px,

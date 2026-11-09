@@ -429,7 +429,7 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
 
 /* ---------- the bar at the foot (one column) ----------
    When the deck is out of sight on a phone, a bar along the bottom of the
-   window carries the tape's name and the main keys; they press the deck's own
+   window carries the tape's name and the main keys (and VOZ and 2×); they press the deck's own
    keys, and mirror them (PLAY and PAUSE down, ◀◀ / ▶▶ greyed at the ends). */
 const minibar = document.querySelector('.minibar');
 if (minibar) {
@@ -437,10 +437,12 @@ if (minibar) {
   const mcode = minibar.querySelector('.minibar__code');
   const mtape = minibar.querySelector('.minibar__tape');
   const mkeys = [...minibar.querySelectorAll('[data-proxy]')];
-  mkeys.forEach((m) => m.addEventListener('click', () => keys[m.dataset.proxy].click()));
+  // the deck's key each one presses: a transport key, VOZ or 2×
+  const target = (name) => keys[name] ?? (name === 'mute' ? muteKey : bb.querySelector(`[data-latch="${name}"]`));
+  mkeys.forEach((m) => m.addEventListener('click', () => target(m.dataset.proxy).click()));
   const sync = () => {
     mkeys.forEach((m) => {
-      const k = keys[m.dataset.proxy];
+      const k = target(m.dataset.proxy);
       ['aria-pressed', 'aria-disabled'].forEach((a) => (k.hasAttribute(a) ? m.setAttribute(a, k.getAttribute(a)) : m.removeAttribute(a)));
     });
     mtitle.textContent = dialTitle.textContent;

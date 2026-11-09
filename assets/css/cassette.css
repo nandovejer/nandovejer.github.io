@@ -684,3 +684,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @media (prefers-reduced-motion: reduce) {
   .cabinet .reel, .grille, .studio__arrow { animation: none !important; }
 }
+
+/* Taken off, their space kept: the counter and the tape-name strip, the maker's
+   name on the plate, the J-card's tagline and the upside-down spine's contents. */
+.counter, .strip, .plate__brand, .jcard__tagline, .jcard__spine-in { visibility: hidden; }

@@ -464,9 +464,10 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
    keys, and mirror them (◀◀ / ▶▶ greyed at the ends); ▶/❚❚ is one key, and ⏏ stops, then ejects. */
 const minibar = document.querySelector('.minibar');
 if (minibar) {
-  // its little green display: the mode, the track, the tape's code and name
-  const mtitle = minibar.querySelector('.lcd__title');
-  // its lower line runs in a loop, right to left, like a marquee: the tape's
+  // the little green displays (the bar's, and on phones one in the deck): the
+  // mode, the track, the tape's code and name
+  const lcds = [...document.querySelectorAll('.lcd')];
+  // their lower line runs in a loop, right to left, like a marquee: the tape's
   // name, its line, then its facts (technologies, status, year)
   let said = '';
   const marquee = () => {
@@ -478,12 +479,12 @@ if (minibar) {
     const run = document.createElement('span');
     run.className = 'lcd__run';
     run.textContent = `${text}  ·  `;
-    mtitle.replaceChildren(run, run.cloneNode(true));
-    mtitle.style.setProperty('--dur', `${Math.max(8, run.textContent.length * .22).toFixed(1)}s`);
+    lcds.forEach((l) => {
+      const t = l.querySelector('.lcd__title');
+      t.replaceChildren(run.cloneNode(true), run.cloneNode(true));
+      t.style.setProperty('--dur', `${Math.max(8, run.textContent.length * .22).toFixed(1)}s`);
+    });
   };
-  const mcode = minibar.querySelector('.lcd__code');
-  const mmode = minibar.querySelector('.lcd__mode');
-  const mno = minibar.querySelector('.lcd__no');
   const mkeys = [...minibar.querySelectorAll('[data-proxy]')];
   // the deck's key each one presses: a transport key, VOZ or 2×
   const target = (name) => keys[name] ?? (name === 'mute' ? muteKey : bb.querySelector(`[data-latch="${name}"]`));
@@ -508,9 +509,12 @@ if (minibar) {
       ['aria-pressed', 'aria-disabled'].forEach((a) => (k.hasAttribute(a) ? m.setAttribute(a, k.getAttribute(a)) : m.removeAttribute(a)));
     });
     marquee();
-    mcode.textContent = out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? '';
-    mmode.textContent = osdMode.textContent;
-    mno.textContent = osdNo.textContent;
+    const code = out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? '';
+    lcds.forEach((l) => {
+      l.querySelector('.lcd__code').textContent = code;
+      l.querySelector('.lcd__mode').textContent = osdMode.textContent;
+      l.querySelector('.lcd__no').textContent = osdNo.textContent;
+    });
   };
   new MutationObserver(sync).observe(bb, { subtree: true, attributes: true, attributeFilter: ['aria-pressed', 'aria-disabled'] });
   new MutationObserver(sync).observe(dialTitle.parentElement, { childList: true, characterData: true, subtree: true });

@@ -858,6 +858,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         ${vu(`<b>${c.voice}</b><b></b><b>${c.tape}</b>`, ' vu--src')}
         ${vu('<b>60</b><b>Hz</b><b>250</b>', ' vu--band')}
         ${vu('<b>1K</b><b>Hz</b><b>8K</b>', ' vu--band')}
+        <p class="lcd lcd--deck" aria-hidden="true"><span class="lcd__glass"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title"><span class="lcd__run">${esc(c.about)}</span></span></span></p>
         <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
         <span class="vkeys">
         <button type="button" class="vkey mute" aria-pressed="false" aria-label="${c.mute}" title="${c.mute}">

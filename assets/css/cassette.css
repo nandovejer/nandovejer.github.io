@@ -544,19 +544,13 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .jcard { position: relative; }
 
-/* the spine of the case in the deck, lying under it: the J-card's spine seen
-   through the clear plastic, the black of the case above and below */
-/* as wide as the deck and in a case's own proportion (17 × 109), so the
-   case flying in is only scaled, never stretched */
-.studio__spine { --u: calc(min(100cqi, 24rem) / 100); margin-top: 1.5rem; }
-.studio__spine:empty { display: none; }
-.studio__spine .hspine__title { flex: none; max-width: 100%; }
-.studio__spine .hspine__sub { flex: 0 1 auto; min-width: 0; }
+/* the spine of the case, laid along the top: the J-card's spine seen through
+   the clear plastic, the black of the case above and below */
 .hspine {
   position: relative; overflow: hidden;
-  display: flex; align-items: center; gap: calc(2.6 * var(--u)); box-sizing: border-box; container-type: size;
-  height: calc(100 * var(--u) * 17 / 109); padding: 0 calc(3 * var(--u));
-  border-block: calc(1.4 * var(--u)) solid var(--case);
+  display: flex; align-items: center; gap: 1rem;
+  height: clamp(3.6rem, 9vw, 4.6rem); padding: 0 1.2rem;
+  border-block: .45rem solid var(--case);
   background: var(--tx-paper) 0 0 / 220px 220px, var(--jc); color: var(--jc-ink);
 }
 .hspine::after {
@@ -565,12 +559,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     linear-gradient(rgb(255 255 255 / .4), rgb(255 255 255 / .1) 22%, transparent 45%, transparent 80%, rgb(0 0 0 / .16)),
     linear-gradient(90deg, rgb(0 0 0 / .35) 0 .5rem, transparent .5rem calc(100% - .5rem), rgb(0 0 0 / .35) calc(100% - .5rem));
 }
-/* its lettering scales with the spine (cqh: a hundredth of its height) */
-.hspine__logo { flex: none; padding: 6cqh 9cqh; border: max(1px, 4cqh) solid currentColor; border-radius: 6cqh; font: 900 26cqh/1 var(--sans); }
-.hspine__text { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 14cqh; }
-.hspine__title { font-size: 38cqh; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--jc-title, var(--jc-ink)); }
-.hspine__sub { flex: none; max-width: 40%; font: 600 15cqh/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
-.hspine__code { flex: none; display: flex; gap: 10cqh; font: 600 17cqh/1 var(--tech); letter-spacing: .04em; }
+.hspine__logo { flex: none; padding: .25rem .4rem; border: 2px solid currentColor; border-radius: .25rem; font: 900 1rem/1 var(--sans); }
+.hspine__text { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .8rem; }
+.hspine__title { flex: 0 0 auto; max-width: 100%; font-size: clamp(1.4rem, 1rem + 1.6vw, 2.3rem); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--jc-title, var(--jc-ink)); }
+/* when it is short of room, the line gives way before the title does */
+.hspine__sub { flex: 0 1 auto; min-width: 0; max-width: 40%; font: 600 .62rem/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
+.hspine__code { flex: none; display: flex; gap: .6rem; font: 600 .68rem/1 var(--tech); letter-spacing: .04em; }
 
 .jcard__tagline {
   padding: .25rem 1.4rem 0 36%;

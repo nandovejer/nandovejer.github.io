@@ -2,7 +2,7 @@
 // its slot, turns on its side and flies into the deck on the silver
 // recorder; the tape slides into the open bay; the reels turn, the level
 // meter under the speaker lights up and the liner notes beside it are that
-// tape's (its case's spine lies under the deck): side A the text, a track per paragraph; side B the facts and links.
+// tape's: side A the text, a track per paragraph; side B the facts and links.
 // ◀◀ / ▶▶ move between tracks, ■ stops, ⏏ sends the tape back to its slot.
 // With no project in, the house tape (the bio) is in the deck. While it
 // plays, a voice reads the tape aloud (clips made at build time, see
@@ -16,7 +16,6 @@ const bb = document.querySelector('.cabinet');
 const panel = bb.querySelector('.panels');
 const well = bb.querySelector('.tdeck__well');
 const liner = document.querySelector('.liner');
-const spineBox = document.querySelector('.studio__spine');
 const out = liner.querySelector('.liner__out');
 const state = bb.querySelector('.bb__state');
 const osdMode = bb.querySelector('.osd__mode');
@@ -45,14 +44,13 @@ const press = (key) => {
 
 /* ---------- what is in the deck ---------- */
 
-// The tape in the well, its case's spine under the deck and its liner notes,
-// which take its J-card colour and lettering.
+// The tape in the well and its liner notes, which take its J-card colour and
+// lettering.
 function load(src) {
   const tape = src.querySelector('.cas-item__tape .cassette').cloneNode(true);
   well.replaceChildren(tape);
   out.replaceChildren(...[...src.querySelector('.cas-item__notes').children].map((n) => n.cloneNode(true)));
   out.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
-  spineBox.replaceChildren(out.querySelector('.hspine'));
   liner.className = ['liner', ...[...tape.classList].filter((c) => /^(jc|ty)--/.test(c))].join(' ');
   tracks = [...out.querySelectorAll('.track')];
   dialTitle.textContent = out.querySelector('.notes__title')?.textContent ?? '';
@@ -301,7 +299,7 @@ function rectAt(el, dy = 0) {
   return r;
 }
 
-// From its slot in the rack (p) onto the case's spine lying under the deck
+// From its slot in the rack (p) onto the spine along the top of the liner notes
 // along the top of the liner notes (t): up out of its slot, over in an arc,
 // turning on its side, and down onto the spine, stretched to its size (as long
 // as the card is wide, as tall as the spine is).
@@ -329,15 +327,15 @@ const lift = (el) => (reduceMotion.matches || !el ? Promise.resolve()
 const drop = (el) => (reduceMotion.matches || !el ? Promise.resolve()
   : el.animate([{ transform: 'translateY(-118%)' }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.2, .8, .2, 1)' }).finished);
 
-// How far the page must scroll to show the spine under the deck (0 if it is
-// already in view): the deck's foot and the spine end up in the lower half.
-const spineOf = () => spineBox.querySelector('.hspine');
+// How far the page must scroll to show the top of the liner notes under the
+// header (0 if the spine along its top is already in view).
+const spineOf = () => liner.querySelector('.hspine');
 function linerScroll() {
-  const r = spineBox.getBoundingClientRect();
+  const r = spineOf().getBoundingClientRect();
   const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 0;
   if (r.top >= head && r.bottom <= innerHeight) return 0;
   const max = document.documentElement.scrollHeight - innerHeight;
-  const to = Math.max(0, Math.min(max, scrollY + r.bottom - innerHeight + Math.min(160, innerHeight * .18)));
+  const to = Math.max(0, Math.min(max, scrollY + liner.getBoundingClientRect().top - head - 24));
   return Math.round(to - scrollY);
 }
 

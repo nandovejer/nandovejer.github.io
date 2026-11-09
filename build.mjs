@@ -640,6 +640,9 @@ const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9
 // The graphic equaliser beside the speaker: a column of LEDs per band.
 const EQ_BANDS = ['31', '62', '125', '250', '500', '1K', '2K', '4K', '8K', '16K'];
 const EQ_LEDS = 16;
+// The tower under the deck: the tapes that come out of it lie there on their
+// sides, one per shelf.
+const TOWER = 4;
 // the scales printed either side of the bars, top to bottom
 const EQ_SCALE_L = ['10', '·', '·', '+', '0', '−', '·', '·', '10'];
 const EQ_SCALE_R = ['10', '·', '·', '·', '5', '·', '·', '·', '0'];
@@ -881,6 +884,9 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
   </div>
+  <section class="tower" aria-label="${c.tower}">
+    <div class="rack__cabinet tower__cabinet"><ol class="tower__slots">${'<li class="tower__slot"><span class="tower__bed"></span></li>'.repeat(TOWER)}</ol></div>
+  </section>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}

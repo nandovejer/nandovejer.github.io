@@ -28,25 +28,25 @@
 }
 
 /* ---------- the masthead: a magazine cover's ----------
-   The stripe runs along the top; under it the three squares and the name in
+   The stripe hangs along its bottom edge; above it the three squares and the name in
    the condensed titling face, with the kicker under it in the technical one;
    the links are ■ labels, the language a plain square like the screen's eject.
    The brand (squares, name, kicker) is one link home. */
 .masthead {
   position: sticky; top: 0; z-index: 20;
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .25rem 2rem;
-  padding: calc(.4rem + .55rem) var(--pad) .55rem;
-  border-bottom: 1.5px solid var(--ink);
+  padding: .75rem var(--pad);
   background: var(--bg);
   font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   transition: translate .3s ease;
 }
-.masthead::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: .4rem; background: var(--stripe); }
+.masthead::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: .4rem; background: var(--stripe); }
 .masthead a { text-decoration: none; }
 .masthead a:hover { text-decoration: underline; }
 .masthead__title { font-size: inherit; font-weight: 700; }
 
-/* going down it slides away (stripe and all); going up it comes back (chrome.js) */
+/* going down it slides away, leaving only the stripe at the top of the window;
+   going up it comes back (chrome.js) */
 .masthead.is-hidden { translate: 0 -100%; }
 @media (prefers-reduced-motion: reduce) { .masthead { transition: none; } }
 /* --head-h is its height, set by chrome.js, so anchors and glides stop under it */

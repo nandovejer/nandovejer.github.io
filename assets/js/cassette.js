@@ -9,7 +9,7 @@
 // plays, a voice reads the tape aloud (clips made at build time, see
 // src/speech.mjs): the title and its line, then track after track; the VOZ
 // key mutes it, 2× doubles its speed, SHUFFLE puts in a tape at random,
-// SIDE flips to the other side, LINK copies the tape's address, and
+// LINK copies the tape's address, and
 // REPEAT starts the tape again when it ends.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
@@ -384,20 +384,12 @@ items.forEach((item) => {
   });
 });
 
-// The keys that spring back: a tape at random, the other side, the link.
+// The keys that spring back: a tape at random, the link.
 const acts = Object.fromEntries([...bb.querySelectorAll('[data-act]')].map((k) => [k.dataset.act, k]));
 acts.shuffle.addEventListener('click', () => {
   press(acts.shuffle);
   const pool = tapes.filter((it) => it !== loaded);
   if (pool.length && !busy) insert(pool[Math.floor(Math.random() * pool.length)]);
-});
-// SIDE: from side A to the first track of side B, and back to the start of A
-acts.side.addEventListener('click', () => {
-  press(acts.side);
-  const b = tracks.findIndex((t) => t.dataset.no.startsWith('B'));
-  if (b < 0) return;
-  const to = track >= b ? 0 : b;
-  if (to !== track) wind(to - track);
 });
 // LINK: the page's address with the tape's id, copied; the label says so a moment
 acts.link.addEventListener('click', async () => {

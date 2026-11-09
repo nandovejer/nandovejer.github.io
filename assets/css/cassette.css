@@ -489,8 +489,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    reads at double speed) and REPEAT (the tape starts again when it ends)
    latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
    of the tape) and LINK (copies this tape's address) spring back */
-/* the small keys in the same six columns as the transport keys below, edge to edge */
-.vkeys { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: calc(1.2 * var(--u)); padding: calc(3.2 * var(--u)) 0 calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
+/* the five small keys in five equal columns, edge to edge */
+.vkeys { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: calc(1.2 * var(--u)); padding: calc(3.2 * var(--u)) 0 calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(7 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 .vkey__cap, .key__cap { grid-area: 1 / 1; position: relative; z-index: 1; }
@@ -523,7 +523,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
 .vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: var(--ink2); letter-spacing: -.02em; }
-.vkey__text--ab { font-size: calc(2.1 * var(--u)); letter-spacing: 0; }
 /* 2× and REPEAT print their sign green while they are down */
 .vkey[data-latch][aria-pressed="true"] svg { stroke: #2f7a43; }
 .vkey[data-latch][aria-pressed="true"] .vkey__text { color: #2f7a43; }

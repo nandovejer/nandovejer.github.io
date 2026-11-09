@@ -816,12 +816,12 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <span class="knobs" aria-hidden="true"><span class="knob"><small>VOL</small></span><span class="knob knob--tone"><small>${c.tone}</small></span></span>
       </div>
       <div class="keys">
-          <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">⏏<small>EJECT</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key key--play" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span class="key__label" aria-hidden="true">▶<small>PLAY</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span class="key__label" aria-hidden="true">◀◀<small>REW</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span class="key__label" aria-hidden="true">▶▶<small>F.FWD</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">■<small>STOP</small></span><span class="key__cap" aria-hidden="true"></span></button>
-          <button type="button" class="key" data-key="pause" aria-label="${c.pause}" title="${c.pause}" aria-pressed="false"><span class="key__label" aria-hidden="true">❚❚<small>PAUSE</small></span><span class="key__cap" aria-hidden="true"></span></button>
+          <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">EJECT</span><span class="key__cap" aria-hidden="true"><i>⏏</i></span></button>
+          <button type="button" class="key key--play" data-key="play" aria-label="${c.play}" title="${c.play}" aria-pressed="false"><span class="key__label" aria-hidden="true">PLAY</span><span class="key__cap" aria-hidden="true"><i>▶</i></span></button>
+          <button type="button" class="key" data-key="rew" aria-label="${c.rew}" title="${c.rew}"><span class="key__label" aria-hidden="true">REW</span><span class="key__cap" aria-hidden="true"><i>◀◀</i></span></button>
+          <button type="button" class="key" data-key="ff" aria-label="${c.ff}" title="${c.ff}"><span class="key__label" aria-hidden="true">F.FWD</span><span class="key__cap" aria-hidden="true"><i>▶▶</i></span></button>
+          <button type="button" class="key" data-key="stop" aria-label="${c.stop}" title="${c.stop}"><span class="key__label" aria-hidden="true">STOP</span><span class="key__cap" aria-hidden="true"><i>■</i></span></button>
+          <button type="button" class="key" data-key="pause" aria-label="${c.pause}" title="${c.pause}" aria-pressed="false"><span class="key__label" aria-hidden="true">PAUSE</span><span class="key__cap" aria-hidden="true"><i>❚❚</i></span></button>
       </div>
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>

@@ -132,7 +132,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    On the wall, a silver portable recorder in an oak case, after an old
    program recorder (the speaker on top with a graphic equaliser beside it,
    the tape in an open bay, a red band with the voice key, three red lights
-   and two knobs, black piano keys with a red EJECT and a green PLAY) and,
+   and two knobs, charcoal keys with a red EJECT and a green PLAY) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
@@ -396,49 +396,47 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .knob--tone::before { rotate: 38deg; }
 .knob small { position: absolute; top: 100%; left: 50%; translate: -50% calc(.7 * var(--u)); }
 
-/* the piano keys along the foot: their names printed white on a black strip,
-   black caps with a dished square, EJECT red (where a recorder has RECORD),
-   PLAY green; PLAY and PAUSE stay down while pressed */
+/* the piano keys along the foot, after the old program recorders: their
+   names printed dark on the panel above, square charcoal caps with the
+   symbol moulded on the face, sitting in a dark tray; EJECT red (where a
+   recorder has RECORD), PLAY green; PLAY and PAUSE stay down while pressed */
 .keys {
-  position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(1.2 * var(--u));
-  margin-inline: calc(-1 * var(--u));
+  position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(.7 * var(--u));
+  margin-inline: calc(-1 * var(--u)); padding-inline: calc(.7 * var(--u));
 }
-.keys::before, .keys::after { content: ""; position: absolute; left: 0; right: 0; z-index: -1; }
 .keys::before {
-  bottom: calc(-.9 * var(--u)); height: calc(11 * var(--u)); border-radius: calc(.8 * var(--u));
-  background: linear-gradient(#0f0f0f, #1f1f1f);
-  box-shadow: inset 0 calc(.5 * var(--u)) calc(.8 * var(--u)) rgb(0 0 0 / .9), inset 0 -1px 0 rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .6);
+  content: ""; position: absolute; z-index: -1; left: 0; right: 0;
+  top: calc(max(.4rem, 1.6 * var(--u)) + 1.2 * var(--u)); bottom: calc(-.9 * var(--u)); border-radius: calc(.5 * var(--u));
+  background: linear-gradient(#1a1a19, #2a2a28);
+  box-shadow: inset 0 calc(.5 * var(--u)) calc(.8 * var(--u)) rgb(0 0 0 / .85), inset 0 -1px 0 rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .6);
 }
-.keys::after {
-  top: calc(-1.2 * var(--u)); height: calc(6 * var(--u)); border-radius: calc(.5 * var(--u));
-  background: linear-gradient(#1d1d1d, #121212);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .1), 0 1px 0 rgb(255 255 255 / .55);
-}
-.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(1.6 * var(--u)); justify-items: center; }
-.key__label { display: grid; justify-items: center; gap: calc(.3 * var(--u)); font: 700 max(.45rem, calc(2 * var(--u)))/1 var(--tech); color: #f2f1ec; }
-.key__label small { font-size: max(.36rem, calc(1.3 * var(--u))); letter-spacing: .1em; }
+.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(2.1 * var(--u)); justify-items: center; align-content: start; }
+.key__label { font: 700 max(.4rem, calc(1.6 * var(--u)))/1 var(--tech); letter-spacing: .08em; color: #3b3b39; text-shadow: 0 1px 0 rgb(255 255 255 / .55); }
 .key__cap {
-  --c1: #3c3c3b; --c2: #262626; --c3: #1b1b1b; --edge: #050505;
-  display: block; width: 100%; height: calc(9 * var(--u));
-  border-radius: calc(.7 * var(--u)) calc(.7 * var(--u)) calc(.5 * var(--u)) calc(.5 * var(--u));
-  border-bottom: calc(2.6 * var(--u)) solid var(--edge);
+  --c1: #5d5d5a; --c2: #4b4b49; --c3: #3f3f3d; --edge: #222221; --ink: #e4e3dd;
+  display: grid; place-items: center; width: 100%; height: calc(9.4 * var(--u));
+  border-radius: calc(.45 * var(--u));
+  border-top: calc(1.3 * var(--u)) solid color-mix(in srgb, var(--c1), #fff 14%);
+  border-bottom: calc(2.2 * var(--u)) solid var(--edge);
   background:
-    linear-gradient(rgb(0 0 0 / .28), rgb(255 255 255 / .06)) 50% 58% / 66% 50% no-repeat,
-    repeating-linear-gradient(rgb(255 255 255 / .05) 0 1px, transparent 1px 3px),
     var(--tx-grain) 0 0 / 160px 160px,
-    linear-gradient(170deg, var(--c1), var(--c2) 60%, var(--c3));
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .28), inset 1px 0 0 rgb(255 255 255 / .1), inset -1px 0 0 rgb(0 0 0 / .3), 0 1px 0 #000, 0 calc(.8 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .5);
-  transition: transform .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
+    linear-gradient(var(--c1), var(--c2) 45%, var(--c3));
+  box-shadow: inset 1px 0 0 rgb(255 255 255 / .12), inset -1px 0 0 rgb(0 0 0 / .35), inset 0 -1px 0 rgb(0 0 0 / .3), 0 1px 0 #000, 0 calc(.6 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .45);
+  transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
 }
-.key--eject .key__cap { --c1: #df4a40; --c2: #bf3129; --c3: #a02620; --edge: #5c1512; }
-.key--play .key__cap { --c1: #6bae79; --c2: #46905a; --c3: #357646; --edge: #1d4428; }
+.key__cap i {
+  font: 400 max(.55rem, calc(2.5 * var(--u)))/1 var(--tech); font-style: normal; letter-spacing: -.12em; color: var(--ink);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / .45), 0 1px 0 rgb(255 255 255 / .12);
+}
+.key--eject .key__cap { --c1: #df4a40; --c2: #c5352c; --c3: #a92a23; --edge: #5c1512; --ink: #fbe6e0; }
+.key--play .key__cap { --c1: #6bae79; --c2: #4f9862; --c3: #3c7f4c; --edge: #1d4428; --ink: #eaf6ea; }
 .key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
-  transform: translateY(calc(2 * var(--u))); border-bottom-width: calc(.7 * var(--u));
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), inset -1px 0 0 rgb(0 0 0 / .3), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
+  transform: translateY(calc(1.6 * var(--u))); height: calc(7.8 * var(--u)); border-bottom-width: calc(.6 * var(--u));
+  box-shadow: inset 1px 0 0 rgb(255 255 255 / .1), inset -1px 0 0 rgb(0 0 0 / .35), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
 }
-.key[aria-pressed="true"] .key__label { color: #8fe39d; }
+.key[aria-pressed="true"] .key__label { color: #2f7a43; }
 .key[aria-disabled="true"] { cursor: default; }
-.key[aria-disabled="true"] .key__label { opacity: .45; }
+.key[aria-disabled="true"] .key__label, .key[aria-disabled="true"] .key__cap i { opacity: .45; }
 .key:focus-visible .key__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* the reels turn as it plays, fast on ◀◀ / ▶▶ */

@@ -138,7 +138,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 /* the deck stays in view under the masthead while the notes beside it scroll,
    until the notes end — when the window is tall enough to show all of it */
-@media (min-width: 48em) and (max-width: 63.99em) and (min-height: 50em), (min-width: 64em) and (min-height: 62em) {
+@media (min-width: 48em) and (max-width: 63.99em) and (min-height: 50em), (min-width: 64em) and (min-height: 54em) {
   .studio__deck { position: sticky; top: calc(var(--head-h, 0px) + 1.5rem); }
 }
 @media (min-width: 48em) and (max-width: 63.99em) { .hspine__sub { display: none; } }
@@ -283,20 +283,19 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* the speaker across the top */
 .panel__top { display: grid; }
-.panel__top .grille { height: calc(40 * var(--u)); }
+.panel__top .grille { height: calc(26 * var(--u)); }
 /* phones (one column): no speaker and no meters, the upper unit is just the
    line of small keys */
 @media (max-width: 47.99em) {
   .panel__top, .panel__plate .vu { display: none; }
   .panel--top .vkeys { border-top: 0; box-shadow: none; }
 }
-/* in one column (phones, and between phone and tablet) the two units are one:
-   a single aluminium body holding one plate, four screws at its corners —
-   on a phone the small keys along its top, between phone and tablet the keys
-   in a column on its right. One step of space everywhere: the plate's margin
-   (4.6 units) round the edge, half of it on each side of the seam between the
-   keys and the tape, so the gap between them is a margin too */
-@media (max-width: 47.99em) {
+/* the two units are one: a single aluminium body holding one plate, four
+   screws at its corners — the speaker, the meters and the small keys over the
+   tape (between phone and tablet, the keys in a column on its right). One step
+   of space everywhere: the plate's margin (4.6 units) round the edge, half of
+   it on each side of the seam, so the gap there is a margin too */
+@media all {
   .panels {
     gap: 0; padding: calc(1.6 * var(--u)); border-radius: calc(1.8 * var(--u));
     background: var(--alu-deep);
@@ -305,7 +304,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .unit { padding: 0; border-radius: 0; background: none; box-shadow: none; }
   .panel--top, .panel--deck { background: var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px, linear-gradient(105deg, transparent 8%, rgb(255 255 255 / .3) 30%, transparent 50%), #eceef0; box-shadow: inset 0 1px 0 rgb(255 255 255 / .9); }
 }
-@media (max-width: 29.99em) {
+@media (max-width: 29.99em), (min-width: 48em) {
   .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(2.3 * var(--u)); }
   .panel--top .vkeys { padding: 0; }
   .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(4.6 * var(--u)); box-shadow: none; }

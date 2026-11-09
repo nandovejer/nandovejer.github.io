@@ -1,6 +1,7 @@
 // Cassette version — press a case standing in the oak rack: it rises out of
-// its slot, turns on its side and flies into the deck on the cabinet's
-// silver recorder; the tape slides into the open bay; the reels turn, the
+// its slot, turns on its side and goes to a shelf of the tower under the
+// silver recorder. Press it there and it flies into the deck: the tape
+// slides into the open bay; the reels turn, the
 // equaliser beside the speaker lights up and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape to the tower under the deck,
@@ -336,9 +337,11 @@ function linerScroll() {
 }
 
 /* ---------- the tower ----------
-   The tapes that come out of the deck lie on its shelves, the first free one
-   from the top. When none is free, the tape that went in longest ago goes
-   back to its slot in the rack to make room. Press one to play it again. */
+   The tapes picked from the rack and those that come out of the deck lie on
+   its shelves, the first free one from the top. When none is free, the tape
+   that went in longest ago goes back to its slot in the rack to make room.
+   Press one to play it. */
+const towerEl = document.querySelector('.tower');
 const tower = [...document.querySelectorAll('.tower__slot')].map((el) => ({ el, bed: el.querySelector('.tower__bed'), item: null, at: 0 }));
 let shelved = 0;
 const shelfOf = (item) => tower.find((s) => s.item === item);
@@ -358,7 +361,7 @@ function lay(s, item) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'tower__case';
-  b.setAttribute('aria-label', item.querySelector('.slot__case').getAttribute('aria-label'));
+  b.setAttribute('aria-label', `${towerEl.dataset.insert}: ${item.dataset.name}`);
   b.append(item.querySelector('.cspine').cloneNode(true));
   b.addEventListener('click', () => { if (!busy) insert(item); });
   s.bed.replaceChildren(b);
@@ -396,6 +399,43 @@ function berth(skip) {
   const old = tower.filter((s) => s !== skip).sort((x, y) => x.at - y.at)[0];
   unshelve(old);
   return old;
+}
+
+// From the rack to the tower: the case rises out of its slot and, as the
+// page glides up to the tower, turns on its side and lands on a shelf.
+async function shelve(item) {
+  if (busy || item === loaded || shelfOf(item)) return;
+  busy = true;
+  const spine = item.querySelector('.cspine');
+  const p = placeIn(spine.getBoundingClientRect());
+  const g = ghostOf(spine, p);
+  item.classList.add('is-out');
+  let s = tower.find((x) => !x.item);
+  const bump = s ? null : tower.reduce((x, y) => (y.at < x.at ? y : x));
+  s ??= bump;
+  const r = towerEl.getBoundingClientRect();
+  const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 0;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const dy = r.top >= head && r.bottom <= innerHeight ? 0
+    : Math.round(Math.max(0, Math.min(max, scrollY + r.top - head - Math.max(16, (innerHeight - head - r.height) / 2))) - scrollY);
+  scrollAlong(dy, 700);
+  if (bump) sleep(700).then(() => unshelve(bump));
+  if (!reduceMotion.matches) {
+    const t = placeIn(rectAt(s.bed, dy), -90);
+    const top = Math.min(p.cy - p.h * .35, t.cy) - Math.min(120, innerHeight * .12);
+    await g.animate([
+      { transform: at(p.cx, p.cy, p.w, p.h, 0, 1), offset: 0 },
+      { transform: at(p.cx, p.cy - p.h * .35, p.w, p.h, 0, 1), offset: .16 },
+      { transform: at((p.cx + t.cx) / 2, top, p.w, p.h, -50, 1), offset: .5 },
+      { transform: at(t.cx, t.cy - t.w * .8, t.w, t.h, -90, 1), offset: .82 },
+      { transform: at(t.cx, t.cy, t.w, t.h, -90, 1), offset: 1 }
+    ], { duration: 1300, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).finished;
+  } else if (bump) await unshelve(bump);
+  lay(s, item);
+  g.remove();
+  state.textContent = `${towerEl.getAttribute('aria-label')}: ${item.dataset.name}`;
+  s.bed.querySelector('.tower__case')?.focus({ preventScroll: true });
+  busy = false;
 }
 
 /* ---------- insert and eject ---------- */
@@ -470,7 +510,7 @@ async function eject({ quiet = false, skip = null } = {}) {
 items.forEach((item) => {
   item.querySelector('.slot__case').addEventListener('click', async () => {
     if (busy) return;
-    if (item === loaded) { busy = true; await eject(); busy = false; } else insert(item);
+    if (item === loaded) { busy = true; await eject(); busy = false; } else if (shelfOf(item)) insert(item); else shelve(item);
   });
 });
 

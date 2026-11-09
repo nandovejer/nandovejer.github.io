@@ -205,7 +205,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .unit { display: grid; }
   .panel--top .panel__plate { grid-template-columns: auto; margin: 0; height: 100%; }
   /* the column runs from the top of the bay to the line of the transport keys' names */
-  .panel--top .vkeys { flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
+  .panel--top .vkeys { display: flex; flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
+  .vkey__cap { width: calc(11.5 * var(--u)); }
+  .vkey { justify-items: center; }
 }
 @media (min-width: 48em) and (max-width: 63.99em) {
   .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
@@ -462,7 +464,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    reads at double speed) and REPEAT (the tape starts again when it ends)
    latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
    of the tape) and LINK (copies this tape's address) spring back */
-.vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(3.2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
+/* the small keys in the same six columns as the transport keys below, edge to edge */
+.vkeys { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: calc(1.2 * var(--u)); padding: calc(3.2 * var(--u)) 0 calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(7 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 .vkey__cap, .key__cap { grid-area: 1 / 1; position: relative; z-index: 1; }
@@ -477,8 +480,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .1), 0 0 0 1px rgb(0 0 0 / .25), 0 calc(.9 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .3);
   transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease, filter .09s ease;
 }
-/* the small keys wider than tall, like a deck's function keys */
-.vkey__cap { width: calc(11.5 * var(--u)); height: calc(7 * var(--u)); }
+/* the small keys wider than tall, like a deck's function keys, as wide as
+   their column */
+.vkey__cap { width: 100%; height: calc(7 * var(--u)); }
+.vkey { justify-items: stretch; }
+.vkey small { justify-self: center; }
 .vkey svg { width: auto; height: 62%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .mute__cone { fill: var(--ink2); }
 .mute__x { display: none; stroke: #c2311d; }

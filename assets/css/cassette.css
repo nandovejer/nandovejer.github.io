@@ -341,10 +341,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vkeys, .vu { padding: calc(2 * var(--u)) calc(2.2 * var(--u)) calc(1.4 * var(--u)); }
 /* one label system: a small grey letter-spaced sans, always under its control */
 .vkey small, .key__label { font: 700 max(.36rem, calc(1.45 * var(--u)))/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--lab); white-space: nowrap; text-shadow: none; }
-/* the keys on the left, square push buttons that latch down: VOZ (a speaker
-   printed on it, crossed out when the voice is muted), 2× (the voice reads at
-   double speed) and REPEAT (the tape starts again when it ends) */
-.vkeys { display: flex; justify-content: center; align-items: flex-end; gap: calc(1.4 * var(--u)); }
+/* the keys on the left, square push buttons in two rows of three: VOZ (a
+   speaker printed on it, crossed out when the voice is muted), 2× (the voice
+   reads at double speed) and REPEAT (the tape starts again when it ends)
+   latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
+   of the tape) and LINK (copies this tape's address) spring back */
+.vkeys { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; align-content: end; gap: calc(2 * var(--u)) calc(1.4 * var(--u)); }
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(1.2 * var(--u)); }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in
    the body colour standing on a darker side, the whole key sinking when pressed */
@@ -360,15 +362,16 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vkey svg { width: 60%; height: 60%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .mute__cone { fill: var(--ink2); }
 .mute__x { display: none; stroke: #c2311d; }
-.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap,
+.vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap,
 .key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
   transform: translateY(calc(1 * var(--u))); border-bottom-width: calc(.4 * var(--u));
   box-shadow: inset 0 1px 2px rgb(0 0 0 / .2), inset 0 -1px 0 rgb(255 255 255 / .4), 0 0 0 1px rgb(0 0 0 / .28), 0 calc(.15 * var(--u)) calc(.2 * var(--u)) rgb(0 0 0 / .3);
 }
-.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
+.vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
 .vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: var(--ink2); letter-spacing: -.02em; }
+.vkey__text--ab { font-size: calc(2.1 * var(--u)); letter-spacing: 0; }
 /* 2× and REPEAT print their sign green while they are down */
 .vkey[data-latch][aria-pressed="true"] svg { stroke: #2f7a43; }
 .vkey[data-latch][aria-pressed="true"] .vkey__text { color: #2f7a43; }

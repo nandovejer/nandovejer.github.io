@@ -837,7 +837,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
 <main id="main">
 <div class="studio">
   <div class="studio__deck">
-  <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}">
+  <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}" data-copied="${c.copied}">
     <section class="panel" aria-label="${c.deck}">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>
@@ -859,6 +859,18 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <button type="button" class="vkey" data-latch="repeat" aria-pressed="false" aria-label="${c.repeat}" title="${c.repeat}">
           <span class="vkey__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 11V9a3 3 0 0 1 3-3h11"/><path d="M15 3l3 3-3 3"/><path d="M20 13v2a3 3 0 0 1-3 3H6"/><path d="M9 21l-3-3 3-3"/></svg></span>
           <small aria-hidden="true">${c.repeatKey}</small>
+        </button>
+        <button type="button" class="vkey" data-act="shuffle" aria-label="${c.shuffle}" title="${c.shuffle}">
+          <span class="vkey__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 7h3l10 10h3"/><path d="M17 4l3 3-3 3"/><path d="M4 17h3l3-3"/><path d="M14 7h3l3 3"/><path d="M17 14l3 3-3 3"/></svg></span>
+          <small aria-hidden="true">${c.shuffleKey}</small>
+        </button>
+        <button type="button" class="vkey" data-act="side" aria-label="${c.side}" title="${c.side}">
+          <span class="vkey__cap" aria-hidden="true"><b class="vkey__text vkey__text--ab">A·B</b></span>
+          <small aria-hidden="true">${c.sideKey}</small>
+        </button>
+        <button type="button" class="vkey" data-act="link" aria-label="${c.link}" title="${c.link}">
+          <span class="vkey__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.5-1.5"/></svg></span>
+          <small aria-hidden="true" data-label="${c.linkKey}">${c.linkKey}</small>
         </button>
         </span>
         <div class="vu" aria-hidden="true">

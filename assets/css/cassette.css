@@ -83,21 +83,21 @@ html:root {
     linear-gradient(0deg, #b9895a, #cfa36c 14%, #c2945e 30%, #d4aa74 46%, #be8f5a 62%, #d0a66f 80%, #bb8c57);
 }
 @media (prefers-color-scheme: dark) {
-  html:root:not([data-theme="light"]) {
+  html:root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
     --bg: #263024;
     --ink: #eeeadf;
     --ink-soft: #c3c0b3;
     --ghost: #4b5747;
   }
 }
-html:root[data-theme="dark"] {
+html:root[data-theme="dark"], html:root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
   color-scheme: dark;
   --bg: #263024;
   --ink: #eeeadf;
   --ink-soft: #c3c0b3;
   --ghost: #4b5747;
 }
-html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="light"], html:root:not([data-theme]):has(.theme-mode__input[value="light"]:checked) { color-scheme: light; }
 body.cas {
   background:
     var(--tx-plaster) 0 0 / 300px 300px,

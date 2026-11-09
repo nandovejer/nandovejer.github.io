@@ -340,11 +340,18 @@ const langSwitch = (lang) => `<div class="lang">
    `bioHref` is where the Bio link goes without JS; `version` is the barcode
    to the other version: { href, code, label }. */
 // Light and dark, by hand (it remembers; with none chosen the system's wins)
-// Light and dark, by hand: a switch in the colophon (it remembers; with none
-// chosen the system's wins). Checked = dark.
-const SUN = '<svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>';
-const MOON = '<svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>';
-const themeToggle = (u) => `<button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="${u.themeDarkMode}">${SUN}<span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__knob"></span></span>${MOON}</button>`;
+// The colour mode, as LUZ's <luz-theme-mode>: a native radio group (Auto,
+// light, dark) that works with no script (the palettes read the checked radio);
+// chrome.js turns it into one round button that steps through them and shows
+// the icon of the chosen one. The choice is remembered; Auto follows the system.
+const themeMode = (u) => {
+  const option = (value, icon, label, checked = '') => `<label class="theme-mode__option"><input class="theme-mode__input" type="radio" name="theme-mode" value="${value}"${checked}><svg class="theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${icon}</svg>${label}</label>`;
+  return `<div class="theme-mode"><fieldset class="theme-mode__group"><legend class="theme-mode__legend">${u.themeMode}</legend>${[
+    option('auto', '<path d="M12 7.5a4.5 4.5 0 0 0 0 9ZM12 7.5a4.5 4.5 0 0 1 0 9M12 2.5v2M12 19.5v2M2.5 12h2M5.3 5.3l1.4 1.4M5.3 18.7l1.4-1.4"/><path d="M12 7.5a4.5 4.5 0 0 0 0 9Z" fill="currentColor"/>', u.themeAuto, ' checked'),
+    option('light', '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>', u.themeLight),
+    option('dark', '<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10Z"/>', u.themeDark)
+  ].join('')}</fieldset></div>`;
+};
 const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
 const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
   <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
@@ -361,7 +368,7 @@ const colophon = (t, u, version, extra = '', { theme = true } = {}) => `<footer 
   <div class="colophon__doc">
     <p class="label">${u.today}</p>
     <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
-    ${theme ? themeToggle(u) : ''}
+    ${theme ? themeMode(u) : ''}
   </div>
   <p class="colophon__text">${linkSocials(t.colophon)}${extra ? ` ${extra}` : ''}</p>
   ${versionCode(version.href, version.code, version.label)}

@@ -248,12 +248,22 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   background: var(--alu-deep);
   box-shadow: var(--alu-body-shadow);
 }
+/* the body as a slab of metal seen a little from above: a bright chamfer along
+   its top and left edges, its thickness showing under it (layers of darker
+   metal, one under the other), then the shadows it throws on the wall — a
+   tight dark one where it touches, a soft one down and to the right from the
+   light at the top left, and a wide faint one all round */
 .cabinet { --alu-body-shadow:
-    inset 0 1px 0 rgb(255 255 255 / .95), inset 1px 0 0 rgb(255 255 255 / .6),
-    inset 0 calc(-.5 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .18), inset calc(-.3 * var(--u)) 0 calc(.5 * var(--u)) rgb(0 0 0 / .1),
-    0 0 0 1px rgb(40 44 48 / .45),
-    0 1px 1px rgb(0 0 0 / .35), 0 calc(.8 * var(--u)) calc(1.2 * var(--u)) rgb(0 0 0 / .3),
-    calc(.8 * var(--u)) calc(4 * var(--u)) calc(7 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .45); }
+    inset 0 2px 0 rgb(255 255 255 / .95), inset 2px 0 0 rgb(255 255 255 / .55),
+    inset 0 -2px 1px rgb(0 0 0 / .14), inset -2px 0 1px rgb(0 0 0 / .08),
+    inset 0 calc(-1.2 * var(--u)) calc(2 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .12),
+    0 0 0 1px rgb(60 66 72 / .5),
+    0 1px 0 #c9ced2, 0 2px 0 #bec3c8, 0 3px 0 #b3b9be, 0 4px 0 #a8aeb4, 0 5px 0 #9ea4aa, 0 6px 0 #8f959b,
+    0 7px 1px rgb(0 0 0 / .45),
+    0 calc(1.2 * var(--u)) calc(1.6 * var(--u)) calc(-.2 * var(--u)) rgb(0 0 0 / .35),
+    calc(1.6 * var(--u)) calc(5 * var(--u)) calc(8 * var(--u)) calc(-1.4 * var(--u)) rgb(0 0 0 / .45),
+    calc(3 * var(--u)) calc(10 * var(--u)) calc(18 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .28),
+    0 0 calc(10 * var(--u)) rgb(0 0 0 / .12); }
 .cabinet::before, .cabinet::after { display: none; }
 
 /* in each unit a plate of lighter brushed aluminium standing proud of the body,
@@ -302,7 +312,17 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     box-shadow: var(--alu-body-shadow);
   }
   .unit { padding: 0; border-radius: 0; background: none; box-shadow: none; }
-  .panel--top, .panel--deck { background: var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px, linear-gradient(105deg, transparent 8%, rgb(255 255 255 / .3) 30%, transparent 50%), #eceef0; box-shadow: inset 0 1px 0 rgb(255 255 255 / .9); }
+  /* the plate is drawn once, under both its parts, so its sheen runs on across
+     the seam: raised a hair off the body, its bevel lit along the top and left
+     and shaded along the bottom and right, its shadow on the body under it */
+  .panels { position: relative; }
+  .panels::before, .panels::after { content: ""; position: absolute; inset: calc(1.6 * var(--u)); border-radius: calc(1.2 * var(--u)); pointer-events: none; }
+  .panels::before {
+    background: var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px, linear-gradient(105deg, transparent 8%, rgb(255 255 255 / .32) 30%, transparent 50%), #eceef0;
+    box-shadow: 0 0 0 1px rgb(60 66 72 / .28), 0 1px 0 rgb(0 0 0 / .18), 0 calc(.5 * var(--u)) calc(.9 * var(--u)) rgb(0 0 0 / .2), calc(.4 * var(--u)) calc(.4 * var(--u)) calc(.9 * var(--u)) rgb(0 0 0 / .1);
+  }
+  .panels::after { z-index: 1; box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .8), inset 0 -1px 0 rgb(0 0 0 / .2), inset -1px 0 0 rgb(0 0 0 / .14); }
+  .panel--top, .panel--deck { background: none; box-shadow: none; }
 }
 @media (max-width: 29.99em) { .panel--top .vkeys { padding: 0; } }
 @media (max-width: 29.99em), (min-width: 48em) {
@@ -504,6 +524,13 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(13.54 * var(--u)), 1fr)); gap: calc(5 * var(--u)) calc(1.5 * var(--u));
   margin: 0; padding: 0; list-style: none;
 }
+/* from tablet width up the rack is only as long as its tapes (it grows as
+   more come in), a slot to each; on phones the rows run the width of the page */
+@media (min-width: 48em) {
+  .rack__cabinet { width: fit-content; max-width: 100%; box-sizing: border-box; }
+  .rack__slots { display: flex; flex-wrap: wrap; }
+  .rack__slots > .slot { flex: none; width: calc(13.54 * var(--u)); box-sizing: border-box; }
+}
 /* each slot a recess in the oak: dark at the back, the shelf above throwing
    its shade in, the lit edge of the shelf below */
 .slot {
@@ -517,8 +544,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .slot__case { all: unset; box-sizing: border-box; display: block; width: calc(12.04 * var(--u)); max-width: 100%; cursor: pointer; }
 .slot__case:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .slot__case:hover .cspine__card { transform: translateY(calc(-4 * var(--u))); }
-.slot--blank .cspine, .slot--empty { pointer-events: none; }
-.slot--blank .cspine { width: calc(12.04 * var(--u)); max-width: 100%; }
 
 /* ---------- the cassette, face on ---------- */
 
@@ -627,8 +652,21 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   font-synthesis: none;
   color: var(--print);
   border-radius: .15rem;
-  background: var(--tx-paper) 0 0 / 220px 220px, var(--tx-paper-mottle) 0 0 / 1400px 1400px, var(--paper);
-  box-shadow: 0 .15rem .25rem rgb(0 0 0 / .2), 0 1.2rem 2.2rem -1rem rgb(0 0 0 / .6);
+  /* the card is not quite flat: lighter where it bows towards the light at the
+     top left, a touch darker towards its bottom and right edges */
+  background:
+    linear-gradient(115deg, rgb(255 255 255 / .28), transparent 35%, transparent 70%, rgb(80 60 30 / .05)),
+    radial-gradient(120% 90% at 30% 20%, transparent 60%, rgb(80 60 30 / .06)),
+    var(--tx-paper) 0 0 / 220px 220px, var(--tx-paper-mottle) 0 0 / 1400px 1400px, var(--paper);
+  /* its edge catching the light, the sheet under it showing a hair below and
+     to the right, a tight shadow where it rests and a soft one it throws */
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .8), inset 1px 0 0 rgb(255 255 255 / .5), inset 0 -1px 0 rgb(80 60 30 / .12),
+    1px 2px 0 #e9e3d3, 2px 4px 0 #dcd5c2, 2px 4px 1px rgb(0 0 0 / .25),
+    0 1px 2px rgb(0 0 0 / .25),
+    0 .5rem .9rem -.3rem rgb(0 0 0 / .3),
+    .6rem 1.8rem 2.6rem -1rem rgb(0 0 0 / .55),
+    1rem 3.5rem 5rem -2rem rgb(0 0 0 / .3);
   overflow: hidden;
 }
 .jcard { position: relative; }
@@ -759,15 +797,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .slot .cspine__card { --shade: linear-gradient(rgb(0 0 0 / .55), rgb(0 0 0 / .2) 12%, transparent 26%); }
 /* a case that is in the deck leaves its slot empty */
 .cas-item.is-out .cspine { visibility: hidden; }
-
-/* virgin tapes: a blank J-card, nothing written on it */
-.cspine--blank .cspine__card { --jc: #f4f2ea; --jc-ink: #1b1b1a; grid-template-rows: auto 1fr auto; padding: 0 0 7cqw; gap: 6cqw; }
-.cspine--smoke .cspine__card { --case: #3b3d40; }
-.cspine__band { width: 100%; height: 14cqh; display: grid; place-items: center; border-radius: 6cqw 6cqw 0 0; background: linear-gradient(#141414 0 70%, #e3412b 70%); color: #fff; font: 900 max(.3rem, 20cqw)/1 var(--sans); }
-.cspine__lines { width: 1px; height: 100%; background: repeating-linear-gradient(rgb(27 27 26 / .45) 0 2px, transparent 2px 4px); }
-.cspine__len { writing-mode: vertical-rl; font: italic 500 max(.32rem, 26cqw)/1 "Playfair Display", Georgia, serif; color: #c2311d; }
-
-/* the case in flight, from the stack to the deck and back */
 
 @media (prefers-reduced-motion: reduce) {
   .cabinet .reel, .grille, .studio__arrow { animation: none !important; }

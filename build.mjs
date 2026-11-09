@@ -615,33 +615,53 @@ ${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label:
    track per paragraph; side B the facts and links. With no project in, the
    house tape (the bio) is in the deck. */
 
-// Each tape: shell colour (the cassette seen in the deck), J-card colour
-// (its spine on the shelf and the band of its label), lettering.
+// Each tape, after a poster of cassettes year by year (alcassetes.jpg): the
+// shell (the plastic, clear or tinted on some), the J-card colour (its spine on
+// the shelf and its label), the lettering, then how the cassette in the deck is
+// dressed: the label (full, a strip on top, a stripe below the window, printed
+// straight on the plastic, striped bars, or typed), the window (oval,
+// rectangular with its guides, wide and clear) and the hubs (white, black,
+// teal, red, or big spoked reels); `len` prints the length large.
 const CAS = {
-  bio: ['cream', 'red', 'cond'], luz: ['smoke', 'yellow', 'cond'], ikay: ['white', 'sky', 'wide'],
-  'chrome-local-ai': ['smoke', 'black', 'mono'], 'quien-canta-hoy': ['black', 'pink', 'script'],
-  'ares-api': ['cream', 'orange', 'serif'], 'toolbar-aem': ['black', 'cream', 'cond'],
-  accesibilidad: ['white', 'mint', 'wide'], 'libros-del-mundo': ['smoke', 'tan', 'script'],
-  'string-transformer': ['black', 'white', 'mono'], 'coac-analisis': ['cream', 'red', 'cond'],
-  'illo-loader': ['smoke', 'black', 'serif'], 'js-subtype': ['white', 'fade', 'wide'],
-  github: ['black', 'black', 'mono'], x: ['white', 'white', 'wide'], blog: ['cream', 'yellow', 'script'], linkedin: ['black', 'sky', 'cond']
+  bio: 'cream red cond full oval white',
+  luz: 'black yellow cond print oval white len',
+  ikay: 'cyan sky wide low rect black len',
+  'chrome-local-ai': 'smoke black mono top rect teal',
+  'quien-canta-hoy': 'ruby pink script print wide white',
+  'ares-api': 'cream orange serif stripe rect white',
+  'toolbar-aem': 'black cream cond full rect white len',
+  accesibilidad: 'grey mint wide top oval black len',
+  'libros-del-mundo': 'clear tan script hand rect white',
+  'string-transformer': 'black white mono low rect white',
+  'coac-analisis': 'black red cond full rect red',
+  'illo-loader': 'clear black serif top wide spoke',
+  'js-subtype': 'white fade wide full oval black',
+  github: 'black black mono', x: 'white white wide', blog: 'cream yellow script', linkedin: 'black sky cond'
 };
-const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
+const casOf = (id) => {
+  const [shell, band, type, label = 'full', win = 'oval', hubs = 'white', len] = (CAS[id] ?? 'black cream cond').split(' ');
+  return { shell, band, type, label, win, hubs, len: len === 'len' };
+};
 // A track's length from its words (a paragraph read aloud, more or less).
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
-// The cassette, face on (in the deck).
+// The cassette, face on (in the deck). Each label stuck on by hand: a hair
+// crooked, a hair off centre, never twice the same.
 const cassette = (o) => {
-  const [shell, band, type] = casOf(o.id);
-  return `<span class="cassette sh--${shell} jc--${band} ty--${type}" aria-hidden="true"><span class="cassette__body">
+  const { shell, band, type, label, win, hubs, len } = casOf(o.id);
+  const h = hash(`tape${o.id}`);
+  const lay = `--tilt:${(((h % 11) - 5) * .1).toFixed(1)}deg;--nudge:${((((h >> 4) % 9) - 4) * .12).toFixed(2)}cqw`;
+  const length = o.length ?? 'C60';
+  return `<span class="cassette sh--${shell} jc--${band} ty--${type} lb--${label} wn--${win} hb--${hubs}${len ? ' has-len' : ''}" style="${lay}" aria-hidden="true"><span class="cassette__body">
           <span class="cassette__label">
             <span class="cassette__side">A</span>
             <span class="cassette__title">${esc(o.name)}</span>
             <span class="cassette__meta">${esc(o.use ?? '')}${o.year ? ` · ${o.year}` : ''}</span>
             <span class="cassette__band"></span>
-            <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span></span>
-            <span class="cassette__code"><span>${o.code}</span><span>${o.length ?? 'C60'}</span></span>
+            <span class="cassette__code"><span>${o.code}</span><span>${length}</span></span>
           </span>
+          <span class="cassette__window"><span class="reel reel--l"></span><span class="reel reel--r"></span><span class="cassette__glass"></span></span>
+          <span class="cassette__len">${length.replace(/\D/g, '')}</span>
           <span class="cassette__foot"></span>
         </span></span>`;
 };
@@ -649,7 +669,7 @@ const cassette = (o) => {
 // The case, spine out (on the stack): the J-card's spine, lying flat as on
 // the poster: a logo, the title and a second line, the catalogue number.
 const caseSpine = (o) => {
-  const [, band, type] = casOf(o.id);
+  const { band, type } = casOf(o.id);
   const h = hash(o.id);
   const off = `--dx:${(h % 9) - 4}px;--rot:${(((h >> 4) % 5) - 2) * .15}deg;--fade:${(.82 + ((h >> 7) % 19) / 100).toFixed(2)}`;
   return `<span class="cspine jc--${band} ty--${type}" style="${off};--chars:${[...String(o.name)].length}" aria-hidden="true"><span class="cspine__card">
@@ -677,7 +697,7 @@ const notes = (o, c, { a, b }) => {
   const len = o.length ?? 'C60';
   const track = (side) => (x, i) => `
               <li class="track" data-no="${side}${i + 1}"><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div></li>`;
-  const [, band, type] = casOf(o.id);
+  const { band, type } = casOf(o.id);
   return `
           <div class="jcard">
             <div class="hspine jc--${band} ty--${type}" aria-hidden="true">

@@ -432,9 +432,19 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .slot--blank .cspine, .slot--empty { pointer-events: none; }
 .slot--blank .cspine { width: calc(11.9 * var(--u)); max-width: 100%; }
 
-/* ---------- the cassette, face on ---------- */
+/* ---------- the cassette, face on ----------
+   After a poster of cassettes year by year: one shell, one geometry, but each
+   tape dressed its own way: the plastic (sh--), the label (lb--), the window
+   (wn--) and the hubs (hb--). The window and the hubs sit on the shell, over
+   the label; the hubs always at the same centres (34 and 66 across, 31 down,
+   in hundredths of the width), so the tape packs line up whatever the window. */
 
-.cassette { display: block; position: relative; width: 100%; aspect-ratio: 100 / 63.5; container-type: inline-size; }
+.cassette {
+  display: block; position: relative; width: 100%; aspect-ratio: 100 / 63.5; container-type: inline-size;
+  --wx: 25cqw; --wy: 23cqw; --ww: 50cqw; --wh: 16cqw; --wr: 8cqw;
+  --pl: 23cqw; --pr: 16cqw;
+  --print: var(--jc-c);
+}
 .cassette__body {
   position: absolute; inset: 0; border-radius: 3.2cqw;
   background:
@@ -451,16 +461,40 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     inset 0 -.8cqw 0 rgb(0 0 0 / .28), inset -.4cqw 0 0 rgb(0 0 0 / .15),
     0 .6cqw 1cqw rgb(0 0 0 / .45);
 }
-.sh--black { --shell: #1f1f20; }
-.sh--smoke { --shell: rgb(70 72 76); }
-.sh--white { --shell: #e9e8e2; }
-.sh--cream { --shell: #e6dabf; }
-/* the label: paper, its writing lines, a printed band round the window */
+
+/* the plastic; --ink is what is printed straight on it */
+.sh--black { --shell: #1f1f20; --ink: rgb(255 255 255 / .72); }
+.sh--smoke { --shell: rgb(70 72 76); --ink: rgb(255 255 255 / .75); }
+.sh--white { --shell: #e9e8e2; --ink: rgb(0 0 0 / .66); }
+.sh--cream { --shell: #e6dabf; --ink: rgb(0 0 0 / .66); }
+.sh--grey  { --shell: #8b8e90; --ink: rgb(255 255 255 / .85); }
+.sh--cyan  { --shell: #1aa3dc; --ink: #fff; }
+.sh--clear { --shell: rgb(214 222 228 / .3); --ink: rgb(255 255 255 / .8); }
+.sh--ruby  { --shell: rgb(140 24 58 / .62); --ink: rgb(255 255 255 / .82); }
+/* clear and tinted plastic: the wall moulded a little in from the edge, the
+   guide rollers and the tape running between them, seen through the shell */
+:is(.sh--clear, .sh--ruby) .cassette__body {
+  box-shadow:
+    inset 0 0 0 .35cqw rgb(255 255 255 / .35), inset 0 0 0 2.6cqw rgb(255 255 255 / .05), inset 0 0 0 2.9cqw rgb(255 255 255 / .16),
+    inset 0 -.8cqw 0 rgb(0 0 0 / .2),
+    0 .6cqw 1cqw rgb(0 0 0 / .45);
+}
+:is(.sh--clear, .sh--ruby) .cassette__body::before {
+  content: ""; position: absolute; left: 12cqw; right: 12cqw; bottom: 4.6cqw; height: 4cqw; pointer-events: none;
+  background:
+    radial-gradient(circle 1.5cqw at 1.5cqw 50%, rgb(240 240 236 / .7) 55%, transparent 62%),
+    radial-gradient(circle 1.5cqw at calc(100% - 1.5cqw) 50%, rgb(240 240 236 / .7) 55%, transparent 62%),
+    linear-gradient(#3b2618, #3b2618) 50% 100% / calc(100% - 3cqw) .5cqw no-repeat;
+}
+
+/* ---- the label (lb--full, the default): paper over most of the face, a
+   dark printed band round the window ---- */
 .cassette__label {
   position: absolute; left: 7cqw; right: 7cqw; top: 5cqw; height: 42cqw; overflow: hidden;
   border-radius: 1.6cqw; color: var(--jc-ink);
   background: var(--tx-paper) 0 0 / 220px 220px, var(--jc);
   box-shadow: inset 0 0 0 .25cqw rgb(0 0 0 / .12), 0 .2cqw .3cqw rgb(0 0 0 / .25);
+  translate: var(--nudge) 0; rotate: var(--tilt);
 }
 .cassette__label::before {
   content: ""; position: absolute; left: 11cqw; right: 4cqw; top: 8.6cqw; height: .3cqw; background: currentColor; opacity: .35;
@@ -479,39 +513,139 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .cassette__band { position: absolute; left: 0; right: 0; top: 15cqw; height: 22cqw; background: rgb(0 0 0 / .82); }
 .jc--black .cassette__band { background: #f5d43c; }
-/* the window: clear plastic over the tape wound on its two hubs */
+.cassette__code { position: absolute; left: 4cqw; right: 4cqw; bottom: 1.3cqw; display: flex; justify-content: space-between; font: 600 2.4cqw/1 var(--tech); letter-spacing: .08em; }
+
+/* the length, large (Mark II, the TDK 90s) */
+.cassette__len { display: none; position: absolute; font: 800 7cqw/1 var(--sans); font-stretch: 70%; letter-spacing: -.02em; }
+.has-len .cassette__len { display: block; }
+.lb--full.has-len .cassette__title { right: 15cqw; }
+.lb--full .cassette__len { top: 6.6cqw; right: 10cqw; color: var(--jc-title, var(--jc-ink)); translate: var(--nudge) 0; }
+
+/* lb--top: only a strip of paper along the top; the plastic shows round the
+   window (the grey 90s tapes, the Sony Hi8) */
+.lb--top .cassette__label { top: 3.6cqw; height: 13.6cqw; }
+.lb--top :is(.cassette__band, .cassette__code) { display: none; }
+.lb--top .cassette__len { top: 25.5cqw; right: 8.5cqw; color: var(--ink); }
+
+/* lb--low: a white stripe under the window with the name and a coloured block
+   for the number; above the window a ribbed plate moulded in the plastic,
+   with the line printed on it (the Philips tapes) */
+.lb--low .cassette__label {
+  top: 41.5cqw; height: 8.6cqw; overflow: visible; border-radius: .6cqw; color: #1d1d1b;
+  background: var(--tx-paper) 0 0 / 220px 220px, #f4f2ec;
+}
+.lb--low .cassette__label::before { display: none; }
+.lb--low .cassette__side { left: 2.4cqw; top: 1.4cqw; }
+.lb--low .cassette__title { left: 10cqw; right: 26cqw; top: 1.2cqw; color: #1d1d1b; font-size: 6.2cqw; }
+.lb--low.ty--mono .cassette__title { font-size: 4.2cqw; top: 2.2cqw; letter-spacing: .02em; }
+.lb--low .cassette__band { display: none; }
+.lb--low .cassette__code {
+  left: auto; right: 0; top: 0; bottom: 0; width: 24cqw; padding: 0 2cqw; align-items: center;
+  border-radius: 0 .6cqw .6cqw 0; background: var(--jc); color: var(--jc-ink);
+}
+.jc--white.lb--low .cassette__code { background: #1d1d1b; color: #f3f1ea; }
+.lb--low .cassette__meta { top: -35.4cqw; left: 3cqw; right: 22cqw; color: var(--ink); opacity: 1; }
+.lb--low .cassette__body::before {
+  content: ""; position: absolute; left: 9cqw; right: 9cqw; top: 9.4cqw; height: 9cqw; border-radius: .8cqw;
+  background: repeating-linear-gradient(90deg, rgb(0 0 0 / .22) 0 .35cqw, rgb(255 255 255 / .07) .35cqw .7cqw, transparent .7cqw 1.4cqw);
+  box-shadow: inset 0 .3cqw .4cqw rgb(0 0 0 / .35), 0 .2cqw 0 rgb(255 255 255 / .12);
+}
+.lb--low .cassette__len { top: 9.6cqw; right: 10.5cqw; padding: .6cqw 1.2cqw; color: var(--shell); background: var(--ink); border-radius: .5cqw; font-size: 6cqw; }
+
+/* lb--print: no paper; gold (or the J-card colour) printed straight on the
+   plastic, a rule over and under the window (the black TDKs, the clear 80s) */
+.lb--print .cassette__label { background: none; box-shadow: none; color: var(--print); rotate: none; translate: none; }
+.lb--print .cassette__title { color: var(--print); }
+.lb--print .cassette__label::before { opacity: .7; }
+.lb--print .cassette__band {
+  background:
+    linear-gradient(var(--print), var(--print)) 0 0 / 100% .3cqw no-repeat,
+    linear-gradient(var(--print), var(--print)) 0 100% / 100% .3cqw no-repeat;
+  opacity: .75;
+}
+.lb--print .cassette__len { top: 25.5cqw; right: 8cqw; color: var(--print); }
+.jc--yellow.lb--print { --print: #d8b448; }
+
+/* lb--stripe: white paper, the J-card colour and red in two bars over and
+   under the dark band (the TDK D) */
+.lb--stripe .cassette__label { background: var(--tx-paper) 0 0 / 220px 220px, #f4f1e8; color: #1d1d1b; }
+.lb--stripe .cassette__title { color: color-mix(in srgb, var(--jc-c) 70%, #000); }
+.lb--stripe .cassette__band {
+  background: linear-gradient(var(--jc-c) 0 15%, transparent 15% 23%, #1d1d1b 23% 77%, transparent 77% 85%, #d6321f 85%);
+}
+
+/* lb--hand: a cream label typed on, a black frame printed round the window */
+.lb--hand .cassette__label { background: var(--tx-paper) 0 0 / 220px 220px, #efe6cf; color: #1f2d5a; }
+.lb--hand .cassette__side { color: #1d1d1b; }
+.lb--hand :is(.cassette__title, .cassette__meta, .cassette__code) { font-family: "Special Elite", var(--tech); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.lb--hand .cassette__title { color: #1f2d5a; font-size: 6.2cqw; top: 1.6cqw; }
+.lb--hand .cassette__meta { font-size: 3cqw; top: 10.4cqw; }
+.lb--hand .cassette__band { left: 6cqw; right: 6cqw; border-radius: 2.4cqw; background: #1d1d1b; }
+
+/* ---- the window: clear plastic over the tape wound on its two hubs ---- */
 .cassette__window {
-  position: absolute; left: 18cqw; right: 18cqw; top: 18cqw; height: 16cqw; overflow: hidden;
-  border-radius: 8cqw; background: #0f0d0c;
+  position: absolute; z-index: 1; left: var(--wx); top: var(--wy); width: var(--ww); height: var(--wh); overflow: hidden;
+  border-radius: var(--wr); background: #0f0d0c;
   box-shadow: inset 0 0 0 .6cqw #d9d6cc, inset 0 0 0 .8cqw rgb(0 0 0 / .4);
 }
 /* the wound tape: brown, in rings, more on the left than on the right */
 .cassette__window::before, .cassette__window::after {
-  content: ""; position: absolute; top: 50%; border-radius: 50%; translate: 0 -50%;
+  content: ""; position: absolute; border-radius: 50%; translate: -50% -50%; top: calc(31cqw - var(--wy));
   background:
     radial-gradient(circle at 40% 35%, rgb(255 220 180 / .18), transparent 60%),
     repeating-radial-gradient(circle, #3e2a1d 0 .22cqw, #4d3526 .22cqw .45cqw, #392619 .45cqw .6cqw);
 }
-.cassette__window::before { left: -2.5cqw; width: 23cqw; aspect-ratio: 1; }
-.cassette__window::after { right: 1cqw; width: 16cqw; aspect-ratio: 1; }
-.reel {
-  position: absolute; z-index: 1; top: 50%; width: 9cqw; aspect-ratio: 1; margin-top: -4.5cqw; border-radius: 50%;
-  background:
-    radial-gradient(circle, transparent 0 1.55cqw, #bdb8aa 1.6cqw 1.9cqw, transparent 1.95cqw),
-    repeating-conic-gradient(#f6f4ee 0 22deg, #c7c2b4 22deg 26deg, #f6f4ee 26deg 45deg);
-  -webkit-mask: radial-gradient(circle, #000 0 .5cqw, transparent .55cqw 1.6cqw, #000 1.65cqw), conic-gradient(#000 0 0);
-  -webkit-mask-composite: source-in;
-          mask: radial-gradient(circle, transparent 0 1.6cqw, #000 1.65cqw);
-  box-shadow: 0 0 0 .2cqw rgb(0 0 0 / .4);
-}
-.reel--l { left: 4.5cqw; }
-.reel--r { right: 4.5cqw; }
+.cassette__window::before { left: calc(34cqw - var(--wx)); width: var(--pl); aspect-ratio: 1; }
+.cassette__window::after { left: calc(66cqw - var(--wx)); width: var(--pr); aspect-ratio: 1; }
 /* the plastic of the window catching the light */
-.cassette__band::after {
-  content: ""; position: absolute; left: 18cqw; right: 18cqw; top: 3cqw; height: 16cqw; z-index: 2; border-radius: 8cqw;
+.cassette__glass {
+  position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
   background: linear-gradient(170deg, rgb(255 255 255 / .28), transparent 42%);
 }
-.cassette__code { position: absolute; left: 4cqw; right: 4cqw; bottom: 1.3cqw; display: flex; justify-content: space-between; font: 600 2.4cqw/1 var(--tech); letter-spacing: .08em; }
+/* wn--rect: a straight window, a dark sill with the tape guides between the hubs */
+.wn--rect { --wx: 27cqw; --wy: 23.5cqw; --ww: 46cqw; --wh: 15cqw; --wr: 1cqw; }
+.wn--rect .cassette__window {
+  background:
+    repeating-linear-gradient(90deg, #34312d 0 .45cqw, transparent .45cqw 1.25cqw) 50% 50% / 11cqw 7cqw no-repeat,
+    #0f0d0c;
+  box-shadow: inset 0 0 0 .5cqw #2c2b29, inset 0 0 0 .7cqw rgb(255 255 255 / .18), inset 0 .9cqw .8cqw rgb(0 0 0 / .5);
+}
+/* wn--wide: a big clear window, most of the tape to be seen */
+.wn--wide { --wx: 15cqw; --wy: 19.5cqw; --ww: 70cqw; --wh: 23.5cqw; --wr: 2.6cqw; --pl: 25cqw; --pr: 19cqw; }
+.wn--wide .cassette__window {
+  background: rgb(18 16 15 / .55);
+  box-shadow: inset 0 0 0 .4cqw rgb(255 255 255 / .4), inset 0 0 0 .7cqw rgb(0 0 0 / .25);
+}
+
+/* ---- the hubs: toothed, white by default ---- */
+.reel {
+  position: absolute; z-index: 1; width: 9cqw; aspect-ratio: 1; border-radius: 50%;
+  left: calc(34cqw - var(--wx)); top: calc(31cqw - var(--wy)); translate: -50% -50%;
+  --hub: #f6f4ee; --hub-2: #c7c2b4;
+  background:
+    radial-gradient(circle, transparent 0 1.55cqw, var(--hub-2) 1.6cqw 1.9cqw, transparent 1.95cqw),
+    repeating-conic-gradient(var(--hub) 0 22deg, var(--hub-2) 22deg 26deg, var(--hub) 26deg 45deg);
+  mask: radial-gradient(circle, transparent 0 1.6cqw, #000 1.65cqw);
+  box-shadow: 0 0 0 .2cqw rgb(0 0 0 / .4);
+}
+.reel--r { left: calc(66cqw - var(--wx)); }
+.hb--black .reel { --hub: #2a2a2a; --hub-2: #0e0e0e; box-shadow: 0 0 0 .2cqw rgb(255 255 255 / .12); }
+.hb--teal .reel { --hub: #2fc0b4; --hub-2: #17867e; }
+.hb--red .reel { --hub: #d8402f; --hub-2: #8e2116; }
+/* hb--spoke: big white reels with three windows, the tape seen between the
+   spokes (the clear 90s tapes) */
+.hb--spoke .reel {
+  width: 21.5cqw; --hub: #f1efe8;
+  background:
+    radial-gradient(circle, transparent 0 1.6cqw, #cfcbc0 1.65cqw 2cqw, var(--hub) 2.05cqw),
+    var(--hub);
+  mask:
+    radial-gradient(circle, transparent 0 1.6cqw, #000 1.65cqw 4.4cqw, transparent 4.45cqw 9.4cqw, #000 9.45cqw 10.75cqw, transparent 10.8cqw),
+    conic-gradient(from 10deg, #000 0 26deg, transparent 26deg 120deg, #000 120deg 146deg, transparent 146deg 240deg, #000 240deg 266deg, transparent 266deg);
+  box-shadow: none;
+  filter: drop-shadow(0 .2cqw .3cqw rgb(0 0 0 / .5));
+}
+
 /* the head opening along the bottom: guide holes, a pressure pad */
 .cassette__foot {
   position: absolute; left: 22cqw; right: 22cqw; bottom: 0; height: 11cqw;
@@ -523,6 +657,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     color-mix(in srgb, var(--shell) 80%, #000);
   clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
 }
+:is(.sh--clear, .sh--ruby) .cassette__foot { background-color: rgb(0 0 0 / .35); }
 
 /* ---------- the liner notes: a blank J-card, typed on a typewriter ----------
    Paper in any light (it is an object): a printed band, the title written

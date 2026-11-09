@@ -201,7 +201,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .panel {
   position: relative;
   display: grid; gap: calc(3.2 * var(--u));
-  padding: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(5.2 * var(--u));
+  padding: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(6.6 * var(--u));
   border-radius: calc(1.2 * var(--u));
   color: var(--ink2);
   background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(170deg, #e6e5e0, #e0dfd9);

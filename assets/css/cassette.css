@@ -138,14 +138,18 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 /* the deck stays in view under the masthead while the notes beside it scroll,
    until the notes end — when the window is tall enough to show all of it */
-@media (min-width: 48em) and (min-height: 50em) {
+@media (min-width: 48em) and (max-width: 63.99em) and (min-height: 50em), (min-width: 64em) and (min-height: 62em) {
   .studio__deck { position: sticky; top: calc(var(--head-h, 0px) + 1.5rem); }
 }
 @media (min-width: 48em) and (max-width: 63.99em) { .hspine__sub { display: none; } }
-/* on a desktop the deck is 24rem wide and the notes take the rest, so the two
-   columns run edge to edge with the racks below and the masthead above */
+/* on a desktop the deck's column is about a third of the row (36%, between
+   24 and 28.8rem) and the notes take the rest, so the two columns run edge
+   to edge with the racks below; the deck is drawn at its column's width, and
+   the rack's cases with the same unit (the rack is as wide as the row) */
 @media (min-width: 64em) {
-  .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); }
+  .studio { --deck: max(24rem, min(28.8rem, 36%)); grid-template-columns: minmax(0, var(--deck)) minmax(0, 1fr); }
+  .studio .cabinet { --u: calc(min(100cqi, 28.8rem) / 100); }
+  .rack .rack__cabinet { --u: calc(max(24rem, min(28.8rem, 36cqi)) / 100); }
 }
 
 .studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; margin: 2.5rem var(--pad) 0; }

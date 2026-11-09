@@ -380,11 +380,11 @@ addEventListener('keydown', async (e) => {
   busy = true; await eject(); busy = false;
 });
 
-/* ---------- the rack's empty slots ----------
-   The rows run as wide as the page; the slots the tapes leave at the end of
-   the last row are still slots (empty ones), as in a real cabinet. */
-const slots = document.querySelector('.rack__slots');
-function fillRack() {
+/* ---------- the racks' empty slots ----------
+   Two racks, the projects and under them the links. The rows run as wide as
+   the page; the slots the tapes leave at the end of the last row are still
+   slots (empty ones), as in a real cabinet. */
+function fillRack(slots) {
   slots.querySelectorAll('.slot--fill').forEach((s) => s.remove());
   const cols = getComputedStyle(slots).gridTemplateColumns.split(' ').length;
   const n = slots.children.length;
@@ -396,8 +396,10 @@ function fillRack() {
     slots.append(li);
   }
 }
-fillRack();
-new ResizeObserver(fillRack).observe(slots);
+document.querySelectorAll('.rack__slots').forEach((slots) => {
+  fillRack(slots);
+  new ResizeObserver(() => fillRack(slots)).observe(slots);
+});
 
 /* ---------- header links ---------- */
 // Bio: the house tape (ejecting the project if one is in) and its notes.

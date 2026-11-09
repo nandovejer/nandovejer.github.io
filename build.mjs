@@ -848,9 +848,19 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       const o = objectOf(p, i, t, u);
       const total = o.body.reduce((n, b) => n + trackLen(b), 0);
       return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
-    }).join('')}${site.socials.map(socialSlot).join('')}${Array.from({ length: 7 }, (_, i) => `
+    }).join('')}${Array.from({ length: 7 }, (_, i) => `
       <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
       <li class="slot slot--empty"></li>
+    </ol>
+  </div>
+</section>
+<section class="rack rack--links" id="${lang === 'es' ? 'enlaces' : 'links'}" aria-labelledby="links-title">
+  <header class="section-head">
+    <h2 id="links-title">${c.socials}</h2>
+    <p class="section-head__count">${num(site.socials.length)} ${c.tapes}</p>
+  </header>
+  <div class="rack__cabinet">
+    <ol class="rack__slots">${site.socials.map(socialSlot).join('')}
     </ol>
   </div>
 </section>

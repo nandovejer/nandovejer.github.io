@@ -1,0 +1,18 @@
+{
+  "_": "Where each technology in data/projects.json (tech) links to: its official site or reference. A technology missing here is printed without a link (the build warns).",
+  "HTML": "https://developer.mozilla.org/docs/Web/HTML",
+  "CSS": "https://developer.mozilla.org/docs/Web/CSS",
+  "JavaScript": "https://developer.mozilla.org/docs/Web/JavaScript",
+  "TypeScript": "https://www.typescriptlang.org/",
+  "Web Components": "https://developer.mozilla.org/docs/Web/API/Web_components",
+  "PWA": "https://web.dev/explore/progressive-web-apps",
+  "JSON": "https://www.json.org/",
+  "Markdown": "https://commonmark.org/",
+  "Node.js": "https://nodejs.org/",
+  "React": "https://react.dev/",
+  "Vite": "https://vite.dev/",
+  "Astro": "https://astro.build/",
+  "Chrome AI": "https://developer.chrome.com/docs/ai/built-in",
+  "Chrome Extension": "https://developer.chrome.com/docs/extensions",
+  "LUZ": "https://luzds.com/"
+}

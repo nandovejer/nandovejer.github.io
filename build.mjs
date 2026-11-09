@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Portfolio · Disquetes — zero-dependency static build.
-// Content: data/site.json and data/projects.json. Interface labels: data/archivo.json.
+// Content: data/site.json and data/projects.json (technology links: data/tech.json). Interface labels: data/archivo.json.
 //   es/index.html, en/index.html   the portfolio
 //   index.html                     sends visitors to their language
 // Usage: node build.mjs
@@ -22,6 +22,7 @@ const voice = createVoice(root);
 const site = read('data/site.json');
 const projects = read('data/projects.json');
 const ui = read('data/archivo.json');
+const techUrl = read('data/tech.json');
 const LANGS = ['es', 'en'];
 
 const esc = (s) => String(s)
@@ -107,6 +108,15 @@ const barcode = (str) => {
 const cells = (rows, cls = '') => `<dl class="cells ${cls}">${rows.map(([k, v]) =>
   `<div class="cell"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 
+// The technologies, each a link to its site (data/tech.json); one missing
+// there is printed as plain text and the build says so.
+const techMissing = new Set();
+const techLinks = (list) => list.map((name) => {
+  const url = techUrl[name];
+  if (!url) { techMissing.add(name); return esc(name); }
+  return `<a class="tech" href="${esc(url)}" rel="noopener" target="_blank">${esc(name)}</a>`;
+}).join(' · ');
+
 const objectOf = (p, i, t, u) => {
   const c = p[t.lang];
   const n = i + 1;
@@ -114,7 +124,7 @@ const objectOf = (p, i, t, u) => {
     id: p.id, n, code: `NM-${pad(n)}`, doc: `NM.${pad(n)}.${p.year}`,
     name: p.name, use: c.kicker, body: c.body, quote: c.quote,
     // the covers print the main one; the card lists them all
-    year: p.year, material: p.tech[0], tech: p.tech.join(' · '),
+    year: p.year, material: p.tech[0], tech: techLinks(p.tech),
     status: p.demo ? u.statusOnline : u.statusRepo,
     demo: p.demo, repo: p.repo,
     // silhouettes without internal ids (they are drawn twice per page)
@@ -1011,6 +1021,7 @@ write('vhs/index.html', toLanguage('', '../assets/favicon.svg'));
 clear('cassette');
 for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
 write('cassette/index.html', toLanguage('', '../assets/favicon.svg'));
+if (techMissing.size) console.warn(`! no link in data/tech.json for: ${[...techMissing].join(', ')}`);
 
 /* ---------- the voice ---------- */
 

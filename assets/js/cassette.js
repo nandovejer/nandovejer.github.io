@@ -461,7 +461,7 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
 /* ---------- the bar at the foot (one column) ----------
    When the deck is out of sight on a phone, a bar along the bottom of the
    window carries the tape's name and the main keys (and VOZ and 2×); they press the deck's own
-   keys, and mirror them (PLAY and PAUSE down, ◀◀ / ▶▶ greyed at the ends). */
+   keys, and mirror them (◀◀ / ▶▶ greyed at the ends); ▶/❚❚ is one key, and ⏏ stops, then ejects. */
 const minibar = document.querySelector('.minibar');
 if (minibar) {
   // its little green display: the mode, the track, the tape's code and name
@@ -473,7 +473,21 @@ if (minibar) {
   // the deck's key each one presses: a transport key, VOZ or 2×
   const target = (name) => keys[name] ?? (name === 'mute' ? muteKey : bb.querySelector(`[data-latch="${name}"]`));
   mkeys.forEach((m) => m.addEventListener('click', () => target(m.dataset.proxy).click()));
+  // two keys that do two things each: ▶ plays and, while playing, ❚❚ pauses;
+  // ⏏ stops the tape and then ejects it, in that order (as the deck's EJECT)
+  const pp = minibar.querySelector('[data-act2="playpause"]');
+  const se = minibar.querySelector('[data-act2="stopeject"]');   // stop and eject
+  const isOn = (k) => k.getAttribute('aria-pressed') === 'true';
+  pp.addEventListener('click', () => (isOn(keys.play) ? keys.pause : keys.play).click());
+  se.addEventListener('click', () => keys.eject.click());
+  const sync2 = () => {
+    const playing = isOn(keys.play);
+    pp.firstElementChild.textContent = playing ? '❚❚' : '▶';
+    pp.setAttribute('aria-label', playing ? pp.dataset.pause : pp.dataset.play);
+    pp.classList.toggle('is-playing', playing);
+  };
   const sync = () => {
+    sync2();
     mkeys.forEach((m) => {
       const k = target(m.dataset.proxy);
       ['aria-pressed', 'aria-disabled'].forEach((a) => (k.hasAttribute(a) ? m.setAttribute(a, k.getAttribute(a)) : m.removeAttribute(a)));

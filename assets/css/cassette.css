@@ -848,6 +848,8 @@ body.has-minibar { padding-bottom: 4rem; }
 .mkey b { font: 800 .85rem/1 var(--sans); letter-spacing: 0; }
 .mkey--small[aria-pressed="true"] { color: #2f7a43; }
 .mkey--play { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#6fb67e, #4f9a61); border-bottom-color: #27522f; color: #fff; }
+/* playing, the key reads ❚❚ and turns charcoal-grey like the others */
+.mkey--play.is-playing { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4e3dd, #d0cec8); border-bottom-color: #9d9b94; color: #2a2a28; }
 .mkey--eject { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4584c, #cf3d31); border-bottom-color: #7a221a; color: #fff; }
 .mkey:active, .mkey[aria-pressed="true"] { transform: translateY(.2rem); border-bottom-width: .1rem; }
 .mkey[aria-disabled="true"] { opacity: .45; cursor: default; }

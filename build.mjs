@@ -848,6 +848,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}" data-copied="${c.copied}">
     <section class="panels" aria-label="${c.deck}">
+      <p class="lcd lcd--wide" aria-hidden="true"><span class="lcd__glass"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title"><span class="lcd__run">${esc(c.about)}</span></span></span></p>
       <div class="unit"><div class="panel panel--top">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>

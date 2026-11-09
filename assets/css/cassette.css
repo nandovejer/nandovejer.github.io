@@ -142,8 +142,10 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .studio__deck { position: sticky; top: calc(var(--head-h, 0px) + 1.5rem); }
 }
 @media (min-width: 48em) and (max-width: 63.99em) { .hspine__sub { display: none; } }
+/* on a desktop the deck is 24rem wide and the notes take the rest, so the two
+   columns run edge to edge with the racks below and the masthead above */
 @media (min-width: 64em) {
-  .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 46rem); justify-content: center; }
+  .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); }
 }
 
 .studio__cta { display: flex; align-items: center; justify-content: center; gap: .75rem; margin: 2.5rem var(--pad) 0; }

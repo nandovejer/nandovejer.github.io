@@ -256,10 +256,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panel__top, .panel__plate .vu { display: none; }
   .panel--top .vkeys { border-top: 0; box-shadow: none; }
 }
-/* on a phone the two units are one: a single body holding one plate, the
-   small keys along its top, the tape and the transport keys under them, four
-   screws at its corners */
-@media (max-width: 29.99em) {
+/* in one column (phones, and between phone and tablet) the two units are one:
+   a single aluminium body holding one plate, four screws at its corners —
+   on a phone the small keys along its top, between phone and tablet the keys
+   in a column on its right */
+@media (max-width: 47.99em) {
   .panels {
     gap: 0; padding: calc(1.6 * var(--u)); border-radius: calc(1.8 * var(--u));
     background: linear-gradient(170deg, #f2f1ec, #e6e5e0 60%, #dddbd5);
@@ -269,11 +270,20 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
       calc(.6 * var(--u)) calc(3 * var(--u)) calc(6 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .4);
   }
   .unit { padding: 0; border-radius: 0; background: none; box-shadow: none; }
-  .panel--top, .panel--deck { background: var(--tx-plastic) 0 0 / 200px 200px, #e3e2dd; }
-  .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(1.6 * var(--u)); box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 1px 0 0 rgb(0 0 0 / .14), -1px 0 0 rgb(0 0 0 / .14), 0 -1px 0 rgb(0 0 0 / .14); }
-  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(1.6 * var(--u)); box-shadow: inset 0 -1px 0 rgb(0 0 0 / .14), 1px 0 0 rgb(0 0 0 / .14), -1px 0 0 rgb(0 0 0 / .14), 0 1px 0 rgb(0 0 0 / .14); }
+  .panel--top, .panel--deck { background: var(--tx-plastic) 0 0 / 200px 200px, #e3e2dd; box-shadow: inset 0 1px 0 rgb(255 255 255 / .9); }
+}
+@media (max-width: 29.99em) {
+  .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(1.6 * var(--u)); }
+  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(1.6 * var(--u)); box-shadow: none; }
   .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
+}
+@media (min-width: 30em) and (max-width: 47.99em) {
+  .panels { column-gap: 0; }
+  .panel--deck { border-radius: calc(1.2 * var(--u)) 0 0 calc(1.2 * var(--u)); padding-right: calc(1.6 * var(--u)); }
+  .panel--top { border-radius: 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0; padding-left: 0; }
+  .panel--deck::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
+  .panel--top::before { background: var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }
 
 /* the level meters, after a mixer's master meter: columns of small rounded

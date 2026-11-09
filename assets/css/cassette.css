@@ -204,13 +204,16 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @media (min-width: 30em) and (max-width: 47.99em) {
   .cabinet, .rack__cabinet { --u: min(100cqi / 112, 30rem / 100); }
   .panels { grid-template-columns: auto auto; width: fit-content; margin-inline: auto; align-items: stretch; }
-  .panels > .unit:first-child { order: 2; }
+  /* the unit of keys (the first div; the display before it is a p) stands on the right */
+  .panels > .unit:first-of-type { order: 2; }
   .unit { display: grid; }
   .panel--top .panel__plate { grid-template-columns: auto; margin: 0; height: 100%; }
   /* the column runs from the top of the bay to the line of the transport keys' names */
   .panel--top .vkeys { display: flex; flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
-  .panel--top .vkey__cap { width: calc(11.5 * var(--u)); }
-  .panel--top .vkey { justify-items: center; align-items: start; }
+  /* square keys in the column */
+  .panel--top .vkey { grid-template-rows: calc(8 * var(--u)) auto; justify-items: center; align-items: start; }
+  .panel--top .vkey__cap { width: calc(8 * var(--u)); height: calc(8 * var(--u)); }
+  .panel--top .vkey:active .vkey__cap, .panel--top .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
   .panel--top .vkeys { align-items: center; }
 }
 @media (min-width: 48em) and (max-width: 63.99em) {

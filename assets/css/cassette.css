@@ -347,7 +347,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    latch down; SHUFFLE (a tape from the rack at random), SIDE (the other side
    of the tape) and LINK (copies this tape's address) spring back */
 .vkeys { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; align-content: end; gap: calc(2 * var(--u)) calc(1.4 * var(--u)); }
-.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(1.2 * var(--u)); }
+/* the cap's row is fixed, so the label under it stays put while the cap sinks */
+.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in
    the body colour standing on a darker side, the whole key sinking when pressed */
 .vkey__cap, .key__cap {
@@ -381,7 +382,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    printed on the face and the name under it; EJECT red (where a recorder has
    RECORD), PLAY green; PLAY and PAUSE stay down while pressed */
 .keys { display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(1.2 * var(--u)); }
-.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(1.2 * var(--u)); justify-items: center; align-content: start; }
+.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; grid-template-rows: calc(8.4 * var(--u)) auto; gap: calc(1.2 * var(--u)); justify-items: center; align-content: start; }
 .key__label { order: 2; }
 .key__cap { width: 100%; height: calc(8.4 * var(--u)); }
 .key__cap i { font: 600 max(.55rem, calc(2.5 * var(--u)))/1 var(--tech); font-style: normal; letter-spacing: -.12em; color: var(--ink); }

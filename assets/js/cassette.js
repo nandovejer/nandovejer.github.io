@@ -280,6 +280,9 @@ keys.eject.addEventListener('click', async () => {
   press(keys.eject);
   if (busy) return;
   busy = true;
+  // first of all it stops the tape, as ■ does (the voice too)
+  play(false);
+  state.textContent = L.stopped;
   if (loaded) await eject();
   else if (!reduceMotion.matches && well.firstElementChild) {
     // the house tape stays: it only pops up a little and settles back

@@ -19,12 +19,18 @@
   color: var(--ink);
 }
 @media (prefers-color-scheme: dark) {
-  .masthead, .colophon {
+  :root:not([data-theme="light"]) .masthead, :root:not([data-theme="light"]) .colophon {
     --bg: #0b2a3e;
     --panel: #0d3249;
     --ink: #fbe6b4;
     --ink-soft: #93bcc0;
   }
+}
+:root[data-theme="dark"] .masthead, :root[data-theme="dark"] .colophon {
+  --bg: #0b2a3e;
+  --panel: #0d3249;
+  --ink: #fbe6b4;
+  --ink-soft: #93bcc0;
 }
 
 /* ---------- the masthead: a magazine cover's ----------
@@ -148,6 +154,27 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
   .masthead__drawer .lang__menu { display: block; position: static; inset: auto; min-width: 0; padding: 0; border: 0; box-shadow: none; background: none; }
   .masthead__drawer .lang__list { display: flex; gap: .5rem; }
   .masthead__drawer .lang__link { min-height: 2.6rem; padding: 0 .8rem; border: 1.5px solid var(--ink); }
+}
+
+/* ---------- light and dark: two square buttons, a sun and a moon ----------
+   Beside the language button on a wide screen (names only to a screen
+   reader); in the phones' panel as two boxes with their names. */
+.theme { display: inline-flex; border: 1.5px solid var(--ink); }
+.theme__btn {
+  all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-width: 2.25rem; min-height: 2.25rem; color: var(--ink); cursor: pointer;
+  font: 600 .78rem/1 var(--tech); letter-spacing: .08em; text-transform: uppercase;
+}
+.theme__btn + .theme__btn { border-left: 1.5px solid var(--ink); }
+.theme__btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.theme__btn:hover { background: color-mix(in srgb, var(--ink) 12%, transparent); }
+.theme__btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.theme__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; position: relative; z-index: 1; }
+.theme__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 47.99em) {
+  .masthead__drawer .theme { display: flex; }
+  .masthead__drawer .theme__btn { flex: 1; padding: 0 .8rem; min-height: 2.6rem; }
+  .masthead__drawer .theme__text { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 }
 
 /* ---------- colophon: today, the colophon, the other version ---------- */

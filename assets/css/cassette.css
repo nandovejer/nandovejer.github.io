@@ -83,13 +83,21 @@ html:root {
     linear-gradient(0deg, #b9895a, #cfa36c 14%, #c2945e 30%, #d4aa74 46%, #be8f5a 62%, #d0a66f 80%, #bb8c57);
 }
 @media (prefers-color-scheme: dark) {
-  html:root {
+  html:root:not([data-theme="light"]) {
     --bg: #263024;
     --ink: #eeeadf;
     --ink-soft: #c3c0b3;
     --ghost: #4b5747;
   }
 }
+html:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #263024;
+  --ink: #eeeadf;
+  --ink-soft: #c3c0b3;
+  --ghost: #4b5747;
+}
+html:root[data-theme="light"] { color-scheme: light; }
 body.cas {
   background:
     var(--tx-plaster) 0 0 / 300px 300px,
@@ -131,6 +139,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   grid-template-columns: minmax(0, 1fr); grid-template-areas: "spine" "deck" "liner";
 }
 .studio__deck { grid-area: deck; container-type: inline-size; }
+/* one column: more room between the player and the notes under it */
+@media (max-width: 47.99em) { .studio { row-gap: 3rem; } }
 .studio__spine { grid-area: spine; }
 .studio__spine:empty { display: none; }
 .liner { grid-area: liner; }
@@ -196,22 +206,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(.3 * var(--u)) calc(1.2 * var(--u)) calc(1.6 * var(--u)) calc(-.5 * var(--u)) rgb(0 0 0 / .45),
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
-/* between phone and tablet (one column, 30–48em) the deck is drawn bigger
-   (the unit up to 44rem / 100) and the keys stand to the right of the tape,
-   in a column; the whole body, about 109 units wide, fits the column. On a tablet (two columns, 48–64em) the deck is 20rem wide.
-   The rack's cases follow the deck's unit, so they stay as long as the tape
-   is wide (the rack and the studio share the same inner width). */
-@media (min-width: 30em) and (max-width: 47.99em) {
-  .cabinet, .rack__cabinet { --u: min(100cqi / 112, 44rem / 100); }
-  .panels { width: fit-content; margin-inline: auto; }
-  /* the column of keys runs the height of the tape's window */
-  .panel--top .vkeys { display: flex; flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
-  /* square keys in the column */
-  .panel--top .vkey { grid-template-rows: calc(8 * var(--u)) auto; justify-items: center; align-items: start; }
-  .panel--top .vkey__cap { width: calc(8 * var(--u)); height: calc(8 * var(--u)); }
-  .panel--top .vkey:active .vkey__cap, .panel--top .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
-  .panel--top .vkeys { align-items: center; }
-}
+/* on a tablet (two columns, 48–64em) the rack's cases follow the deck's 20rem
+   unit, so they stay as long as the tape is wide */
 @media (min-width: 48em) and (max-width: 63.99em) {
   .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
 }
@@ -329,43 +325,13 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panels::after { z-index: 1; box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .8), inset 0 -1px 0 rgb(0 0 0 / .2), inset -1px 0 0 rgb(0 0 0 / .14); }
   .panel--top, .panel--deck { background: none; box-shadow: none; }
 }
-@media (max-width: 29.99em) { .panel--top .vkeys { padding: 0; } }
-@media (max-width: 29.99em), (min-width: 48em) {
+@media (max-width: 47.99em) { .panel--top .vkeys { padding: 0; } }
+@media all {
   .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(2.3 * var(--u)); }
   .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(4.6 * var(--u)); box-shadow: none; }
   .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }
-@media (min-width: 30em) and (max-width: 47.99em) {
-  /* the plate is one grid: a display across the top; under it the tape and,
-     on its right, the column of small keys; and under both the transport keys
-     right across the plate's width. The two units and their plates only
-     group the parts, so they take no box of their own here (the plate and its
-     four screws are drawn once, behind, by .panels::before and ::after). */
-  .panels {
-    grid-template-columns: calc(84 * var(--u)) calc(10 * var(--u));
-    grid-template-areas: "lcd lcd" "tape side" "keys keys";
-    column-gap: calc(4.6 * var(--u)); row-gap: calc(3.2 * var(--u));
-    padding: calc(6.2 * var(--u)); justify-content: center;
-  }
-  .unit, .panel, .panel__plate { display: contents; }
-  .panels > .lcd--wide { display: block; grid-area: lcd; margin: 0; position: relative; z-index: 2; }
-  .tdeck { grid-area: tape; }
-  .panel--top .vkeys { grid-area: side; }
-  .keys { grid-area: keys; position: relative; z-index: 2; }
-  .lcd--wide .lcd__glass { height: auto; gap: calc(1.2 * var(--u)); padding: calc(2.4 * var(--u)) calc(3.2 * var(--u)); }
-  .lcd--wide .lcd__top { font-size: max(.6rem, calc(2.4 * var(--u))); }
-  .lcd--wide .lcd__title { font-size: max(.9rem, calc(4.2 * var(--u))); }
-  .panel--deck::before, .panel--top::before { background: none; }
-  .panels::after {
-    background:
-      var(--screw) left calc(1.3 * var(--u)) top calc(1.3 * var(--u)) / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
-      var(--screw) right calc(1.3 * var(--u)) top calc(1.3 * var(--u)) / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
-      var(--screw) left calc(1.3 * var(--u)) bottom calc(1.3 * var(--u)) / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
-      var(--screw) right calc(1.3 * var(--u)) bottom calc(1.3 * var(--u)) / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat;
-  }
-}
-
 /* the level meters, after a mixer's master meter: columns of small rounded
    LEDs in dark slots, green, then orange, red at the top, unlit ones still
    showing their colour faintly; the scale between each pair, the names below
@@ -921,15 +887,28 @@ body.has-minibar { padding-bottom: 4.2rem; }
 .mkey[aria-disabled="true"] { cursor: default; }
 .mkey[aria-disabled="true"] > * { opacity: .4; }
 .mkey:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; position: relative; z-index: 1; }
-/* the deck's own display, on phones only: a low strip across the plate above
-   the small keys, the same green panel as the bar's */
-.lcd--deck, .lcd--wide { display: none; }
-@media (max-width: 29.99em) {
+/* the deck's own display, on phones and up to the tablet (one column): a low
+   strip across the plate above the small keys, the same green panel as the bar's */
+/* the four sound meters are not shown (the display stands where they were);
+   their markup and animation are kept: remove this rule to show them again */
+.panel__plate .vu { display: none; }
+/* on a tablet and a desktop the display takes the meters' place across the
+   plate, taller than on a phone */
+@media (min-width: 48em) {
+  .panel__plate .lcd--deck { display: block; grid-column: 1 / -1; margin-bottom: calc(2 * var(--u)); }
+  .lcd--deck .lcd__glass { height: auto; gap: calc(1.6 * var(--u)); padding: calc(4 * var(--u)) calc(4 * var(--u)); }
+  .lcd--deck .lcd__top { font-size: max(.58rem, calc(2.7 * var(--u))); }
+  .lcd--deck .lcd__title { font-size: max(.9rem, calc(6 * var(--u))); }
+  .panel__plate .vkeys { border-top: 0; box-shadow: none; padding-top: calc(1.6 * var(--u)); }
+}
+.lcd--deck { display: none; }
+@media (max-width: 47.99em) {
   .lcd--deck { display: block; grid-column: 1 / -1; margin-bottom: calc(3 * var(--u)); }
   .lcd--deck .lcd__glass { height: auto; gap: calc(1.2 * var(--u)); padding: calc(2.6 * var(--u)) calc(3.4 * var(--u)); }
-  /* the deck drawn at the full width of the column (and the rack in step), so
-     its plate is always 100 units wide */
-  .cabinet, .rack__cabinet { --u: calc(100cqi / 100); }
+  /* the deck drawn at the full width of the column, up to 40rem (and the rack
+     in step), so its plate is always 100 units wide */
+  .cabinet, .rack__cabinet { --u: calc(min(100cqi, 40rem) / 100); }
+  .panels { width: calc(100 * var(--u)); margin-inline: auto; }
   /* the tape's window as wide as the display above it */
   .tdeck { width: auto; margin-inline: 0; justify-self: stretch; }
   /* the rack's cases stay as long as the (wider) tape is wide */

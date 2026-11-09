@@ -61,8 +61,10 @@
   --pad: clamp(1rem, 3.5vw, 4rem);
   --gap: clamp(1rem, 2vw, 2rem);
 }
+/* the dark palette: the system's, unless the visitor chose the light one by hand
+   (data-theme on <html>, set by the masthead's switch); or the dark one by hand */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0b2a3e;
     --panel: #0d3249;
     --panel-2: #123d58;
@@ -74,6 +76,19 @@
     --text-accent: #f9b874;
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b2a3e;
+  --panel: #0d3249;
+  --panel-2: #123d58;
+  --ink: #fbe6b4;
+  --ink-soft: #93bcc0;
+  --ghost: #29557c;
+  --accent: #c8172a;
+  --on-accent: #fbe6b4;
+  --text-accent: #f9b874;
+}
+:root[data-theme="light"] { color-scheme: light; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--panel); }

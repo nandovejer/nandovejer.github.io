@@ -33,6 +33,23 @@ if (head) {
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   head.addEventListener('focusin', () => head.classList.remove('is-hidden'));
 
+  // Light and dark: the two buttons set the theme (data-theme on <html>, kept
+  // in this browser); with none chosen the system's wins, and the button of
+  // the theme in force reads as pressed.
+  const themeBtns = [...head.querySelectorAll('[data-theme-set]')];
+  if (themeBtns.length) {
+    const dark = matchMedia('(prefers-color-scheme: dark)');
+    const inForce = () => document.documentElement.dataset.theme || (dark.matches ? 'dark' : 'light');
+    const paint = () => themeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === inForce())));
+    themeBtns.forEach((b) => b.addEventListener('click', () => {
+      document.documentElement.dataset.theme = b.dataset.themeSet;
+      try { localStorage.setItem('theme', b.dataset.themeSet); } catch { /* storage off */ }
+      paint();
+    }));
+    dark.addEventListener('change', paint);
+    paint();
+  }
+
   // The menu on phones: the three bars open and close the panel; a link in it,
   // Esc, a click outside or the masthead sliding away close it.
   const menu = head.querySelector('.masthead__menu');

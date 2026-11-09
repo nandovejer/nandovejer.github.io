@@ -339,7 +339,13 @@ const langSwitch = (lang) => `<div class="lang">
    The same masthead and colophon on Disquetes, VHS and any version to come.
    `bioHref` is where the Bio link goes without JS; `version` is the barcode
    to the other version: { href, code, label }. */
-const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
+// Light and dark, by hand (it remembers; with none chosen the system's wins)
+const themeSwitch = (u) => `<div class="theme" role="group" aria-label="${u.themeLabel}">
+    <button class="theme__btn" type="button" data-theme-set="light" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="theme__text">${u.themeLight}</span></button>
+    <button class="theme__btn" type="button" data-theme-set="dark" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg><span class="theme__text">${u.themeDark}</span></button>
+  </div>`;
+const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
+const masthead = (lang, t, u, { bioHref, theme = true }) => `<header class="masthead">
   <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
   <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
   <div class="masthead__drawer" id="masthead-drawer">
@@ -348,6 +354,7 @@ const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
     <a href="#${lang === 'es' ? 'proyectos' : 'projects'}" data-go="projects">${u.shelf}</a>
   </nav>
   ${langSwitch(lang)}
+  ${theme ? themeSwitch(u) : ''}
   </div>
 </header>`;
 const colophon = (t, u, version, extra = '') => `<footer class="colophon">
@@ -375,6 +382,7 @@ const page = (lang) => {
   <title>${site.name} · ${t.runningHead}</title>
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
+  ${THEME_INIT}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/disquetes/${l}/">`).join('\n  ')}
@@ -538,7 +546,7 @@ const vhsPage = (lang) => {
 </head>
 <body class="vhs">
 <a class="skip" href="#main">${t.skip}</a>
-${masthead(lang, t, u, { bioHref: '#tv' })}
+${masthead(lang, t, u, { bioHref: '#tv', theme: false })}
 <main id="main">
 <section class="room" aria-label="${v.tv}">
   <div class="room__row">
@@ -824,6 +832,7 @@ const cassettePage = (lang) => {
   <title>${site.name} · ${t.runningHead} · Cassette</title>
   <meta name="description" content="${esc(t.metaDescription)}">
   <meta name="color-scheme" content="light dark">
+  ${THEME_INIT}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/cassette/${l}/">`).join('\n  ')}
@@ -848,7 +857,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}" data-copied="${c.copied}">
     <section class="panels" aria-label="${c.deck}">
-      <p class="lcd lcd--wide" aria-hidden="true"><span class="lcd__glass"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title"><span class="lcd__run">${esc(c.about)}</span></span></span></p>
       <div class="unit"><div class="panel panel--top">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>

@@ -36,7 +36,7 @@
 /* ---------- the masthead: a magazine cover's ----------
    The stripe hangs along its bottom edge; above it the three squares and the name in
    the condensed titling face, with the kicker under it in the technical one;
-   the links are ■ labels; the languages and light/dark set as type.
+   the links are ■ labels, the language a square button with its dropdown.
    The brand (squares, name, kicker) is one link home. */
 .masthead {
   position: sticky; top: 0; z-index: 20;
@@ -68,42 +68,66 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .brand__kicker { margin-top: .25rem; font: 600 .66rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft); }
 
 /* the sections and the languages sit together: on a wide screen in the bar
-   itself, all type, as on a magazine's masthead; on a phone in a panel that
-   slides in from the right */
+   itself (the sections as type, the language a dropdown); on a phone in a
+   panel that slides in from the right */
 .masthead__drawer { display: contents; }
 .masthead__menu { display: none; }
 .masthead__nav { display: flex; gap: 1.6rem; }
 .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; color: var(--ink); }
 .masthead__nav a::before { content: ""; width: .55em; height: .55em; background: var(--accent); }
 
-/* ---------- language: its links listed, the current one marked ----------
-   (the old switch's button and popover stay in the markup, unused) */
-.lang__button { display: none; }
+/* ---------- language: a button with the current code, a popover list ----------
+   As LUZ's lang-switch: native popover, one link per language named in
+   itself, the current one ticked. (On phones the list sits in the menu.) */
+.lang__button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.25rem; min-height: 2.25rem; padding: 0;
+  border: 1.5px solid var(--ink); border-radius: 0;
+  background: transparent; color: var(--ink);
+  font: 600 .78rem/1 var(--tech); letter-spacing: .08em;
+  cursor: pointer;
+}
+.lang__button:hover, .lang__button:has(+ :popover-open) { background: var(--ink); color: var(--bg); }
 .lang__menu {
-  display: block; position: static; inset: auto; width: auto; min-width: 0; margin: 0; padding: 0;
-  border: 0; box-shadow: none; background: none; color: var(--ink); overflow: visible;
+  inset: auto; top: var(--head-h, 4.5rem); right: var(--pad, 1rem);
+  margin: 0; min-width: 12rem; padding: .5rem;
+  border: 1.5px solid var(--ink); border-radius: 0;
+  background: var(--panel); color: var(--ink);
+  box-shadow: 0 4px 0 var(--ink);
   font-family: var(--sans); text-transform: none; letter-spacing: 0;
 }
-.lang__title { padding: 0 0 .5rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-.lang__list { display: flex; list-style: none; margin: 0; padding: 0; }
-.lang__link { display: flex; align-items: center; gap: .6rem; color: var(--ink); font-weight: 600; text-decoration: none; }
-.masthead .lang__link:hover { text-decoration: none; }
-.lang__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.lang__code { font: 600 .78rem/1 var(--tech); letter-spacing: .08em; }
+@supports (position-anchor: --lang) {
+  .lang__button { anchor-name: --lang; }
+  .lang__menu { position-anchor: --lang; top: calc(anchor(bottom) + .5rem); right: anchor(right); }
+}
+.lang__title { padding: .25rem .6rem .45rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.lang__list { display: grid; gap: .2rem; list-style: none; margin: 0; padding: 0; }
+.lang__link {
+  display: flex; align-items: center; gap: .6rem;
+  min-height: 2.75rem; padding: 0 .6rem; border-radius: 0;
+  color: var(--ink); font-weight: 600; text-decoration: none;
+}
+.masthead .lang__link:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); text-decoration: none; }
+.lang__link:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.lang__code { width: 1.8em; font: 600 .78rem/1 var(--tech); letter-spacing: .08em; color: var(--ink-soft); }
+/* the current one: a tick (a shape, not colour alone) and weight */
+.lang__link[aria-current] { background: color-mix(in srgb, var(--ink) 10%, transparent); font-weight: 800; }
+.lang__link[aria-current]::after {
+  content: ""; margin-left: auto; width: .4em; height: .75em;
+  border: solid var(--accent); border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -.1em;
+}
+/* without the popover API: the links in a row, no button */
+@supports not selector(:popover-open) {
+  .lang__button, .lang__title { display: none; }
+  .lang__menu { display: block; position: static; padding: 0; border: 0; box-shadow: none; background: none; min-width: 0; }
+  .lang__list { display: flex; }
+}
 
-/* ---------- wide screens: a magazine's masthead, all type ----------
-   The sections on the right; after a hairline the languages by their codes
-   (ES EN), the current one in full ink and underlined in the accent, the
-   other in the soft ink. */
+/* ---------- wide screens: a magazine's masthead ----------
+   The sections on the right as type; after a hairline the language button. */
 @media (min-width: 48em) {
   .masthead__nav { margin-left: auto; }
   .lang { display: flex; align-items: center; padding-left: 1.4rem; border-left: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); }
-  .lang__title { display: none; }
-  .lang__list { gap: .25rem; }
-  .lang__link { padding: .3rem .35rem; font-size: 0; }   /* the code shows; the name stays for screen readers */
-  .lang__code { font-size: .74rem; color: var(--ink-soft); }
-  .lang__link:hover .lang__code { color: var(--ink); }
-  .lang__link[aria-current] .lang__code { color: var(--ink); text-decoration: underline 2px var(--accent); text-underline-offset: .4em; }
 }
 
 /* ---------- phones: three bars that open a panel from the right ----------
@@ -139,6 +163,11 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
   .masthead__nav a { display: flex; min-height: 2.9rem; font-size: .95rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
   .masthead__nav a::after { content: "→"; margin-left: auto; color: var(--ink-soft); font-weight: 400; }
   .lang { margin-top: auto; }
+  .lang__button { display: none; }
+  .lang__menu { display: block; position: static; inset: auto; width: auto; min-width: 0; padding: 0; border: 0; box-shadow: none; background: none; overflow: visible; }
+  .lang__title { padding: 0 0 .5rem; }
+  .lang__list { display: flex; gap: 0; }
+  .lang__link[aria-current]::after { display: none; }
   .lang__list li { flex: 1; }
   .lang__link { justify-content: center; width: 100%; min-height: 2.6rem; padding: 0 .5rem; border: 1.5px solid var(--ink); }
   .lang__list li + li .lang__link { border-left: 0; }

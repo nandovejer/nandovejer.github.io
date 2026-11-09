@@ -812,45 +812,75 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .cas-item.is-out .cspine { visibility: hidden; }
 
 /* ---------- the bar at the foot (phones, the deck out of sight) ----------
-   A strip of the same aluminium along the bottom of the window: the tape in
-   the deck, its spine colour behind its name, and the main keys as small caps */
+   A strip of the deck's aluminium along the bottom of the window, its top edge
+   chamfered: a little green LCD in a black bezel and, in two sunk trays as on
+   a deck, the keys */
 .minibar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
-  --u: calc(min(100vw, 30rem) / 100);
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .4rem;
-  padding: .5rem max(.6rem, env(safe-area-inset-left)) calc(.5rem + env(safe-area-inset-bottom));
-  background: var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px, linear-gradient(#f3f4f6, #dfe2e5);
-  box-shadow: inset 0 1px 0 #fff, 0 -1px 0 rgb(60 66 72 / .35), 0 -.4rem 1.2rem rgb(0 0 0 / .3);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .5rem;
+  padding: .5rem max(.6rem, env(safe-area-inset-left)) calc(.55rem + env(safe-area-inset-bottom));
+  background:
+    var(--tx-brush-hi) 0 0 / 600px 300px, var(--tx-brush-lo) 0 0 / 600px 300px,
+    linear-gradient(105deg, transparent 10%, rgb(255 255 255 / .35) 30%, transparent 50%),
+    linear-gradient(#f4f5f6, #e3e6e8 55%, #d3d7da);
+  box-shadow:
+    inset 0 1px 0 #fff, inset 0 2px 0 rgb(255 255 255 / .5), inset 0 -1px 0 rgb(0 0 0 / .12),
+    0 -1px 0 rgb(60 66 72 / .45), 0 -.25rem .5rem rgb(0 0 0 / .18), 0 -.8rem 1.6rem rgb(0 0 0 / .22);
   animation: minibar-in .25s ease;
 }
 .minibar[hidden] { display: none; }
 @keyframes minibar-in { from { translate: 0 100%; } }
-body.has-minibar { padding-bottom: 4rem; }
-/* the display: a reflective green LCD behind a dark bezel — dark segments on
-   grey-green, a faint ghost of each character and of the unlit pixel grid */
+body.has-minibar { padding-bottom: 4.2rem; }
+
+/* the LCD: a black bezel sunk into the metal; behind its glass the reflective
+   green panel, lit a little brighter in the middle, a faint pixel grid, the
+   segments dark with their own soft shadow on the panel behind them, and the
+   glass catching the light along its top */
 .lcd {
-  min-width: 0; margin: 0; display: grid; gap: .15rem; align-content: center;
-  padding: .3rem .55rem; border-radius: .25rem; border: .18rem solid #2b2d2f;
+  min-width: 0; margin: 0; padding: .2rem; border-radius: .4rem;
+  background: linear-gradient(#202123, #34363a);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .9), inset 0 -1px 0 rgb(255 255 255 / .12), 0 1px 0 rgb(255 255 255 / .95), 0 -1px 0 rgb(0 0 0 / .15);
+}
+.lcd__glass {
+  position: relative; overflow: hidden; display: grid; gap: .12rem; align-content: center;
+  height: 2.2rem; padding: 0 .5rem; border-radius: .22rem;
   background:
-    repeating-linear-gradient(90deg, rgb(40 60 20 / .05) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(rgb(40 60 20 / .05) 0 1px, transparent 1px 3px),
-    linear-gradient(170deg, #b4c59a, #9fb383 60%, #93a878);
-  box-shadow: inset 0 .15rem .35rem rgb(0 0 0 / .4), inset 0 -1px 0 rgb(255 255 255 / .25), 0 1px 0 rgb(255 255 255 / .9);
-  color: rgb(22 34 14 / .88); text-shadow: 1px 1px 0 rgb(22 34 14 / .14);
+    repeating-linear-gradient(90deg, rgb(30 50 15 / .045) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(rgb(30 50 15 / .045) 0 1px, transparent 1px 2px),
+    radial-gradient(130% 120% at 50% 45%, #c9d9a6, #afc48c 55%, #93a974);
+  box-shadow: inset 0 .2rem .35rem rgb(0 0 0 / .45), inset 0 0 .6rem rgb(30 50 15 / .25);
+  color: #1b2611; text-shadow: .09rem .09rem 0 rgb(27 38 17 / .2);
   font-family: var(--tech); text-transform: uppercase; white-space: nowrap;
 }
-.lcd__top { display: flex; gap: .45rem; font-size: .58rem; font-weight: 700; letter-spacing: .1em; line-height: 1; }
+.lcd__glass::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(170deg, rgb(255 255 255 / .38), rgb(255 255 255 / .08) 38%, transparent 40%);
+}
+.lcd__top { display: flex; gap: .5rem; font-size: .56rem; font-weight: 700; letter-spacing: .12em; line-height: 1; opacity: .9; }
 .lcd__mode { font-weight: inherit; }
-.lcd__title { overflow: hidden; text-overflow: ellipsis; font-size: .85rem; font-weight: 700; letter-spacing: .05em; line-height: 1.05; }
-.minibar__keys { display: flex; align-items: center; gap: .2rem; }
-.minibar__gap { width: 1px; align-self: stretch; margin-inline: .1rem; background: rgb(0 0 0 / .15); box-shadow: 1px 0 0 rgb(255 255 255 / .8); }
+.lcd__title { display: flex; overflow: hidden; font-size: .86rem; font-weight: 700; letter-spacing: .06em; line-height: 1.05; }
+/* the marquee: the text twice in a row, sliding left by one copy and over again */
+.lcd__run { flex: none; white-space: pre; animation: lcd-run var(--dur, 14s) linear infinite; }
+@keyframes lcd-run { to { translate: -100%; } }
+
+/* the keys in their trays: a dark channel sunk into the metal, its lower lip
+   lit, the caps standing in it side by side */
+.minibar__keys { display: flex; align-items: center; gap: .4rem; }
+.mtray {
+  display: flex; gap: 2px; padding: 3px; border-radius: .45rem;
+  background: linear-gradient(#1a1b1d, #2b2d30);
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / .9), 0 1px 0 rgb(255 255 255 / .95), 0 -1px 0 rgb(0 0 0 / .15);
+}
 .mkey {
   all: unset; box-sizing: border-box; cursor: pointer; display: grid; place-items: center;
-  width: clamp(1.75rem, 7.6vw, 2.3rem); height: 2.1rem; border-radius: .3rem; border-bottom: .3rem solid #9d9b94;
-  background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4e3dd, #d0cec8);
-  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgb(0 0 0 / .3), 0 0 0 .14rem #26272a, 0 .16rem 0 .14rem rgb(255 255 255 / .7);
-  font: 600 .72rem/1 var(--tech); letter-spacing: -.12em; color: #2a2a28;
-  transition: transform .09s ease, border-bottom-width .09s ease, box-shadow .09s ease, filter .09s ease;
+  width: clamp(1.9rem, 8.6vw, 2.5rem); height: 2.2rem;
+  border-radius: .3rem; border-bottom: .32rem solid #9a988f;
+  background:
+    linear-gradient(rgb(255 255 255 / .55), transparent 40%) 0 0 / 100% 100%,
+    var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#ecebe5, #d3d1ca);
+  box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .6), inset -1px 0 0 rgb(0 0 0 / .12), 0 1px 1px rgb(0 0 0 / .5);
+  font: 600 .74rem/1 var(--tech); letter-spacing: -.12em; color: #2a2a28;
+  transition: transform .08s ease, border-bottom-width .08s ease, box-shadow .08s ease, filter .08s ease;
 }
 .mkey i { font-style: normal; }
 .mkey svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
@@ -860,19 +890,27 @@ body.has-minibar { padding-bottom: 4rem; }
 .mkey[data-proxy="mute"][aria-pressed="true"] .mute__x { display: inline; }
 .mkey b { font: 800 .85rem/1 var(--sans); letter-spacing: 0; }
 .mkey--small[aria-pressed="true"] { color: #2f7a43; }
-.mkey--play { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#6fb67e, #4f9a61); border-bottom-color: #27522f; color: #fff; }
-/* playing, the key reads ❚❚ and turns charcoal-grey like the others */
-.mkey--play.is-playing { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4e3dd, #d0cec8); border-bottom-color: #9d9b94; color: #2a2a28; }
-.mkey--eject { background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e4584c, #cf3d31); border-bottom-color: #7a221a; color: #fff; }
-.mkey:active, .mkey[aria-pressed="true"] { transform: translateY(.2rem); border-bottom-width: .1rem; filter: brightness(.93); box-shadow: inset 0 .25rem .3rem rgb(0 0 0 / .28), 0 0 0 1px rgb(0 0 0 / .35), 0 -.06rem 0 .14rem #141516, 0 .1rem 0 .14rem rgb(255 255 255 / .7); }
-.mkey[aria-disabled="true"] { opacity: .45; cursor: default; }
-.mkey:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; }
+.mkey--play { background: linear-gradient(rgb(255 255 255 / .35), transparent 40%), var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#74bb83, #4f9a61); border-bottom-color: #27522f; color: #fff; }
+/* playing, the key reads ❚❚ and turns plain like the others */
+.mkey--play.is-playing { background: linear-gradient(rgb(255 255 255 / .55), transparent 40%), var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#ecebe5, #d3d1ca); border-bottom-color: #9a988f; color: #2a2a28; }
+.mkey--eject { background: linear-gradient(rgb(255 255 255 / .35), transparent 40%), var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e8604f, #cf3d31); border-bottom-color: #7a221a; color: #fff; }
+/* pressed (or held down): the cap sinks into the tray, its front edge nearly
+   gone, its face a touch darker with the tray's rim shading its top */
+.mkey:active, .mkey[aria-pressed="true"] {
+  transform: translateY(.22rem); border-bottom-width: .1rem; filter: brightness(.92);
+  box-shadow: inset 0 .25rem .35rem rgb(0 0 0 / .3), inset 0 -1px 0 rgb(255 255 255 / .3);
+}
+.mkey[aria-disabled="true"] { cursor: default; }
+.mkey[aria-disabled="true"] > * { opacity: .4; }
+.mkey:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; position: relative; z-index: 1; }
 /* narrow phones: the display without the tape's code */
-@media (max-width: 26em) { .lcd__code { display: none; } .lcd__title { font-size: .75rem; } }
+@media (max-width: 26em) { .lcd__code { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   .cabinet .reel, .grille, .studio__arrow { animation: none !important; }
   .minibar { animation: none; }
+  .lcd__run { animation: none; }
+  .lcd__run + .lcd__run { display: none; }
 }
 
 /* Taken off, their space kept: the counter and the tape-name strip, the maker's

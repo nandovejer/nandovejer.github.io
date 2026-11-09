@@ -947,15 +947,18 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
 </section>
 </main>
 <div class="minibar" role="region" aria-label="${c.minibar}" hidden>
-  <p class="lcd" aria-live="off"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title">${esc(c.about)}</span></p>
+  <p class="lcd" aria-live="off"><span class="lcd__glass"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title"><span class="lcd__run">${esc(c.about)}</span></span></span></p>
   <div class="minibar__keys">
+    <span class="mtray">
     <button type="button" class="mkey" data-proxy="rew" aria-label="${c.rew}"><i aria-hidden="true">◀◀</i></button>
     <button type="button" class="mkey mkey--play" data-act2="playpause" data-play="${c.play}" data-pause="${c.pause}" aria-label="${c.play}"><i aria-hidden="true">▶</i></button>
     <button type="button" class="mkey" data-proxy="ff" aria-label="${c.ff}"><i aria-hidden="true">▶▶</i></button>
     <button type="button" class="mkey mkey--eject" data-act2="stopeject" aria-label="${c.eject}"><i aria-hidden="true">⏏</i></button>
-    <span class="minibar__gap" aria-hidden="true"></span>
+    </span>
+    <span class="mtray">
     <button type="button" class="mkey mkey--small" data-proxy="mute" aria-label="${c.mute}" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></button>
     <button type="button" class="mkey mkey--small" data-proxy="double" aria-label="${c.double}" aria-pressed="false"><b aria-hidden="true">2×</b></button>
+    </span>
   </div>
 </div>
 ${colophon(t, u, { href: `../../disquetes/${lang}/`, code: u.diskCode, label: u.diskVersion }, voiceCredit(lang, c))}

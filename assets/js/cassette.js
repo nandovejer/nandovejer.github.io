@@ -466,6 +466,21 @@ const minibar = document.querySelector('.minibar');
 if (minibar) {
   // its little green display: the mode, the track, the tape's code and name
   const mtitle = minibar.querySelector('.lcd__title');
+  // its lower line runs in a loop, right to left, like a marquee: the tape's
+  // name, its line, then its facts (technologies, status, year)
+  let said = '';
+  const marquee = () => {
+    const facts = [...out.querySelectorAll('.cells .cell')].map((c) => `${c.querySelector('dt')?.textContent.trim()}: ${c.querySelector('dd')?.textContent.replace(/\s+/g, ' ').trim()}`);
+    const text = [out.querySelector('.notes__title')?.textContent, out.querySelector('.notes__use')?.textContent, ...facts]
+      .map((x) => x?.trim()).filter(Boolean).join('  ·  ');
+    if (text === said) return;
+    said = text;
+    const run = document.createElement('span');
+    run.className = 'lcd__run';
+    run.textContent = `${text}  ·  `;
+    mtitle.replaceChildren(run, run.cloneNode(true));
+    mtitle.style.setProperty('--dur', `${Math.max(8, run.textContent.length * .22).toFixed(1)}s`);
+  };
   const mcode = minibar.querySelector('.lcd__code');
   const mmode = minibar.querySelector('.lcd__mode');
   const mno = minibar.querySelector('.lcd__no');
@@ -492,7 +507,7 @@ if (minibar) {
       const k = target(m.dataset.proxy);
       ['aria-pressed', 'aria-disabled'].forEach((a) => (k.hasAttribute(a) ? m.setAttribute(a, k.getAttribute(a)) : m.removeAttribute(a)));
     });
-    mtitle.textContent = dialTitle.textContent;
+    marquee();
     mcode.textContent = out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? '';
     mmode.textContent = osdMode.textContent;
     mno.textContent = osdNo.textContent;

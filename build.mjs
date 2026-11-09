@@ -637,9 +637,11 @@ const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 // A track's length from its words (a paragraph read aloud, more or less).
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
-// The graphic equaliser beside the speaker: a column of LEDs per band.
-const EQ_BANDS = ['31', '62', '125', '250', '500', '1K', '2K', '4K', '8K', '16K'];
-const EQ_LEDS = 16;
+// The level meter under the bay, after a mixer's master meter: two columns
+// of LEDs (left and right), the scale between them, top to bottom; the top
+// two red, the next four orange, the rest green.
+const VU_SCALE = ['OVER', '10', '7', '4', '2', '1', '0', '−1', '−2', '−3', '−5', '−7', '−10', '−15', '−24'];
+const VU_COL = `<span class="vu__col">${'<i></i>'.repeat(VU_SCALE.length)}</span>`;
 // The tower under the deck: the tapes picked from the rack, and those that
 // come out of the deck, lie there on their sides, one per shelf.
 const TOWER = 4;
@@ -848,14 +850,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
     <section class="panel" aria-label="${c.deck}">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>
-        <div class="eq" aria-hidden="true">
-          <div class="eq__win">
-            <p class="eq__osd"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-            <div class="eq__bands"><span class="eq__scale">${EQ_SCALE_L.map((t) => `<b>${t}</b>`).join('')}</span>${EQ_BANDS.map(() => `<span class="eq__band">${'<i></i>'.repeat(EQ_LEDS)}</span>`).join('')}<span class="eq__scale eq__scale--r">${EQ_SCALE_R.map((t) => `<b>${t}</b>`).join('')}</span></div>
-            <p class="eq__hz"><span>Fq.</span>${EQ_BANDS.map((b) => `<span>${b}</span>`).join('')}<span>Hz</span></p>
-            <p class="eq__osd eq__osd--title"><span class="osd__title">${esc(site.name)}</span></p>
-          </div>
-        </div>
       </div>
       <div class="panel__meter" aria-hidden="true">
         <span class="counter"><span class="counter__label">${c.counter}</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
@@ -872,7 +866,11 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
           <small aria-hidden="true">${c.voice}</small>
         </button>
-        <span class="leds" aria-hidden="true"><i></i><i></i><i></i><small>${c.level}</small></span>
+        <div class="vu" aria-hidden="true">
+          ${VU_COL}<span class="vu__scale">${VU_SCALE.map((t) => `<b>${t}</b>`).join('')}</span>${VU_COL}
+          <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
+          <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
+        </div>
         <span class="faders">${fader('vol', 'VOL', c.volume, 8)}${fader('speed', c.speedKey, c.speed, 5)}</span>
       </div>
       <div class="keys">

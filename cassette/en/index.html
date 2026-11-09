@@ -52,14 +52,6 @@
     <section class="panel" aria-label="Tape deck">
       <div class="panel__top">
         <span class="grille" aria-hidden="true"></span>
-        <div class="eq" aria-hidden="true">
-          <div class="eq__win">
-            <p class="eq__osd"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-            <div class="eq__bands"><span class="eq__scale"><b>10</b><b>·</b><b>·</b><b>+</b><b>0</b><b>−</b><b>·</b><b>·</b><b>10</b></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__band"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="eq__scale eq__scale--r"><b>10</b><b>·</b><b>·</b><b>·</b><b>5</b><b>·</b><b>·</b><b>·</b><b>0</b></span></div>
-            <p class="eq__hz"><span>Fq.</span><span>31</span><span>62</span><span>125</span><span>250</span><span>500</span><span>1K</span><span>2K</span><span>4K</span><span>8K</span><span>16K</span><span>Hz</span></p>
-            <p class="eq__osd eq__osd--title"><span class="osd__title">Fernando Muñoz</span></p>
-          </div>
-        </div>
       </div>
       <div class="panel__meter" aria-hidden="true">
         <span class="counter"><span class="counter__label">Counter</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
@@ -134,7 +126,11 @@
           <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
           <small aria-hidden="true">Voice</small>
         </button>
-        <span class="leds" aria-hidden="true"><i></i><i></i><i></i><small>Level</small></span>
+        <div class="vu" aria-hidden="true">
+          <span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="vu__scale"><b>OVER</b><b>10</b><b>7</b><b>4</b><b>2</b><b>1</b><b>0</b><b>−1</b><b>−2</b><b>−3</b><b>−5</b><b>−7</b><b>−10</b><b>−15</b><b>−24</b></span><span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
+          <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">Fernando Muñoz</span></p>
+        </div>
         <span class="faders"><label class="fader"><input class="fader__input" type="range" data-fader="vol" min="0" max="10" step="1" value="8" aria-label="Voice volume"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">VOL</small></label><label class="fader"><input class="fader__input" type="range" data-fader="speed" min="0" max="10" step="1" value="5" aria-label="Reading speed"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">Speed</small></label></span>
       </div>
       <div class="keys">

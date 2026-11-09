@@ -130,9 +130,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* ---------- the oak cabinets ----------
    On the wall, a recorder in a pale aluminium shell, after an old
-   program recorder (the speaker on top with a graphic equaliser beside it,
-   the tape in an open bay, a brushed metal band with the voice key, three red lights
-   and two faders, charcoal keys with a red EJECT and a green PLAY) and,
+   program recorder (the speaker on top, the tape in an open bay, a row with
+   the voice key, a stereo level meter and two faders, charcoal keys with a
+   red EJECT and a green PLAY) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
@@ -222,63 +222,41 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* a groove engraved across the plate */
 .panel__meter, .panel__plate { border-top: 1px solid rgb(0 0 0 / .24); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6); padding-top: calc(2.2 * var(--u)); }
 
-/* the top: the speaker and, beside it, a graphic equaliser on a green
-   fluorescent display behind smoked glass: ten bands of wide bars, lit
-   white-green up to the level with a blurred green afterglow above that
-   lingers before it falls, the scales either side and the bands below; the
-   mode and the track lit above, the tape's name below */
-.panel__top { display: grid; grid-template-columns: 1.15fr 1fr; gap: calc(3 * var(--u)); align-items: stretch; }
-.eq {
-  display: grid; padding: calc(1.2 * var(--u)); border-radius: calc(1.4 * var(--u));
-  background: linear-gradient(170deg, #f4f4f1, #c7c8c4 55%, #a8aaa6);
-  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .4), 0 calc(.15 * var(--u)) calc(.25 * var(--u)) rgb(0 0 0 / .3), 0 calc(.6 * var(--u)) calc(1 * var(--u)) calc(-.1 * var(--u)) rgb(0 0 0 / .4);
+/* the speaker across the top */
+.panel__top { display: grid; }
+.panel__top .grille { height: calc(22 * var(--u)); }
+
+/* the level meter, after a mixer's master meter: two columns of small
+   rounded LEDs in dark slots, green, then orange, red at the top, unlit ones
+   still showing their colour faintly; the scale between them, L dB R below */
+.vu {
+  --led-h: calc(1.25 * var(--u)); --led-gap: calc(.55 * var(--u));
+  display: grid; grid-template-columns: auto auto auto; column-gap: calc(1 * var(--u)); row-gap: calc(.8 * var(--u)); align-items: start;
 }
-.eq__win {
-  position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto auto; gap: calc(1 * var(--u));
-  min-height: calc(32 * var(--u)); padding: calc(1.8 * var(--u)) calc(1.8 * var(--u)) calc(1.4 * var(--u));
-  border-radius: calc(.8 * var(--u));
-  background: radial-gradient(ellipse 90% 70% at 50% 45%, #0d1a12, #040806 70%);
-  box-shadow: inset 0 0 0 calc(.45 * var(--u)) #111, inset 0 0 0 calc(.6 * var(--u)) #2b2b2b, inset 0 calc(.6 * var(--u)) calc(1.8 * var(--u)) #000;
+.vu__col {
+  display: flex; flex-direction: column-reverse; gap: var(--led-gap); padding: calc(.5 * var(--u));
+  border-radius: calc(.7 * var(--u)); background: linear-gradient(90deg, #1d1f21, #2c2e31 50%, #1d1f21);
+  box-shadow: inset 0 calc(.2 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .8), 0 1px 0 rgb(255 255 255 / .9), 0 0 0 1px rgb(0 0 0 / .15);
 }
-/* the smoked glass over it */
-.eq__win::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
-  background:
-    linear-gradient(160deg, rgb(255 255 255 / .12), rgb(255 255 255 / .03) 35%, transparent 50%),
-    linear-gradient(105deg, transparent 0 58%, rgb(255 255 255 / .05) 58% 66%, transparent 66%);
+.vu__col i {
+  --c: #7cdc2c;
+  display: block; width: calc(2.6 * var(--u)); height: var(--led-h); border-radius: calc(.35 * var(--u));
+  background: color-mix(in srgb, var(--c) 22%, #232527);
+  transition: background-color .12s linear, box-shadow .12s linear;
 }
-.eq__osd {
-  margin: 0; display: flex; justify-content: space-between; gap: calc(1 * var(--u)); white-space: nowrap;
-  font: 600 max(.45rem, calc(2 * var(--u)))/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
-  color: rgb(170 255 190 / .72); text-shadow: 0 0 calc(.6 * var(--u)) rgb(60 255 120 / .55);
+.vu__col i:nth-child(n+10) { --c: #ff9a1f; }
+.vu__col i:nth-child(n+14) { --c: #ff2a3a; }
+.vu__col i.on {
+  background: radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--c), #fff 45%), var(--c) 70%);
+  box-shadow: 0 0 calc(.8 * var(--u)) color-mix(in srgb, var(--c) 75%, transparent); transition: none;
 }
-.eq__osd--title { justify-content: center; }
-.osd__title { overflow: hidden; text-overflow: ellipsis; }
-.cabinet.is-playing .osd__mode { color: #ecffee; text-shadow: 0 0 calc(.5 * var(--u)) rgb(120 255 160 / .9), 0 0 calc(1.2 * var(--u)) rgb(60 255 120 / .6); }
-/* the bars, with a scale on each side; the hz labels share its columns */
-.eq__bands, .eq__hz { display: grid; grid-template-columns: calc(2.2 * var(--u)) repeat(10, 1fr) calc(2.2 * var(--u)); column-gap: calc(.7 * var(--u)); }
-.eq__bands { filter: drop-shadow(0 0 calc(.35 * var(--u)) rgb(70 255 130 / .45)); }
-.eq__band { display: flex; flex-direction: column-reverse; gap: calc(.5 * var(--u)); }
-.eq__band i {
-  flex: 1; min-height: 1px; border-radius: .5px;
-  background: rgb(60 220 110 / .07);
-  transition: background-color .14s linear, filter .14s linear;
+.vu__scale {
+  display: flex; flex-direction: column; gap: var(--led-gap); padding-block: calc(.5 * var(--u));
+  font: 700 max(.3rem, calc(1.15 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center;
 }
-/* lit up to the level: white with a green cast, crisp */
-.eq__band i.on { background: #e2fbe2; transition: none; }
-/* the afterglow above it: bright green, blurred, fading as it climbs */
-.eq__band i.tr { background: #3dfa7a; filter: blur(calc(.18 * var(--u))); opacity: var(--a, 1); transition: none; }
-.eq__scale {
-  display: flex; flex-direction: column; justify-content: space-between; align-items: end;
-  font: 700 max(.3rem, calc(1.25 * var(--u)))/.6 var(--tech); color: rgb(215 255 220 / .78);
-}
-.eq__scale--r { align-items: start; }
-.eq__scale b { font-weight: inherit; }
-.eq__hz {
-  margin: 0; text-align: center; white-space: nowrap;
-  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); letter-spacing: -.02em; color: rgb(215 255 220 / .78);
-  text-shadow: 0 0 calc(.4 * var(--u)) rgb(60 255 120 / .5);
-}
+.vu__scale b { display: grid; place-items: center; height: var(--led-h); font-weight: inherit; white-space: nowrap; }
+.vu__foot { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; font: 700 max(.3rem, calc(1.15 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center; }
+.vu__foot b { font-weight: inherit; }
 
 /* the speaker: rows of holes punched through the plate, each lower lip lit */
 .grille {
@@ -293,7 +271,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @keyframes thump { to { filter: brightness(.94); } }
 
 /* the counter: three drums behind a window, a reset button; the lit strip */
-.panel__meter { display: flex; align-items: center; gap: calc(3 * var(--u)); }
+/* (the counter and the strip are kept for the script, but not shown) */
+.panel__meter { display: none; }
 .counter { display: grid; grid-template-columns: auto auto; gap: calc(.5 * var(--u)) calc(1 * var(--u)); align-items: center; }
 .counter__label { grid-column: 1 / -1; font: 700 max(.4rem, calc(1.7 * var(--u)))/1 var(--tech); letter-spacing: .14em; text-transform: uppercase; color: #333431; }
 .counter__win {
@@ -350,23 +329,17 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the band under the bay, in a darker brushed metal than the plate: the voice
-   key on the left, the three red lights in the middle, the faders (volume and
-   reading speed) on the right */
+/* the row under the bay, on the aluminium itself: the voice key on the left,
+   the level meter in the middle, the faders (volume and reading speed) on the
+   right */
 .panel__plate {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(3 * var(--u));
-  margin-inline: calc(-1 * var(--u)); padding: calc(2 * var(--u)) calc(3 * var(--u)) calc(4.4 * var(--u));
-  border: 0; border-radius: calc(.6 * var(--u));
-  background:
-    repeating-linear-gradient(rgb(255 255 255 / .05) 0 1px, transparent 1px 2px, rgb(0 0 0 / .04) 2px 3px),
-    var(--tx-grain) 0 0 / 160px 160px,
-    linear-gradient(#80858b, #6c7177 55%, #5e6369);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .35), inset 0 -1px 0 rgb(0 0 0 / .35), 0 0 0 1px rgb(30 33 37 / .6), 0 1px 0 rgb(255 255 255 / .6);
+  padding: calc(2.6 * var(--u)) calc(1 * var(--u)) calc(.6 * var(--u));
 }
-.mute small, .leds small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #eef0f2; white-space: nowrap; }
+.mute small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3d40; white-space: nowrap; }
 /* the voice key: a square push button with a speaker printed on it;
    it latches down when the voice is muted, and its speaker shows a cross */
-.mute { all: unset; box-sizing: border-box; cursor: pointer; justify-self: start; display: grid; justify-items: center; gap: calc(0.6 * var(--u)); }
+.mute { all: unset; box-sizing: border-box; cursor: pointer; justify-self: start; display: grid; justify-items: center; gap: calc(1.4 * var(--u)); }
 .mute__cap {
   display: grid; place-items: center; width: calc(8 * var(--u)); aspect-ratio: 1; border-radius: calc(0.8 * var(--u));
   background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
@@ -384,32 +357,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
 .mute:focus-visible .mute__cap { outline: 3px solid #fbe6b4; outline-offset: 2px; }
 .mute[hidden] { display: none; }
-/* three red lights in a black bezel, lit while it plays */
-.leds {
-  display: grid; grid-template-columns: repeat(3, auto); justify-items: center; gap: calc(.8 * var(--u)) calc(1.4 * var(--u));
-  padding: calc(1.2 * var(--u)) calc(1.8 * var(--u)) calc(1 * var(--u)); border-radius: calc(.6 * var(--u));
-  background: linear-gradient(#1c1414, #120c0c);
-  box-shadow: inset 0 calc(.3 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .9), 0 1px 0 rgb(255 255 255 / .25);
-}
-.leds small { grid-column: 1 / -1; }
-.leds i {
-  --led: #5a120e;
-  width: calc(2.4 * var(--u)); aspect-ratio: 1; border-radius: 50%;
-  background:
-    radial-gradient(circle at 38% 30%, rgb(255 255 255 / .7), rgb(255 255 255 / .1) 32%, transparent 48%),
-    radial-gradient(circle at 50% 60%, var(--led), color-mix(in srgb, var(--led) 65%, #000));
-  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .5), 0 0 0 1px rgb(0 0 0 / .6);
-}
-.cabinet.is-playing .leds i {
-  --led: #ff3a2a;
-  box-shadow: inset 0 calc(-.3 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .3), 0 0 0 1px rgb(0 0 0 / .6), 0 0 calc(1.3 * var(--u)) rgb(255 60 40 / .9);
-  animation: vu .8s steps(1) infinite;
-}
-.cabinet.is-playing .leds i:nth-child(2) { animation-duration: 1.1s; animation-delay: -.4s; animation-name: vu-mid; }
-.cabinet.is-playing .leds i:nth-child(3) { animation-duration: 1.7s; animation-name: vu-peak; }
-@keyframes vu { 0%, 78% { filter: none; } 79%, 100% { filter: brightness(.45); } }
-@keyframes vu-mid { 0%, 55% { filter: none; } 56%, 100% { filter: brightness(.45); } }
-@keyframes vu-peak { 0%, 30% { filter: none; } 31%, 100% { filter: brightness(.45); } }
 /* the faders: a black cap with a light line across, sliding up and down a
    thin black slot, ticks and 0 · 5 · 10 printed beside it */
 .faders { justify-self: end; display: flex; gap: calc(2.4 * var(--u)); }
@@ -437,8 +384,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .fader__scale {
   display: flex; flex-direction: column; justify-content: space-between; align-self: stretch;
   padding: calc(1.2 * var(--u)) 0 calc(1.2 * var(--u)) calc(1.6 * var(--u)); margin-block: calc(-.5 * var(--u));
-  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: #e6e9ec;
-  background: linear-gradient(rgb(240 243 245 / .75) 0 1px, transparent 1px) 0 calc(1.7 * var(--u)) / calc(1.1 * var(--u)) calc((100% - 3.4 * var(--u)) / 10) repeat-y;
+  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: #4a4d51;
+  background: linear-gradient(rgb(40 43 47 / .7) 0 1px, transparent 1px) 0 calc(1.7 * var(--u)) / calc(1.1 * var(--u)) calc((100% - 3.4 * var(--u)) / 10) repeat-y;
 }
 .fader__scale b { font-weight: inherit; }
 

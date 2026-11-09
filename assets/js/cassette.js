@@ -2,7 +2,7 @@
 // its slot, turns on its side and goes to a shelf of the tower under the
 // silver recorder. Press it there and it flies into the deck: the tape
 // slides into the open bay; the reels turn, the
-// equaliser beside the speaker lights up and the liner notes beside it are that tape's: side A the
+// level meter under the bay lights up and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape to the tower under the deck,
 // where it lies on its side (when the tower is full, the tape that went in
@@ -72,12 +72,12 @@ function setTrack(i) {
   keys.ff.setAttribute('aria-disabled', String(track === tracks.length - 1));
 }
 
-/* ---------- the equaliser beside the speaker ----------
-   A bar of fluorescent segments per band: dark when stopped; while it plays
-   each band jumps about its own level (more in the bass), lit white-green
-   with a blurred green afterglow above that is held a moment and then sinks;
-   while it winds they all race; when it stops they fall back to nothing. */
-const bands = [...bb.querySelectorAll('.eq__band')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
+/* ---------- the level meter under the bay ----------
+   Two columns of LEDs, left and right: dark when stopped; while it plays each
+   jumps about the level of the sound, the highest LED it reached held a
+   moment before it falls; while it winds they race; when it stops they fall
+   back to nothing. */
+const bands = [...bb.querySelectorAll('.vu__col')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
 let wframe = 0;
 let wlast = -1e9;
 function trace(now = 0) {
@@ -87,23 +87,14 @@ function trace(now = 0) {
     wlast = now;
     bands.forEach((b, i) => {
       const n = b.leds.length;
-      const base = fast ? .78 : .64 - i * .05;
+      const base = fast ? .8 : .62;
       let to = 0;
-      if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .5 : .75) + Math.sin(now / 260 + i * 1.3) * .12;
+      if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .3 : .5) + Math.sin(now / 240 + i * .9) * .1;
       to = Math.round(n * Math.min(1, Math.max(0, to)));
       b.lvl = to >= b.lvl || reduceMotion.matches ? to : b.lvl - 1;
-      // the afterglow: green over the level, three segments up while it
-      // plays, held a moment at its height, then sinking a segment a frame
-      const glow = on ? Math.min(n, b.lvl + 3) : b.lvl;
-      if (glow >= b.peak) { b.peak = glow; b.hold = 6; } else if (b.hold > 0) b.hold--; else b.peak--;
-      if (reduceMotion.matches) b.peak = glow;
-      const solid = Math.max(0, b.lvl - 2);
-      b.leds.forEach((l, k) => {
-        const tr = k >= solid && k < b.peak;
-        l.classList.toggle('on', k < solid);
-        l.classList.toggle('tr', tr);
-        if (tr) l.style.setProperty('--a', (1 - (k - solid) / Math.max(1, b.peak - solid) * .55).toFixed(2));
-      });
+      if (b.lvl >= b.peak) { b.peak = b.lvl; b.hold = 10; } else if (b.hold > 0) b.hold--; else b.peak--;
+      if (reduceMotion.matches) b.peak = b.lvl;
+      b.leds.forEach((l, k) => l.classList.toggle('on', k < b.lvl || (k === b.peak - 1 && b.peak > 0)));
     });
   }
   const moving = on || bands.some((b) => b.lvl || b.peak);

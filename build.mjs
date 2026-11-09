@@ -735,16 +735,6 @@ const caseSpine = (o) => {
         </span></span>`;
 };
 
-// A virgin tape: a blank J-card spine, nothing written on it (decoration).
-const blankSpine = (i) => {
-  const h = hash(`blank${i}`);
-  return `<span class="cspine cspine--blank${i % 3 === 1 ? ' cspine--smoke' : ''}" style="--dx:${(h % 7) - 3}px;--fade:1" aria-hidden="true"><span class="cspine__card">
-          <span class="cspine__band"><b>NM</b></span>
-          <span class="cspine__lines"></span>
-          <span class="cspine__len">${i % 2 ? 'C90' : 'C60'}</span>
-        </span></span>`;
-};
-
 // The liner notes: a blank J-card, typed on a manual typewriter. The band (the
 // brand, the length in a grey panel, the type in the tape's colour), the
 // title written under it, the spine printed upside down between two folds,
@@ -941,9 +931,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       const o = objectOf(p, i, t, u);
       const total = o.body.reduce((n, b) => n + trackLen(b), 0);
       return projectSlot({ ...o, length: total > 15 * 60 ? 'C90' : 'C60' });
-    }).join('')}${Array.from({ length: 7 }, (_, i) => `
-      <li class="slot slot--blank">${blankSpine(i)}</li>`).join('')}
-      <li class="slot slot--empty"></li>
+    }).join('')}
     </ol>
   </div>
 </section>

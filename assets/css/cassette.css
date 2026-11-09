@@ -164,6 +164,17 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(.3 * var(--u)) calc(1.2 * var(--u)) calc(1.6 * var(--u)) calc(-.5 * var(--u)) rgb(0 0 0 / .45),
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
+/* between phone and tablet (one column, 30–48em) the whole deck is drawn
+   bigger, up to 30rem wide, and centred; on a tablet (two columns, 48–64em)
+   it is 20rem wide. The rack's cases follow the deck's unit, so they stay as
+   long as the tape is wide. */
+@media (min-width: 30em) and (max-width: 47.99em) {
+  .cabinet, .rack__cabinet { --u: calc(min(100cqi, 30rem) / 100); }
+  .studio__deck { width: min(100%, 30rem); justify-self: center; }
+}
+@media (min-width: 48em) and (max-width: 63.99em) {
+  .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
+}
 .cabinet > *, .rack__cabinet > * { position: relative; z-index: 1; }
 /* the frame: two stiles with the grain running down, two rails across them */
 .cabinet::before, .rack__cabinet::before, .cabinet::after, .rack__cabinet::after {

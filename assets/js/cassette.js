@@ -7,7 +7,7 @@
 // With no project in, the house tape (the bio) is in the deck. While it
 // plays, a voice reads the tape aloud (clips made at build time, see
 // src/speech.mjs): the title and its line, then track after track; the VOZ
-// key mutes it, the faders set its volume and its speed, 2× doubles it and
+// key mutes it, 2× doubles its speed and
 // REPEAT starts the tape again when it ends.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
@@ -73,10 +73,12 @@ function setTrack(i) {
 }
 
 /* ---------- the level meter under the speaker ----------
-   Two columns of LEDs, left and right: dark when stopped; while it plays each
-   jumps about the level of the sound, the highest LED it reached held a
-   moment before it falls; while it winds they race; when it stops they fall
-   back to nothing. */
+   Four columns of LEDs: the left and right channels, then the voice and the
+   tape. Dark when stopped; while it plays each jumps about its own level (the
+   voice column lively, and dark while the voice is silent; the tape steady),
+   the highest LED it reached held a moment before it falls; while it winds
+   they race; when it stops they fall back to nothing. */
+const PROFILE = [[.62, .5], [.62, .5], [.5, .8], [.56, .3]];   // [level, how much it jumps] per column
 const bands = [...bb.querySelectorAll('.vu__col')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
 let wframe = 0;
 let wlast = -1e9;
@@ -87,9 +89,11 @@ function trace(now = 0) {
     wlast = now;
     bands.forEach((b, i) => {
       const n = b.leds.length;
-      const base = fast ? .8 : .62;
+      const [lvl, jump] = PROFILE[i] ?? PROFILE[0];
+      const base = fast ? .8 : lvl;
       let to = 0;
-      if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .3 : .5) + Math.sin(now / 240 + i * .9) * .1;
+      if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .3 : jump) + Math.sin(now / 240 + i * .9) * .1;
+      if (i === 2 && !fast && (muted || voice.paused)) to = 0;
       to = Math.round(n * Math.min(1, Math.max(0, to)));
       b.lvl = to >= b.lvl || reduceMotion.matches ? to : b.lvl - 1;
       if (b.lvl >= b.peak) { b.peak = b.lvl; b.hold = 10; } else if (b.hold > 0) b.hold--; else b.peak--;
@@ -173,10 +177,6 @@ function setMuted(on) {
 muteKey.setAttribute('aria-pressed', String(muted));
 muteKey.addEventListener('click', () => setMuted(!muted));
 
-// The faders: the voice's volume and its reading speed (0–10, 5 the voice's
-// own pace, from .7× to 1.3×; the reels turn with it). Remembered in this
-// browser.
-const faders = Object.fromEntries([...bb.querySelectorAll('[data-fader]')].map((f) => [f.dataset.fader, f]));
 // 2× and REPEAT: keys that latch down (remembered in this browser too)
 const latched = { double: false, repeat: false };
 bb.querySelectorAll('[data-latch]').forEach((k) => {
@@ -190,20 +190,13 @@ bb.querySelectorAll('[data-latch]').forEach((k) => {
     tune();
   });
 });
+// 2×: the voice reads at double speed, the reels turning with it
 function tune() {
-  const rate = (.7 + faders.speed.value * .06) * (latched.double ? 2 : 1);
-  voice.volume = faders.vol.value / 10;
+  const rate = latched.double ? 2 : 1;
   voice.defaultPlaybackRate = rate;
   voice.playbackRate = rate;
   bb.style.setProperty('--rate', rate.toFixed(2));
 }
-Object.entries(faders).forEach(([k, f]) => {
-  try { const v = localStorage.getItem(`cassette-${k}`); if (v !== null) f.value = v; } catch { /* storage off */ }
-  f.addEventListener('input', () => {
-    tune();
-    try { localStorage.setItem(`cassette-${k}`, f.value); } catch { /* storage off */ }
-  });
-});
 tune();
 addEventListener('pagehide', hush);
 

@@ -615,7 +615,7 @@ ${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label:
    After a photo of an oak wall cabinet on a sage wall: on top a brushed
    aluminium panel with a small CRT showing a blue waveform, a cassette deck
    with the tape seen through its door, two round speakers, the keys (four
-   silver, the eject orange), two faders and a lit strip naming the tape in;
+   silver, the eject orange), two level meters and a lit strip naming the tape in;
    below, oak slots with the cassettes spine out. The projects (and the
    socials) are the tapes; one goes into the deck and plays. Beside the
    cabinet, the liner notes (J-card) of the tape in: side A is the text, a
@@ -642,12 +642,6 @@ const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9
 // two red, the next four orange, the rest green.
 const VU_SCALE = ['OVER', '10', '7', '4', '2', '1', '0', '−1', '−2', '−3', '−5', '−7', '−10', '−15', '−24'];
 const VU_COL = `<span class="vu__col">${'<i></i>'.repeat(VU_SCALE.length)}</span>`;
-// A fader on the band: a slider up and down a black slot, a scale 0–10 beside it.
-const fader = (key, label, name, value) => `<label class="fader"><input class="fader__input" type="range" data-fader="${key}" min="0" max="10" step="1" value="${value}" aria-label="${esc(name)}"><span class="fader__scale" aria-hidden="true">${[10, 5, 0].map((n) => `<b>${n}</b>`).join('')}</span><small aria-hidden="true">${esc(label)}</small></label>`;
-// the scales printed either side of the bars, top to bottom
-const EQ_SCALE_L = ['10', '·', '·', '+', '0', '−', '·', '·', '10'];
-const EQ_SCALE_R = ['10', '·', '·', '·', '5', '·', '·', '·', '0'];
-
 // The works in the bay, seen when the tape is out (after a Panasonic deck):
 // a black moulded bed with a fine grain, the two spindles with their springs
 // where the hubs go, a bright plate between them, a screw, the step down to
@@ -872,7 +866,10 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
           <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
         </div>
-        <span class="faders">${fader('vol', 'VOL', c.volume, 8)}${fader('speed', c.speedKey, c.speed, 5)}</span>
+        <div class="vu vu--src" aria-hidden="true">
+          ${VU_COL}<span class="vu__scale">${VU_SCALE.map((t) => `<b>${t}</b>`).join('')}</span>${VU_COL}
+          <span class="vu__foot"><b>${c.voice}</b><b></b><b>${c.tape}</b></span>
+        </div>
       </div>
       <div class="tdeck">
         <div class="tdeck__bay">

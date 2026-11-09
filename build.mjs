@@ -638,8 +638,11 @@ const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
 // The graphic equaliser beside the speaker: a column of LEDs per band.
-const EQ_BANDS = ['60', '150', '400', '1K', '2.4K', '6K', '15K'];
-const EQ_LEDS = 12;
+const EQ_BANDS = ['31', '62', '125', '250', '500', '1K', '2K', '4K', '8K', '16K'];
+const EQ_LEDS = 16;
+// the scales printed either side of the bars, top to bottom
+const EQ_SCALE_L = ['10', '·', '·', '+', '0', '−', '·', '·', '10'];
+const EQ_SCALE_R = ['10', '·', '·', '·', '5', '·', '·', '·', '0'];
 
 // The works in the bay, seen when the tape is out (after a Panasonic deck):
 // a black moulded bed with a fine grain, the two spindles with their springs
@@ -843,8 +846,8 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <div class="eq" aria-hidden="true">
           <div class="eq__win">
             <p class="eq__osd"><span class="osd__mode">■ STOP</span><span class="osd__track"><span class="osd__no">A1</span> · <span class="osd__count">000</span></span></p>
-            <div class="eq__bands">${EQ_BANDS.map(() => `<span class="eq__band">${'<i></i>'.repeat(EQ_LEDS)}</span>`).join('')}</div>
-            <p class="eq__hz">${EQ_BANDS.map((b) => `<span>${b}</span>`).join('')}</p>
+            <div class="eq__bands"><span class="eq__scale">${EQ_SCALE_L.map((t) => `<b>${t}</b>`).join('')}</span>${EQ_BANDS.map(() => `<span class="eq__band">${'<i></i>'.repeat(EQ_LEDS)}</span>`).join('')}<span class="eq__scale eq__scale--r">${EQ_SCALE_R.map((t) => `<b>${t}</b>`).join('')}</span></div>
+            <p class="eq__hz"><span>Fq.</span>${EQ_BANDS.map((b) => `<span>${b}</span>`).join('')}<span>Hz</span></p>
             <p class="eq__osd eq__osd--title"><span class="osd__title">${esc(site.name)}</span></p>
           </div>
         </div>

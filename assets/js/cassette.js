@@ -69,10 +69,10 @@ function setTrack(i) {
 }
 
 /* ---------- the equaliser beside the speaker ----------
-   A column of LEDs per band: dark when stopped; while it plays each band
-   jumps about its own level (more in the bass), the highest LED it reached
-   held a moment before it falls; while it winds they all race; when it stops
-   they fall back to nothing. */
+   A bar of fluorescent segments per band: dark when stopped; while it plays
+   each band jumps about its own level (more in the bass), lit white-green
+   with a blurred green afterglow above that is held a moment and then sinks;
+   while it winds they all race; when it stops they fall back to nothing. */
 const bands = [...bb.querySelectorAll('.eq__band')].map((b) => ({ leds: [...b.children], lvl: 0, peak: 0, hold: 0 }));
 let wframe = 0;
 let wlast = -1e9;
@@ -88,11 +88,17 @@ function trace(now = 0) {
       if (on) to = reduceMotion.matches ? base : base + (Math.random() - .5) * (fast ? .5 : .75) + Math.sin(now / 260 + i * 1.3) * .12;
       to = Math.round(n * Math.min(1, Math.max(0, to)));
       b.lvl = to >= b.lvl || reduceMotion.matches ? to : b.lvl - 1;
-      if (b.lvl >= b.peak) { b.peak = b.lvl; b.hold = 8; } else if (b.hold > 0) b.hold--; else b.peak--;
-      if (reduceMotion.matches) b.peak = b.lvl;
+      // the afterglow: green over the level, three segments up while it
+      // plays, held a moment at its height, then sinking a segment a frame
+      const glow = on ? Math.min(n, b.lvl + 3) : b.lvl;
+      if (glow >= b.peak) { b.peak = glow; b.hold = 6; } else if (b.hold > 0) b.hold--; else b.peak--;
+      if (reduceMotion.matches) b.peak = glow;
+      const solid = Math.max(0, b.lvl - 2);
       b.leds.forEach((l, k) => {
-        l.classList.toggle('on', k < b.lvl);
-        l.classList.toggle('pk', k === b.peak - 1 && b.peak > b.lvl);
+        const tr = k >= solid && k < b.peak;
+        l.classList.toggle('on', k < solid);
+        l.classList.toggle('tr', tr);
+        if (tr) l.style.setProperty('--a', (1 - (k - solid) / Math.max(1, b.peak - solid) * .55).toFixed(2));
       });
     });
   }

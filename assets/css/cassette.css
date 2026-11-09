@@ -207,10 +207,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* a groove engraved across the plate */
 .panel__meter, .panel__plate { border-top: 1px solid rgb(0 0 0 / .24); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6); padding-top: calc(2.2 * var(--u)); }
 
-/* the top: the speaker and, beside it, a graphic equaliser: a column of LEDs
-   per band behind smoked glass (green, then amber, red at the top) that
-   dances with the sound; the mode and the track lit above, the tape's name
-   below */
+/* the top: the speaker and, beside it, a graphic equaliser on a green
+   fluorescent display behind smoked glass: ten bands of wide bars, lit
+   white-green up to the level with a blurred green afterglow above that
+   lingers before it falls, the scales either side and the bands below; the
+   mode and the track lit above, the tape's name below */
 .panel__top { display: grid; grid-template-columns: 1.15fr 1fr; gap: calc(3 * var(--u)); align-items: stretch; }
 .eq {
   display: grid; padding: calc(1.2 * var(--u)); border-radius: calc(1.4 * var(--u));
@@ -221,7 +222,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto auto; gap: calc(1 * var(--u));
   min-height: calc(32 * var(--u)); padding: calc(1.8 * var(--u)) calc(1.8 * var(--u)) calc(1.4 * var(--u));
   border-radius: calc(.8 * var(--u));
-  background: radial-gradient(ellipse 90% 70% at 50% 40%, #161a1c, #080a0b 70%);
+  background: radial-gradient(ellipse 90% 70% at 50% 45%, #0d1a12, #040806 70%);
   box-shadow: inset 0 0 0 calc(.45 * var(--u)) #111, inset 0 0 0 calc(.6 * var(--u)) #2b2b2b, inset 0 calc(.6 * var(--u)) calc(1.8 * var(--u)) #000;
 }
 /* the smoked glass over it */
@@ -234,24 +235,34 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .eq__osd {
   margin: 0; display: flex; justify-content: space-between; gap: calc(1 * var(--u)); white-space: nowrap;
   font: 600 max(.45rem, calc(2 * var(--u)))/1 var(--tech); letter-spacing: .1em; text-transform: uppercase;
-  color: rgb(255 180 70 / .9); text-shadow: 0 0 calc(.6 * var(--u)) rgb(255 150 40 / .6);
+  color: rgb(170 255 190 / .72); text-shadow: 0 0 calc(.6 * var(--u)) rgb(60 255 120 / .55);
 }
 .eq__osd--title { justify-content: center; }
 .osd__title { overflow: hidden; text-overflow: ellipsis; }
-.cabinet.is-playing .osd__mode { color: rgb(150 255 170 / .9); text-shadow: 0 0 calc(.6 * var(--u)) rgb(80 255 130 / .6); }
-.eq__bands { display: grid; grid-template-columns: repeat(7, 1fr); gap: calc(.8 * var(--u)); }
-.eq__band { display: flex; flex-direction: column-reverse; gap: calc(.4 * var(--u)); }
+.cabinet.is-playing .osd__mode { color: #ecffee; text-shadow: 0 0 calc(.5 * var(--u)) rgb(120 255 160 / .9), 0 0 calc(1.2 * var(--u)) rgb(60 255 120 / .6); }
+/* the bars, with a scale on each side; the hz labels share its columns */
+.eq__bands, .eq__hz { display: grid; grid-template-columns: calc(2.2 * var(--u)) repeat(10, 1fr) calc(2.2 * var(--u)); column-gap: calc(.7 * var(--u)); }
+.eq__bands { filter: drop-shadow(0 0 calc(.35 * var(--u)) rgb(70 255 130 / .45)); }
+.eq__band { display: flex; flex-direction: column-reverse; gap: calc(.5 * var(--u)); }
 .eq__band i {
-  --c: #3ddc6e; flex: 1; min-height: 2px; border-radius: 1px;
-  background: color-mix(in srgb, var(--c) 13%, #0b0d0c);
-  transition: background-color .12s linear, box-shadow .12s linear;
+  flex: 1; min-height: 1px; border-radius: .5px;
+  background: rgb(60 220 110 / .07);
+  transition: background-color .14s linear, filter .14s linear;
 }
-.eq__band i:nth-child(n+8) { --c: #f5c531; }
-.eq__band i:nth-child(n+11) { --c: #ff3b2a; }
-.eq__band i:is(.on, .pk) { background: var(--c); box-shadow: 0 0 calc(.7 * var(--u)) color-mix(in srgb, var(--c) 70%, transparent); transition: none; }
+/* lit up to the level: white with a green cast, crisp */
+.eq__band i.on { background: #e2fbe2; transition: none; }
+/* the afterglow above it: bright green, blurred, fading as it climbs */
+.eq__band i.tr { background: #3dfa7a; filter: blur(calc(.18 * var(--u))); opacity: var(--a, 1); transition: none; }
+.eq__scale {
+  display: flex; flex-direction: column; justify-content: space-between; align-items: end;
+  font: 700 max(.3rem, calc(1.25 * var(--u)))/.6 var(--tech); color: rgb(215 255 220 / .78);
+}
+.eq__scale--r { align-items: start; }
+.eq__scale b { font-weight: inherit; }
 .eq__hz {
-  display: grid; grid-template-columns: repeat(7, 1fr); margin: 0; text-align: center;
-  font: 600 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: rgb(255 255 255 / .45);
+  margin: 0; text-align: center; white-space: nowrap;
+  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); letter-spacing: -.02em; color: rgb(215 255 220 / .78);
+  text-shadow: 0 0 calc(.4 * var(--u)) rgb(60 255 120 / .5);
 }
 
 /* the speaker: rows of holes punched through the plate, each lower lip lit */

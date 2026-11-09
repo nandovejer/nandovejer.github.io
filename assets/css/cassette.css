@@ -197,18 +197,14 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
 /* between phone and tablet (one column, 30–48em) the deck is drawn bigger
-   (the unit up to 30rem / 100) and the keys stand to the right of the tape,
+   (the unit up to 44rem / 100) and the keys stand to the right of the tape,
    in a column; the whole body, about 109 units wide, fits the column. On a tablet (two columns, 48–64em) the deck is 20rem wide.
    The rack's cases follow the deck's unit, so they stay as long as the tape
    is wide (the rack and the studio share the same inner width). */
 @media (min-width: 30em) and (max-width: 47.99em) {
-  .cabinet, .rack__cabinet { --u: min(100cqi / 112, 30rem / 100); }
-  .panels { grid-template-columns: auto auto; width: fit-content; margin-inline: auto; align-items: stretch; }
-  /* the unit of keys (the first div; the display before it is a p) stands on the right */
-  .panels > .unit:first-of-type { order: 2; }
-  .unit { display: grid; }
-  .panel--top .panel__plate { grid-template-columns: auto; margin: 0; height: 100%; }
-  /* the column runs from the top of the bay to the line of the transport keys' names */
+  .cabinet, .rack__cabinet { --u: min(100cqi / 112, 44rem / 100); }
+  .panels { width: fit-content; margin-inline: auto; }
+  /* the column of keys runs the height of the tape's window */
   .panel--top .vkeys { display: flex; flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
   /* square keys in the column */
   .panel--top .vkey { grid-template-rows: calc(8 * var(--u)) auto; justify-items: center; align-items: start; }
@@ -341,16 +337,25 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }
 @media (min-width: 30em) and (max-width: 47.99em) {
-  .panels { column-gap: 0; }
-  /* a display across the whole plate on top, the tape and the column of keys
-     under it; the four screws at the plate's own corners */
-  .panels { padding-top: calc(1.6 * var(--u)); }
-  .panels > .lcd--wide { display: block; grid-column: 1 / -1; margin: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(2.3 * var(--u)); position: relative; z-index: 2; }
+  /* the plate is one grid: a display across the top; under it the tape and,
+     on its right, the column of small keys; and under both the transport keys
+     right across the plate's width. The two units and their plates only
+     group the parts, so they take no box of their own here (the plate and its
+     four screws are drawn once, behind, by .panels::before and ::after). */
+  .panels {
+    grid-template-columns: calc(84 * var(--u)) calc(10 * var(--u));
+    grid-template-areas: "lcd lcd" "tape side" "keys keys";
+    column-gap: calc(4.6 * var(--u)); row-gap: calc(3.2 * var(--u));
+    padding: calc(6.2 * var(--u)); justify-content: center;
+  }
+  .unit, .panel, .panel__plate { display: contents; }
+  .panels > .lcd--wide { display: block; grid-area: lcd; margin: 0; position: relative; z-index: 2; }
+  .tdeck { grid-area: tape; }
+  .panel--top .vkeys { grid-area: side; }
+  .keys { grid-area: keys; position: relative; z-index: 2; }
   .lcd--wide .lcd__glass { height: auto; gap: calc(1.2 * var(--u)); padding: calc(2.4 * var(--u)) calc(3.2 * var(--u)); }
   .lcd--wide .lcd__top { font-size: max(.6rem, calc(2.4 * var(--u))); }
   .lcd--wide .lcd__title { font-size: max(.9rem, calc(4.2 * var(--u))); }
-  .panel--deck { border-radius: calc(1.2 * var(--u)) 0 0 calc(1.2 * var(--u)); padding: calc(2.3 * var(--u)) calc(2.3 * var(--u)) calc(4.6 * var(--u)) calc(4.6 * var(--u)); }
-  .panel--top { border-radius: 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0; padding: calc(2.3 * var(--u)) calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(2.3 * var(--u)); }
   .panel--deck::before, .panel--top::before { background: none; }
   .panels::after {
     background:

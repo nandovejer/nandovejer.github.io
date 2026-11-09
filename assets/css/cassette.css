@@ -256,6 +256,25 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panel__top, .panel__plate .vu { display: none; }
   .panel--top .vkeys { border-top: 0; box-shadow: none; }
 }
+/* on a phone the two units are one: a single body holding one plate, the
+   small keys along its top, the tape and the transport keys under them, four
+   screws at its corners */
+@media (max-width: 29.99em) {
+  .panels {
+    gap: 0; padding: calc(1.6 * var(--u)); border-radius: calc(1.8 * var(--u));
+    background: linear-gradient(170deg, #f2f1ec, #e6e5e0 60%, #dddbd5);
+    box-shadow:
+      inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .8), inset 0 -2px 0 rgb(0 0 0 / .12), inset -1px 0 0 rgb(0 0 0 / .08),
+      0 0 0 1px rgb(0 0 0 / .2), 0 1px 2px rgb(0 0 0 / .25),
+      calc(.6 * var(--u)) calc(3 * var(--u)) calc(6 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .4);
+  }
+  .unit { padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  .panel--top, .panel--deck { background: var(--tx-plastic) 0 0 / 200px 200px, #e3e2dd; }
+  .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(1.6 * var(--u)); box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 1px 0 0 rgb(0 0 0 / .14), -1px 0 0 rgb(0 0 0 / .14), 0 -1px 0 rgb(0 0 0 / .14); }
+  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(1.6 * var(--u)); box-shadow: inset 0 -1px 0 rgb(0 0 0 / .14), 1px 0 0 rgb(0 0 0 / .14), -1px 0 0 rgb(0 0 0 / .14), 0 1px 0 rgb(0 0 0 / .14); }
+  .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
+  .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
+}
 
 /* the level meters, after a mixer's master meter: columns of small rounded
    LEDs in dark slots, green, then orange, red at the top, unlit ones still

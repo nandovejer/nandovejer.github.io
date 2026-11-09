@@ -946,6 +946,17 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   </div>
 </section>
 </main>
+<div class="minibar" role="region" aria-label="${c.minibar}" hidden>
+  <p class="minibar__tape"><span class="minibar__code">NM-000</span> <span class="minibar__title">${esc(c.about)}</span></p>
+  <div class="minibar__keys">
+    <button type="button" class="mkey" data-proxy="rew" aria-label="${c.rew}"><i aria-hidden="true">◀◀</i></button>
+    <button type="button" class="mkey mkey--play" data-proxy="play" aria-label="${c.play}" aria-pressed="false"><i aria-hidden="true">▶</i></button>
+    <button type="button" class="mkey" data-proxy="pause" aria-label="${c.pause}" aria-pressed="false"><i aria-hidden="true">❚❚</i></button>
+    <button type="button" class="mkey" data-proxy="ff" aria-label="${c.ff}"><i aria-hidden="true">▶▶</i></button>
+    <button type="button" class="mkey" data-proxy="stop" aria-label="${c.stop}"><i aria-hidden="true">■</i></button>
+    <button type="button" class="mkey mkey--eject" data-proxy="eject" aria-label="${c.eject}"><i aria-hidden="true">⏏</i></button>
+  </div>
+</div>
 ${colophon(t, u, { href: `../../disquetes/${lang}/`, code: u.diskCode, label: u.diskVersion }, voiceCredit(lang, c))}
 </body>
 </html>

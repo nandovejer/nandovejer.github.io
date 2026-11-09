@@ -31,10 +31,10 @@ const keys = Object.fromEntries([...bb.querySelectorAll('[data-key]')].map((b) =
 const house = document.querySelector('.cas-bio');
 const items = [...document.querySelectorAll('.cas-item')];
 const tapes = items.filter((it) => it !== house);   // the projects
-// down to the rack: the line asking to pick a tape whole just under the
-// masthead (html's scroll-padding in chrome.css), the rack's heading under
-// it; with a project in (the line hidden), the heading
-const toRack = () => glideTo(cta.hidden ? document.querySelector('.rack') : cta, 'start');
+// down to the rack: the line asking to pick a tape (always shown) whole just
+// under the masthead (html's scroll-padding in chrome.css), the rack's
+// heading under it
+const toRack = () => glideTo(cta, 'start');
 const L = bb.dataset;
 
 let loaded = null;   // the project in the deck (null: the house tape)
@@ -337,7 +337,6 @@ async function insert(item) {
   // the house tape leaves the deck: its case fades back into its slot
   if (!loaded) { house.classList.remove('is-out'); fade(house.querySelector('.cspine'), false); }
   if (loaded) await eject({ quiet: true });
-  cta.hidden = true;
   // the case fades out of its slot; the page goes up to the deck
   await fade(item.querySelector('.cspine'), true);
   item.classList.add('is-out');
@@ -371,7 +370,6 @@ async function eject({ quiet = false } = {}) {
   // the house tape goes back in: its case fades out of its slot
   const home = fade(house.querySelector('.cspine'), true).then(() => house.classList.add('is-out'));
   await Promise.all([back, home, swap(house)]);
-  cta.hidden = false;
   state.textContent = L.ejected;
   item.querySelector('.slot__case').focus({ preventScroll: true });
 }
@@ -428,6 +426,39 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
     if (loaded && !busy) { busy = true; await eject(); busy = false; }
   });
 });
+
+/* ---------- the bar at the foot (one column) ----------
+   When the deck is out of sight on a phone, a bar along the bottom of the
+   window carries the tape's name and the main keys; they press the deck's own
+   keys, and mirror them (PLAY and PAUSE down, ◀◀ / ▶▶ greyed at the ends). */
+const minibar = document.querySelector('.minibar');
+if (minibar) {
+  const mtitle = minibar.querySelector('.minibar__title');
+  const mcode = minibar.querySelector('.minibar__code');
+  const mtape = minibar.querySelector('.minibar__tape');
+  const mkeys = [...minibar.querySelectorAll('[data-proxy]')];
+  mkeys.forEach((m) => m.addEventListener('click', () => keys[m.dataset.proxy].click()));
+  const sync = () => {
+    mkeys.forEach((m) => {
+      const k = keys[m.dataset.proxy];
+      ['aria-pressed', 'aria-disabled'].forEach((a) => (k.hasAttribute(a) ? m.setAttribute(a, k.getAttribute(a)) : m.removeAttribute(a)));
+    });
+    mtitle.textContent = dialTitle.textContent;
+    mcode.textContent = out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? '';
+    mtape.className = ['minibar__tape', ...[...liner.classList].filter((c) => /^(jc|ty)--/.test(c))].join(' ');
+  };
+  new MutationObserver(sync).observe(bb, { subtree: true, attributes: true, attributeFilter: ['aria-pressed', 'aria-disabled'] });
+  new MutationObserver(sync).observe(dialTitle, { childList: true, characterData: true, subtree: true });
+  let deckSeen = true;
+  const show = () => {
+    const on = oneColumn.matches && !deckSeen;
+    minibar.hidden = !on;
+    document.body.classList.toggle('has-minibar', on);
+  };
+  new IntersectionObserver(([e]) => { deckSeen = e.isIntersecting; show(); }, { threshold: 0 }).observe(panel);
+  oneColumn.addEventListener('change', show);
+  queueMicrotask(sync);
+}
 
 /* ---------- switch on ---------- */
 load(house);

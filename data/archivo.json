@@ -46,6 +46,7 @@
     "cassetteCode": "VERSION CASETE",
     "cassette": {
       "deck": "Pletina",
+      "minibar": "Controles de la pletina",
       "model": "PLETINA ESTÉREO · NM-1",
       "door": "AUTO REVERSE · NR",
       "play": "Reproducir",
@@ -139,6 +140,7 @@
     "cassetteCode": "CASSETTE VERSION",
     "cassette": {
       "deck": "Tape deck",
+      "minibar": "Deck controls",
       "model": "STEREO CASSETTE DECK · NM-1",
       "door": "AUTO REVERSE · NR",
       "play": "Play",

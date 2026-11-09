@@ -15,6 +15,8 @@ const bb = document.querySelector('.cabinet');
 const panel = bb.querySelector('.panels');
 const well = bb.querySelector('.tdeck__well');
 const liner = document.querySelector('.liner');
+const spineBox = document.querySelector('.studio__spine');
+const oneColumn = matchMedia('(max-width: 47.99em)');
 const out = liner.querySelector('.liner__out');
 const state = bb.querySelector('.bb__state');
 const osdMode = bb.querySelector('.osd__mode');
@@ -50,6 +52,7 @@ function load(src) {
   well.replaceChildren(tape);
   out.replaceChildren(...[...src.querySelector('.cas-item__notes').children].map((n) => n.cloneNode(true)));
   out.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+  placeSpine();
   liner.className = ['liner', ...[...tape.classList].filter((c) => /^(jc|ty)--/.test(c))].join(' ');
   tracks = [...out.querySelectorAll('.track')];
   dialTitle.textContent = out.querySelector('.notes__title')?.textContent ?? '';
@@ -60,6 +63,17 @@ function load(src) {
   hush();
   fresh = true;
 }
+
+// The case's spine: along the top of the liner notes in two columns; in one
+// column it heads the page, above the deck (the notes go under the deck).
+function placeSpine() {
+  // the notes' own spine if they have one (a tape just loaded), else the one placed before
+  const h = out.querySelector('.hspine') ?? spineBox.querySelector('.hspine');
+  if (!h) return;
+  if (oneColumn.matches) spineBox.replaceChildren(h);
+  else { spineBox.replaceChildren(); out.querySelector('.jcard')?.prepend(h); }
+}
+oneColumn.addEventListener('change', placeSpine);
 
 function setTrack(i) {
   track = Math.max(0, Math.min(tracks.length - 1, i));
@@ -277,26 +291,27 @@ const fade = (el, out, ms = 260) => (reduceMotion.matches || !el ? Promise.resol
 
 // The tape in the deck and the notes beside it: out, changed, in again.
 async function swap(src) {
-  await Promise.all([fade(well, true), fade(out, true)]);
+  await Promise.all([fade(well, true), fade(out, true), fade(spineBox, true)]);
   load(src);
-  await Promise.all([fade(well, false, 340), fade(out, false, 340)]);
+  await Promise.all([fade(well, false, 340), fade(out, false, 340), fade(spineBox, false, 340)]);
 }
 
 // How far the page must scroll to show the top of the liner notes under the
 // header (0 if the spine along its top is already in view).
-const spineOf = () => liner.querySelector('.hspine');
+// (in one column, the spine heading the page above the deck)
+const spineOf = () => spineBox.querySelector('.hspine') ?? liner.querySelector('.hspine');
 function linerScroll() {
   const r = spineOf().getBoundingClientRect();
   const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 0;
   if (r.top >= head && r.bottom <= innerHeight) return 0;
   const max = document.documentElement.scrollHeight - innerHeight;
-  const to = Math.max(0, Math.min(max, scrollY + liner.getBoundingClientRect().top - head - 24));
+  const top = (oneColumn.matches ? spineBox : liner).getBoundingClientRect().top;
+  const to = Math.max(0, Math.min(max, scrollY + top - head - 24));
   return Math.round(to - scrollY);
 }
 
 /* ---------- insert and eject ---------- */
 
-const oneColumn = matchMedia('(max-width: 47.99em)');
 
 async function insert(item) {
   if (busy || item === loaded) return;
@@ -307,8 +322,8 @@ async function insert(item) {
   // the case fades out of its slot; the page goes up to the deck
   await fade(item.querySelector('.cspine'), true);
   item.classList.add('is-out');
-  // two columns: the page goes up to the deck and the notes beside it; one
-  // column: up to the notes, which sit above the deck
+  // the page goes up to the spine: along the top of the notes beside the deck
+  // in two columns, heading the deck in one
   scrollAlong(linerScroll(), 600);
   await swap(item);
   loaded = item;
@@ -316,8 +331,6 @@ async function insert(item) {
   play(true);
   state.textContent = `${L.playing}: ${dialTitle.textContent}`;
   busy = false;
-  // one column: the notes (now this tape's) are at the top of the page
-  if (oneColumn.matches) glideTo(liner, 'start');
 }
 
 // The tape comes out of the deck: its case fades back into its slot in the

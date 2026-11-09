@@ -839,6 +839,7 @@ const cassettePage = (lang) => {
 ${masthead(lang, t, u, { bioHref: '#liner' })}
 <main id="main">
 <div class="studio">
+  <div class="studio__spine" aria-hidden="true"></div>
   <div class="studio__deck">
   <div class="cabinet" id="deck" data-playing="${c.playing}" data-stopped="${c.stopped}" data-ejected="${c.ejected}" data-copied="${c.copied}">
     <section class="panels" aria-label="${c.deck}">

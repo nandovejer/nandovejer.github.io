@@ -124,10 +124,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .studio {
   display: grid; gap: 1.5rem var(--gap);
   padding: clamp(1.5rem, 4vw, 3rem) var(--pad) 0;
-  /* one column: the liner notes on top, the deck under them */
-  grid-template-columns: minmax(0, 1fr); grid-template-areas: "liner" "deck";
+  /* one column: the case's spine on top, the deck under it, the liner notes last */
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "spine" "deck" "liner";
 }
 .studio__deck { grid-area: deck; container-type: inline-size; }
+.studio__spine { grid-area: spine; }
+.studio__spine:empty { display: none; }
 .liner { grid-area: liner; }
 /* two columns from tablet width up: the deck on the left, the liner notes
    beside it (on a tablet the deck a little narrower, the spine without its line) */

@@ -465,17 +465,6 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vkeys { grid-column: 1 / -1; display: flex; justify-content: space-evenly; padding: calc(3.2 * var(--u)) calc(1.2 * var(--u)) calc(1.4 * var(--u)); border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8); }
 /* the cap's row is fixed, so the label under it stays put while the cap sinks */
 .vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-rows: calc(8 * var(--u)) auto; align-content: start; justify-items: center; gap: calc(1.2 * var(--u)); }
-/* each key stands in its own hole in the plate: a dark recess a hair wider
-   than the key and reaching a hair below it (its top hidden under the key until
-   the key goes down), its lower lip catching the light; pressed, the key sinks into
-   it — its face drops, the plate's edge shades its top, it darkens a touch and
-   stops throwing a shadow, while its foot stays where it was */
-.vkey::before, .key::before {
-  content: ""; grid-area: 1 / 1; justify-self: stretch; align-self: stretch;
-  margin: 1px calc(-.35 * var(--u)) calc(-.35 * var(--u)); border-radius: calc(var(--r) + .3 * var(--u));
-  background: linear-gradient(#1c1d1e, #2c2d2f);
-  box-shadow: inset 0 calc(.35 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .75), 0 1px 0 rgb(255 255 255 / .9), 0 -1px 0 rgb(0 0 0 / .12);
-}
 .vkey__cap, .key__cap { grid-area: 1 / 1; position: relative; z-index: 1; }
 .vkey small, .key__label { grid-row: 2; }
 /* the one cap, shared by the small keys and the transport keys: matte plastic in
@@ -496,7 +485,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
   transform: translateY(calc(1 * var(--u))); border-bottom-width: calc(.4 * var(--u));
   filter: brightness(.93);
-  box-shadow: inset 0 calc(.6 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .28), inset 0 -1px 0 rgb(255 255 255 / .35), 0 0 0 1px rgb(0 0 0 / .35);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), 0 0 0 1px rgb(0 0 0 / .3), 0 calc(.15 * var(--u)) calc(.2 * var(--u)) rgb(0 0 0 / .25);
 }
 .vkey:active .vkey__cap, .vkey.is-pressed .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
@@ -864,14 +853,9 @@ body.has-minibar { padding-bottom: 4.2rem; }
 .lcd__run { flex: none; white-space: pre; animation: lcd-run var(--dur, 14s) linear infinite; }
 @keyframes lcd-run { to { translate: -100%; } }
 
-/* the keys in their trays: a dark grey channel sunk into the metal, its lower lip
-   lit, the caps standing in it side by side */
+/* the keys, standing on the metal in two groups */
 .minibar__keys { display: flex; align-items: center; gap: .4rem; }
-.mtray {
-  display: flex; gap: 2px; padding: 3px; border-radius: .45rem;
-  background: linear-gradient(#767a7f, #8b8f94);
-  box-shadow: inset 0 1px 3px rgb(0 0 0 / .55), inset 0 -1px 0 rgb(255 255 255 / .15), 0 1px 0 rgb(255 255 255 / .95), 0 -1px 0 rgb(0 0 0 / .15);
-}
+.mtray { display: flex; gap: .2rem; }
 .mkey {
   all: unset; box-sizing: border-box; cursor: pointer; display: grid; place-items: center;
   width: clamp(1.9rem, 8.6vw, 2.5rem); height: 2.2rem;
@@ -879,7 +863,7 @@ body.has-minibar { padding-bottom: 4.2rem; }
   background:
     linear-gradient(rgb(255 255 255 / .55), transparent 40%) 0 0 / 100% 100%,
     var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#ecebe5, #d3d1ca);
-  box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .6), inset -1px 0 0 rgb(0 0 0 / .12), 0 1px 1px rgb(0 0 0 / .5);
+  box-shadow: inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .6), inset -1px 0 0 rgb(0 0 0 / .12), 0 0 0 1px rgb(0 0 0 / .25), 0 .15rem .25rem rgb(0 0 0 / .25);
   font: 600 .74rem/1 var(--tech); letter-spacing: -.12em; color: #2a2a28;
   transition: transform .08s ease, border-bottom-width .08s ease, box-shadow .08s ease, filter .08s ease;
 }
@@ -895,11 +879,10 @@ body.has-minibar { padding-bottom: 4.2rem; }
 /* playing, the key reads ❚❚ and turns plain like the others */
 .mkey--play.is-playing { background: linear-gradient(rgb(255 255 255 / .55), transparent 40%), var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#ecebe5, #d3d1ca); border-bottom-color: #9a988f; color: #2a2a28; }
 .mkey--eject { background: linear-gradient(rgb(255 255 255 / .35), transparent 40%), var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(#e8604f, #cf3d31); border-bottom-color: #7a221a; color: #fff; }
-/* pressed (or held down): the cap sinks into the tray, its front edge nearly
-   gone, its face a touch darker with the tray's rim shading its top */
+/* pressed (or held down): the cap goes down, its front edge nearly gone */
 .mkey:active, .mkey[aria-pressed="true"] {
   transform: translateY(.12rem); border-bottom-width: .08rem; filter: brightness(.94);
-  box-shadow: inset 0 .15rem .25rem rgb(0 0 0 / .25), inset 0 -1px 0 rgb(255 255 255 / .3);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), 0 0 0 1px rgb(0 0 0 / .28);
 }
 .mkey[aria-disabled="true"] { cursor: default; }
 .mkey[aria-disabled="true"] > * { opacity: .4; }

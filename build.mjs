@@ -788,12 +788,16 @@ const notes = (o, c, lang, { a, b }) => {
           </div>`;
 };
 
+// The cassette is the site: in Spanish it lives at the root (and at
+// /cassette/es/, which names the root as its canonical address); in English at
+// /cassette/en/.
+const cassetteUrl = (l) => (l === 'es' ? `${site.baseUrl}/` : `${site.baseUrl}/cassette/${l}/`);
 const cassettePage = (lang) => {
   const t = { ...site.i18n[lang], lang };
   const u = ui[lang];
   const c = u.cassette;
   const shelfId = lang === 'es' ? 'proyectos' : 'projects';
-  const url = `${site.baseUrl}/cassette/${lang}/`;
+  const url = cassetteUrl(lang);
   // the house tape, the bio: titled "Sobre mí" / "About me"; it stands first in
   // the rack and is in the deck whenever no project is
   const bio = {
@@ -836,7 +840,7 @@ const cassettePage = (lang) => {
   ${THEME_INIT}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
-  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${site.baseUrl}/cassette/${l}/">`).join('\n  ')}
+  ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${cassetteUrl(l)}">`).join('\n  ')}
   <meta property="og:title" content="${site.name} · ${t.runningHead} · Cassette">
   <meta property="og:description" content="${esc(t.metaDescription)}">
   <meta property="og:url" content="${url}">
@@ -1051,8 +1055,12 @@ for (const lang of LANGS) {
   clear(lang);
   write(`${lang}/index.html`, toCassette(lang));
 }
-// the site's front door opens the cassette version, in the visitor's language
-write('index.html', toLanguage('cassette/'));
+// the site's front door is the cassette itself, in Spanish (no redirect): the
+// same page with its paths taken from the root
+write('index.html', cassettePage('es')
+  .replaceAll('"../../', '"')
+  .replaceAll('href="../en/"', 'href="cassette/en/"')
+  .replaceAll('href="../es/"', 'href="./"'));
 clear('vhs');
 for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
 write('vhs/index.html', toLanguage('', '../assets/favicon.svg', 'vhs/'));

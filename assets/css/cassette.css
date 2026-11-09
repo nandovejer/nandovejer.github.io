@@ -98,6 +98,13 @@ html:root[data-theme="dark"], html:root:not([data-theme]):has(.theme-mode__input
   --ghost: #4b5747;
 }
 html:root[data-theme="light"], html:root:not([data-theme]):has(.theme-mode__input[value="light"]:checked) { color-scheme: light; }
+/* the masthead and footer in the light theme: brushed-aluminium silver, like the radio,
+   in place of chrome.css's cream (the dark theme keeps chrome.css's navy: its selectors are stronger) */
+body.cas :is(.masthead, .colophon) {
+  --bg: #e6e9e6;
+  --panel: #f3f5f2;
+  --on-accent: #ffffff;
+}
 body.cas {
   background:
     var(--tx-plaster) 0 0 / 300px 300px,

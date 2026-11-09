@@ -135,8 +135,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .studio {
   display: grid; gap: 1.5rem var(--gap);
   padding: clamp(1.5rem, 4vw, 3rem) var(--pad) 0;
-  /* one column: the case's spine on top, the deck under it, the liner notes last */
-  grid-template-columns: minmax(0, 1fr); grid-template-areas: "spine" "deck" "liner";
+  /* one column: the deck, the liner notes under it (with the case's spine
+     shown again, put back "spine" above "deck": its row leaves a gap even empty) */
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "deck" "liner";
 }
 .studio__deck { grid-area: deck; container-type: inline-size; }
 /* one column: more room between the player and the notes under it */

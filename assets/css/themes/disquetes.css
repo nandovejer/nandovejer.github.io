@@ -7,7 +7,7 @@
    version of their own (404). Load it after tokens.min.css, before archivo.css.
 
    The dark palette is the system's, unless the visitor chose the light one by
-   hand (data-theme on <html>); or the dark one by hand. Contrast: navy on
+   hand (data-mode on <html>, written by LUZ's colour-mode switch); or the dark one by hand. Contrast: navy on
    cream 10.9:1; crimson may be text on cream (4.7:1); orange is never text on
    cream (2.1:1).
    ========================================================================== */
@@ -24,7 +24,7 @@
   --ghost: #e6c98c;              /* decorative digits only */
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
+  :root:not([data-mode="light"]):not(:has(.luz-theme-mode__input[value="light"]:checked)) {
     --luz-surface-page: #0b2a3e;
     --luz-surface: #0d3249;
     --luz-surface-muted: #123d58;
@@ -36,7 +36,7 @@
     --ghost: #29557c;
   }
 }
-:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
+:root[data-mode="dark"], :root:not([data-mode]):has(.luz-theme-mode__input[value="dark"]:checked) {
   --luz-surface-page: #0b2a3e;
   --luz-surface: #0d3249;
   --luz-surface-muted: #123d58;

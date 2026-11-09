@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="es">
+<html data-theme="disquetes" lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>404 · Fernando Muñoz</title>
   <meta name="robots" content="noindex">
   <meta name="color-scheme" content="light dark">
-  <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+  <script>try{var t=localStorage.getItem('theme');if(t){if(t==='light'||t==='dark')localStorage.setItem('luz-theme',t);localStorage.removeItem('theme')}}catch(e){}</script>
+  <script src="/assets/vendor/luz/theme-boot.min.js"></script>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/vendor/luz/tokens.min.css">

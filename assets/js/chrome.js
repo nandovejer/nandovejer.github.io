@@ -48,53 +48,7 @@ if (head) {
   }
 }
 
-// The colour mode, as LUZ's <luz-theme-mode>: the radios in the colophon are
-// the state; a round button steps through them (Auto, light, dark) and shows
-// the chosen one's icon, named "<legend>: <choice>", and a hidden status says
-// it once after a choice. Light or dark goes to <html> as data-theme and is
-// kept in this browser; Auto removes both and follows the system.
-const modeBox = document.querySelector('.theme-mode');
-if (modeBox) {
-  const radios = [...modeBox.querySelectorAll('.theme-mode__input')];
-  let saved = null;
-  try { saved = localStorage.getItem('theme'); } catch { /* storage off */ }
-  let choice = saved === 'light' || saved === 'dark' ? saved : 'auto';
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'theme-mode__button';
-  const status = document.createElement('span');
-  status.className = 'theme-mode__status';
-  status.setAttribute('role', 'status');
-  let hush = 0;
-  const render = (user) => {
-    const root = document.documentElement;
-    if (choice === 'auto') delete root.dataset.theme; else root.dataset.theme = choice;
-    const input = radios.find((r) => r.value === choice);
-    if (input) input.checked = true;
-    const label = input?.closest('label');
-    const icon = label?.querySelector('.theme-mode__icon');
-    button.replaceChildren(...(icon ? [icon.cloneNode(true)] : []));
-    const name = [modeBox.querySelector('legend')?.textContent.trim(), label?.textContent.trim()].filter(Boolean).join(': ');
-    button.setAttribute('aria-label', name);
-    if (user) {
-      status.textContent = name;
-      clearTimeout(hush);
-      hush = setTimeout(() => { status.textContent = ''; }, 3000);
-    }
-  };
-  const choose = (value) => {
-    choice = value;
-    try { if (value === 'auto') localStorage.removeItem('theme'); else localStorage.setItem('theme', value); } catch { /* storage off */ }
-    render(true);
-  };
-  button.addEventListener('click', () => {
-    const values = radios.map((r) => r.value);
-    choose(values[(values.indexOf(choice) + 1) % values.length]);
-  });
-  modeBox.addEventListener('change', (e) => { if (e.target.checked && e.target.value !== choice) choose(e.target.value); });
-  modeBox.prepend(button, status);
-  render(false);
-}
+// The colour mode is LUZ's <luz-theme-mode> (assets/vendor/luz/theme-mode.min.js).
 
 // The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).
 const roman = (n) => [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]

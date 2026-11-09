@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html data-theme="cassette" lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,8 @@
   <meta name="description" content="Demos of the AI APIs built into Chrome with Gemini Nano. Everything runs on your device: there is no server and, once the model is downloaded, no connection…">
   
   <meta name="color-scheme" content="light dark">
-  <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+  <script>try{var t=localStorage.getItem('theme');if(t){if(t==='light'||t==='dark')localStorage.setItem('luz-theme',t);localStorage.removeItem('theme')}}catch(e){}</script>
+  <script src="../../assets/vendor/luz/theme-boot.min.js"></script>
   <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://nandovejer.github.io/projects/chrome-local-ai/">
   <link rel="alternate" hreflang="es" href="https://nandovejer.github.io/proyectos/chrome-local-ai/">
@@ -38,6 +39,7 @@
   <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/cassette.css">
   <script type="module" src="../../assets/js/chrome.js"></script>
+  <script type="module" src="../../assets/vendor/luz/theme-mode.min.js"></script>
 </head>
 <body class="cas">
 <a class="skip" href="#main">Skip to content</a>
@@ -145,7 +147,7 @@
   <div class="colophon__doc">
     <p class="label">Today</p>
     <p class="colophon__no"><time class="today" datetime="2026-11-09">IX·XI·MMXXVI</time></p>
-    <div class="theme-mode"><fieldset class="theme-mode__group"><legend class="theme-mode__legend">Colour mode</legend><label class="theme-mode__option"><input class="theme-mode__input" type="radio" name="theme-mode" value="auto" checked><svg class="theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 7.5a4.5 4.5 0 0 0 0 9ZM12 7.5a4.5 4.5 0 0 1 0 9M12 2.5v2M12 19.5v2M2.5 12h2M5.3 5.3l1.4 1.4M5.3 18.7l1.4-1.4"/><path d="M12 7.5a4.5 4.5 0 0 0 0 9Z" fill="currentColor"/></svg>Auto</label><label class="theme-mode__option"><input class="theme-mode__input" type="radio" name="theme-mode" value="light"><svg class="theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>Light</label><label class="theme-mode__option"><input class="theme-mode__input" type="radio" name="theme-mode" value="dark"><svg class="theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10Z"/></svg>Dark</label></fieldset></div>
+    <luz-theme-mode inline><fieldset class="luz-theme-mode__group"><legend class="luz-theme-mode__legend">Colour mode</legend><label class="luz-theme-mode__option"><input class="luz-theme-mode__input" type="radio" name="luz-theme-mode" value="auto" checked><svg class="luz-theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 7.5a4.5 4.5 0 0 0 0 9ZM12 7.5a4.5 4.5 0 0 1 0 9M12 2.5v2M12 19.5v2M2.5 12h2M5.3 5.3l1.4 1.4M5.3 18.7l1.4-1.4"/><path d="M12 7.5a4.5 4.5 0 0 0 0 9Z" fill="currentColor"/></svg>Auto</label><label class="luz-theme-mode__option"><input class="luz-theme-mode__input" type="radio" name="luz-theme-mode" value="light"><svg class="luz-theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>Light</label><label class="luz-theme-mode__option"><input class="luz-theme-mode__input" type="radio" name="luz-theme-mode" value="dark"><svg class="luz-theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10Z"/></svg>Dark</label></fieldset></luz-theme-mode>
   </div>
   <p class="colophon__version"><a href="../../disquetes/en/">
 <svg class="barcode" viewBox="0 0 209 40" preserveAspectRatio="none" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><g fill="currentColor"><rect x="10" width="2" height="40"/><rect x="13" width="1" height="40"/><rect x="16" width="1" height="40"/><rect x="21" width="1" height="40"/><rect x="25" width="2" height="40"/><rect x="30" width="1" height="40"/><rect x="32" width="1" height="40"/><rect x="36" width="2" height="40"/><rect x="39" width="3" height="40"/><rect x="43" width="1" height="40"/><rect x="47" width="3" height="40"/><rect x="51" width="2" height="40"/><rect x="54" width="3" height="40"/><rect x="58" width="3" height="40"/><rect x="62" width="2" height="40"/><rect x="65" width="3" height="40"/><rect x="69" width="3" height="40"/><rect x="73" width="2" height="40"/><rect x="76" width="3" height="40"/><rect x="80" width="2" height="40"/><rect x="83" width="1" height="40"/><rect x="87" width="2" height="40"/><rect x="90" width="2" height="40"/><rect x="94" width="2" height="40"/><rect x="98" width="3" height="40"/><rect x="102" width="1" height="40"/><rect x="104" width="2" height="40"/><rect x="109" width="1" height="40"/><rect x="113" width="2" height="40"/><rect x="116" width="1" height="40"/><rect x="120" width="2" height="40"/><rect x="125" width="1" height="40"/><rect x="127" width="3" height="40"/><rect x="131" width="2" height="40"/><rect x="134" width="3" height="40"/><rect x="138" width="1" height="40"/><rect x="142" width="2" height="40"/><rect x="147" width="1" height="40"/><rect x="151" width="1" height="40"/><rect x="153" width="1" height="40"/><rect x="157" width="3" height="40"/><rect x="161" width="2" height="40"/><rect x="164" width="1" height="40"/><rect x="166" width="3" height="40"/><rect x="172" width="2" height="40"/><rect x="175" width="1" height="40"/><rect x="177" width="4" height="40"/><rect x="183" width="1" height="40"/><rect x="186" width="2" height="40"/><rect x="191" width="3" height="40"/><rect x="195" width="1" height="40"/><rect x="197" width="2" height="40"/></g></svg><span class="visually-hidden">Floppy version</span></a></p>

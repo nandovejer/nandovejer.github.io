@@ -20,7 +20,7 @@
   --ghost: #8d9a86;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not(:has(.theme-mode__input[value="light"]:checked)) {
+  :root:not([data-mode="light"]):not(:has(.luz-theme-mode__input[value="light"]:checked)) {
     --luz-surface-page: #263024;
     --luz-surface: #0d3249;
     --luz-surface-muted: #123d58;
@@ -32,7 +32,7 @@
     --ghost: #4b5747;
   }
 }
-:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) {
+:root[data-mode="dark"], :root:not([data-mode]):has(.luz-theme-mode__input[value="dark"]:checked) {
   --luz-surface-page: #263024;
   --luz-surface: #0d3249;
   --luz-surface-muted: #123d58;

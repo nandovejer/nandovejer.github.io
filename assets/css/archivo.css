@@ -64,10 +64,10 @@
   --gap: clamp(1rem, 2vw, 2rem);
 }
 /* the colour scheme (form controls, scrollbars) follows the palette: the system's,
-   unless the visitor chose by hand (data-theme on <html>, set by the masthead's
-   switch); the palettes themselves are in themes/*.css */
-:root[data-theme="dark"], :root:not([data-theme]):has(.theme-mode__input[value="dark"]:checked) { color-scheme: dark; }
-:root[data-theme="light"], :root:not([data-theme]):has(.theme-mode__input[value="light"]:checked) { color-scheme: light; }
+   unless the visitor chose by hand (data-mode on <html>, written by the masthead's
+   colour-mode switch); the palettes themselves are in themes/*.css */
+:root[data-mode="dark"], :root:not([data-mode]):has(.luz-theme-mode__input[value="dark"]:checked) { color-scheme: dark; }
+:root[data-mode="light"], :root:not([data-mode]):has(.luz-theme-mode__input[value="light"]:checked) { color-scheme: light; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--panel); }

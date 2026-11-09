@@ -362,14 +362,19 @@ const langSwitch = (lang, href = (k) => `../${k}/`) => `<div class="lang">
 // chrome.js turns it into one round button that steps through them and shows
 // the icon of the chosen one. The choice is remembered; Auto follows the system.
 const themeMode = (u) => {
-  const option = (value, icon, label, checked = '') => `<label class="theme-mode__option"><input class="theme-mode__input" type="radio" name="theme-mode" value="${value}"${checked}><svg class="theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${icon}</svg>${label}</label>`;
-  return `<div class="theme-mode"><fieldset class="theme-mode__group"><legend class="theme-mode__legend">${u.themeMode}</legend>${[
+  const option = (value, icon, label, checked = '') => `<label class="luz-theme-mode__option"><input class="luz-theme-mode__input" type="radio" name="luz-theme-mode" value="${value}"${checked}><svg class="luz-theme-mode__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${icon}</svg>${label}</label>`;
+  return `<luz-theme-mode inline><fieldset class="luz-theme-mode__group"><legend class="luz-theme-mode__legend">${u.themeMode}</legend>${[
     option('auto', '<path d="M12 7.5a4.5 4.5 0 0 0 0 9ZM12 7.5a4.5 4.5 0 0 1 0 9M12 2.5v2M12 19.5v2M2.5 12h2M5.3 5.3l1.4 1.4M5.3 18.7l1.4-1.4"/><path d="M12 7.5a4.5 4.5 0 0 0 0 9Z" fill="currentColor"/>', u.themeAuto, ' checked'),
     option('light', '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>', u.themeLight),
     option('dark', '<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10Z"/>', u.themeDark)
-  ].join('')}</fieldset></div>`;
+  ].join('')}</fieldset></luz-theme-mode>`;
 };
-const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
+// Before the first paint: LUZ's boot script writes data-mode on <html> (the stored
+// choice, else the system's); the version's theme is data-theme (its tags). The first
+// line moves the choice kept under the old key ("theme") to LUZ's ("luz-theme"), once.
+const THEME_BOOT = (base) => `<script>try{var t=localStorage.getItem('theme');if(t){if(t==='light'||t==='dark')localStorage.setItem('luz-theme',t);localStorage.removeItem('theme')}}catch(e){}</script>
+  <script src="${base}assets/vendor/luz/theme-boot.min.js"></script>`;
+const THEME_MODE_JS = (base) => `<script type="module" src="${base}assets/vendor/luz/theme-mode.min.js"></script>`;
 const masthead = (lang, t, u, { bioHref, langHref, home = './', shelfHref = `#${lang === 'es' ? 'proyectos' : 'projects'}`, tag = 'h1' }) => `<header class="masthead">
   <${tag} class="masthead__title"><a class="brand" href="${home}" rel="home">${brandMark}<span class="brand__text"><span class="brand__name"><span class="visually-hidden">${site.name} · </span><span aria-hidden="true">${brandName}</span></span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></${tag}>
   <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
@@ -407,7 +412,7 @@ const page = (lang) => {
   const url = cassetteUrl(lang);
   const bio = { id: 'bio', n: 0, code: 'NM-000', name: site.name, year: 'MMXXVI', material: 'HTML · CSS', use: t.kicker.split('·')[0].trim(), since: t.established, short: site.nick };
   return `<!doctype html>
-<html lang="${lang}" class="no-js">
+<html data-theme="disquetes" lang="${lang}" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -415,7 +420,7 @@ const page = (lang) => {
   <meta name="description" content="${esc(t.metaDescription)}">
   ${verifyMeta()}
   <meta name="color-scheme" content="light dark">
-  ${THEME_INIT}
+  ${THEME_BOOT('../../')}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
@@ -430,6 +435,7 @@ const page = (lang) => {
   <link rel="stylesheet" href="../../assets/css/ar-dq-asomado.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../../assets/js/ar-disquetes.js"></script>
+  ${THEME_MODE_JS('../../')}
 </head>
 <body class="ar ar--disquetes dq--asomado">
 <a class="skip" href="#main">${t.skip}</a>
@@ -556,7 +562,7 @@ const vhsPage = (lang) => {
       </li>`;
   const half = Math.ceil(site.socials.length / 2);
   return `<!doctype html>
-<html lang="${lang}" class="no-js">
+<html data-theme="vhs" lang="${lang}" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -914,7 +920,7 @@ const cassettePage = (lang) => {
         </a>
       </li>`;
   return `<!doctype html>
-<html lang="${lang}" class="no-js">
+<html data-theme="cassette" lang="${lang}" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -922,7 +928,7 @@ const cassettePage = (lang) => {
   <meta name="description" content="${esc(t.metaDescription)}">
   ${verifyMeta()}
   <meta name="color-scheme" content="light dark">
-  ${THEME_INIT}
+  ${THEME_BOOT('../../')}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${cassetteUrl(l)}">`).join('\n  ')}
@@ -939,6 +945,7 @@ const cassettePage = (lang) => {
   <link rel="stylesheet" href="../../assets/css/cassette.css">
   <script>document.documentElement.classList.replace('no-js','js')</script>
   <script type="module" src="../../assets/js/cassette.js"></script>
+  ${THEME_MODE_JS('../../')}
 </head>
 <body class="cas">
 <a class="skip" href="#main">${t.skip}</a>
@@ -1114,7 +1121,7 @@ const projectPage = (lang, p, i) => {
     personNode(t)
   ];
   return `<!doctype html>
-<html lang="${lang}">
+<html data-theme="cassette" lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1122,7 +1129,7 @@ const projectPage = (lang, p, i) => {
   <meta name="description" content="${esc(description)}">
   ${verifyMeta()}
   <meta name="color-scheme" content="light dark">
-  ${THEME_INIT}
+  ${THEME_BOOT('../../')}
   <link rel="icon" href="${ICON}" type="image/svg+xml">
   <link rel="canonical" href="${url}">
   ${LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${projectUrl(l, p.id)}">`).join('\n  ')}
@@ -1138,6 +1145,7 @@ const projectPage = (lang, p, i) => {
   <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/css/cassette.css">
   <script type="module" src="../../assets/js/chrome.js"></script>
+  ${THEME_MODE_JS('../../')}
 </head>
 <body class="cas">
 <a class="skip" href="#main">${t.skip}</a>
@@ -1281,14 +1289,14 @@ ${LANGS.map((a) => `    <xhtml:link rel="alternate" hreflang="${a}" href="${proj
 // GitHub Pages serves this for any address that does not exist, at any depth:
 // so every path in it is absolute, and it is in both languages.
 write('404.html', `<!doctype html>
-<html lang="es">
+<html data-theme="disquetes" lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>404 · ${site.name}</title>
   <meta name="robots" content="noindex">
   <meta name="color-scheme" content="light dark">
-  ${THEME_INIT}
+  ${THEME_BOOT('/')}
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/vendor/luz/tokens.min.css">

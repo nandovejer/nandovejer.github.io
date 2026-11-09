@@ -323,8 +323,11 @@ async function insert(item) {
   await fade(item.querySelector('.cspine'), true);
   item.classList.add('is-out');
   // the page goes up to the spine: along the top of the notes beside the deck
-  // in two columns, heading the deck in one
-  scrollAlong(linerScroll(), 600);
+  // in two columns, heading the deck in one; going up, the masthead comes back
+  // as it does when the visitor scrolls up
+  const dy = linerScroll();
+  if (dy < 0) document.querySelector('.masthead')?.classList.remove('is-hidden');
+  scrollAlong(dy, 600);
   await swap(item);
   loaded = item;
   await sleep(150);

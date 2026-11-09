@@ -421,8 +421,10 @@ document.querySelectorAll('.rack__slots').forEach((slots) => {
 document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
   a.addEventListener('click', async (e) => {
     e.preventDefault();
-    // the rack's heading lands just under the masthead (html's scroll-padding in chrome.css)
-    if (a.dataset.go === 'projects') { glideTo(document.querySelector('.rack'), 'start'); return; }
+    // just under the masthead (html's scroll-padding in chrome.css): the line
+    // asking to pick a tape, whole, with the rack's heading under it; with a
+    // tape in (the line hidden), the heading
+    if (a.dataset.go === 'projects') { glideTo(cta.hidden ? document.querySelector('.rack') : cta, 'start'); return; }
     await glideTo(oneColumn.matches ? panel : document.querySelector('.studio'), 'start');
     if (loaded && !busy) { busy = true; await eject(); busy = false; }
   });

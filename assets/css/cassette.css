@@ -124,7 +124,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .studio {
   display: grid; gap: 1.5rem var(--gap);
   padding: clamp(1.5rem, 4vw, 3rem) var(--pad) 0;
-  grid-template-columns: minmax(0, 1fr); grid-template-areas: "deck" "liner";
+  /* one column: the liner notes on top, the deck under them */
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "liner" "deck";
 }
 .studio__deck { grid-area: deck; container-type: inline-size; }
 .liner { grid-area: liner; }

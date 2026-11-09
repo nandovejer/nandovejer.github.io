@@ -307,6 +307,8 @@ async function insert(item) {
   // the case fades out of its slot; the page goes up to the deck
   await fade(item.querySelector('.cspine'), true);
   item.classList.add('is-out');
+  // two columns: the page goes up to the deck and the notes beside it; one
+  // column: up to the notes, which sit above the deck
   scrollAlong(linerScroll(), 600);
   await swap(item);
   loaded = item;
@@ -314,8 +316,8 @@ async function insert(item) {
   play(true);
   state.textContent = `${L.playing}: ${dialTitle.textContent}`;
   busy = false;
-  // one column: the notes are under the deck, so the page goes to them
-  if (oneColumn.matches) { await sleep(600); glideTo(liner, 'start'); }
+  // one column: the notes (now this tape's) are at the top of the page
+  if (oneColumn.matches) glideTo(liner, 'start');
 }
 
 // The tape comes out of the deck: its case fades back into its slot in the

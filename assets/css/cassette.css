@@ -136,6 +136,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @media (min-width: 48em) {
   .studio { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); grid-template-areas: "deck liner"; align-items: start; }
 }
+/* the deck stays in view under the masthead while the notes beside it scroll,
+   until the notes end — when the window is tall enough to show all of it */
+@media (min-width: 48em) and (min-height: 50em) {
+  .studio__deck { position: sticky; top: calc(var(--head-h, 0px) + 1.5rem); }
+}
 @media (min-width: 48em) and (max-width: 63.99em) { .hspine__sub { display: none; } }
 @media (min-width: 64em) {
   .studio { grid-template-columns: minmax(0, 24rem) minmax(0, 46rem); justify-content: center; }

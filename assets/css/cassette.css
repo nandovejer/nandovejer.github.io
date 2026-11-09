@@ -329,7 +329,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @media (max-width: 47.99em) { .panel--top .vkeys { padding: 0; } }
 @media all {
   .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(2.3 * var(--u)); }
-  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(4.6 * var(--u)); box-shadow: none; }
+  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(7 * var(--u)); box-shadow: none; }
   .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }

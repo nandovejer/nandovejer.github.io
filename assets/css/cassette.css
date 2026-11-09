@@ -129,10 +129,10 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 @keyframes nudge-down { 50% { transform: translateY(.35rem); } }
 
 /* ---------- the oak cabinets ----------
-   On the wall, a recorder in a pale aluminium shell, after an old
-   program recorder (the speaker on top, under it a row with the voice key,
-   a stereo level meter and two faders, then the tape in an open bay, and
-   charcoal keys with a red EJECT and a green PLAY) and,
+   On the wall, a desk recorder in one warm off-white matte body, after
+   Rams (the speaker on top, under it a row with the voice keys, a stereo
+   level meter and two faders, then the tape in an open bay, and a row of
+   keys, EJECT red and PLAY green the only colour) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
@@ -180,68 +180,64 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
           mask: linear-gradient(#000 0 calc(5 * var(--u)), transparent calc(5 * var(--u)) calc(100% - calc(5 * var(--u))), #000 calc(100% - calc(5 * var(--u))));
 }
 
-/* the recorder has no wooden case: a shell of pale brushed aluminium, as on a
-   club mixer, its rounded edge catching the light, a soft shadow on the wall */
+/* the recorder has no wooden case: one warm off-white matte body, its
+   rounded edge catching the light from the top left, a soft shadow on the wall */
 .cabinet {
-  padding: calc(1.4 * var(--u));
-  border-radius: calc(2.2 * var(--u));
-  background:
-    repeating-linear-gradient(90deg, rgb(255 255 255 / .14) 0 1px, transparent 1px 3px, rgb(0 0 0 / .012) 3px 4px),
-    linear-gradient(160deg, #f6f7f8, #e2e5e8 45%, #c8ccd0);
+  --r: calc(.6 * var(--u));   /* the one radius for caps, slots and windows */
+  --lab: #5b5b57;             /* the grey of all the labels */
+  --ink2: #2a2a28;            /* icons and signs on the caps */
+  padding: calc(1.6 * var(--u));
+  border-radius: calc(1.8 * var(--u));
+  background: linear-gradient(170deg, #f2f1ec, #e6e5e0 60%, #dddbd5);
   box-shadow:
-    inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .7), inset 0 calc(-.4 * var(--u)) 0 rgb(0 0 0 / .14), inset -1px 0 0 rgb(0 0 0 / .1),
-    0 0 0 1px rgb(40 44 48 / .22), 0 1px 2px rgb(0 0 0 / .3),
-    calc(.6 * var(--u)) calc(3 * var(--u)) calc(6 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .45);
+    inset 0 1px 0 #fff, inset 1px 0 0 rgb(255 255 255 / .8), inset 0 -2px 0 rgb(0 0 0 / .12), inset -1px 0 0 rgb(0 0 0 / .08),
+    0 0 0 1px rgb(0 0 0 / .2), 0 1px 2px rgb(0 0 0 / .25),
+    calc(.6 * var(--u)) calc(3 * var(--u)) calc(6 * var(--u)) calc(-1 * var(--u)) rgb(0 0 0 / .4);
 }
 .cabinet::before, .cabinet::after { display: none; }
 
-/* the plate: white aluminium with a fine brushed grain; engraved lines
-   between its sections; six pan-head screws */
+/* the plate: the same matte plastic as the body, set a hair lower; engraved
+   lines between its sections; six pan-head screws */
 .panel {
   position: relative;
-  display: grid; gap: calc(2.6 * var(--u));
-  padding: calc(4 * var(--u)) calc(4 * var(--u)) calc(3.2 * var(--u));
-  border-radius: calc(1 * var(--u));
-  color: #2b2c2a;
-  background:
-    repeating-linear-gradient(90deg, rgb(255 255 255 / .16) 0 1px, transparent 1px 2px, rgb(0 0 0 / .008) 2px 3px),
-    linear-gradient(100deg, transparent 20%, rgb(255 255 255 / .3) 34%, transparent 50%),
-    linear-gradient(165deg, #f1f2f3, #e3e5e7 50%, #d4d7da);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / .9), inset 1px 0 0 rgb(255 255 255 / .5),
-    inset 0 -1px 0 rgb(0 0 0 / .4), inset -1px 0 0 rgb(0 0 0 / .2),
-    0 0 0 1px rgb(40 44 48 / .25), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .18);
+  display: grid; gap: calc(2.4 * var(--u));
+  padding: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(3 * var(--u));
+  border-radius: calc(1.2 * var(--u));
+  color: var(--ink2);
+  background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(170deg, #e6e5e0, #e0dfd9);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), inset 0 -1px 0 rgb(0 0 0 / .14), 0 0 0 1px rgb(0 0 0 / .14);
 }
 .panel::before {
-  content: ""; position: absolute; inset: calc(1.1 * var(--u)); pointer-events: none;
+  content: ""; position: absolute; inset: calc(1.3 * var(--u)); pointer-events: none;
   background:
     var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
     var(--screw) 0 50% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 50% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat,
     var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat;
 }
 /* a groove engraved across the plate */
-.panel__meter, .panel__plate { border-top: 1px solid rgb(0 0 0 / .24); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6); padding-top: calc(2.2 * var(--u)); }
+.panel__meter { border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .85); padding-top: calc(2.2 * var(--u)); }
 
 /* the speaker across the top */
 .panel__top { display: grid; }
-.panel__top .grille { height: calc(22 * var(--u)); }
+.panel__top .grille { height: calc(20 * var(--u)); }
 
 /* the level meter, after a mixer's master meter: two columns of small
    rounded LEDs in dark slots, green, then orange, red at the top, unlit ones
    still showing their colour faintly; the scale between them, L dB R below */
 .vu {
   --led-gap: calc(.4 * var(--u));
-  display: grid; grid-template-columns: auto auto auto; column-gap: calc(1 * var(--u)); row-gap: calc(.8 * var(--u)); align-items: start;
+  display: grid; grid-template-columns: auto auto auto; column-gap: calc(1.2 * var(--u)); row-gap: calc(1.2 * var(--u)); align-content: end;
+  border-inline: 1px solid rgb(0 0 0 / .14); box-shadow: inset 1px 0 0 rgb(255 255 255 / .8), inset -1px 0 0 rgb(255 255 255 / .8);
 }
 .vu__col {
   box-sizing: border-box; height: var(--slot-h);
   display: flex; flex-direction: column-reverse; gap: var(--led-gap); padding: calc(.5 * var(--u));
-  border-radius: calc(.7 * var(--u)); background: linear-gradient(90deg, #1d1f21, #2c2e31 50%, #1d1f21);
+  border-radius: var(--r); background: linear-gradient(90deg, #26272a, #333437 50%, #26272a);
   box-shadow: inset 0 calc(.2 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .8), 0 1px 0 rgb(255 255 255 / .9), 0 0 0 1px rgb(0 0 0 / .15);
 }
 .vu__col i {
   --c: #7cdc2c;
-  display: block; flex: 1; width: calc(2.6 * var(--u)); border-radius: calc(.3 * var(--u));
+  display: block; flex: 1; width: calc(2.8 * var(--u)); border-radius: calc(.3 * var(--u));
   background: color-mix(in srgb, var(--c) 22%, #232527);
   transition: background-color .12s linear, box-shadow .12s linear;
 }
@@ -254,20 +250,19 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .vu__scale {
   box-sizing: border-box; height: var(--slot-h);
   display: flex; flex-direction: column; gap: var(--led-gap); padding-block: calc(.5 * var(--u));
-  font: 700 max(.28rem, calc(.95 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center;
+  font: 700 max(.28rem, calc(1.05 * var(--u)))/1 var(--sans); color: var(--lab); text-align: center;
 }
 .vu__scale b { display: grid; place-items: center; flex: 1; min-height: 0; font-weight: inherit; white-space: nowrap; }
-.vu__foot { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; font: 700 max(.3rem, calc(1.15 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center; }
+.vu__foot { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; font: 700 max(.36rem, calc(1.45 * var(--u)))/1 var(--sans); letter-spacing: .1em; color: var(--lab); text-align: center; }
 .vu__foot b { font-weight: inherit; }
 
-/* the speaker: rows of holes punched through the plate, each lower lip lit */
+/* the speaker: a strict grid of small holes in a shallow recess */
 .grille {
-  position: relative; border-radius: calc(2 * var(--u));
+  position: relative; border-radius: calc(1.2 * var(--u));
   background:
-    radial-gradient(circle at 50% 46%, #0c0c0c calc(.36 * var(--u)), #1e1e1e calc(.42 * var(--u)), transparent calc(.5 * var(--u))) 0 0 / calc(1.9 * var(--u)) calc(1.9 * var(--u)),
-    radial-gradient(circle at 50% 56%, rgb(255 255 255 / .75) calc(.36 * var(--u)), rgb(255 255 255 / .2) calc(.45 * var(--u)), transparent calc(.55 * var(--u))) 0 0 / calc(1.9 * var(--u)) calc(1.9 * var(--u)),
-    rgb(0 0 0 / .03);
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1), inset 0 1px 2px rgb(0 0 0 / .2);
+    radial-gradient(circle at 50% 50%, #2a2a28 calc(.3 * var(--u)), #4a4a47 calc(.36 * var(--u)), transparent calc(.44 * var(--u))) calc(.95 * var(--u)) calc(.95 * var(--u)) / calc(1.9 * var(--u)) calc(1.9 * var(--u)),
+    #dedcd6;
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / .14), inset 0 0 0 1px rgb(0 0 0 / .08), 0 1px 0 rgb(255 255 255 / .9);
 }
 .cabinet.is-playing .grille { animation: thump .46s ease-in-out infinite alternate; }
 @keyframes thump { to { filter: brightness(.94); } }
@@ -308,12 +303,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    on their springs, the plate, the head, capstan and pinch roller */
 .tdeck {
   width: calc(78 * var(--u)); margin-inline: auto;
-  padding: calc(1.6 * var(--u)); border-radius: calc(1.6 * var(--u));
-  background: linear-gradient(#ccd0d4, #bcc1c5);
-  box-shadow: inset 0 2px 3px rgb(0 0 0 / .45), inset 0 -1px 0 rgb(255 255 255 / .55), inset 1px 0 1px rgb(0 0 0 / .2), 0 1px 0 rgb(255 255 255 / .65);
+  padding: calc(1.4 * var(--u)); border-radius: calc(1.2 * var(--u));
+  background: linear-gradient(#dcdad4, #d2d0ca);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .3), inset 0 0 0 1px rgb(0 0 0 / .14), 0 1px 0 rgb(255 255 255 / .9);
 }
 .tdeck__bay {
-  position: relative; overflow: hidden; padding: calc(1.8 * var(--u)) calc(2 * var(--u)); border-radius: calc(1.2 * var(--u));
+  position: relative; overflow: hidden; padding: calc(1.8 * var(--u)) calc(2 * var(--u)); border-radius: var(--r);
   background: #0c0c0c;
 }
 /* the works under the tape (an SVG drawn in build.mjs) */
@@ -331,53 +326,64 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the row under the speaker, on the aluminium itself: the voice key on the left,
-   the level meter in the middle, the faders (volume and reading speed) on the
-   right */
+/* the row under the speaker: one shallow field sunk into the plate, divided
+   by hairlines into three compartments (the voice keys · the level meter · the
+   faders), everything standing on the same baseline, the labels in one line */
 .panel__plate {
-  --slot-h: calc(21 * var(--u));
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(2 * var(--u));
-  padding: calc(2.6 * var(--u)) calc(1 * var(--u)) calc(.6 * var(--u));
+  --slot-h: calc(19 * var(--u));
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch;
+  margin-top: calc(.6 * var(--u)); border-top: 0; border-radius: calc(1.2 * var(--u));
+  background: linear-gradient(#dcdad4, #d6d4ce);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .22), inset 0 0 0 1px rgb(0 0 0 / .12), 0 1px 0 rgb(255 255 255 / .9);
 }
-.vkey small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3d40; white-space: nowrap; }
+.vkeys, .vu, .faders { padding: calc(2 * var(--u)) calc(2.2 * var(--u)) calc(1.4 * var(--u)); }
+/* one label system: a small grey letter-spaced sans, always under its control */
+.vkey small, .fader small, .key__label { font: 700 max(.36rem, calc(1.45 * var(--u)))/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--lab); white-space: nowrap; text-shadow: none; }
 /* the keys on the left, square push buttons that latch down: VOZ (a speaker
    printed on it, crossed out when the voice is muted), 2× (the voice reads at
    double speed) and REPEAT (the tape starts again when it ends) */
-.vkeys { justify-self: start; display: flex; gap: calc(2 * var(--u)); }
-.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(1.4 * var(--u)); }
-.vkey__cap {
-  display: grid; place-items: center; width: calc(8 * var(--u)); aspect-ratio: 1; border-radius: calc(0.8 * var(--u));
-  background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
-  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.55 * var(--u)) 0 #8b8d89, 0 calc(0.55 * var(--u)) 0 1px #4f514d, 0 calc(0.9 * var(--u)) calc(0.7 * var(--u)) rgb(0 0 0 / .45);
-  transition: transform .09s ease, box-shadow .09s ease;
+.vkeys { display: flex; justify-content: center; align-items: flex-end; gap: calc(1.4 * var(--u)); }
+.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(1.2 * var(--u)); }
+/* the one cap, shared by the small keys and the transport keys: matte plastic in
+   the body colour standing on a darker side, the whole key sinking when pressed */
+.vkey__cap, .key__cap {
+  --ink: var(--ink2); --edge: #9d9b94; --c1: #e4e3dd; --c2: #d0cec8;
+  display: grid; place-items: center; box-sizing: border-box;
+  border: 0; border-bottom: calc(1.4 * var(--u)) solid var(--edge); border-radius: var(--r);
+  background: var(--tx-plastic) 0 0 / 200px 200px, linear-gradient(var(--c1), var(--c2));
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .1), 0 0 0 1px rgb(0 0 0 / .25), 0 calc(.9 * var(--u)) calc(.7 * var(--u)) rgb(0 0 0 / .3);
+  transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
 }
-.vkey svg { width: 64%; height: 64%; fill: none; stroke: #2b2c2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.mute__cone { fill: #2b2c2a; }
+.vkey__cap { width: calc(8 * var(--u)); height: calc(8 * var(--u)); }
+.vkey svg { width: 60%; height: 60%; fill: none; stroke: var(--ink2); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.mute__cone { fill: var(--ink2); }
 .mute__x { display: none; stroke: #c2311d; }
-.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap {
-  transform: translateY(calc(0.45 * var(--u)));
-  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.1 * var(--u)) 0 #8b8d89, 0 calc(0.1 * var(--u)) 0 1px #4f514d, 0 calc(0.25 * var(--u)) calc(0.3 * var(--u)) rgb(0 0 0 / .4);
+.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap,
+.key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
+  transform: translateY(calc(1 * var(--u))); border-bottom-width: calc(.4 * var(--u));
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / .2), inset 0 -1px 0 rgb(255 255 255 / .4), 0 0 0 1px rgb(0 0 0 / .28), 0 calc(.15 * var(--u)) calc(.2 * var(--u)) rgb(0 0 0 / .3);
 }
+.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap { height: calc(7 * var(--u)); }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
-.vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: #2b2c2a; letter-spacing: -.02em; }
+.vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: var(--ink2); letter-spacing: -.02em; }
 /* 2× and REPEAT print their sign green while they are down */
 .vkey[data-latch][aria-pressed="true"] svg { stroke: #2f7a43; }
 .vkey[data-latch][aria-pressed="true"] .vkey__text { color: #2f7a43; }
-.vkey:focus-visible .vkey__cap { outline: 3px solid #fbe6b4; outline-offset: 2px; }
+.vkey:focus-visible .vkey__cap, .fader__input:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; }
 .mute[hidden] { display: none; }
 /* the faders: a black cap with a light line across, sliding up and down a
    thin black slot, ticks and 0 · 5 · 10 printed beside it */
-.faders { justify-self: end; display: flex; gap: calc(2.4 * var(--u)); }
-.fader { display: grid; grid-template-columns: auto auto; justify-items: center; row-gap: calc(.8 * var(--u)); column-gap: calc(.3 * var(--u)); cursor: ns-resize; }
+.faders { display: flex; justify-content: center; align-items: flex-end; gap: calc(2.2 * var(--u)); }
+.fader { display: grid; grid-template-columns: auto auto; justify-items: center; row-gap: calc(1.2 * var(--u)); column-gap: calc(.3 * var(--u)); cursor: ns-resize; }
 .fader small { grid-column: 1 / -1; }
 .fader__input {
   -webkit-appearance: none; appearance: none; writing-mode: vertical-lr; direction: rtl;
   width: calc(5.4 * var(--u)); height: var(--slot-h); margin: 0; padding: 0; background: transparent; cursor: ns-resize;
   --slot: linear-gradient(90deg, transparent calc(50% - .35 * var(--u)), #0e0f10 calc(50% - .35 * var(--u)) calc(50% + .35 * var(--u)), transparent calc(50% + .35 * var(--u)));
 }
-.fader__input::-webkit-slider-runnable-track { width: 100%; height: 100%; border-radius: calc(.4 * var(--u)); background: var(--slot); }
-.fader__input::-moz-range-track { width: 100%; height: 100%; border-radius: calc(.4 * var(--u)); background: var(--slot); }
+.fader__input::-webkit-slider-runnable-track { width: 100%; height: 100%; border-radius: var(--r); background: var(--slot); }
+.fader__input::-moz-range-track { width: 100%; height: 100%; border-radius: var(--r); background: var(--slot); }
 .fader__input::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; width: calc(5.4 * var(--u)); height: calc(2.4 * var(--u)); border: 0; border-radius: calc(.3 * var(--u));
   background: linear-gradient(transparent calc(50% - .5px), #d9dcdf calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px)), linear-gradient(#3b3d40, #17181a 55%, #0c0d0e);
@@ -388,58 +394,30 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   background: linear-gradient(transparent calc(50% - .5px), #d9dcdf calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px)), linear-gradient(#3b3d40, #17181a 55%, #0c0d0e);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 calc(.5 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .5);
 }
-.fader__input:focus-visible { outline: 3px solid #fbe6b4; outline-offset: 2px; }
 /* the scale: eleven ticks, the half and the ends numbered */
 .fader__scale {
   display: flex; flex-direction: column; justify-content: space-between; align-self: stretch;
   padding: calc(1.2 * var(--u)) 0 calc(1.2 * var(--u)) calc(1.6 * var(--u)); margin-block: calc(-.5 * var(--u));
-  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--tech); color: #4a4d51;
-  background: linear-gradient(rgb(40 43 47 / .7) 0 1px, transparent 1px) 0 calc(1.7 * var(--u)) / calc(1.1 * var(--u)) calc((100% - 3.4 * var(--u)) / 10) repeat-y;
+  font: 700 max(.3rem, calc(1.2 * var(--u)))/1 var(--sans); color: var(--lab);
+  background: linear-gradient(rgb(0 0 0 / .4) 0 1px, transparent 1px) 0 calc(1.7 * var(--u)) / calc(1.1 * var(--u)) calc((100% - 3.4 * var(--u)) / 10) repeat-y;
 }
 .fader__scale b { font-weight: inherit; }
 
-/* the piano keys along the foot, after the old program recorders: their
-   names printed dark on the panel above, square charcoal caps with the
-   symbol moulded on the face, sitting in a dark tray; EJECT red (where a
-   recorder has RECORD), PLAY green; PLAY and PAUSE stay down while pressed */
-.keys {
-  position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(.7 * var(--u));
-  margin-inline: calc(-1 * var(--u)); padding-inline: calc(.7 * var(--u));
-}
-.keys::before {
-  content: ""; position: absolute; z-index: -1; left: 0; right: 0;
-  top: calc(max(.4rem, 1.6 * var(--u)) + 1.2 * var(--u)); bottom: calc(-.9 * var(--u)); border-radius: calc(.5 * var(--u));
-  background: linear-gradient(#1a1a19, #2a2a28);
-  box-shadow: inset 0 calc(.5 * var(--u)) calc(.8 * var(--u)) rgb(0 0 0 / .85), inset 0 -1px 0 rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .6);
-}
-.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(2.1 * var(--u)); justify-items: center; align-content: start; }
-.key__label { font: 700 max(.4rem, calc(1.6 * var(--u)))/1 var(--tech); letter-spacing: .08em; color: #3b3b39; text-shadow: 0 1px 0 rgb(255 255 255 / .55); }
-.key__cap {
-  --c1: #5d5d5a; --c2: #4b4b49; --c3: #3f3f3d; --edge: #222221; --ink: #e4e3dd;
-  display: grid; place-items: center; width: 100%; height: calc(9.4 * var(--u));
-  border-radius: calc(.45 * var(--u));
-  border-top: calc(1.3 * var(--u)) solid color-mix(in srgb, var(--c1), #fff 14%);
-  border-bottom: calc(2.2 * var(--u)) solid var(--edge);
-  background:
-    var(--tx-grain) 0 0 / 160px 160px,
-    linear-gradient(var(--c1), var(--c2) 45%, var(--c3));
-  box-shadow: inset 1px 0 0 rgb(255 255 255 / .12), inset -1px 0 0 rgb(0 0 0 / .35), inset 0 -1px 0 rgb(0 0 0 / .3), 0 1px 0 #000, 0 calc(.6 * var(--u)) calc(.6 * var(--u)) rgb(0 0 0 / .45);
-  transition: transform .09s ease, height .09s ease, border-bottom-width .09s ease, box-shadow .09s ease;
-}
-.key__cap i {
-  font: 400 max(.55rem, calc(2.5 * var(--u)))/1 var(--tech); font-style: normal; letter-spacing: -.12em; color: var(--ink);
-  text-shadow: 0 -1px 0 rgb(0 0 0 / .45), 0 1px 0 rgb(255 255 255 / .12);
-}
-.key--eject .key__cap { --c1: #df4a40; --c2: #c5352c; --c3: #a92a23; --edge: #5c1512; --ink: #fbe6e0; }
-.key--play .key__cap { --c1: #6bae79; --c2: #4f9862; --c3: #3c7f4c; --edge: #1d4428; --ink: #eaf6ea; }
-.key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap {
-  transform: translateY(calc(1.6 * var(--u))); height: calc(7.8 * var(--u)); border-bottom-width: calc(.6 * var(--u));
-  box-shadow: inset 1px 0 0 rgb(255 255 255 / .1), inset -1px 0 0 rgb(0 0 0 / .35), 0 calc(.2 * var(--u)) calc(.3 * var(--u)) rgb(0 0 0 / .4);
-}
+/* the keys along the foot: the same cap as the small keys, the symbol
+   printed on the face and the name under it; EJECT red (where a recorder has
+   RECORD), PLAY green; PLAY and PAUSE stay down while pressed */
+.keys { display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(1.2 * var(--u)); }
+.key { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: grid; gap: calc(1.2 * var(--u)); justify-items: center; align-content: start; }
+.key__label { order: 2; }
+.key__cap { width: 100%; height: calc(8.4 * var(--u)); }
+.key__cap i { font: 600 max(.55rem, calc(2.5 * var(--u)))/1 var(--tech); font-style: normal; letter-spacing: -.12em; color: var(--ink); }
+.key--eject .key__cap { --c1: #e4584c; --c2: #cf3d31; --edge: #7a221a; --ink: #fff; }
+.key--play .key__cap { --c1: #6fb67e; --c2: #4f9a61; --edge: #27522f; --ink: #fff; }
+.key:active .key__cap, .key.is-pressed .key__cap, .key[aria-pressed="true"] .key__cap { height: calc(7.4 * var(--u)); }
 .key[aria-pressed="true"] .key__label { color: #2f7a43; }
 .key[aria-disabled="true"] { cursor: default; }
 .key[aria-disabled="true"] .key__label, .key[aria-disabled="true"] .key__cap i { opacity: .45; }
-.key:focus-visible .key__cap { outline: 3px solid var(--accent); outline-offset: 2px; }
+.key:focus-visible .key__cap { outline: 3px solid #1d5f7a; outline-offset: 2px; }
 
 /* the reels turn as it plays, fast on ◀◀ / ▶▶ */
 .cabinet.is-playing .tdeck__well .reel { animation: reel calc(1.8s / var(--rate, 1)) linear infinite; }
@@ -584,8 +562,12 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .jcard { position: relative; }
 
-/* the spine of the case, laid along the top: the J-card's spine seen through
-   the clear plastic, the black of the case above and below */
+/* the spine of the case in the deck, lying under it: the J-card's spine seen
+   through the clear plastic, the black of the case above and below */
+.studio__spine { margin-top: 1.5rem; }
+.studio__spine:empty { display: none; }
+.studio__spine .hspine__title { flex: none; max-width: 100%; }
+.studio__spine .hspine__sub { flex: 0 1 auto; min-width: 0; }
 .hspine {
   position: relative; overflow: hidden;
   display: flex; align-items: center; gap: 1rem;
@@ -601,7 +583,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 }
 .hspine__logo { flex: none; padding: .25rem .4rem; border: 2px solid currentColor; border-radius: .25rem; font: 900 1rem/1 var(--sans); }
 .hspine__text { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .8rem; }
-.hspine__title { font-size: clamp(1.4rem, 1rem + 1.6vw, 2.3rem); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--jc-title, var(--jc-ink)); }
+.hspine__title { font-size: clamp(1.2rem, .9rem + 1vw, 1.6rem); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--jc-title, var(--jc-ink)); }
 .hspine__sub { flex: none; max-width: 40%; font: 600 .62rem/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
 .hspine__code { flex: none; display: flex; gap: .6rem; font: 600 .68rem/1 var(--tech); letter-spacing: .04em; }
 

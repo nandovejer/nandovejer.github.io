@@ -891,6 +891,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
       <p class="bb__state visually-hidden" aria-live="polite"></p>
     </section>
   </div>
+  <div class="studio__spine" aria-hidden="true"></div>
   </div>
   <article class="liner" id="liner" aria-label="${c.liner}">
     <div class="liner__out">${bioNotes}

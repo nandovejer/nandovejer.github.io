@@ -54,12 +54,21 @@
     "tokens": "tóquens",
     "bundler": "bándler",
     "software": "sóftuer",
-    "luz-check": "luz chec",
+    "luz-check": "luz chek",
     "illo-loader": "illo lóuder",
     "js-subtype": "jota ese sabtáip",
     "typeof": "táipof",
     "getType": "guet táip",
-    "yarn": "iarn"
+    "yarn": "iarn",
+    "WCAG": "uve doble ce a ge",
+    "AA": "doble a",
+    "IP": "i pe",
+    "VPN": "uve pe ene",
+    "CDN": "ce de ene",
+    "Fraunces": "Fráunses",
+    "Inter Tight": "Ínter Tait",
+    "Fira Code": "Fira Coud",
+    "YouTube": "Iutub"
   },
   "en": {
     "Fernando Muñoz": "Fernando Moonyoth",
@@ -75,6 +84,12 @@
     "nandovejer": "nando vehair",
     "soynando.com": "soy nando dot com",
     "illo-loader": "eeyo loader",
-    "Vite": "veet"
+    "Vite": "veet",
+    "coro": "koh-roh",
+    "comparsa": "kom-par-sah",
+    "chirigota": "chee-ree-goh-tah",
+    "cuarteto": "kwar-teh-toh",
+    "luz-check": "Looth check",
+    "Fraunces": "Frawn-sez"
   }
 }

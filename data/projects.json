@@ -15,8 +15,11 @@
       "kicker": "Sistema de diseño",
       "body": [
         "LUZ (Light, Usable & Zero-dependency) es un sistema de diseño en HTML, CSS y módulos ES, sin dependencias en tiempo de ejecución. El HTML que escribes sale con estilo sin poner ninguna clase, y las clases solo añaden lo que el HTML no puede decir.",
-        "Se adopta por capas independientes: solo los tokens, los tokens con los componentes, o además el catálogo con buscador, aviso de cookies, selector de idioma y patrones de landing, blog o documentación.",
-        "Tiene tres modos de color, se prueba con tests de accesibilidad, incluye luz-check para validar un proyecto sin conexión y está pensado para personas y a la vez sencillo para que un agente de IA lo escriba bien."
+        "Se adopta por capas independientes: solo los tokens, los tokens con los componentes, o además el catálogo con buscador, aviso de cookies, selector de idioma y patrones de landing, blog o documentación. En un proyecto que ya tiene diseño puede cargarse solo dentro de una región marcada y migrarse página a página.",
+        "Trae componentes de botones, formularios y tablas a pestañas, ventanas modales, avisos o un reproductor de vídeo, audio y MIDI. Cada uno tiene su página en la documentación con un ejemplo en vivo, el código para copiar y cuándo usarlo y cuándo no.",
+        "Apunta al nivel AA de WCAG 2.2 en sus tres modos de color, claro, oscuro y alto contraste: se maneja con teclado, el foco siempre se ve y cada página funciona sin JavaScript. Las pruebas automáticas pasan en cada cambio, y la declaración de accesibilidad dice también lo que aún no se ha probado.",
+        "Está pensado para personas y a la vez es sencillo para que un agente de IA lo escriba bien: la web publica la lista cerrada de clases, y luz-check lee sin conexión el HTML y el CSS de un proyecto y dice qué clases, elementos, orden de carga o colores están mal.",
+        "Cada cambio empieza con un test que falla, y cada archivo tiene un tamaño máximo que nadie sube para que pase. La paleta de color es propia y todo, fuentes incluidas, tiene licencia MIT, sin registro ni telemetría."
       ],
       "quote": "Mejorar el HTML nativo en lugar de sustituirlo.",
       "caption": "La lámpara"
@@ -25,8 +28,11 @@
       "kicker": "Design system",
       "body": [
         "LUZ (Light, Usable & Zero-dependency) is a design system in HTML, CSS and ES modules, with no runtime dependencies. The HTML you write comes out styled with no class, and classes only add what HTML cannot say.",
-        "You adopt it in independent layers: just the tokens, the tokens and the components, or the catalog on top, with search, cookie consent, a language switch and patterns for a landing page, a blog or documentation.",
-        "It has three colour modes, is tested for accessibility, ships luz-check to validate a project offline, and is made for people while staying plain enough for an AI agent to write it correctly."
+        "You adopt it in independent layers: just the tokens, the tokens and the components, or the catalog on top, with search, cookie consent, a language switch and patterns for a landing page, a blog or documentation. A project that already has a design can load it inside one marked region and migrate page by page.",
+        "It brings components from buttons, forms and tables to tabs, modal dialogs, alerts and a video, audio and MIDI player. Each one has a page in the documentation with a live example, the markup to copy, and when to use it and when not to.",
+        "It aims for WCAG 2.2 level AA in its three colour modes, light, dark and high contrast: it works with a keyboard, focus is always visible and every page works without JavaScript. Automated checks run on every change, and the accessibility statement also says what has not been tested yet.",
+        "It is made for people while staying plain enough for an AI agent to write it correctly: the site publishes the closed list of classes, and luz-check reads a project's HTML and CSS offline and says which classes, elements, load order or colours are wrong.",
+        "Every change starts with a failing test, and every file has a size ceiling that nobody raises to make it pass. The colour palette is its own, and everything, fonts included, is under the MIT licence, with no registration and no telemetry."
       ],
       "quote": "Enhance native HTML instead of replacing it.",
       "caption": "The lamp"
@@ -49,8 +55,11 @@
       "kicker": "Huella digital del navegador",
       "body": [
         "IKAY lee 33 datos que cualquier web obtiene de tu navegador sin pedirte un solo permiso y te los enseña como el expediente que una web guarda de ti.",
+        "Los datos van desde la ciudad que delata tu IP y la zona horaria, que comparada con la de esa IP apunta a si usas una VPN, hasta la memoria, la tarjeta gráfica, la batería, las fuentes instaladas o el modo incógnito. También sigue en directo el ratón, los clics y las teclas, sin guardar nada.",
         "Cada dato llega en una frase, con una marca de protegido o no protegido y una explicación de lo que significa para ti, con el detalle técnico plegado para quien lo quiera. Al final calcula «tu ID», una huella que sobrevive a las cookies y al modo incógnito, sin guardar ni enviar nada.",
-        "Es la versión moderna del IKAY original: HTML, CSS y JavaScript sobre los tokens de LUZ, sin bundler, en español, inglés y árabe, con modo claro, oscuro y alto contraste."
+        "La página parece un expediente: papel y tinta, capítulos y entradas numerados y un solo rojo de alarma usado como un rotulador. Los títulos van en Fraunces, el texto en Inter Tight y cada valor encontrado en Fira Code.",
+        "Está en español, inglés y árabe, que se lee de derecha a izquierda sin casos especiales. Tiene modo automático, claro, oscuro y alto contraste, con el texto a 7 a 1 o más en este último, se maneja con teclado y ningún estado depende solo del color.",
+        "Es la versión moderna del IKAY original, de 2020, que necesitaba compilarse y tenía 16 tarjetas: HTML, CSS y JavaScript sobre los tokens de LUZ, sin bundler y sin nada que instalar. Los tokens y las tipografías se sirven desde el propio repositorio, sin CDN, y no hay cookies ni analítica."
       ],
       "quote": "Treinta y tres datos, cero permisos.",
       "caption": "La huella"
@@ -59,8 +68,11 @@
       "kicker": "Browser fingerprint",
       "body": [
         "IKAY reads 33 pieces of data that any website gets from your browser without asking for a single permission, and shows them as the file a website keeps on you.",
+        "The data runs from the city your IP gives away and the time zone, which compared with that IP's hints at a VPN, to memory, graphics card, battery, installed typefaces and incognito mode. It also follows your mouse, clicks and keys live, without storing anything.",
         "Each one comes as a sentence, marked protected or not protected, with what it means for you and the technical detail folded away for the curious. At the end it computes “your ID”, a fingerprint that survives cookies and incognito mode, without storing or sending anything.",
-        "It is the modern version of the original IKAY: HTML, CSS and JavaScript on the LUZ tokens, no bundler, in Spanish, English and Arabic, with light, dark and high-contrast looks."
+        "The page looks like a dossier: paper and ink, numbered chapters and entries, and a single alarm red used like a highlighter. Headings are set in Fraunces, reading text in Inter Tight and every value found in Fira Code.",
+        "It is in Spanish, English and Arabic, which reads right to left with no special cases. It has automatic, light, dark and high-contrast looks, with text at 7:1 or more in the last one, works with a keyboard, and no status relies on colour alone.",
+        "It is the modern version of the original IKAY, from 2020, which needed a build and had 16 cards: HTML, CSS and JavaScript on the LUZ tokens, no bundler and nothing to install. The tokens and typefaces are served from the repository itself, with no CDN, and there are no cookies and no analytics."
       ],
       "quote": "Thirty-three data points, zero permissions.",
       "caption": "The fingerprint"
@@ -116,7 +128,10 @@
       "body": [
         "Responde a la pregunta que se hace todo el mundo durante el Carnaval de Cádiz: qué agrupación sale ahora en el COAC y cuándo me toca verla. El concurso del Gran Teatro Falla dura semanas, con una sesión por noche y más de una decena de agrupaciones en cada una, y el listado oficial es una tabla larga y sin horas.",
         "Esta web la convierte en una página para el móvil que dice qué sesión es la de hoy, a qué hora aproximada sale cada agrupación, cuál está en directo y cuánto falta para la próxima.",
-        "Sin cuentas, sin cookies y sin servidor: React y TypeScript con la lógica separada y probada."
+        "La hora de cada agrupación se calcula a partir del orden de actuación, sumando lo que duran la actuación y el montaje; son estimaciones, no el horario oficial. Todas las horas son las de Cádiz estés donde estés, y la sesión de la noche sigue contando como la de ese día hasta la madrugada.",
+        "Cada agrupación lleva su modalidad, coro, comparsa, chirigota o cuarteto, su autor y su ciudad. Un buscador por autor lleva a la agrupación dentro de su sesión, y hay un enlace a la emisión en directo en YouTube y otro que busca lo que la agrupación presentó el año anterior.",
+        "Al construir la web, el contenido real de las sesiones se escribe dentro del HTML, con sus datos estructurados, para buscadores y lectores sin JavaScript. Tiene modo claro, oscuro y alto contraste, y los dos últimos cumplen el nivel AA de WCAG.",
+        "Sin cuentas, sin cookies y sin servidor: React y TypeScript sobre un tema propio de LUZ, con la lógica de fechas separada de los componentes y probada, también con un reloj simulado. Cambiar de fase es añadir el JSON copiado del listado oficial y tocar un solo archivo; las fechas salen del propio JSON."
       ],
       "quote": "Qué agrupaciones cantan hoy, y en qué orden.",
       "caption": "El antifaz"
@@ -126,7 +141,10 @@
       "body": [
         "It answers the question everyone asks during the Cádiz Carnival: which group is on stage at the COAC right now, and when will mine be on. The contest at the Gran Teatro Falla lasts weeks, with one session a night and more than ten groups in each, and the official listing is a long table with no times.",
         "This site turns it into a page for your phone that tells you which session is tonight, roughly when each group goes on, which one is live and how long until the next.",
-        "No accounts, no cookies and no server: React and TypeScript with the logic kept apart and tested."
+        "Each group's time is worked out from the running order, adding up the length of the performance and the set-up; they are estimates, not the official schedule. Every time is Cádiz time wherever you are, and the night's session still counts as that day's until the early morning.",
+        "Each group shows its category, coro, comparsa, chirigota or cuarteto, its author and its town. A search by author takes you to the group inside its session, and there is a link to the live broadcast on YouTube and another that looks up what the group performed the year before.",
+        "When the site is built, the real content of the sessions is written into the HTML, with its structured data, for search engines and readers without JavaScript. It has light, dark and high-contrast modes, and the last two meet WCAG level AA.",
+        "No accounts, no cookies and no server: React and TypeScript on a LUZ theme of its own, with the date logic kept apart from the components and tested, also against a simulated clock. Moving to a new round means adding the JSON copied from the official listing and editing a single file; the dates come from the JSON itself."
       ],
       "quote": "Which groups sing today, and in what order.",
       "caption": "The mask"

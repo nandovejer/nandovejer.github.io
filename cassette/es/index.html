@@ -57,6 +57,18 @@
         <span class="counter"><span class="counter__label">Contador</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
         <p class="strip"><span class="strip__text">NM-000 · Fernando Muñoz</span><span class="strip__led"></span></p>
       </div>
+      <div class="panel__plate">
+        <button type="button" class="mute" aria-pressed="false" aria-label="Silenciar la voz" title="Silenciar la voz">
+          <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
+          <small aria-hidden="true">Voz</small>
+        </button>
+        <div class="vu" aria-hidden="true">
+          <span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="vu__scale"><b>OVER</b><b>10</b><b>7</b><b>4</b><b>2</b><b>1</b><b>0</b><b>−1</b><b>−2</b><b>−3</b><b>−5</b><b>−7</b><b>−10</b><b>−15</b><b>−24</b></span><span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
+          <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">Fernando Muñoz</span></p>
+        </div>
+        <span class="faders"><label class="fader"><input class="fader__input" type="range" data-fader="vol" min="0" max="10" step="1" value="8" aria-label="Volumen de la voz"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">VOL</small></label><label class="fader"><input class="fader__input" type="range" data-fader="speed" min="0" max="10" step="1" value="5" aria-label="Velocidad de lectura"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">Vel.</small></label></span>
+      </div>
       <div class="tdeck">
         <div class="tdeck__bay">
           <svg class="tdeck__works" viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -120,18 +132,6 @@
           <span class="cassette__foot"></span>
         </span></span></div>
         </div>
-      </div>
-      <div class="panel__plate">
-        <button type="button" class="mute" aria-pressed="false" aria-label="Silenciar la voz" title="Silenciar la voz">
-          <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
-          <small aria-hidden="true">Voz</small>
-        </button>
-        <div class="vu" aria-hidden="true">
-          <span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="vu__scale"><b>OVER</b><b>10</b><b>7</b><b>4</b><b>2</b><b>1</b><b>0</b><b>−1</b><b>−2</b><b>−3</b><b>−5</b><b>−7</b><b>−10</b><b>−15</b><b>−24</b></span><span class="vu__col"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-          <span class="vu__foot"><b>L</b><b>dB</b><b>R</b></span>
-          <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">Fernando Muñoz</span></p>
-        </div>
-        <span class="faders"><label class="fader"><input class="fader__input" type="range" data-fader="vol" min="0" max="10" step="1" value="8" aria-label="Volumen de la voz"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">VOL</small></label><label class="fader"><input class="fader__input" type="range" data-fader="speed" min="0" max="10" step="1" value="5" aria-label="Velocidad de lectura"><span class="fader__scale" aria-hidden="true"><b>10</b><b>5</b><b>0</b></span><small aria-hidden="true">Vel.</small></label></span>
       </div>
       <div class="keys">
           <button type="button" class="key key--eject" data-key="eject" aria-label="Expulsar" title="Expulsar"><span class="key__label" aria-hidden="true">EJECT</span><span class="key__cap" aria-hidden="true"><i>⏏</i></span></button>

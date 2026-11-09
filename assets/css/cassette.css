@@ -130,9 +130,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 
 /* ---------- the oak cabinets ----------
    On the wall, a recorder in a pale aluminium shell, after an old
-   program recorder (the speaker on top, the tape in an open bay, a row with
-   the voice key, a stereo level meter and two faders, charcoal keys with a
-   red EJECT and a green PLAY) and,
+   program recorder (the speaker on top, under it a row with the voice key,
+   a stereo level meter and two faders, then the tape in an open bay, and
+   charcoal keys with a red EJECT and a green PLAY) and,
    under it, a second oak
    case with the tapes standing spine out in slots. The light comes from the
    top left: lit top and left edges, shade below and to the right.
@@ -329,7 +329,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .tdeck__well { position: relative; z-index: 2; }
 .tdeck__well .cassette { filter: brightness(.92); }
 
-/* the row under the bay, on the aluminium itself: the voice key on the left,
+/* the row under the speaker, on the aluminium itself: the voice key on the left,
    the level meter in the middle, the faders (volume and reading speed) on the
    right */
 .panel__plate {

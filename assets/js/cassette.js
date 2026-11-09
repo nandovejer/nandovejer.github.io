@@ -2,7 +2,7 @@
 // its slot, turns on its side and goes to a shelf of the tower under the
 // silver recorder. Press it there and it flies into the deck: the tape
 // slides into the open bay; the reels turn, the
-// level meter under the bay lights up and the liner notes beside it are that tape's: side A the
+// level meter under the speaker lights up and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape to the tower under the deck,
 // where it lies on its side (when the tower is full, the tape that went in
@@ -72,7 +72,7 @@ function setTrack(i) {
   keys.ff.setAttribute('aria-disabled', String(track === tracks.length - 1));
 }
 
-/* ---------- the level meter under the bay ----------
+/* ---------- the level meter under the speaker ----------
    Two columns of LEDs, left and right: dark when stopped; while it plays each
    jumps about the level of the sound, the highest LED it reached held a
    moment before it falls; while it winds they race; when it stops they fall

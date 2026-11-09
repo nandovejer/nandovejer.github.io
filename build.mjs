@@ -637,7 +637,7 @@ const casOf = (id) => CAS[id] ?? ['black', 'cream', 'cond'];
 // A track's length from its words (a paragraph read aloud, more or less).
 const trackLen = (text) => 25 + Math.round(String(text).split(/\s+/).length * .9);
 
-// The level meter under the bay, after a mixer's master meter: two columns
+// The level meter under the speaker, after a mixer's master meter: two columns
 // of LEDs (left and right), the scale between them, top to bottom; the top
 // two red, the next four orange, the rest green.
 const VU_SCALE = ['OVER', '10', '7', '4', '2', '1', '0', '−1', '−2', '−3', '−5', '−7', '−10', '−15', '−24'];
@@ -855,12 +855,6 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
         <span class="counter"><span class="counter__label">${c.counter}</span><span class="counter__win"><b>0</b><b>0</b><b>0</b></span><span class="counter__reset"></span></span>
         <p class="strip"><span class="strip__text">NM-000 · ${esc(site.name)}</span><span class="strip__led"></span></p>
       </div>
-      <div class="tdeck">
-        <div class="tdeck__bay">
-          ${WORKS}
-          <div class="tdeck__well">${cassette(bio)}</div>
-        </div>
-      </div>
       <div class="panel__plate">
         <button type="button" class="mute" aria-pressed="false" aria-label="${c.mute}" title="${c.mute}">
           <span class="mute__cap" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="mute__cone" d="M3 9h4l5-4v14l-5-4H3z"/><path class="mute__waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg></span>
@@ -872,6 +866,12 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
           <p class="osd" hidden><span class="osd__mode">■ STOP</span><span class="osd__no">A1</span><span class="osd__count">000</span><span class="osd__title">${esc(site.name)}</span></p>
         </div>
         <span class="faders">${fader('vol', 'VOL', c.volume, 8)}${fader('speed', c.speedKey, c.speed, 5)}</span>
+      </div>
+      <div class="tdeck">
+        <div class="tdeck__bay">
+          ${WORKS}
+          <div class="tdeck__well">${cassette(bio)}</div>
+        </div>
       </div>
       <div class="keys">
           <button type="button" class="key key--eject" data-key="eject" aria-label="${c.eject}" title="${c.eject}"><span class="key__label" aria-hidden="true">EJECT</span><span class="key__cap" aria-hidden="true"><i>⏏</i></span></button>

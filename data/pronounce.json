@@ -2,6 +2,7 @@
   "//": "What the cassette's voice says in place of a word (whole words, case as written), spelled as the voice reads its own language. Only words it gets wrong: Piper already spells HTML, CSS, SDK, npm…, and reads API, COAC, numbers, «siglo XXI» and addresses. Check with: node build.mjs --no-audio --say",
   "es": {
     "Tech Lead Frontend": "Tec Lid Fronend",
+    "tech lead de frontend": "tec lid de fronend",
     "Adobe Experience Manager": "Adobi Expíriens Mánayer",
     "Salesforce Commerce Cloud": "Seilsfors Cómers Claud",
     "Light, Usable & Zero-dependency": "Lait, Iúsabol and Sírou dipéndensi",
@@ -72,6 +73,9 @@
   },
   "en": {
     "Fernando Muñoz": "Fernando Moonyoth",
+    "Nando Muñoz": "Nando Moonyoth",
+    "Leyendo Claroscuros": "Leh-yen-doh Klah-roh-skoo-ros",
+    "popurrís": "poh-poo-rees",
     "Martínez Ares": "Marteeneth Ah-res",
     "Ares API": "Ah-res API",
     "Gran Teatro Falla": "Gran Teatro Faya",

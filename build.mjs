@@ -421,6 +421,7 @@ const page = (lang) => {
   ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/vendor/luz/tokens.min.css">
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
   <link rel="stylesheet" href="../../assets/css/ar-disquetes.css">
@@ -567,6 +568,7 @@ const vhsPage = (lang) => {
   ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/vendor/luz/tokens.min.css">
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
   <link rel="stylesheet" href="../../assets/css/vhs.css">
@@ -927,6 +929,7 @@ const cassettePage = (lang) => {
   ${socialMeta({ lang, title: `${site.name} · ${t.title}`, description: t.metaDescription, url, image: ogImage(lang, 'home') })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/vendor/luz/tokens.min.css">
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
   <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -1125,6 +1128,7 @@ const projectPage = (lang, p, i) => {
   ${socialMeta({ lang, title: `${p.name} · ${o.use}`, description, url, image: ogImage(lang, p.id) })}
   <link rel="preload" href="../../assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/vendor/luz/tokens.min.css">
   <link rel="stylesheet" href="../../assets/css/archivo.css">
   <link rel="stylesheet" href="../../assets/css/chrome.css">
   <link rel="preload" href="../../assets/fonts/special-elite-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -1283,6 +1287,7 @@ write('404.html', `<!doctype html>
   ${THEME_INIT}
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/vendor/luz/tokens.min.css">
   <link rel="stylesheet" href="/assets/css/archivo.css">
   <style>
     body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 2rem var(--pad); background: var(--bg); color: var(--ink); font-family: var(--sans); }

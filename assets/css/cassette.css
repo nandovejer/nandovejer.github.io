@@ -165,18 +165,18 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
     calc(1.2 * var(--u)) calc(5 * var(--u)) calc(9 * var(--u)) calc(-2 * var(--u)) rgb(0 0 0 / .55);
 }
 /* between phone and tablet (one column, 30–48em) the deck is drawn bigger
-   (the unit up to 30rem / 100) and the unit of keys stands to the right of
-   the tape's, its six keys in a column; the two together, 126 units wide,
-   fill the column. On a tablet (two columns, 48–64em) the deck is 20rem wide.
+   (the unit up to 30rem / 100) and the keys stand to the right of the tape,
+   in a column; the whole body, about 109 units wide, fits the column. On a tablet (two columns, 48–64em) the deck is 20rem wide.
    The rack's cases follow the deck's unit, so they stay as long as the tape
    is wide (the rack and the studio share the same inner width). */
 @media (min-width: 30em) and (max-width: 47.99em) {
-  .cabinet, .rack__cabinet { --u: min(100cqi / 126, 30rem / 100); }
-  .panels { grid-template-columns: calc(100 * var(--u)) auto; justify-content: center; align-items: stretch; column-gap: calc(3 * var(--u)); }
+  .cabinet, .rack__cabinet { --u: min(100cqi / 112, 30rem / 100); }
+  .panels { grid-template-columns: auto auto; width: fit-content; margin-inline: auto; align-items: stretch; }
   .panels > .unit:first-child { order: 2; }
   .unit { display: grid; }
-  .panel--top .panel__plate { grid-template-columns: auto; margin: 0; }
-  .panel--top .vkeys { flex-direction: column; justify-content: space-evenly; gap: calc(2 * var(--u)); height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: calc(2 * var(--u)) calc(2.4 * var(--u)); }
+  .panel--top .panel__plate { grid-template-columns: auto; margin: 0; height: 100%; }
+  /* the column runs from the top of the bay to the line of the transport keys' names */
+  .panel--top .vkeys { flex-direction: column; justify-content: space-between; gap: 0; height: 100%; box-sizing: border-box; border-top: 0; box-shadow: none; padding: 0; }
 }
 @media (min-width: 48em) and (max-width: 63.99em) {
   .rack__cabinet { --u: calc(min(100cqi, 20rem) / 100); }
@@ -259,7 +259,9 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 /* in one column (phones, and between phone and tablet) the two units are one:
    a single aluminium body holding one plate, four screws at its corners —
    on a phone the small keys along its top, between phone and tablet the keys
-   in a column on its right */
+   in a column on its right. One step of space everywhere: the plate's margin
+   (4.6 units) round the edge, half of it on each side of the seam between the
+   keys and the tape, so the gap between them is a margin too */
 @media (max-width: 47.99em) {
   .panels {
     gap: 0; padding: calc(1.6 * var(--u)); border-radius: calc(1.8 * var(--u));
@@ -273,15 +275,16 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   .panel--top, .panel--deck { background: var(--tx-plastic) 0 0 / 200px 200px, #e3e2dd; box-shadow: inset 0 1px 0 rgb(255 255 255 / .9); }
 }
 @media (max-width: 29.99em) {
-  .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(1.6 * var(--u)); }
-  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(1.6 * var(--u)); box-shadow: none; }
+  .panel--top { border-radius: calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0 0; padding-bottom: calc(2.3 * var(--u)); }
+  .panel--top .vkeys { padding: 0; }
+  .panel--deck { border-radius: 0 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)); padding-top: calc(2.3 * var(--u)); padding-bottom: calc(4.6 * var(--u)); box-shadow: none; }
   .panel--top::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--deck::before { background: var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }
 @media (min-width: 30em) and (max-width: 47.99em) {
   .panels { column-gap: 0; }
-  .panel--deck { border-radius: calc(1.2 * var(--u)) 0 0 calc(1.2 * var(--u)); padding-right: calc(1.6 * var(--u)); }
-  .panel--top { border-radius: 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0; padding-left: 0; }
+  .panel--deck { border-radius: calc(1.2 * var(--u)) 0 0 calc(1.2 * var(--u)); padding: calc(4.6 * var(--u)) calc(2.3 * var(--u)) calc(4.6 * var(--u)) calc(4.6 * var(--u)); }
+  .panel--top { border-radius: 0 calc(1.2 * var(--u)) calc(1.2 * var(--u)) 0; padding: calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(4.6 * var(--u)) calc(2.3 * var(--u)); }
   .panel--deck::before { background: var(--screw) 0 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 0 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
   .panel--top::before { background: var(--screw) 100% 0 / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat, var(--screw) 100% 100% / calc(2.4 * var(--u)) calc(2.4 * var(--u)) no-repeat; }
 }

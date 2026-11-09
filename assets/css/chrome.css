@@ -36,7 +36,7 @@
 /* ---------- the masthead: a magazine cover's ----------
    The stripe hangs along its bottom edge; above it the three squares and the name in
    the condensed titling face, with the kicker under it in the technical one;
-   the links are ■ labels, the language a plain square like the screen's eject.
+   the links are ■ labels; the languages and light/dark set as type.
    The brand (squares, name, kicker) is one link home. */
 .masthead {
   position: sticky; top: 0; z-index: 20;
@@ -67,68 +67,52 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 .brand:hover .brand__name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
 .brand__kicker { margin-top: .25rem; font: 600 .66rem/1 var(--tech); letter-spacing: .1em; color: var(--ink-soft); }
 
-/* the nav and the language sit together; on wide screens in the bar itself */
+/* the sections and the languages sit together: on a wide screen in the bar
+   itself, all type, as on a magazine's masthead; on a phone in a panel that
+   slides in from the right */
 .masthead__drawer { display: contents; }
 .masthead__menu { display: none; }
 .masthead__nav { display: flex; gap: 1.6rem; }
-@media (min-width: 64em) { .masthead__nav { margin-left: auto; } }
 .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; color: var(--ink); }
 .masthead__nav a::before { content: ""; width: .55em; height: .55em; background: var(--accent); }
 
-/* ---------- language: a button with the current code, a popover list ----------
-   As LUZ's lang-switch: native popover, one link per language named in
-   itself, the current one ticked. */
-.lang { margin-left: auto; }
-@media (min-width: 64em) { .lang { margin-left: 0; } }
-.lang__button {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2.25rem; min-height: 2.25rem; padding: 0;
-  border: 1.5px solid var(--ink); border-radius: 0;
-  background: transparent; color: var(--ink);
-  font: 600 .78rem/1 var(--tech); letter-spacing: .08em;
-  cursor: pointer;
-}
-.lang__button:hover, .lang__button:has(+ :popover-open) { background: var(--ink); color: var(--bg); }
+/* ---------- language: its links listed, the current one marked ----------
+   (the old switch's button and popover stay in the markup, unused) */
+.lang__button { display: none; }
 .lang__menu {
-  inset: auto; top: var(--head-h, 4.5rem); right: var(--pad, 1rem);
-  margin: 0; min-width: 12rem; padding: .5rem;
-  border: 1.5px solid var(--ink); border-radius: 0;
-  background: var(--panel); color: var(--ink);
-  box-shadow: 0 4px 0 var(--ink);
+  display: block; position: static; inset: auto; width: auto; min-width: 0; margin: 0; padding: 0;
+  border: 0; box-shadow: none; background: none; color: var(--ink); overflow: visible;
   font-family: var(--sans); text-transform: none; letter-spacing: 0;
 }
-@supports (position-anchor: --lang) {
-  .lang__button { anchor-name: --lang; }
-  .lang__menu { position-anchor: --lang; top: calc(anchor(bottom) + .5rem); right: anchor(right); }
-}
-.lang__title { padding: .25rem .6rem .45rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-.lang__list { display: grid; gap: .2rem; list-style: none; margin: 0; padding: 0; }
-.lang__link {
-  display: flex; align-items: center; gap: .6rem;
-  min-height: 2.75rem; padding: 0 .6rem; border-radius: 0;
-  color: var(--ink); font-weight: 600; text-decoration: none;
-}
-.masthead .lang__link:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); text-decoration: none; }
-.lang__link:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
-.lang__code { width: 1.8em; font: 600 .78rem/1 var(--tech); letter-spacing: .08em; color: var(--ink-soft); }
-/* the current one: a tick (a shape, not colour alone) and weight */
-.lang__link[aria-current] { background: color-mix(in srgb, var(--ink) 10%, transparent); font-weight: 800; }
-.lang__link[aria-current]::after {
-  content: ""; margin-left: auto; width: .4em; height: .75em;
-  border: solid var(--accent); border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -.1em;
-}
-/* without the popover API: the links in a row, no button */
-@supports not selector(:popover-open) {
-  .lang__button, .lang__title { display: none; }
-  .lang__menu { display: block; position: static; padding: 0; border: 0; box-shadow: none; background: none; min-width: 0; }
-  .lang__list { display: flex; }
+.lang__title { padding: 0 0 .5rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.lang__list { display: flex; list-style: none; margin: 0; padding: 0; }
+.lang__link { display: flex; align-items: center; gap: .6rem; color: var(--ink); font-weight: 600; text-decoration: none; }
+.masthead .lang__link:hover { text-decoration: none; }
+.lang__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.lang__code { font: 600 .78rem/1 var(--tech); letter-spacing: .08em; }
+
+/* ---------- wide screens: a magazine's masthead, all type ----------
+   The sections on the right; after a hairline the languages by their codes
+   (ES EN), the current one in full ink and underlined in the accent, the
+   other in the soft ink. */
+@media (min-width: 48em) {
+  .masthead__nav { margin-left: auto; }
+  .lang { display: flex; align-items: center; padding-left: 1.4rem; border-left: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); }
+  .lang__title { display: none; }
+  .lang__list { gap: .25rem; }
+  .lang__link { padding: .3rem .35rem; font-size: 0; }   /* the code shows; the name stays for screen readers */
+  .lang__code { font-size: .74rem; color: var(--ink-soft); }
+  .lang__link:hover .lang__code { color: var(--ink); }
+  .lang__link[aria-current] .lang__code { color: var(--ink); text-decoration: underline 2px var(--accent); text-underline-offset: .4em; }
 }
 
-/* ---------- the menu on phones: three bars that open a panel ----------
-   Under 48em the nav and the languages fold into a panel that drops under
-   the masthead; the button's bars turn into a cross while it is open. */
+/* ---------- phones: three bars that open a panel from the right ----------
+   The bars turn into a cross; the panel comes in from the right at the full
+   height under the masthead, the page dimmed behind it: the sections at the
+   top, the languages at its foot as two equal boxes, the current one filled. */
 @media (max-width: 47.99em) {
   .masthead { flex-wrap: nowrap; }
+  .masthead.is-open { z-index: 40; }
   .masthead__menu {
     display: inline-grid; place-items: center; flex: none; margin-left: auto;
     width: 2.6rem; height: 2.6rem; padding: 0;
@@ -141,43 +125,51 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
   .masthead__menu[aria-expanded="true"] .masthead__burger i:nth-child(2) { opacity: 0; }
   .masthead__menu[aria-expanded="true"] .masthead__burger i:nth-child(3) { transform: translateY(calc(-.28rem - 2px)) rotate(-45deg); }
   .masthead__drawer {
-    display: none; position: absolute; left: 0; right: 0; top: calc(100% + .4rem);
-    padding: 1rem var(--pad) 1.25rem; border-bottom: 1.5px solid var(--ink);
-    background: var(--bg); box-shadow: 0 .6rem 1.2rem rgb(0 0 0 / .25);
+    display: none; position: fixed; top: calc(var(--head-h, 4.5rem) + .4rem); bottom: 0; right: 0;
+    width: min(82%, 20rem); overflow-y: auto; flex-direction: column; gap: 1.1rem;
+    padding: 1.25rem 1.25rem calc(1.75rem + env(safe-area-inset-bottom));
+    border-left: 1.5px solid var(--ink); background: var(--bg); box-shadow: -1rem 0 2rem rgb(0 0 0 / .35);
   }
-  .masthead.is-open .masthead__drawer { display: grid; gap: 1.1rem; }
+  .masthead.is-open .masthead__drawer { display: flex; animation: drawer-in .22s ease; }
+  .masthead.is-open::before {
+    content: ""; position: fixed; left: 0; right: 0; top: calc(var(--head-h, 4.5rem) + .4rem); bottom: 0;
+    background: rgb(0 0 0 / .5); animation: dim-in .22s ease;
+  }
   .masthead__nav { flex-direction: column; gap: 0; }
-  .masthead__nav a { min-height: 2.9rem; font-size: .95rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
-  /* the languages listed in the panel, no popover */
-  .masthead__drawer .lang { margin: 0; }
-  .masthead__drawer .lang__button { display: none; }
-  .masthead__drawer .lang__menu { display: block; position: static; inset: auto; min-width: 0; padding: 0; border: 0; box-shadow: none; background: none; }
-  .masthead__drawer .lang__list { display: flex; gap: .5rem; }
-  .masthead__drawer .lang__link { min-height: 2.6rem; padding: 0 .8rem; border: 1.5px solid var(--ink); }
+  .masthead__nav a { display: flex; min-height: 2.9rem; font-size: .95rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
+  .masthead__nav a::after { content: "→"; margin-left: auto; color: var(--ink-soft); font-weight: 400; }
+  .lang { margin-top: auto; }
+  .lang__list li { flex: 1; }
+  .lang__link { justify-content: center; width: 100%; min-height: 2.6rem; padding: 0 .5rem; border: 1.5px solid var(--ink); }
+  .lang__list li + li .lang__link { border-left: 0; }
+  .lang__code { color: var(--ink-soft); }
+  .masthead .lang__link:not([aria-current]):hover { background: color-mix(in srgb, var(--ink) 10%, transparent); }
+  .lang__link[aria-current] { background: var(--ink); color: var(--bg); font-weight: 800; }
+  .lang__link[aria-current] .lang__code { color: inherit; }
 }
-
-/* ---------- light and dark: two square buttons, a sun and a moon ----------
-   Beside the language button on a wide screen (names only to a screen
-   reader); in the phones' panel as two boxes with their names. */
-.theme { display: inline-flex; border: 1.5px solid var(--ink); }
-.theme__btn {
-  all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-  min-width: 2.25rem; min-height: 2.25rem; color: var(--ink); cursor: pointer;
-  font: 600 .78rem/1 var(--tech); letter-spacing: .08em; text-transform: uppercase;
-}
-.theme__btn + .theme__btn { border-left: 1.5px solid var(--ink); }
-.theme__btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.theme__btn:hover { background: color-mix(in srgb, var(--ink) 12%, transparent); }
-.theme__btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-.theme__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; position: relative; z-index: 1; }
-.theme__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-@media (max-width: 47.99em) {
-  .masthead__drawer .theme { display: flex; }
-  .masthead__drawer .theme__btn { flex: 1; padding: 0 .8rem; min-height: 2.6rem; }
-  .masthead__drawer .theme__text { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
-}
+@keyframes drawer-in { from { translate: 100% 0; } }
+@keyframes dim-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .masthead__drawer, .masthead::before { animation: none !important; } }
+/* while the panel is open the page under it does not scroll */
+html.menu-open { overflow: hidden; }
 
 /* ---------- colophon: today, the colophon, the other version ---------- */
+
+/* light and dark: a switch under the date — the sun, a square track with its
+   knob (left for light, right for dark), the moon; the side in force in full
+   ink, the other soft */
+.theme-toggle {
+  all: unset; box-sizing: border-box; display: inline-flex; align-items: center; gap: .55rem;
+  margin-top: .9rem; color: var(--ink-soft); cursor: pointer;
+}
+.theme-toggle svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: color .2s ease; }
+.theme-toggle__track { position: relative; width: 2.7rem; height: 1.45rem; border: 1.5px solid var(--ink); transition: background-color .2s ease; }
+.theme-toggle__knob { position: absolute; top: .2rem; left: .2rem; width: .8rem; height: .8rem; background: var(--ink); transition: left .2s ease; }
+.theme-toggle[aria-checked="false"] .theme-toggle__sun, .theme-toggle[aria-checked="true"] .theme-toggle__moon { color: var(--ink); }
+.theme-toggle[aria-checked="true"] .theme-toggle__knob { left: calc(100% - .8rem - .2rem); }
+.theme-toggle:hover .theme-toggle__track { background: color-mix(in srgb, var(--ink) 10%, transparent); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .theme-toggle__knob, .theme-toggle svg { transition: none; } }
 
 .colophon {
   display: grid; gap: 1rem var(--gap); align-items: end;

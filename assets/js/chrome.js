@@ -33,34 +33,37 @@ if (head) {
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   head.addEventListener('focusin', () => head.classList.remove('is-hidden'));
 
-  // Light and dark: the two buttons set the theme (data-theme on <html>, kept
-  // in this browser); with none chosen the system's wins, and the button of
-  // the theme in force reads as pressed.
-  const themeBtns = [...head.querySelectorAll('[data-theme-set]')];
-  if (themeBtns.length) {
-    const dark = matchMedia('(prefers-color-scheme: dark)');
-    const inForce = () => document.documentElement.dataset.theme || (dark.matches ? 'dark' : 'light');
-    const paint = () => themeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === inForce())));
-    themeBtns.forEach((b) => b.addEventListener('click', () => {
-      document.documentElement.dataset.theme = b.dataset.themeSet;
-      try { localStorage.setItem('theme', b.dataset.themeSet); } catch { /* storage off */ }
-      paint();
-    }));
-    dark.addEventListener('change', paint);
-    paint();
-  }
-
-  // The menu on phones: the three bars open and close the panel; a link in it,
-  // Esc, a click outside or the masthead sliding away close it.
+  // The menu on phones: the three bars open and close the panel from the right;
+  // a link in it, Esc, a click on the dimmed page or the masthead sliding away
+  // close it, and the page under it does not scroll while it is open.
   const menu = head.querySelector('.masthead__menu');
   if (menu) {
-    const setOpen = (on) => { head.classList.toggle('is-open', on); menu.setAttribute('aria-expanded', String(on)); };
+    const setOpen = (on) => { head.classList.toggle('is-open', on); menu.setAttribute('aria-expanded', String(on)); document.documentElement.classList.toggle('menu-open', on); };
     menu.addEventListener('click', () => setOpen(!head.classList.contains('is-open')));
     head.querySelector('.masthead__drawer').addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
     addEventListener('keydown', (e) => { if (e.key === 'Escape' && head.classList.contains('is-open')) { setOpen(false); menu.focus(); } });
-    addEventListener('click', (e) => { if (!head.contains(e.target)) setOpen(false); });
+    // outside the masthead, or on the dimmed page (the masthead's own ::before, under its bar)
+    addEventListener('click', (e) => { if (!head.contains(e.target) || (e.target === head && e.clientY > head.getBoundingClientRect().bottom)) setOpen(false); });
     new MutationObserver(() => { if (head.classList.contains('is-hidden')) setOpen(false); }).observe(head, { attributes: true, attributeFilter: ['class'] });
   }
+}
+
+// Light and dark: the switch in the colophon sets the theme (data-theme on
+// <html>, kept in this browser); with none chosen the system's wins, and the
+// switch shows the theme in force (on = dark).
+const toggle = document.querySelector('.theme-toggle');
+if (toggle) {
+  const dark = matchMedia('(prefers-color-scheme: dark)');
+  const inForce = () => document.documentElement.dataset.theme || (dark.matches ? 'dark' : 'light');
+  const paint = () => toggle.setAttribute('aria-checked', String(inForce() === 'dark'));
+  toggle.addEventListener('click', () => {
+    const next = inForce() === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch { /* storage off */ }
+    paint();
+  });
+  dark.addEventListener('change', paint);
+  paint();
 }
 
 // The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).

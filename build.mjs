@@ -340,12 +340,13 @@ const langSwitch = (lang) => `<div class="lang">
    `bioHref` is where the Bio link goes without JS; `version` is the barcode
    to the other version: { href, code, label }. */
 // Light and dark, by hand (it remembers; with none chosen the system's wins)
-const themeSwitch = (u) => `<div class="theme" role="group" aria-label="${u.themeLabel}">
-    <button class="theme__btn" type="button" data-theme-set="light" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><span class="theme__text">${u.themeLight}</span></button>
-    <button class="theme__btn" type="button" data-theme-set="dark" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg><span class="theme__text">${u.themeDark}</span></button>
-  </div>`;
+// Light and dark, by hand: a switch in the colophon (it remembers; with none
+// chosen the system's wins). Checked = dark.
+const SUN = '<svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>';
+const MOON = '<svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>';
+const themeToggle = (u) => `<button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="${u.themeDarkMode}">${SUN}<span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__knob"></span></span>${MOON}</button>`;
 const THEME_INIT = `<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>`;
-const masthead = (lang, t, u, { bioHref, theme = true }) => `<header class="masthead">
+const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
   <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
   <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
   <div class="masthead__drawer" id="masthead-drawer">
@@ -354,13 +355,13 @@ const masthead = (lang, t, u, { bioHref, theme = true }) => `<header class="mast
     <a href="#${lang === 'es' ? 'proyectos' : 'projects'}" data-go="projects">${u.shelf}</a>
   </nav>
   ${langSwitch(lang)}
-  ${theme ? themeSwitch(u) : ''}
   </div>
 </header>`;
-const colophon = (t, u, version, extra = '') => `<footer class="colophon">
+const colophon = (t, u, version, extra = '', { theme = true } = {}) => `<footer class="colophon">
   <div class="colophon__doc">
     <p class="label">${u.today}</p>
     <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
+    ${theme ? themeToggle(u) : ''}
   </div>
   <p class="colophon__text">${linkSocials(t.colophon)}${extra ? ` ${extra}` : ''}</p>
   ${versionCode(version.href, version.code, version.label)}
@@ -546,7 +547,7 @@ const vhsPage = (lang) => {
 </head>
 <body class="vhs">
 <a class="skip" href="#main">${t.skip}</a>
-${masthead(lang, t, u, { bioHref: '#tv', theme: false })}
+${masthead(lang, t, u, { bioHref: '#tv' })}
 <main id="main">
 <section class="room" aria-label="${v.tv}">
   <div class="room__row">
@@ -626,7 +627,7 @@ ${masthead(lang, t, u, { bioHref: '#tv', theme: false })}
   </ol>
 </section>
 </main>
-${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label: u.cassetteVersion })}
+${colophon(t, u, { href: `../../cassette/${lang}/`, code: u.cassetteCode, label: u.cassetteVersion }, '', { theme: false })}
 </body>
 </html>
 `;

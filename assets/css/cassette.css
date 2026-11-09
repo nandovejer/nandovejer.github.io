@@ -293,7 +293,8 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .panel__meter { border-top: 1px solid rgb(0 0 0 / .14); box-shadow: inset 0 1px 0 rgb(255 255 255 / .85); padding-top: calc(2.2 * var(--u)); }
 
 /* the speaker across the top */
-.panel__top { display: grid; }
+/* the speaker is not shown at any width (kept in the markup: remove this to bring it back) */
+.panel__top { display: none; }
 .panel__top .grille { height: calc(26 * var(--u)); }
 /* phones (one column): no speaker and no meters, the upper unit is just the
    line of small keys */

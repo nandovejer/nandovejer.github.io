@@ -80,6 +80,10 @@
       "speed": "Velocidad de lectura",
       "speedKey": "Vel.",
       "voice": "Voz",
+      "double": "Leer al doble de velocidad",
+      "doubleKey": "Doble",
+      "repeat": "Repetir la cinta al acabar",
+      "repeatKey": "Repetir",
       "mute": "Silenciar la voz",
       "voiceCredit": "La voz que lee las cintas es {voice} (CC0), sintetizada con {piper}."
     }
@@ -165,6 +169,10 @@
       "speed": "Reading speed",
       "speedKey": "Speed",
       "voice": "Voice",
+      "double": "Read at double speed",
+      "doubleKey": "Double",
+      "repeat": "Repeat the tape when it ends",
+      "repeatKey": "Repeat",
       "mute": "Mute the voice",
       "voiceCredit": "The voice reading the tapes is {voice} (CC0), synthesised with {piper}."
     }

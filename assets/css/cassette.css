@@ -230,17 +230,18 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    rounded LEDs in dark slots, green, then orange, red at the top, unlit ones
    still showing their colour faintly; the scale between them, L dB R below */
 .vu {
-  --led-h: calc(1.25 * var(--u)); --led-gap: calc(.55 * var(--u));
+  --led-gap: calc(.4 * var(--u));
   display: grid; grid-template-columns: auto auto auto; column-gap: calc(1 * var(--u)); row-gap: calc(.8 * var(--u)); align-items: start;
 }
 .vu__col {
+  box-sizing: border-box; height: var(--slot-h);
   display: flex; flex-direction: column-reverse; gap: var(--led-gap); padding: calc(.5 * var(--u));
   border-radius: calc(.7 * var(--u)); background: linear-gradient(90deg, #1d1f21, #2c2e31 50%, #1d1f21);
   box-shadow: inset 0 calc(.2 * var(--u)) calc(.4 * var(--u)) rgb(0 0 0 / .8), 0 1px 0 rgb(255 255 255 / .9), 0 0 0 1px rgb(0 0 0 / .15);
 }
 .vu__col i {
   --c: #7cdc2c;
-  display: block; width: calc(2.6 * var(--u)); height: var(--led-h); border-radius: calc(.35 * var(--u));
+  display: block; flex: 1; width: calc(2.6 * var(--u)); border-radius: calc(.3 * var(--u));
   background: color-mix(in srgb, var(--c) 22%, #232527);
   transition: background-color .12s linear, box-shadow .12s linear;
 }
@@ -251,10 +252,11 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
   box-shadow: 0 0 calc(.8 * var(--u)) color-mix(in srgb, var(--c) 75%, transparent); transition: none;
 }
 .vu__scale {
+  box-sizing: border-box; height: var(--slot-h);
   display: flex; flex-direction: column; gap: var(--led-gap); padding-block: calc(.5 * var(--u));
-  font: 700 max(.3rem, calc(1.15 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center;
+  font: 700 max(.28rem, calc(.95 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center;
 }
-.vu__scale b { display: grid; place-items: center; height: var(--led-h); font-weight: inherit; white-space: nowrap; }
+.vu__scale b { display: grid; place-items: center; flex: 1; min-height: 0; font-weight: inherit; white-space: nowrap; }
 .vu__foot { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; font: 700 max(.3rem, calc(1.15 * var(--u)))/1 var(--tech); color: #3b3d40; text-align: center; }
 .vu__foot b { font-weight: inherit; }
 
@@ -333,29 +335,36 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
    the level meter in the middle, the faders (volume and reading speed) on the
    right */
 .panel__plate {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(3 * var(--u));
+  --slot-h: calc(21 * var(--u));
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(2 * var(--u));
   padding: calc(2.6 * var(--u)) calc(1 * var(--u)) calc(.6 * var(--u));
 }
-.mute small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3d40; white-space: nowrap; }
-/* the voice key: a square push button with a speaker printed on it;
-   it latches down when the voice is muted, and its speaker shows a cross */
-.mute { all: unset; box-sizing: border-box; cursor: pointer; justify-self: start; display: grid; justify-items: center; gap: calc(1.4 * var(--u)); }
-.mute__cap {
+.vkey small, .fader small { font: 700 max(.36rem, calc(1.4 * var(--u)))/1 var(--tech); letter-spacing: .12em; text-transform: uppercase; color: #3b3d40; white-space: nowrap; }
+/* the keys on the left, square push buttons that latch down: VOZ (a speaker
+   printed on it, crossed out when the voice is muted), 2× (the voice reads at
+   double speed) and REPEAT (the tape starts again when it ends) */
+.vkeys { justify-self: start; display: flex; gap: calc(2 * var(--u)); }
+.vkey { all: unset; box-sizing: border-box; cursor: pointer; display: grid; justify-items: center; gap: calc(1.4 * var(--u)); }
+.vkey__cap {
   display: grid; place-items: center; width: calc(8 * var(--u)); aspect-ratio: 1; border-radius: calc(0.8 * var(--u));
   background: repeating-linear-gradient(rgb(255 255 255 / .3) 0 1px, transparent 1px 3px), var(--tx-grain) 0 0 / 160px 160px, linear-gradient(170deg, #e6e7e3, #c8c9c5 60%, #b4b5b1);
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.55 * var(--u)) 0 #8b8d89, 0 calc(0.55 * var(--u)) 0 1px #4f514d, 0 calc(0.9 * var(--u)) calc(0.7 * var(--u)) rgb(0 0 0 / .45);
   transition: transform .09s ease, box-shadow .09s ease;
 }
-.mute svg { width: 64%; height: 64%; fill: none; stroke: #2b2c2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vkey svg { width: 64%; height: 64%; fill: none; stroke: #2b2c2a; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .mute__cone { fill: #2b2c2a; }
 .mute__x { display: none; stroke: #c2311d; }
-.mute:active .mute__cap, .mute[aria-pressed="true"] .mute__cap {
+.vkey:active .vkey__cap, .vkey[aria-pressed="true"] .vkey__cap {
   transform: translateY(calc(0.45 * var(--u)));
   box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgb(0 0 0 / .25), 0 calc(0.1 * var(--u)) 0 #8b8d89, 0 calc(0.1 * var(--u)) 0 1px #4f514d, 0 calc(0.25 * var(--u)) calc(0.3 * var(--u)) rgb(0 0 0 / .4);
 }
 .mute[aria-pressed="true"] .mute__waves { display: none; }
 .mute[aria-pressed="true"] .mute__x { display: inline; }
-.mute:focus-visible .mute__cap { outline: 3px solid #fbe6b4; outline-offset: 2px; }
+.vkey__text { font: 800 calc(2.6 * var(--u))/1 var(--sans); color: #2b2c2a; letter-spacing: -.02em; }
+/* 2× and REPEAT print their sign green while they are down */
+.vkey[data-latch][aria-pressed="true"] svg { stroke: #2f7a43; }
+.vkey[data-latch][aria-pressed="true"] .vkey__text { color: #2f7a43; }
+.vkey:focus-visible .vkey__cap { outline: 3px solid #fbe6b4; outline-offset: 2px; }
 .mute[hidden] { display: none; }
 /* the faders: a black cap with a light line across, sliding up and down a
    thin black slot, ticks and 0 · 5 · 10 printed beside it */
@@ -364,7 +373,7 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .fader small { grid-column: 1 / -1; }
 .fader__input {
   -webkit-appearance: none; appearance: none; writing-mode: vertical-lr; direction: rtl;
-  width: calc(5.4 * var(--u)); height: calc(17 * var(--u)); margin: 0; padding: 0; background: transparent; cursor: ns-resize;
+  width: calc(5.4 * var(--u)); height: var(--slot-h); margin: 0; padding: 0; background: transparent; cursor: ns-resize;
   --slot: linear-gradient(90deg, transparent calc(50% - .35 * var(--u)), #0e0f10 calc(50% - .35 * var(--u)) calc(50% + .35 * var(--u)), transparent calc(50% + .35 * var(--u)));
 }
 .fader__input::-webkit-slider-runnable-track { width: 100%; height: 100%; border-radius: calc(.4 * var(--u)); background: var(--slot); }

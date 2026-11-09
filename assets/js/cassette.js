@@ -10,7 +10,8 @@
 // project in, the house tape (the bio) is in the deck. While it plays, a
 // voice reads the tape aloud (clips made at build time, see src/speech.mjs):
 // the title and its line, then track after track; the VOZ key mutes it,
-// the faders set its volume and its speed.
+// the faders set its volume and its speed, 2× doubles it and REPEAT starts
+// the tape again when it ends.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
@@ -149,6 +150,12 @@ function next() {
     const r = tracks[track].getBoundingClientRect();
     if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
     cue(track);
+  } else if (latched.repeat) {
+    // REPEAT: back to the first track and on
+    setTrack(0);
+    const r = tracks[0].getBoundingClientRect();
+    if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[0], 'nearest');
+    cue(0);
   } else {
     play(false);
     setTrack(0);
@@ -171,8 +178,21 @@ muteKey.addEventListener('click', () => setMuted(!muted));
 // own pace, from .7× to 1.3×; the reels turn with it). Remembered in this
 // browser.
 const faders = Object.fromEntries([...bb.querySelectorAll('[data-fader]')].map((f) => [f.dataset.fader, f]));
+// 2× and REPEAT: keys that latch down (remembered in this browser too)
+const latched = { double: false, repeat: false };
+bb.querySelectorAll('[data-latch]').forEach((k) => {
+  const name = k.dataset.latch;
+  try { latched[name] = localStorage.getItem(`cassette-${name}`) === '1'; } catch { /* storage off */ }
+  k.setAttribute('aria-pressed', String(latched[name]));
+  k.addEventListener('click', () => {
+    latched[name] = !latched[name];
+    k.setAttribute('aria-pressed', String(latched[name]));
+    try { localStorage.setItem(`cassette-${name}`, latched[name] ? '1' : '0'); } catch { /* storage off */ }
+    tune();
+  });
+});
 function tune() {
-  const rate = .7 + faders.speed.value * .06;
+  const rate = (.7 + faders.speed.value * .06) * (latched.double ? 2 : 1);
   voice.volume = faders.vol.value / 10;
   voice.defaultPlaybackRate = rate;
   voice.playbackRate = rate;

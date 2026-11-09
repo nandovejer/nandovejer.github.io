@@ -377,8 +377,8 @@ const THEME_BOOT = (base) => `<script>try{var t=localStorage.getItem('theme');if
 const THEME_MODE_JS = (base) => `<script type="module" src="${base}assets/vendor/luz/theme-mode.min.js"></script>`;
 const masthead = (lang, t, u, { bioHref, langHref, home = './', shelfHref = `#${lang === 'es' ? 'proyectos' : 'projects'}`, tag = 'h1' }) => `<header class="masthead">
   <${tag} class="masthead__title"><a class="brand" href="${home}" rel="home">${brandMark}<span class="brand__text"><span class="brand__name"><span class="visually-hidden">${site.name} · </span><span aria-hidden="true">${brandName}</span></span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></${tag}>
-  <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
-  <div class="masthead__drawer" id="masthead-drawer">
+  <button class="masthead__menu" type="button" popovertarget="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
+  <div class="masthead__drawer" id="masthead-drawer" popover>
   <nav class="masthead__nav" aria-label="${u.nav}">
     <a href="${bioHref}" data-go="bio">${u.navBio}</a>
     <a href="${shelfHref}" data-go="projects">${u.shelf}</a>

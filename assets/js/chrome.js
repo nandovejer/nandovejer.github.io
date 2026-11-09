@@ -13,7 +13,10 @@ export const holdHead = (ms) => { headHoldUntil = Math.max(headHoldUntil, perfor
 const head = document.querySelector('.masthead');
 if (head) {
   const setHead = () => {
-    document.documentElement.style.setProperty('--head-h', `${Math.round(head.getBoundingClientRect().height)}px`);
+    const h = head.getBoundingClientRect().height;
+    document.documentElement.style.setProperty('--head-h', `${Math.round(h)}px`);
+    // 1px when --head-h rounds down: the masthead's stripe then reaches into the first row of the phone panel
+    document.documentElement.style.setProperty('--head-over', h > Math.round(h) ? '1px' : '0px');
   };
   new ResizeObserver(setHead).observe(head);
   setHead();
@@ -33,18 +36,17 @@ if (head) {
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   head.addEventListener('focusin', () => head.classList.remove('is-hidden'));
 
-  // The menu on phones: the three bars open and close the panel from the right;
-  // a link in it, Esc, a click on the dimmed page or the masthead sliding away
-  // close it, and the page under it does not scroll while it is open.
-  const menu = head.querySelector('.masthead__menu');
-  if (menu) {
-    const setOpen = (on) => { head.classList.toggle('is-open', on); menu.setAttribute('aria-expanded', String(on)); document.documentElement.classList.toggle('menu-open', on); };
-    menu.addEventListener('click', () => setOpen(!head.classList.contains('is-open')));
-    head.querySelector('.masthead__drawer').addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
-    addEventListener('keydown', (e) => { if (e.key === 'Escape' && head.classList.contains('is-open')) { setOpen(false); menu.focus(); } });
-    // outside the masthead, or on the dimmed page (the masthead's own ::before, under its bar)
-    addEventListener('click', (e) => { if (!head.contains(e.target) || (e.target === head && e.clientY > head.getBoundingClientRect().bottom)) setOpen(false); });
-    new MutationObserver(() => { if (head.classList.contains('is-hidden')) setOpen(false); }).observe(head, { attributes: true, attributeFilter: ['class'] });
+  // The menu on phones is a native popover (the bars have popovertarget): the browser
+  // opens and closes it (the bars, Esc, a click outside) and gives the focus back. This
+  // adds what a popover does not do itself: a link in it closes it before the page
+  // glides to its target, and so does a wider window.
+  const drawer = head.querySelector('.masthead__drawer');
+  if (drawer?.hidePopover) {
+    const close = () => { if (drawer.matches(':popover-open')) drawer.hidePopover(); };
+    // A click (not the keyboard) on a link lets go of the focus first, so the popover does not give it
+    // back to the bars: that would bring the masthead back while the page glides down (focusin, above).
+    drawer.addEventListener('click', (e) => { if (e.target.closest('a')) { if (e.detail && drawer.contains(document.activeElement)) document.activeElement.blur(); close(); } });
+    matchMedia('(min-width: 48em)').addEventListener('change', (e) => { if (e.matches) close(); });
   }
 }
 

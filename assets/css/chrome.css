@@ -81,7 +81,8 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 /* the sections and the languages sit together: on a wide screen in the bar
    itself (the sections as type, the language a dropdown); on a phone in a
    panel that slides in from the right */
-.masthead__drawer { display: contents; }
+/* the panel is a native popover on phones (below); from 48em its links are part of the bar */
+@media (min-width: 48em) { .masthead__drawer { display: contents; } }
 .masthead__menu { display: none; }
 .masthead__nav { display: flex; gap: 1.6rem; }
 .masthead__nav a { display: inline-flex; align-items: center; gap: .5em; font-size: .72rem; color: var(--ink); }
@@ -144,31 +145,41 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 }
 
 /* ---------- phones: three bars that open a panel from the right ----------
-   The bars turn into a cross; the panel comes in from the right at the full
-   height under the masthead, the page dimmed behind it: the sections at the
-   top, the languages at its foot as two equal boxes, the current one filled. */
+   The panel is a native popover (popovertarget on the bars): the browser gives
+   Esc, a click outside to close it, the focus back to the bars, and it works with
+   no script. The bars turn into a cross; the panel comes in from the right at the
+   full height under the masthead, the page dimmed behind it (the masthead's
+   ::before: the bar itself stays lit); the sections at the top, the languages at
+   its foot as two equal boxes, the current one filled. */
 @media (max-width: 47.99em) {
   .masthead { flex-wrap: nowrap; }
-  .masthead.is-open { z-index: 40; }
+  .masthead:has(.masthead__drawer:popover-open) { z-index: 40; }
   .masthead__menu {
     display: inline-grid; place-items: center; flex: none; margin-left: auto;
     width: 2.6rem; height: 2.6rem; padding: 0;
     border: 1.5px solid var(--ink); border-radius: 0; background: transparent; color: var(--ink); cursor: pointer;
   }
-  .masthead__menu:hover, .masthead__menu[aria-expanded="true"] { background: var(--ink); color: var(--bg); }
+  .masthead__menu:hover, .masthead:has(.masthead__drawer:popover-open) .masthead__menu { background: var(--ink); color: var(--bg); }
   .masthead__burger { display: grid; gap: .28rem; width: 1.15rem; }
   .masthead__burger i { display: block; height: 2px; background: currentColor; transition: transform .2s ease, opacity .2s ease; }
-  .masthead__menu[aria-expanded="true"] .masthead__burger i:nth-child(1) { transform: translateY(calc(.28rem + 2px)) rotate(45deg); }
-  .masthead__menu[aria-expanded="true"] .masthead__burger i:nth-child(2) { opacity: 0; }
-  .masthead__menu[aria-expanded="true"] .masthead__burger i:nth-child(3) { transform: translateY(calc(-.28rem - 2px)) rotate(-45deg); }
+  .masthead:has(.masthead__drawer:popover-open) .masthead__burger i:nth-child(1) { transform: translateY(calc(.28rem + 2px)) rotate(45deg); }
+  .masthead:has(.masthead__drawer:popover-open) .masthead__burger i:nth-child(2) { opacity: 0; }
+  .masthead:has(.masthead__drawer:popover-open) .masthead__burger i:nth-child(3) { transform: translateY(calc(-.28rem - 2px)) rotate(-45deg); }
   .masthead__drawer {
-    display: none; position: fixed; top: calc(var(--head-h, 4.5rem) + .4rem); bottom: 0; right: 0;
-    width: min(82%, 20rem); overflow-y: auto; flex-direction: column; gap: 1.1rem;
+    position: fixed; inset: calc(var(--head-h, 4.5rem) + .4rem) 0 0 auto; margin: 0;
+    width: min(82%, 20rem); height: auto; max-height: none; overflow-x: hidden; overflow-y: auto;
+    flex-direction: column; gap: 1.1rem; color: var(--ink);
     padding: 1.25rem 1.25rem calc(1.75rem + env(safe-area-inset-bottom));
-    border-left: 1.5px solid var(--ink); background: var(--bg); box-shadow: -1rem 0 2rem rgb(0 0 0 / .35);
+    border: 0; border-left: 1.5px solid var(--ink); background: var(--bg); box-shadow: -1rem 0 2rem rgb(0 0 0 / .35);
+    /* the panel is above everything, the masthead's stripe too: this leaves the stripe
+       (the .4rem over the panel's top, and the pixel of it that --head-h's rounding
+       leaves over the panel: chrome.js's --head-over) out of the panel, as when the
+       stripe was painted over it. The mask reaches 4rem past the panel, enough for the shadow. */
+    mask: linear-gradient(#000 calc(4rem - .4rem), transparent calc(4rem - .4rem) calc(4rem + var(--head-over, 0px)), #000 calc(4rem + var(--head-over, 0px))) -4rem -4rem / calc(100% + 8rem) calc(100% + 8rem) no-repeat border-box no-clip;
   }
-  .masthead.is-open .masthead__drawer { display: flex; animation: drawer-in .22s ease; }
-  .masthead.is-open::before {
+  .masthead__drawer:popover-open { display: flex; animation: drawer-in .22s ease; }
+  .masthead__drawer::backdrop { background: transparent; }
+  .masthead:has(.masthead__drawer:popover-open)::before {
     content: ""; position: fixed; left: 0; right: 0; top: calc(var(--head-h, 4.5rem) + .4rem); bottom: 0;
     background: rgb(0 0 0 / .5); animation: dim-in .22s ease;
   }
@@ -194,7 +205,15 @@ html:has(.masthead) { scroll-padding-top: calc(var(--head-h, 6rem) + 1rem); }
 @keyframes dim-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .masthead__drawer, .masthead::before { animation: none !important; } }
 /* while the panel is open the page under it does not scroll */
-html.menu-open { overflow: hidden; }
+html:has(.masthead__drawer:popover-open) { overflow: hidden; }
+/* a browser without the popover API: no button, the links stay under the bar */
+@supports not selector(:popover-open) {
+  .masthead__menu { display: none; }
+  @media (max-width: 47.99em) {
+    .masthead { flex-wrap: wrap; }
+    .masthead__drawer { display: flex; position: static; width: 100%; padding: .5rem 0; border: 0; box-shadow: none; }
+  }
+}
 
 /* ---------- colophon: today, the colophon, the other version ---------- */
 

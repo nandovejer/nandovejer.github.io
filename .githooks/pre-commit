@@ -1,0 +1,5 @@
+#!/bin/sh
+# Refuses a commit while the pages or the cassette's voice clips are out of
+# date with the texts (data/*.json, build.mjs…). Fix: node build.mjs, then
+# add what it changed. Enable once per clone: git config core.hooksPath .githooks
+exec node build.mjs --check

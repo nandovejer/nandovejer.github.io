@@ -1,0 +1,14 @@
+# The same check as the pre-commit hook, for pushes that skipped it: the built
+# pages and the cassette's voice clips must match the texts. It needs no voice
+# installed (it only hashes the texts and looks for the files).
+name: check
+on: [push, pull_request]
+jobs:
+  build-is-current:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node build.mjs --check

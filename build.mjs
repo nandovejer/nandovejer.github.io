@@ -5,13 +5,20 @@
 //   index.html                     sends visitors to their language
 // Usage: node build.mjs
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { plates } from './src/plates.mjs';
+import { createVoice, trackParts, headParts, VOICES } from './src/speech.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const read = (f) => JSON.parse(readFileSync(join(root, f), 'utf8'));
+// --check: change nothing, fail if a page or a voice clip is out of date (the
+// pre-commit hook); --no-audio: build the pages without making clips;
+// --say: print what every clip says.
+const flag = (f) => process.argv.includes(f);
+const CHECK = flag('--check');
+const voice = createVoice(root);
 const site = read('data/site.json');
 const projects = read('data/projects.json');
 const ui = read('data/archivo.json');
@@ -330,12 +337,12 @@ const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
   </nav>
   ${langSwitch(lang)}
 </header>`;
-const colophon = (t, u, version) => `<footer class="colophon">
+const colophon = (t, u, version, extra = '') => `<footer class="colophon">
   <div class="colophon__doc">
     <p class="label">${u.today}</p>
     <p class="colophon__no"><time class="today" datetime="${isoToday}">${romanDate(new Date())}</time></p>
   </div>
-  <p class="colophon__text">${linkSocials(t.colophon)}</p>
+  <p class="colophon__text">${linkSocials(t.colophon)}${extra ? ` ${extra}` : ''}</p>
   ${versionCode(version.href, version.code, version.label)}
 </footer>`;
 
@@ -673,13 +680,15 @@ const blankSpine = (i) => {
 // brand, the length in a grey panel, the type in the tape's colour), the
 // title written under it, the spine printed upside down between two folds,
 // and inside the ruled lines with side A and side B as numbered tracks.
-const notes = (o, c, { a, b }) => {
+// Each part of the card that is read aloud carries its clip in data-say.
+const said = (url) => (url ? ` data-say="${url}"` : '');
+const notes = (o, c, lang, { a, b }) => {
   const len = o.length ?? 'C60';
   const track = (side) => (x, i) => `
-              <li class="track" data-no="${side}${i + 1}"><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div></li>`;
+              <li class="track" data-no="${side}${i + 1}"${said(voice.clip(lang, trackParts(x)))}><div class="track__body">${x.title ? `<p class="track__title">${x.title}</p>` : ''}${x.body}</div></li>`;
   const [, band, type] = casOf(o.id);
   return `
-          <div class="jcard">
+          <div class="jcard"${said(voice.clip(lang, headParts(o)))}>
             <div class="hspine jc--${band} ty--${type}" aria-hidden="true">
               <span class="hspine__logo">NM</span>
               <span class="hspine__text"><span class="hspine__title">${esc(o.name)}</span><span class="hspine__sub">${esc(o.use ?? '')}</span></span>
@@ -718,7 +727,7 @@ const cassettePage = (lang) => {
     id: 'bio', code: 'NM-000', name: site.name, use: t.kicker, year: null, length: 'C90',
     quote: plain(t.deck).replace(/^“|”$/g, '')
   };
-  const bioNotes = notes(bio, c, {
+  const bioNotes = notes(bio, c, lang, {
     a: t.bio.map((p) => plain(p)).map((p) => ({ body: `<p>${esc(p)}</p>`, sec: trackLen(p) })),
     b: [{ title: c.socials, body: socials(), sec: 90 }]
   });
@@ -728,7 +737,7 @@ const cassettePage = (lang) => {
         ${caseSpine(o)}
         </button>
         <div class="cas-item__tape" hidden>${cassette(o)}</div>
-        <div class="cas-item__notes" hidden>${notes(o, c, {
+        <div class="cas-item__notes" hidden>${notes(o, c, lang, {
           a: o.body.map((p) => ({ body: `<p>${esc(p)}</p>`, sec: trackLen(p) })),
           b: [
             { title: c.facts, body: cells([[u.material, o.tech], [u.status, o.status], [u.date, o.year]], 'cells--3'), sec: 75 },
@@ -843,10 +852,19 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
   </div>
 </section>
 </main>
-${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion })}
+${colophon(t, u, { href: `../../${lang}/`, code: u.diskCode, label: u.diskVersion }, voiceCredit(lang, c))}
 </body>
 </html>
 `;
+};
+
+// Who reads the tapes (the voices are CC0; credit given all the same).
+const voiceCredit = (lang, c) => {
+  const [locale, name, quality] = VOICES[lang].model.split('-'); // es_ES-davefx-medium
+  const card = `https://huggingface.co/rhasspy/piper-voices/tree/main/${locale.slice(0, 2)}/${locale}/${name}/${quality}`;
+  return c.voiceCredit
+    .replace('{voice}', `<a href="${card}">${name}</a>`)
+    .replace('{piper}', '<a href="https://github.com/OHF-Voice/piper1-gpl">Piper</a>');
 };
 
 // Sends visitors to their language; without JS, offers both.
@@ -875,22 +893,51 @@ const toLanguage = (prefix, icon = 'assets/favicon.svg') => `<!doctype html>
 
 /* ---------- write ---------- */
 
+const stale = [];
 const write = (path, html) => {
   const f = join(root, path);
+  if (CHECK) {
+    // the footer's "today" is the day it was built; it says nothing about being up to date
+    const same = (x) => x.replace(/<time class="today"[^>]*>[^<]*<\/time>/g, '');
+    if (!existsSync(f) || same(readFileSync(f, 'utf8')) !== same(html)) stale.push(path);
+    return;
+  }
   mkdirSync(dirname(f), { recursive: true });
   writeFileSync(f, html);
   console.log('✓', path);
 };
+const clear = (dir) => { if (!CHECK) rmSync(join(root, dir), { recursive: true, force: true }); };
 
-rmSync(join(root, 'archivo'), { recursive: true, force: true }); // old prototype paths
+clear('archivo'); // old prototype paths
 for (const lang of LANGS) {
-  rmSync(join(root, lang), { recursive: true, force: true });
+  clear(lang);
   write(`${lang}/index.html`, page(lang));
 }
 write('index.html', toLanguage(''));
-rmSync(join(root, 'vhs'), { recursive: true, force: true });
+clear('vhs');
 for (const lang of LANGS) write(`vhs/${lang}/index.html`, vhsPage(lang));
 write('vhs/index.html', toLanguage('', '../assets/favicon.svg'));
-rmSync(join(root, 'cassette'), { recursive: true, force: true });
+clear('cassette');
 for (const lang of LANGS) write(`cassette/${lang}/index.html`, cassettePage(lang));
 write('cassette/index.html', toLanguage('', '../assets/favicon.svg'));
+
+/* ---------- the voice ---------- */
+
+try {
+  const { missing, orphans } = voice.finish({ check: CHECK, noAudio: flag('--no-audio'), list: flag('--say') });
+  if (CHECK) {
+    const problems = [
+      ...stale.map((p) => `  page out of date: ${p}`),
+      ...missing.map((k) => `  clip missing: assets/audio/${k}.opus`),
+      ...orphans.map((f) => `  clip no longer used: assets/audio/${f}`)
+    ];
+    if (problems.length) {
+      console.error(`✗ the build is out of date — run node build.mjs and commit what it changes:\n${problems.join('\n')}`);
+      process.exit(1);
+    }
+    console.log('✓ pages and voice clips up to date');
+  }
+} catch (e) {
+  console.error(`✗ ${e.message}`);
+  process.exit(1);
+}

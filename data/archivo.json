@@ -76,7 +76,8 @@
       "level": "Nivel",
       "tone": "Tono",
       "voice": "Voz",
-      "mute": "Silenciar la voz"
+      "mute": "Silenciar la voz",
+      "voiceCredit": "La voz que lee las cintas es {voice} (CC0), sintetizada con {piper}."
     }
   },
   "en": {
@@ -156,7 +157,8 @@
       "level": "Level",
       "tone": "Tone",
       "voice": "Voice",
-      "mute": "Mute the voice"
+      "mute": "Mute the voice",
+      "voiceCredit": "The voice reading the tapes is {voice} (CC0), synthesised with {piper}."
     }
   }
 }

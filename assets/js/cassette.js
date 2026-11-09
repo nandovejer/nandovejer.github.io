@@ -4,9 +4,9 @@
 // trace on the little CRT moves and the liner notes beside it are that tape's: side A the
 // text, a track per paragraph; side B the facts and links. ◀◀ / ▶▶ move
 // between tracks, ■ stops, ⏏ sends the tape back to its slot. With no
-// project in, the house tape (the bio) is in the deck. While it plays, the
-// browser's own synthetic voice (Web Speech API) reads the tape aloud: the
-// title and its line, then track after track; the VOZ key mutes it.
+// project in, the house tape (the bio) is in the deck. While it plays, a
+// voice reads the tape aloud (clips made at build time, see src/speech.mjs):
+// the title and its line, then track after track; the VOZ key mutes it.
 import { reduceMotion, scrollAlong, glideTo } from './ar-common.js';
 
 const bb = document.querySelector('.cabinet');
@@ -58,7 +58,6 @@ function load(src) {
   setTrack(0);
   hush();
   fresh = true;
-  part = 0;
 }
 
 function setTrack(i) {
@@ -105,95 +104,70 @@ function trace(now = 0) {
 const retrace = () => { cancelAnimationFrame(wframe); trace(performance.now()); };
 
 /* ---------- the voice ----------
-   The browser's speech synthesis reads the track that is lit, a sentence at
-   a time (long utterances get cut off in some browsers), and goes on to the
-   next track when it is done; after the last one the tape stops. A new tape
-   starts with its title, its line and its quote. Pause keeps the sentence it
-   was on; ■, ◀◀ / ▶▶ and ⏏ cut it short. The VOZ key mutes it (and the
-   choice is remembered in this browser). */
-const synth = 'speechSynthesis' in window ? speechSynthesis : null;
+   Every part of a card that is read aloud carries its clip in data-say (the
+   card's head on .jcard, each track on its own). A new tape starts with its
+   head (title, line, quote), then the lit track, and goes on to the next
+   when one ends; after the last the tape stops. ❚❚ holds the voice mid-word
+   and goes on from there; ■ goes back to the start of the track; ◀◀ / ▶▶ and
+   ⏏ cut it short. The VOZ key mutes it (remembered in this browser). A clip
+   that will not play leaves the tape playing on, silent. */
 const muteKey = bb.querySelector('.mute');
-const lang = document.documentElement.lang || 'es';
+const voice = new Audio();
+voice.preload = 'none';
 let muted = false;
 try { muted = localStorage.getItem('cassette-muted') === '1'; } catch { /* storage off */ }
-let said = 0;      // bumps on every cut, so a stale utterance's end is ignored
-let fresh = true;  // the next reading starts with the tape's title
-let part = 0;      // the sentence of the current track to read next
+let fresh = true;     // the next reading starts with the card's head
+let reading = null;   // what the voice is on: 'head', a track's index, or nothing
 
-const tidy = (s) => s.replace(/\s+/g, ' ').replace(/\s·\s/g, ', ').trim();
-const stop = (s) => (/[.!?…:”"]$/.test(s) ? s : `${s}.`);
-// What a track says: its title, its paragraphs, the facts as "label, value"
-// (the link buttons say nothing worth hearing).
-const textOf = (t) => [...t.querySelectorAll('.track__title, .track__body > p, dt, dd, .socials li')]
-  .map((n) => tidy(n.textContent)).filter(Boolean).map(stop).join(' ');
-const headOf = () => ['.notes__title', '.notes__use', '.notes__quote']
-  .map((s) => tidy(out.querySelector(s)?.textContent ?? '')).filter(Boolean).map(stop).join(' ');
-const sentences = (s) => s.split(/(?<=[.!?…:;”"])\s+/).filter(Boolean);
-
-let chosen = null;
-function voiceFor() {
-  if (chosen?.lang.toLowerCase().startsWith(lang)) return chosen;
-  const all = synth.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang));
-  chosen = all.find((v) => v.localService && v.default) ?? all.find((v) => v.localService) ?? all[0] ?? null;
-  return chosen;
-}
-synth?.addEventListener?.('voiceschanged', () => { chosen = null; });
-
+// Cut: the next reading starts the lit track from its beginning.
 function hush() {
-  said++;
-  synth?.cancel();
+  reading = null;
+  voice.pause();
 }
 
-function speak() {
-  hush();
-  if (!synth || muted || !playing || !tracks.length) return;
-  const me = said;
-  const lines = sentences(`${fresh ? `${headOf()} ` : ''}${textOf(tracks[track])}`);
-  const start = fresh ? 0 : Math.min(part, Math.max(0, lines.length - 1));
-  fresh = false;
-  let i = start;
-  const next = () => {
-    if (me !== said || !playing) return;
-    if (i >= lines.length) {
-      part = 0;
-      if (track < tracks.length - 1) {
-        setTrack(track + 1);
-        const r = tracks[track].getBoundingClientRect();
-        if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
-        speak();
-      } else {
-        play(false);
-        setTrack(0);
-        state.textContent = L.stopped;
-      }
-      return;
-    }
-    part = i;
-    const u = new SpeechSynthesisUtterance(lines[i++]);
-    u.lang = lang;
-    const v = voiceFor();
-    if (v) u.voice = v;
-    u.onend = next;
-    // no voice to be had (none installed, blocked): the tape plays on, silent
-    u.onerror = (e) => { if (e.error !== 'interrupted' && e.error !== 'canceled' && me === said) said++; };
-    synth.speak(u);
-  };
-  next();
+function cue(what) {
+  const src = what === 'head' ? out.querySelector('.jcard')?.dataset.say : tracks[what]?.dataset.say;
+  if (what === 'head') fresh = false;
+  if (!src) { reading = what; next(); return; }
+  reading = what;
+  voice.src = src;
+  voice.play().catch(() => { /* not allowed or not there: silent */ });
 }
+
+// Read (or go on reading) what is lit, if the tape is playing and not muted.
+function speak() {
+  if (!playing || muted || !tracks.length) return;
+  if (reading !== null) { voice.play().catch(() => {}); return; }
+  cue(fresh && out.querySelector('.jcard')?.dataset.say ? 'head' : track);
+}
+
+// A clip is over: the head leads into the lit track, a track into the next.
+function next() {
+  if (reading === null || !playing) return;
+  if (reading === 'head') { cue(track); return; }
+  if (track < tracks.length - 1) {
+    setTrack(track + 1);
+    const r = tracks[track].getBoundingClientRect();
+    if (r.top < 0 || r.bottom > innerHeight) glideTo(tracks[track], 'nearest');
+    cue(track);
+  } else {
+    play(false);
+    setTrack(0);
+    state.textContent = L.stopped;
+  }
+}
+voice.addEventListener('ended', next);
+voice.addEventListener('error', () => { reading = null; });
 
 function setMuted(on) {
   muted = on;
   muteKey.setAttribute('aria-pressed', String(on));
   try { localStorage.setItem('cassette-muted', on ? '1' : '0'); } catch { /* storage off */ }
-  if (on) hush(); else speak();
+  if (on) voice.pause(); else speak();
 }
-if (synth) {
-  muteKey.setAttribute('aria-pressed', String(muted));
-  muteKey.addEventListener('click', () => setMuted(!muted));
-  addEventListener('pagehide', hush);
-} else {
-  muteKey.hidden = true;
-}
+muteKey.setAttribute('aria-pressed', String(muted));
+muteKey.addEventListener('click', () => setMuted(!muted));
+addEventListener('pagehide', hush);
 
 const drums = [...bb.querySelectorAll('.counter__win b')];
 const showCount = () => {
@@ -202,7 +176,8 @@ const showCount = () => {
   drums.forEach((d, i) => { d.textContent = s[i]; });
 };
 let paused = false;
-function play(on) {
+// hold: stop the tape but keep the voice's place (❚❚)
+function play(on, hold = false) {
   const was = playing;
   playing = on;
   paused = false;
@@ -214,7 +189,7 @@ function play(on) {
   if (on) tick = setInterval(() => { count = (count + 1) % 1000; showCount(); }, 1000);
   retrace();
   if (on && !was) speak();
-  if (!on) hush();
+  if (!on) (hold ? voice.pause() : hush());
 }
 
 // ◀◀ / ▶▶: the reels whirr, the counter runs, the next track lights up.
@@ -230,7 +205,6 @@ async function wind(dir) {
   bb.classList.remove('is-ff', 'is-rew');
   retrace();
   setTrack(to);
-  part = 0;
   fresh = false;
   speak();
   const r = tracks[track].getBoundingClientRect();
@@ -238,12 +212,12 @@ async function wind(dir) {
 }
 
 keys.play.addEventListener('click', () => { press(keys.play); if (!busy) play(true); });
-keys.stop.addEventListener('click', () => { press(keys.stop); play(false); part = 0; });
+keys.stop.addEventListener('click', () => { press(keys.stop); play(false); });
 // ❚❚ holds the tape where it is; ❚❚ again (or ▶) goes on from there
 keys.pause.addEventListener('click', () => {
   if (busy) return;
   if (playing) {
-    play(false);
+    play(false, true);
     paused = true;
     keys.pause.setAttribute('aria-pressed', 'true');
     osdMode.textContent = '❚❚ PAUSE';

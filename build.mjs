@@ -947,7 +947,7 @@ ${masthead(lang, t, u, { bioHref: '#liner' })}
 </section>
 </main>
 <div class="minibar" role="region" aria-label="${c.minibar}" hidden>
-  <p class="minibar__tape"><span class="minibar__code">NM-000</span> <span class="minibar__title">${esc(c.about)}</span></p>
+  <p class="lcd" aria-live="off"><span class="lcd__top"><b class="lcd__mode">■</b> <span class="lcd__no">A1</span> <span class="lcd__code">NM-000</span></span><span class="lcd__title">${esc(c.about)}</span></p>
   <div class="minibar__keys">
     <button type="button" class="mkey" data-proxy="rew" aria-label="${c.rew}"><i aria-hidden="true">◀◀</i></button>
     <button type="button" class="mkey mkey--play" data-proxy="play" aria-label="${c.play}" aria-pressed="false"><i aria-hidden="true">▶</i></button>

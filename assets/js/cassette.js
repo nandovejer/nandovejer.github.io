@@ -464,9 +464,11 @@ document.querySelectorAll('.masthead__nav [data-go]').forEach((a) => {
    keys, and mirror them (PLAY and PAUSE down, ◀◀ / ▶▶ greyed at the ends). */
 const minibar = document.querySelector('.minibar');
 if (minibar) {
-  const mtitle = minibar.querySelector('.minibar__title');
-  const mcode = minibar.querySelector('.minibar__code');
-  const mtape = minibar.querySelector('.minibar__tape');
+  // its little green display: the mode, the track, the tape's code and name
+  const mtitle = minibar.querySelector('.lcd__title');
+  const mcode = minibar.querySelector('.lcd__code');
+  const mmode = minibar.querySelector('.lcd__mode');
+  const mno = minibar.querySelector('.lcd__no');
   const mkeys = [...minibar.querySelectorAll('[data-proxy]')];
   // the deck's key each one presses: a transport key, VOZ or 2×
   const target = (name) => keys[name] ?? (name === 'mute' ? muteKey : bb.querySelector(`[data-latch="${name}"]`));
@@ -478,10 +480,11 @@ if (minibar) {
     });
     mtitle.textContent = dialTitle.textContent;
     mcode.textContent = out.querySelector('.notes__code')?.textContent.split('·')[0].trim() ?? '';
-    mtape.className = ['minibar__tape', ...[...liner.classList].filter((c) => /^(jc|ty)--/.test(c))].join(' ');
+    mmode.textContent = osdMode.textContent;
+    mno.textContent = osdNo.textContent;
   };
   new MutationObserver(sync).observe(bb, { subtree: true, attributes: true, attributeFilter: ['aria-pressed', 'aria-disabled'] });
-  new MutationObserver(sync).observe(dialTitle, { childList: true, characterData: true, subtree: true });
+  new MutationObserver(sync).observe(dialTitle.parentElement, { childList: true, characterData: true, subtree: true });
   let deckSeen = true;
   const show = () => {
     const on = oneColumn.matches && !deckSeen;

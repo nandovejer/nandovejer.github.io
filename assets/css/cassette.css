@@ -813,13 +813,22 @@ body.cas main { width: min(100%, 1420px); margin-inline: auto; }
 .minibar[hidden] { display: none; }
 @keyframes minibar-in { from { translate: 0 100%; } }
 body.has-minibar { padding-bottom: 4rem; }
-.minibar__tape {
-  min-width: 0; margin: 0; display: flex; align-items: baseline; gap: .5rem;
-  padding: .4rem .5rem; border-block: .2rem solid var(--case); border-radius: .15rem;
-  background: var(--tx-paper) 0 0 / 220px 220px, var(--jc, #efe6d2); color: var(--jc-ink, #1d1d1b);
+/* the display: a reflective green LCD behind a dark bezel — dark segments on
+   grey-green, a faint ghost of each character and of the unlit pixel grid */
+.lcd {
+  min-width: 0; margin: 0; display: grid; gap: .15rem; align-content: center;
+  padding: .3rem .55rem; border-radius: .25rem; border: .18rem solid #2b2d2f;
+  background:
+    repeating-linear-gradient(90deg, rgb(40 60 20 / .05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(rgb(40 60 20 / .05) 0 1px, transparent 1px 3px),
+    linear-gradient(170deg, #b4c59a, #9fb383 60%, #93a878);
+  box-shadow: inset 0 .15rem .35rem rgb(0 0 0 / .4), inset 0 -1px 0 rgb(255 255 255 / .25), 0 1px 0 rgb(255 255 255 / .9);
+  color: rgb(22 34 14 / .88); text-shadow: 1px 1px 0 rgb(22 34 14 / .14);
+  font-family: var(--tech); text-transform: uppercase; white-space: nowrap;
 }
-.minibar__code { flex: none; font: 600 .62rem/1 var(--tech); letter-spacing: .04em; }
-.minibar__title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1rem; line-height: 1.1; color: var(--jc-title, var(--jc-ink, #1d1d1b)); }
+.lcd__top { display: flex; gap: .45rem; font-size: .58rem; font-weight: 700; letter-spacing: .1em; line-height: 1; }
+.lcd__mode { font-weight: inherit; }
+.lcd__title { overflow: hidden; text-overflow: ellipsis; font-size: .85rem; font-weight: 700; letter-spacing: .05em; line-height: 1.05; }
 .minibar__keys { display: flex; align-items: center; gap: .2rem; }
 .minibar__gap { width: 1px; align-self: stretch; margin-inline: .1rem; background: rgb(0 0 0 / .15); box-shadow: 1px 0 0 rgb(255 255 255 / .8); }
 .mkey {
@@ -843,8 +852,8 @@ body.has-minibar { padding-bottom: 4rem; }
 .mkey:active, .mkey[aria-pressed="true"] { transform: translateY(.2rem); border-bottom-width: .1rem; }
 .mkey[aria-disabled="true"] { opacity: .45; cursor: default; }
 .mkey:focus-visible { outline: 3px solid #1d5f7a; outline-offset: 2px; }
-/* narrow phones: the tape's name alone, without its code */
-@media (max-width: 26em) { .minibar__code { display: none; } .minibar__title { font-size: .85rem; } }
+/* narrow phones: the display without the tape's code */
+@media (max-width: 26em) { .lcd__code { display: none; } .lcd__title { font-size: .75rem; } }
 
 @media (prefers-reduced-motion: reduce) {
   .cabinet .reel, .grille, .studio__arrow { animation: none !important; }

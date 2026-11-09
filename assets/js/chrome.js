@@ -32,6 +32,18 @@ if (head) {
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   head.addEventListener('focusin', () => head.classList.remove('is-hidden'));
+
+  // The menu on phones: the three bars open and close the panel; a link in it,
+  // Esc, a click outside or the masthead sliding away close it.
+  const menu = head.querySelector('.masthead__menu');
+  if (menu) {
+    const setOpen = (on) => { head.classList.toggle('is-open', on); menu.setAttribute('aria-expanded', String(on)); };
+    menu.addEventListener('click', () => setOpen(!head.classList.contains('is-open')));
+    head.querySelector('.masthead__drawer').addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && head.classList.contains('is-open')) { setOpen(false); menu.focus(); } });
+    addEventListener('click', (e) => { if (!head.contains(e.target)) setOpen(false); });
+    new MutationObserver(() => { if (head.classList.contains('is-hidden')) setOpen(false); }).observe(head, { attributes: true, attributeFilter: ['class'] });
+  }
 }
 
 // The footer shows the visitor's today as day·month·year (VI·XI·MMXXVI).

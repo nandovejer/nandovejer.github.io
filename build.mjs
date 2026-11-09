@@ -341,11 +341,14 @@ const langSwitch = (lang) => `<div class="lang">
    to the other version: { href, code, label }. */
 const masthead = (lang, t, u, { bioHref }) => `<header class="masthead">
   <h1 class="masthead__title"><a class="brand" href="./" rel="home">${brandMark}<span class="brand__text"><span class="brand__name">${brandName}</span><span class="brand__kicker"><span class="visually-hidden">, </span>${t.kicker}</span></span></a></h1>
+  <button class="masthead__menu" type="button" aria-expanded="false" aria-controls="masthead-drawer"><span class="masthead__burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="visually-hidden">${u.menu}</span></button>
+  <div class="masthead__drawer" id="masthead-drawer">
   <nav class="masthead__nav" aria-label="${u.nav}">
     <a href="${bioHref}" data-go="bio">${u.navBio}</a>
     <a href="#${lang === 'es' ? 'proyectos' : 'projects'}" data-go="projects">${u.shelf}</a>
   </nav>
   ${langSwitch(lang)}
+  </div>
 </header>`;
 const colophon = (t, u, version, extra = '') => `<footer class="colophon">
   <div class="colophon__doc">
